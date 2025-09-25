@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": "minecraft:sand",
+    "B": {
+      "neoforge:ingredient_type": "neoforge:components",
+      "components": {
+        "resourcestrees:resources_type": "resourcestrees:fire"
+      },
+      "items": "resourcestrees:leaf_fragment",
+      "strict": true
+    }
+  },
+  "pattern": [
+    "AAA",
+    "ABA",
+    "AAA"
+  ],
+  "result": {
+    "count": 8,
+    "id": "minecraft:red_sand"
+  }
+}

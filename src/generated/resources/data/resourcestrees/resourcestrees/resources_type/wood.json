@@ -1,0 +1,8 @@
+{
+  "color": -7508381,
+  "material": "#minecraft:logs",
+  "saplingChance": 0.25,
+  "secondaryDropChance": 0.5,
+  "translationKey": "item.resourcestrees.wood",
+  "weight": 5
+}

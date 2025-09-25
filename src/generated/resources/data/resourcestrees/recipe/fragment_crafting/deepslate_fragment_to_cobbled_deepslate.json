@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "neoforge:ingredient_type": "neoforge:components",
+      "components": {
+        "resourcestrees:resources_type": "resourcestrees:deepslate"
+      },
+      "items": "resourcestrees:leaf_fragment",
+      "strict": true
+    }
+  },
+  "pattern": [
+    "AAA",
+    "A A",
+    "AAA"
+  ],
+  "result": {
+    "count": 12,
+    "id": "minecraft:cobbled_deepslate"
+  }
+}

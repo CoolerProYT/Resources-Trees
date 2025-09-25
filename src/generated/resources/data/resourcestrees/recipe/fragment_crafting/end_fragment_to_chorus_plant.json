@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "neoforge:ingredient_type": "neoforge:components",
+      "components": {
+        "resourcestrees:resources_type": "resourcestrees:end"
+      },
+      "items": "resourcestrees:leaf_fragment",
+      "strict": true
+    },
+    "B": {
+      "neoforge:ingredient_type": "neoforge:components",
+      "components": {
+        "resourcestrees:resources_type": "resourcestrees:nature"
+      },
+      "items": "resourcestrees:leaf_fragment",
+      "strict": true
+    }
+  },
+  "pattern": [
+    "BA ",
+    "AB ",
+    "   "
+  ],
+  "result": {
+    "count": 8,
+    "id": "minecraft:chorus_plant"
+  }
+}

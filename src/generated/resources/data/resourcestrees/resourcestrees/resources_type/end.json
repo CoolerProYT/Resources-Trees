@@ -1,0 +1,8 @@
+{
+  "color": -3817845,
+  "material": "resourcestrees:end_essence",
+  "saplingChance": 0.25,
+  "secondaryDropChance": 0.5,
+  "translationKey": "item.resourcestrees.end",
+  "weight": 5
+}

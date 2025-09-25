@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": "resourcestrees:fire_essence",
+    "B": "minecraft:acacia_sapling"
+  },
+  "pattern": [
+    " A ",
+    "ABA",
+    " A "
+  ],
+  "result": {
+    "components": {
+      "resourcestrees:resources_type": "resourcestrees:fire"
+    },
+    "count": 1,
+    "id": "resourcestrees:resources_acacia_sapling"
+  }
+}

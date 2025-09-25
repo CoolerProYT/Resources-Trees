@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "resourcestrees:tree_simulator"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "resourcestrees:blocks/tree_simulator"
+}

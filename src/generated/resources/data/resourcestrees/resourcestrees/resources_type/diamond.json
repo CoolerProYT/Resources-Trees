@@ -1,0 +1,8 @@
+{
+  "color": -12532481,
+  "material": "minecraft:diamond_block",
+  "saplingChance": 0.2,
+  "secondaryDropChance": 0.4,
+  "translationKey": "item.resourcestrees.diamond",
+  "weight": 3
+}

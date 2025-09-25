@@ -1,0 +1,8 @@
+{
+  "color": -12627531,
+  "material": "minecraft:lapis_block",
+  "saplingChance": 0.25,
+  "secondaryDropChance": 0.5,
+  "translationKey": "item.resourcestrees.lapis",
+  "weight": 5
+}

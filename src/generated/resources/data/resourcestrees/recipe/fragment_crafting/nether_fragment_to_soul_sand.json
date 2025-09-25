@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": "minecraft:sand",
+    "B": {
+      "neoforge:ingredient_type": "neoforge:components",
+      "components": {
+        "resourcestrees:resources_type": "resourcestrees:nether"
+      },
+      "items": "resourcestrees:leaf_fragment",
+      "strict": true
+    }
+  },
+  "pattern": [
+    "AAA",
+    "ABA",
+    "AAA"
+  ],
+  "result": {
+    "count": 12,
+    "id": "minecraft:soul_sand"
+  }
+}

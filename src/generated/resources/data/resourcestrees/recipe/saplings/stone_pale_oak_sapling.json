@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": "minecraft:cobblestone",
+    "B": "minecraft:pale_oak_sapling"
+  },
+  "pattern": [
+    " A ",
+    "ABA",
+    " A "
+  ],
+  "result": {
+    "components": {
+      "resourcestrees:resources_type": "resourcestrees:stone"
+    },
+    "count": 1,
+    "id": "resourcestrees:resources_pale_oak_sapling"
+  }
+}
