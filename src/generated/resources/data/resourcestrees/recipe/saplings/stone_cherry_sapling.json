@@ -2,8 +2,12 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "A": "minecraft:cobblestone",
-    "B": "minecraft:cherry_sapling"
+    "A": {
+      "item": "minecraft:cobblestone"
+    },
+    "B": {
+      "item": "minecraft:cherry_sapling"
+    }
   },
   "pattern": [
     " A ",

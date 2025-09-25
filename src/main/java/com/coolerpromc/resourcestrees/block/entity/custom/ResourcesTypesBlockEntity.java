@@ -13,8 +13,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.Nullable;
 
 public class ResourcesTypesBlockEntity extends BlockEntity {
@@ -42,17 +40,17 @@ public class ResourcesTypesBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void saveAdditional(ValueOutput output) {
-        super.saveAdditional(output);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+        super.saveAdditional(tag, provider);
         if (resourcesType != null){
-            output.putString("type", resourcesType.toString());
+            tag.putString("type", resourcesType.toString());
         }
     }
 
     @Override
-    protected void loadAdditional(ValueInput input) {
-        super.loadAdditional(input);
-        input.getString("type").ifPresent(s -> setResourcesType(ResourceLocation.parse(s)));
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+        super.loadAdditional(tag, provider);
+        setResourcesType(ResourceLocation.parse(tag.getString("type")));
     }
 
     @Override
@@ -61,9 +59,9 @@ public class ResourcesTypesBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void handleUpdateTag(ValueInput input) {
-        super.handleUpdateTag(input);
-        loadAdditional(input);
+    public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider lookupProvider) {
+        super.handleUpdateTag(tag, lookupProvider);
+        loadAdditional(tag, lookupProvider);
     }
 
     @Override
@@ -76,8 +74,9 @@ public class ResourcesTypesBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void onDataPacket(Connection net, ValueInput valueInput) {
-        handleUpdateTag(valueInput);
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider lookupProvider) {
+        super.onDataPacket(net, pkt, lookupProvider);
+        handleUpdateTag(pkt.getTag(), lookupProvider);
         if (level != null && level.isClientSide()){
             level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_ALL);
         }

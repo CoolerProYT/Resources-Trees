@@ -3,7 +3,7 @@
   "category": "building",
   "key": {
     "A": {
-      "neoforge:ingredient_type": "neoforge:components",
+      "type": "neoforge:components",
       "components": {
         "resourcestrees:resources_type": "resourcestrees:stone"
       },
@@ -11,7 +11,7 @@
       "strict": true
     },
     "B": {
-      "neoforge:ingredient_type": "neoforge:components",
+      "type": "neoforge:components",
       "components": {
         "resourcestrees:resources_type": "resourcestrees:coal"
       },

@@ -2,8 +2,8 @@ package com.coolerpromc.resourcestrees;
 
 import com.coolerpromc.resourcestrees.block.ModBlocks;
 import com.coolerpromc.resourcestrees.block.entity.ModBlockEntities;
-import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
 import com.coolerpromc.resourcestrees.core.ResourcesTypes;
+import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
 import com.coolerpromc.resourcestrees.item.ModCreativeTab;
 import com.coolerpromc.resourcestrees.item.ModItems;
 import com.coolerpromc.resourcestrees.recipe.ModRecipes;
@@ -17,7 +17,6 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import org.slf4j.Logger;
 
@@ -41,11 +40,6 @@ public class ResourcesTrees {
 
     private void commonSetup(FMLCommonSetupEvent event) {
 
-    }
-
-    @SubscribeEvent
-    public void onOnDatapackSync(OnDatapackSyncEvent event) {
-        event.sendRecipes(ModRecipes.TREE_SIMULATOR_TYPE.get());
     }
 
     @SubscribeEvent

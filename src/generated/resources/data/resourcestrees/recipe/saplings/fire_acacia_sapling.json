@@ -2,8 +2,12 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "A": "resourcestrees:fire_essence",
-    "B": "minecraft:acacia_sapling"
+    "A": {
+      "item": "resourcestrees:fire_essence"
+    },
+    "B": {
+      "item": "minecraft:acacia_sapling"
+    }
   },
   "pattern": [
     " A ",

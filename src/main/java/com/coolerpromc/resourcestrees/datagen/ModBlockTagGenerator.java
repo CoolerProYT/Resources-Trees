@@ -6,12 +6,13 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.concurrent.CompletableFuture;
 
 public class ModBlockTagGenerator extends BlockTagsProvider {
-    public ModBlockTagGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
-        super(output, lookupProvider, ResourcesTrees.MODID);
+    public ModBlockTagGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, ExistingFileHelper existingFileHelper) {
+        super(output, lookupProvider, ResourcesTrees.MODID, existingFileHelper);
     }
 
     @Override
@@ -23,8 +24,7 @@ public class ModBlockTagGenerator extends BlockTagsProvider {
                 .add(ModBlocks.RESOURCES_JUNGLE_SAPLING.get())
                 .add(ModBlocks.RESOURCES_ACACIA_SAPLING.get())
                 .add(ModBlocks.RESOURCES_DARK_OAK_SAPLING.get())
-                .add(ModBlocks.RESOURCES_CHERRY_SAPLING.get())
-                .add(ModBlocks.RESOURCES_PALE_OAK_SAPLING.get());
+                .add(ModBlocks.RESOURCES_CHERRY_SAPLING.get());
 
         this.tag(BlockTags.LEAVES)
                 .add(ModBlocks.RESOURCES_OAK_LEAVES.get())
@@ -33,7 +33,6 @@ public class ModBlockTagGenerator extends BlockTagsProvider {
                 .add(ModBlocks.RESOURCES_JUNGLE_LEAVES.get())
                 .add(ModBlocks.RESOURCES_ACACIA_LEAVES.get())
                 .add(ModBlocks.RESOURCES_DARK_OAK_LEAVES.get())
-                .add(ModBlocks.RESOURCES_CHERRY_LEAVES.get())
-                .add(ModBlocks.RESOURCES_PALE_OAK_LEAVES.get());
+                .add(ModBlocks.RESOURCES_CHERRY_LEAVES.get());
     }
 }

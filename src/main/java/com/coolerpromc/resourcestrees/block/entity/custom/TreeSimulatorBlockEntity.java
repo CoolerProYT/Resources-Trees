@@ -43,8 +43,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
@@ -62,8 +60,7 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
             ModBlocks.RESOURCES_JUNGLE_SAPLING.get(), Items.JUNGLE_LOG,
             ModBlocks.RESOURCES_ACACIA_SAPLING.get(), Items.ACACIA_LOG,
             ModBlocks.RESOURCES_DARK_OAK_SAPLING.get(), Items.DARK_OAK_LOG,
-            ModBlocks.RESOURCES_CHERRY_SAPLING.get(), Items.CHERRY_LOG,
-            ModBlocks.RESOURCES_PALE_OAK_SAPLING.get(),  Items.PALE_OAK_LOG
+            ModBlocks.RESOURCES_CHERRY_SAPLING.get(), Items.CHERRY_LOG
     );
 
     public int growTicks = 0;
@@ -131,23 +128,23 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
     }
 
     @Override
-    protected void saveAdditional(ValueOutput output) {
-        super.saveAdditional(output);
-        inputHandler.serialize(output.child("input"));
-        outputHandler.serialize(output.child("output"));
-        axeHandler.serialize(output.child("axe"));
-        output.putInt("growTicks", growTicks);
-        output.putInt("maxGrowTicks", maxGrowTicks);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+        super.saveAdditional(tag, provider);
+        tag.put("input", inputHandler.serializeNBT(provider));
+        tag.put("output", outputHandler.serializeNBT(provider));
+        tag.put("axe", axeHandler.serializeNBT(provider));
+        tag.putInt("growTicks", growTicks);
+        tag.putInt("maxGrowTicks", maxGrowTicks);
     }
 
     @Override
-    protected void loadAdditional(ValueInput input) {
-        super.loadAdditional(input);
-        inputHandler.deserialize(input.childOrEmpty("input"));
-        outputHandler.deserialize(input.childOrEmpty("output"));
-        axeHandler.deserialize(input.childOrEmpty("axe"));
-        this.data.set(0, input.getIntOr("growTicks", 0));
-        this.data.set(1, input.getIntOr("maxGrowTicks", 0));
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+        super.loadAdditional(tag, provider);
+        inputHandler.deserializeNBT(provider, tag.getCompound("input"));
+        outputHandler.deserializeNBT(provider, tag.getCompound("output"));
+        axeHandler.deserializeNBT(provider, tag.getCompound("axe"));
+        this.data.set(0, tag.getInt("growTicks"));
+        this.data.set(1, tag.getInt("maxGrowTicks"));
     }
 
     @Override
@@ -156,9 +153,9 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
     }
 
     @Override
-    public void handleUpdateTag(ValueInput input) {
-        super.handleUpdateTag(input);
-        loadAdditional(input);
+    public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider lookupProvider) {
+        super.handleUpdateTag(tag, lookupProvider);
+        loadAdditional(tag, lookupProvider);
     }
 
     @Override
@@ -170,9 +167,9 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
     }
 
     @Override
-    public void onDataPacket(Connection net, ValueInput valueInput) {
-        super.onDataPacket(net, valueInput);
-        loadAdditional(valueInput);
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider lookupProvider) {
+        super.onDataPacket(net, pkt, lookupProvider);
+        loadAdditional(pkt.getTag(), lookupProvider);
     }
 
     public void tick(Level level, BlockPos pos, BlockState state){
@@ -317,7 +314,7 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
 
     private Optional<RecipeHolder<TreeSimulatorRecipe>> getCurrentRecipe(){
         if (level instanceof ServerLevel serverLevel){
-            Optional<RecipeHolder<TreeSimulatorRecipe>> recipe = serverLevel.recipeAccess().getRecipeFor(ModRecipes.TREE_SIMULATOR_TYPE.get(), new TreeSimulatorRecipeInput(getSapling()), serverLevel);
+            Optional<RecipeHolder<TreeSimulatorRecipe>> recipe = serverLevel.getRecipeManager().getRecipeFor(ModRecipes.TREE_SIMULATOR_TYPE.get(), new TreeSimulatorRecipeInput(getSapling()), serverLevel);
             if (recipe.isPresent()){
                 return recipe;
             }
@@ -337,7 +334,7 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
                     drops.add(TreeSimulatorOutput.of(ModRecipeProvider.SAPLINGS_BY_SAPLINGS.get(block).getDefaultInstance(), 0.1f, 1, 1));
                     TreeSimulatorRecipe newRecipe = new TreeSimulatorRecipe(getSapling(), drops, 1200);
                     ResourceKey<Recipe<?>> key = ResourceKey.create(Registries.RECIPE, type.withSuffix(BuiltInRegistries.BLOCK.getKey(block).getPath().substring(9)).withPrefix("tree_simulator/"));
-                    return Optional.of(new RecipeHolder<>(key, newRecipe));
+                    return Optional.of(new RecipeHolder<>(key.location(), newRecipe));
                 }
             }
         }

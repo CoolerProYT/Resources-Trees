@@ -39,5 +39,10 @@
   "item.resourcestrees.deepslate": "Deepslate",
   "item.resourcestrees.dirt": "Dirt",
   "item.resourcestrees.fire": "Fire",
+  "item.resourcestrees.nether": "Nether",
+  "item.resourcestrees.end": "End",
+  "item.resourcestrees.nature": "Nature",
+  "item.resourcestrees.water": "Water",
+  "item.resourcestrees.ice": "Ice",
   "tooltip.resourcestrees.tickToGrow": "Grow Time: %s ticks"
 }

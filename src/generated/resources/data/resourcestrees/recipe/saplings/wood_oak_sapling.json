@@ -2,8 +2,12 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "A": "#minecraft:logs",
-    "B": "minecraft:oak_sapling"
+    "A": {
+      "tag": "minecraft:logs"
+    },
+    "B": {
+      "item": "minecraft:oak_sapling"
+    }
   },
   "pattern": [
     " A ",

@@ -6,7 +6,12 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 
 import java.util.Optional;
 import java.util.Set;
@@ -40,14 +45,16 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         dropSelf(ModBlocks.RESOURCES_CHERRY_SAPLING.get());
         shearOrSilkTouchOnlyDrop(ModBlocks.RESOURCES_CHERRY_LEAVES.get());
 
-        dropSelf(ModBlocks.RESOURCES_PALE_OAK_SAPLING.get());
-        shearOrSilkTouchOnlyDrop(ModBlocks.RESOURCES_PALE_OAK_LEAVES.get());
-
         dropSelf(ModBlocks.TREE_SIMULATOR.get());
     }
 
     protected void shearOrSilkTouchOnlyDrop(Block block){
         add(block, createShearsOrSilkTouchOnlyDrop(block));
+    }
+
+    protected LootTable.Builder createShearsOrSilkTouchOnlyDrop(ItemLike item) {
+        return LootTable.lootTable()
+                .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).when(hasShearsOrSilkTouch()).add(LootItem.lootTableItem(item)));
     }
 
     @Override

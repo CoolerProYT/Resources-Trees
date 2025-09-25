@@ -112,7 +112,7 @@ public record ResourcesTypes(Either<ResourceLocation, TagKey<Item>> material, in
     }
 
     public static Map<ResourceLocation, ResourcesTypes> getAllResourcesTypes(Level level){
-        Registry<ResourcesTypes> registry = level.registryAccess().lookupOrThrow(ModRegistries.RESOURCES_TYPES_KEY);
+        Registry<ResourcesTypes> registry = level.registryAccess().registryOrThrow(ModRegistries.RESOURCES_TYPES_KEY);
         Map<ResourceLocation, ResourcesTypes> types = new HashMap<>();
         registry.entrySet().forEach(entry -> {
             if (types.containsKey(entry.getKey().location())){

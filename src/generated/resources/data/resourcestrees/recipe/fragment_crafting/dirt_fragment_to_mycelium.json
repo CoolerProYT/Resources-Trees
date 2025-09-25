@@ -2,9 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "A": "minecraft:brown_mushroom_block",
+    "A": {
+      "item": "minecraft:brown_mushroom_block"
+    },
     "B": {
-      "neoforge:ingredient_type": "neoforge:components",
+      "type": "neoforge:components",
       "components": {
         "resourcestrees:resources_type": "resourcestrees:dirt"
       },

@@ -29,6 +29,16 @@ public record TreeSimulatorRecipe(ItemStack tree, List<TreeSimulatorOutput> drop
     }
 
     @Override
+    public boolean canCraftInDimensions(int i, int i1) {
+        return true;
+    }
+
+    @Override
+    public ItemStack getResultItem(HolderLookup.Provider provider) {
+        return ItemStack.EMPTY;
+    }
+
+    @Override
     public RecipeSerializer<? extends Recipe<TreeSimulatorRecipeInput>> getSerializer() {
         return ModRecipes.TREE_SIMULATOR_SERIALIZER.get();
     }
@@ -36,16 +46,6 @@ public record TreeSimulatorRecipe(ItemStack tree, List<TreeSimulatorOutput> drop
     @Override
     public RecipeType<? extends Recipe<TreeSimulatorRecipeInput>> getType() {
         return ModRecipes.TREE_SIMULATOR_TYPE.get();
-    }
-
-    @Override
-    public PlacementInfo placementInfo() {
-        return PlacementInfo.NOT_PLACEABLE;
-    }
-
-    @Override
-    public RecipeBookCategory recipeBookCategory() {
-        return null;
     }
 
     public static class Serializer implements RecipeSerializer<TreeSimulatorRecipe>{

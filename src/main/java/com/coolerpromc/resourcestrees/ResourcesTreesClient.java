@@ -1,13 +1,20 @@
 package com.coolerpromc.resourcestrees;
 
 import com.coolerpromc.resourcestrees.block.ModBlocks;
+import com.coolerpromc.resourcestrees.block.custom.ResourcesLeavesBlock;
+import com.coolerpromc.resourcestrees.block.custom.ResourcesSaplingBlock;
 import com.coolerpromc.resourcestrees.block.entity.ModBlockEntities;
 import com.coolerpromc.resourcestrees.block.entity.custom.ResourcesTypesBlockEntity;
 import com.coolerpromc.resourcestrees.block.entity.renderer.TreeSimulatorBlockEntityRenderer;
-import com.coolerpromc.resourcestrees.datagen.model.ResourcesTypeTintSource;
+import com.coolerpromc.resourcestrees.core.ResourcesTypes;
+import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
+import com.coolerpromc.resourcestrees.item.ModItems;
+import com.coolerpromc.resourcestrees.item.custom.EssenceItem;
+import com.coolerpromc.resourcestrees.item.custom.LeafFragmentItem;
 import com.coolerpromc.resourcestrees.screen.ModMenuTypes;
 import com.coolerpromc.resourcestrees.screen.custom.TreeSimulatorScreen;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -22,7 +29,7 @@ import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import static com.coolerpromc.resourcestrees.ResourcesTrees.MODID;
 
 @Mod(value = MODID, dist = Dist.CLIENT)
-@EventBusSubscriber(modid = MODID, value = Dist.CLIENT)
+@EventBusSubscriber(modid = MODID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
 public class ResourcesTreesClient {
     public ResourcesTreesClient(ModContainer container) {
 
@@ -31,11 +38,6 @@ public class ResourcesTreesClient {
     @SubscribeEvent
     static void onClientSetup(FMLClientSetupEvent event) {
 
-    }
-
-    @SubscribeEvent
-    public static void onRegisterColorHandlersItemTintSources(RegisterColorHandlersEvent.ItemTintSources event) {
-        event.register(ResourceLocation.fromNamespaceAndPath(MODID, "resources_type_tint"), ResourcesTypeTintSource.MAP_CODEC);
     }
 
     @SubscribeEvent
@@ -56,7 +58,37 @@ public class ResourcesTreesClient {
                 ModBlocks.RESOURCES_ACACIA_SAPLING.get(),
                 ModBlocks.RESOURCES_DARK_OAK_SAPLING.get(),
                 ModBlocks.RESOURCES_CHERRY_SAPLING.get(),
-                ModBlocks.RESOURCES_PALE_OAK_SAPLING.get(),
+                ModBlocks.RESOURCES_OAK_LEAVES.get(),
+                ModBlocks.RESOURCES_SPRUCE_LEAVES.get(),
+                ModBlocks.RESOURCES_BIRCH_LEAVES.get(),
+                ModBlocks.RESOURCES_JUNGLE_LEAVES.get(),
+                ModBlocks.RESOURCES_ACACIA_LEAVES.get(),
+                ModBlocks.RESOURCES_DARK_OAK_LEAVES.get(),
+                ModBlocks.RESOURCES_CHERRY_LEAVES.get()
+        );
+    }
+
+    @SubscribeEvent
+    public static void onRegisterColorHandlers(RegisterColorHandlersEvent.Item event) {
+        event.register((itemStack, i) -> {
+            if (itemStack.has(ModDataComponents.TYPE)){
+                ResourceLocation type = itemStack.get(ModDataComponents.TYPE);
+                if ((Block.byItem(itemStack.getItem()) instanceof ResourcesSaplingBlock && i == 1) || Block.byItem(itemStack.getItem()) instanceof ResourcesLeavesBlock || itemStack.getItem() instanceof LeafFragmentItem){
+                    return ResourcesTypes.byId(type, null).color();
+                }
+            }
+            if (itemStack.getItem() instanceof EssenceItem essenceItem){
+                return essenceItem.getColor();
+            }
+            return -1;
+        },
+                ModBlocks.RESOURCES_OAK_SAPLING.get(),
+                ModBlocks.RESOURCES_SPRUCE_SAPLING.get(),
+                ModBlocks.RESOURCES_BIRCH_SAPLING.get(),
+                ModBlocks.RESOURCES_JUNGLE_SAPLING.get(),
+                ModBlocks.RESOURCES_ACACIA_SAPLING.get(),
+                ModBlocks.RESOURCES_DARK_OAK_SAPLING.get(),
+                ModBlocks.RESOURCES_CHERRY_SAPLING.get(),
                 ModBlocks.RESOURCES_OAK_LEAVES.get(),
                 ModBlocks.RESOURCES_SPRUCE_LEAVES.get(),
                 ModBlocks.RESOURCES_BIRCH_LEAVES.get(),
@@ -64,7 +96,11 @@ public class ResourcesTreesClient {
                 ModBlocks.RESOURCES_ACACIA_LEAVES.get(),
                 ModBlocks.RESOURCES_DARK_OAK_LEAVES.get(),
                 ModBlocks.RESOURCES_CHERRY_LEAVES.get(),
-                ModBlocks.RESOURCES_PALE_OAK_LEAVES.get()
+                ModItems.LEAF_FRAGMENT.get(),
+                ModItems.FIRE_ESSENCE.get(),
+                ModItems.WATER_ESSENCE.get(),
+                ModItems.NATURE_ESSENCE.get(),
+                ModItems.END_ESSENCE.get()
         );
     }
 

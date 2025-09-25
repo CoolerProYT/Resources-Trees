@@ -3,7 +3,7 @@
   "category": "building",
   "key": {
     "A": {
-      "neoforge:ingredient_type": "neoforge:components",
+      "type": "neoforge:components",
       "components": {
         "resourcestrees:resources_type": "resourcestrees:emerald"
       },

@@ -2,8 +2,12 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "A": "resourcestrees:nature_essence",
-    "B": "minecraft:birch_sapling"
+    "A": {
+      "item": "resourcestrees:nature_essence"
+    },
+    "B": {
+      "item": "minecraft:birch_sapling"
+    }
   },
   "pattern": [
     " A ",

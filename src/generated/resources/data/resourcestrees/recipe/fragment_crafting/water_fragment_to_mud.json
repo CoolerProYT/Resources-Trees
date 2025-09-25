@@ -2,9 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "A": "minecraft:clay_ball",
+    "A": {
+      "item": "minecraft:clay_ball"
+    },
     "B": {
-      "neoforge:ingredient_type": "neoforge:components",
+      "type": "neoforge:components",
       "components": {
         "resourcestrees:resources_type": "resourcestrees:water"
       },

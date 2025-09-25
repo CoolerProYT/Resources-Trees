@@ -2,9 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "A": "minecraft:sand",
+    "A": {
+      "item": "minecraft:sand"
+    },
     "B": {
-      "neoforge:ingredient_type": "neoforge:components",
+      "type": "neoforge:components",
       "components": {
         "resourcestrees:resources_type": "resourcestrees:stone"
       },

@@ -2,65 +2,55 @@ package com.coolerpromc.resourcestrees.compat.jei.category;
 
 import com.coolerpromc.resourcestrees.ResourcesTrees;
 import com.coolerpromc.resourcestrees.block.ModBlocks;
-import com.coolerpromc.resourcestrees.recipe.ModRecipes;
+import com.coolerpromc.resourcestrees.compat.jei.ModJEIPlugin;
 import com.coolerpromc.resourcestrees.recipe.custom.TreeSimulatorRecipe;
 import com.coolerpromc.resourcestrees.recipe.output.TreeSimulatorOutput;
-import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.ITooltipBuilder;
+import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotView;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.category.AbstractRecipeCategory;
-import mezz.jei.api.recipe.types.IRecipeHolderType;
+import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeHolder;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class TreeSimulatorCategory extends AbstractRecipeCategory<RecipeHolder<TreeSimulatorRecipe>> {
-    public static final ResourceLocation UID = ResourcesTrees.id("dna_extracting");
+public record TreeSimulatorCategory(IGuiHelper guiHelper) implements IRecipeCategory<TreeSimulatorRecipe> {
     public static final ResourceLocation TEXTURE = ResourcesTrees.id("textures/gui/tree_simulator.png");
-    public static final IRecipeHolderType<TreeSimulatorRecipe> TREE_SIMULATOR_TYPE = IRecipeHolderType.create(ModRecipes.TREE_SIMULATOR_TYPE.get());
-    private int tickCount = 0;
-
-    public TreeSimulatorCategory(IGuiHelper helper) {
-        super(TREE_SIMULATOR_TYPE, Component.translatable("block.resourcestrees.tree_simulator"), helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ModBlocks.TREE_SIMULATOR.get())), 168, 77);
-    }
+    private static int tickCount = 0;
 
     @Override
-    public void draw(RecipeHolder<TreeSimulatorRecipe> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
-        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, 0, 0, 5, 5, 168, 77, 256, 256);
-
+    public void draw(TreeSimulatorRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
         tickCount++;
         int arrowWidth = (tickCount % 600) * 23 / 600;
 
         ResourceLocation texture = ResourcesTrees.id("textures/gui/progress.png");
-        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, texture, 54, 30, 0, 0, arrowWidth, 16, 22, 16);
+        guiGraphics.blit(texture, 39, 20, 0, 0, arrowWidth, 16, 22, 16);
 
-        guiGraphics.fill(56, 53, 75, 72, 0xFFC6C6C6);
+        guiGraphics.fill(41, 43, 60, 62, 0xFFC6C6C6);
 
-        Component text = Component.translatable("tooltip.resourcestrees.tickToGrow", recipe.value().ticksToGrow());
-        guiGraphics.drawString(Minecraft.getInstance().font, text, 0, 70, 0xFF666666, false);
+        Component text = Component.translatable("tooltip.resourcestrees.tickToGrow", recipe.ticksToGrow());
+        guiGraphics.drawString(Minecraft.getInstance().font, text, 0, 58, 0xFF666666, false);
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder iRecipeLayoutBuilder, RecipeHolder<TreeSimulatorRecipe> recipeHolder, IFocusGroup iFocusGroup) {
-        TreeSimulatorRecipe recipe = recipeHolder.value();
-        iRecipeLayoutBuilder.addSlot(RecipeIngredientRole.INPUT,21,30).add(recipe.tree());
+    public void setRecipe(IRecipeLayoutBuilder iRecipeLayoutBuilder, TreeSimulatorRecipe recipe, IFocusGroup iFocusGroup) {
+        iRecipeLayoutBuilder.addSlot(RecipeIngredientRole.INPUT,6,20).addItemStack(recipe.tree());
 
         List<TreeSimulatorOutput> drops = recipe.drops();
         for (int i = 0; i < drops.size(); i ++){
             int finalI = i;
-            iRecipeLayoutBuilder.addSlot(RecipeIngredientRole.OUTPUT, 93 + 18 * (i % 3), 12 + (i / 3) * 18).add(drops.get(i).output()).addRichTooltipCallback((r, t) -> tooltipCallback(r, t, drops.get(finalI)));
+            iRecipeLayoutBuilder.addSlot(RecipeIngredientRole.OUTPUT, 78 + 18 * (i % 3), 2 + (i / 3) * 18).addItemStack(drops.get(i).output()).addRichTooltipCallback((r, t) -> tooltipCallback(r, t, drops.get(finalI)));
         }
     }
 
@@ -68,5 +58,25 @@ public class TreeSimulatorCategory extends AbstractRecipeCategory<RecipeHolder<T
         int chance = (int) (output.chance() * 100);
         String chanceStr = String.format("Output Chance: %s", chance);
         tooltipBuilder.add(Component.literal(chanceStr).append("%").withColor(ChatFormatting.GRAY.getColor()));
+    }
+
+    @Override
+    public RecipeType<TreeSimulatorRecipe> getRecipeType() {
+        return ModJEIPlugin.TREE_SIMULATOR_TYPE;
+    }
+
+    @Override
+    public Component getTitle() {
+        return Component.translatable("block.resourcestrees.tree_simulator");
+    }
+
+    @Override
+    public IDrawable getBackground() {
+        return guiHelper.createDrawable(TEXTURE, 20, 15, 137, 65);
+    }
+
+    @Override
+    public @Nullable IDrawable getIcon() {
+        return guiHelper.createDrawableItemStack(new ItemStack(ModBlocks.TREE_SIMULATOR.get()));
     }
 }
