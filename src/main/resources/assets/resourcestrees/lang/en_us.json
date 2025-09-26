@@ -44,5 +44,9 @@
   "item.resourcestrees.nature": "Nature",
   "item.resourcestrees.water": "Water",
   "item.resourcestrees.ice": "Ice",
+  "item.resourcestrees.fire_essence": "Fire Essence",
+  "item.resourcestrees.water_essence": "Water Essence",
+  "item.resourcestrees.nature_essence": "Nature Essence",
+  "item.resourcestrees.end_essence": "End Essence",
   "tooltip.resourcestrees.tickToGrow": "Grow Time: %s ticks"
 }

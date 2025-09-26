@@ -56,6 +56,7 @@ public class ModRecipeProvider extends RecipeProvider {
         circleShape(Items.GOLD_INGOT, 6, ResourcesTypes.GOLD, output);
         circleShape(Items.LAPIS_LAZULI, 12, ResourcesTypes.LAPIS, output);
         cubeShape(Items.EMERALD, 4, ResourcesTypes.EMERALD, output);
+        cubeShape(Items.DIAMOND, 4, ResourcesTypes.DIAMOND, output);
         circleShape(Items.OBSIDIAN, 6, ResourcesTypes.OBSIDIAN, output);
         lineShape(Items.AMETHYST_SHARD, 6, ResourcesTypes.AMETHYST, output);
         cubeShape(Items.NETHERITE_INGOT, 1, ResourcesTypes.NETHERITE, output);
@@ -136,6 +137,7 @@ public class ModRecipeProvider extends RecipeProvider {
         essenceItem(ModItems.FIRE_ESSENCE.get(), output, Items.FIRE_CHARGE, Items.MAGMA_BLOCK, Items.LAVA_BUCKET);
         essenceItem(ModItems.NATURE_ESSENCE.get(), output, Items.GRASS_BLOCK, Items.MOSS_BLOCK, Items.PUMPKIN, Items.MELON, Items.SUGAR_CANE, Items.CACTUS, Items.WHEAT, Items.CARROT, Items.POTATO);
         essenceItem(ModItems.END_ESSENCE.get(), output, Items.END_STONE, Items.CHORUS_FRUIT, Items.CHORUS_PLANT, Items.PURPUR_BLOCK);
+        essenceItem(ModItems.WATER_ESSENCE.get(), output, Items.WATER_BUCKET, Items.KELP, Items.SEAGRASS, Items.CLAY_BALL);
 
         // Saplings & Tree Simulator recipes
         ResourcesTypes.getAllResourcesTypes(lookupProvider).forEach((key, value) -> {
