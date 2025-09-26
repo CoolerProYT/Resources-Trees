@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "item": "minecraft:obsidian"
+    },
+    "B": {
+      "item": "minecraft:birch_sapling"
+    }
+  },
+  "pattern": [
+    " A ",
+    "ABA",
+    " A "
+  ],
+  "result": {
+    "count": 1,
+    "item": "resourcestrees:resources_birch_sapling",
+    "nbt": "{type:\"resourcestrees:obsidian\"}"
+  },
+  "show_notification": true
+}

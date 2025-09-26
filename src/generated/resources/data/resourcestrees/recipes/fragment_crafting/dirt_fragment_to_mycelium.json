@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "item": "minecraft:brown_mushroom_block"
+    },
+    "B": {
+      "type": "forge:partial_nbt",
+      "item": "resourcestrees:leaf_fragment",
+      "nbt": "{type:\"resourcestrees:dirt\"}"
+    }
+  },
+  "pattern": [
+    "AAA",
+    "ABA",
+    "AAA"
+  ],
+  "result": {
+    "count": 12,
+    "item": "minecraft:mycelium"
+  },
+  "show_notification": true
+}

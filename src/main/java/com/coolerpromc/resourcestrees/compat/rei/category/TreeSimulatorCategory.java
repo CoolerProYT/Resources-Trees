@@ -44,7 +44,7 @@ public class TreeSimulatorCategory implements DisplayCategory<TreeSimulatorDispl
             EntryStack<ItemStack> drop = EntryStacks.of(output.output());
             int chance = (int) (output.chance() * 100);
             String chanceStr = String.format("Output Chance: %s", chance);
-            drop.tooltip(Component.literal(chanceStr).append("%").withColor(ChatFormatting.GRAY.getColor()));
+            drop.tooltip(Component.literal(chanceStr).append("%").withStyle(ChatFormatting.GRAY));
             widgets.add(Widgets.createSlot(new Point(bounds.x + 72 + 18 * (i % 3), bounds.y + 6 + (i / 3) * 18)).entries(List.of(drop)).markOutput());
         }
 
@@ -58,6 +58,6 @@ public class TreeSimulatorCategory implements DisplayCategory<TreeSimulatorDispl
 
     @Override
     public Renderer getIcon() {
-        return EntryStacks.of(ModBlocks.TREE_SIMULATOR);
+        return EntryStacks.of(ModBlocks.TREE_SIMULATOR.get());
     }
 }

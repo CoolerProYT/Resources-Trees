@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "type": "forge:partial_nbt",
+      "item": "resourcestrees:leaf_fragment",
+      "nbt": "{type:\"resourcestrees:nature\"}"
+    },
+    "B": {
+      "type": "forge:partial_nbt",
+      "item": "resourcestrees:leaf_fragment",
+      "nbt": "{type:\"resourcestrees:dirt\"}"
+    }
+  },
+  "pattern": [
+    " A ",
+    " B ",
+    "A  "
+  ],
+  "result": {
+    "count": 6,
+    "item": "minecraft:brown_mushroom"
+  },
+  "show_notification": true
+}

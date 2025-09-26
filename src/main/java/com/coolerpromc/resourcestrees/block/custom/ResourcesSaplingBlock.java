@@ -2,10 +2,7 @@ package com.coolerpromc.resourcestrees.block.custom;
 
 import com.coolerpromc.resourcestrees.block.entity.custom.ResourcesTypesBlockEntity;
 import com.coolerpromc.resourcestrees.core.ResourcesTypes;
-import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
 import com.coolerpromc.resourcestrees.worldgen.tree.ResourcesFoliagePlacer;
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -20,13 +17,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.grower.TreeGrower;
+import net.minecraft.world.level.block.grower.AbstractMegaTreeGrower;
+import net.minecraft.world.level.block.grower.AbstractTreeGrower;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -40,38 +37,32 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class ResourcesSaplingBlock extends SaplingBlock implements EntityBlock {
-    public static final MapCodec<ResourcesSaplingBlock> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            TreeGrower.CODEC.fieldOf("tree").forGetter((p_304391_) -> p_304391_.treeGrower),
-            propertiesCodec(),
-            ResourceLocation.CODEC.fieldOf("leaves").forGetter(block -> block.leaves)
-    ).apply(instance, ResourcesSaplingBlock::new));
-
     private final ResourceLocation leaves;
 
-    public ResourcesSaplingBlock(TreeGrower treeGrower, Properties properties, ResourceLocation leaves) {
+    public ResourcesSaplingBlock(AbstractTreeGrower treeGrower, Properties properties, ResourceLocation leaves) {
         super(treeGrower, properties);
         this.leaves = leaves;
     }
 
     @Override
-    protected List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
+    public List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
         List<ItemStack> drops = super.getDrops(state, params);
         BlockEntity blockEntity = params.getOptionalParameter(LootContextParams.BLOCK_ENTITY);
 
         if (blockEntity instanceof ResourcesTypesBlockEntity be){
             if (!drops.isEmpty() && be.getResourcesType() != null){
-                drops.getFirst().set(ModDataComponents.TYPE, be.getResourcesType());
+                drops.get(0).getOrCreateTag().putString("type", be.getResourcesType().toString());
             }
         }
         return drops;
     }
 
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player) {
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if (blockEntity instanceof ResourcesTypesBlockEntity be && be.getResourcesType() != null){
             ItemStack stack = super.getCloneItemStack(state, target, level, pos, player);
-            stack.set(ModDataComponents.TYPE, be.getResourcesType());
+            stack.getOrCreateTag().putString("type", be.getResourcesType().toString());
             return stack;
         }
         return super.getCloneItemStack(state, target, level, pos, player);
@@ -80,8 +71,8 @@ public class ResourcesSaplingBlock extends SaplingBlock implements EntityBlock {
     @Override
     public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
         BlockEntity blockEntity = level.getBlockEntity(pos);
-        if (blockEntity instanceof ResourcesTypesBlockEntity be && stack.has(ModDataComponents.TYPE.get())){
-            be.setResourcesType(stack.get(ModDataComponents.TYPE.get()));
+        if (blockEntity instanceof ResourcesTypesBlockEntity be && stack.hasTag() && stack.getTag().contains("type")){
+            be.setResourcesType(new ResourceLocation(stack.getTag().getString("type")));
         }
     }
 
@@ -91,8 +82,11 @@ public class ResourcesSaplingBlock extends SaplingBlock implements EntityBlock {
         if (state.getBlock() instanceof ResourcesSaplingBlock && blockEntity instanceof ResourcesTypesBlockEntity be && be.getResourcesType() != null) {
             ResourceLocation type = be.getResourcesType();
             ResourcesTypes resourcesTypes = ResourcesTypes.byId(type, level);
+            ResourceKey<ConfiguredFeature<?, ?>> resourcekey = null;
 
-            ResourceKey<ConfiguredFeature<?, ?>> resourcekey = treeGrower.getConfiguredMegaFeature(random);
+            if (treeGrower instanceof AbstractMegaTreeGrower megaTreeGrower){
+                resourcekey = megaTreeGrower.getConfiguredMegaFeature(random);
+            }
 
             if(resourcekey != null){
                 Holder<ConfiguredFeature<?, ?>> holder = level.registryAccess().lookupOrThrow(Registries.CONFIGURED_FEATURE).get(resourcekey).orElse(null);
@@ -201,7 +195,7 @@ public class ResourcesSaplingBlock extends SaplingBlock implements EntityBlock {
 
     public ItemStack getLeaves(ResourceLocation type) {
         ItemStack stack = BuiltInRegistries.ITEM.get(leaves).getDefaultInstance();
-        stack.set(ModDataComponents.TYPE, type);
+        stack.getOrCreateTag().putString("type", type.toString());
         return stack;
     }
 
@@ -209,7 +203,7 @@ public class ResourcesSaplingBlock extends SaplingBlock implements EntityBlock {
         return leaves;
     }
 
-    public TreeGrower getTreeGrower(){
+    public AbstractTreeGrower getTreeGrower(){
         return treeGrower;
     }
 }

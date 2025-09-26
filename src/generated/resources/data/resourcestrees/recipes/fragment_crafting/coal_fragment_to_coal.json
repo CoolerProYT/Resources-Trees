@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "type": "forge:partial_nbt",
+      "item": "resourcestrees:leaf_fragment",
+      "nbt": "{type:\"resourcestrees:coal\"}"
+    }
+  },
+  "pattern": [
+    "AAA",
+    "A A",
+    "AAA"
+  ],
+  "result": {
+    "count": 12,
+    "item": "minecraft:coal"
+  },
+  "show_notification": true
+}

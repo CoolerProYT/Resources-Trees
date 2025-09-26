@@ -18,8 +18,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class ModBlockLootTables extends BlockLootSubProvider {
-    public ModBlockLootTables(HolderLookup.Provider provider) {
-        super(Set.of(), FeatureFlags.REGISTRY.allFlags(), provider);
+    public ModBlockLootTables() {
+        super(Set.of(), FeatureFlags.REGISTRY.allFlags());
     }
 
     @Override
@@ -54,7 +54,7 @@ public class ModBlockLootTables extends BlockLootSubProvider {
 
     protected LootTable.Builder createShearsOrSilkTouchOnlyDrop(ItemLike item) {
         return LootTable.lootTable()
-                .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).when(hasShearsOrSilkTouch()).add(LootItem.lootTableItem(item)));
+                .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).when(HAS_SHEARS_OR_SILK_TOUCH).add(LootItem.lootTableItem(item)));
     }
 
     @Override

@@ -19,7 +19,6 @@ import me.shedaniel.rei.api.common.util.EntryStacks;
 import me.shedaniel.rei.forge.REIPluginClient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.crafting.RecipeHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,11 +32,11 @@ public class ModREIPlugin implements REIClientPlugin {
 
     @Override
     public void registerDisplays(DisplayRegistry registry) {
-        List<RecipeHolder<TreeSimulatorRecipe>> treeSimulatorRecipe = new ArrayList<>(Minecraft.getInstance().level.getRecipeManager().getAllRecipesFor(ModRecipes.TREE_SIMULATOR_TYPE.get()));
-        List<ResourceLocation> keys = treeSimulatorRecipe.stream().map(RecipeHolder::id).toList();
+        List<TreeSimulatorRecipe> treeSimulatorRecipe = new ArrayList<>(Minecraft.getInstance().level.getRecipeManager().getAllRecipesFor(ModRecipes.TREE_SIMULATOR_TYPE.get()));
+        List<ResourceLocation> keys = treeSimulatorRecipe.stream().map(TreeSimulatorRecipe::id).toList();
 
         treeSimulatorRecipe.addAll(RecipeViewerFiller.addUndefinedRecipes(BasicDisplay.registryAccess(), keys));
-        treeSimulatorRecipe.stream().map(RecipeHolder::value).map(TreeSimulatorDisplay::new).forEach(registry::add);
+        treeSimulatorRecipe.stream().map(TreeSimulatorDisplay::new).forEach(registry::add);
     }
 
     @Override
@@ -47,22 +46,22 @@ public class ModREIPlugin implements REIClientPlugin {
 
     @Override
     public void registerItemComparators(ItemComparatorRegistry registry) {
-        registry.registerComponents(ModBlocks.RESOURCES_OAK_SAPLING.asItem());
-        registry.registerComponents(ModBlocks.RESOURCES_SPRUCE_SAPLING.asItem());
-        registry.registerComponents(ModBlocks.RESOURCES_BIRCH_SAPLING.asItem());
-        registry.registerComponents(ModBlocks.RESOURCES_JUNGLE_SAPLING.asItem());
-        registry.registerComponents(ModBlocks.RESOURCES_ACACIA_SAPLING.asItem());
-        registry.registerComponents(ModBlocks.RESOURCES_DARK_OAK_SAPLING.asItem());
-        registry.registerComponents(ModBlocks.RESOURCES_CHERRY_SAPLING.asItem());
+        registry.registerNbt(ModBlocks.RESOURCES_OAK_SAPLING.get().asItem());
+        registry.registerNbt(ModBlocks.RESOURCES_SPRUCE_SAPLING.get().asItem());
+        registry.registerNbt(ModBlocks.RESOURCES_BIRCH_SAPLING.get().asItem());
+        registry.registerNbt(ModBlocks.RESOURCES_JUNGLE_SAPLING.get().asItem());
+        registry.registerNbt(ModBlocks.RESOURCES_ACACIA_SAPLING.get().asItem());
+        registry.registerNbt(ModBlocks.RESOURCES_DARK_OAK_SAPLING.get().asItem());
+        registry.registerNbt(ModBlocks.RESOURCES_CHERRY_SAPLING.get().asItem());
 
-        registry.registerComponents(ModBlocks.RESOURCES_OAK_LEAVES.asItem());
-        registry.registerComponents(ModBlocks.RESOURCES_SPRUCE_LEAVES.asItem());
-        registry.registerComponents(ModBlocks.RESOURCES_BIRCH_LEAVES.asItem());
-        registry.registerComponents(ModBlocks.RESOURCES_JUNGLE_LEAVES.asItem());
-        registry.registerComponents(ModBlocks.RESOURCES_ACACIA_LEAVES.asItem());
-        registry.registerComponents(ModBlocks.RESOURCES_DARK_OAK_LEAVES.asItem());
-        registry.registerComponents(ModBlocks.RESOURCES_CHERRY_LEAVES.asItem());
+        registry.registerNbt(ModBlocks.RESOURCES_OAK_LEAVES.get().asItem());
+        registry.registerNbt(ModBlocks.RESOURCES_SPRUCE_LEAVES.get().asItem());
+        registry.registerNbt(ModBlocks.RESOURCES_BIRCH_LEAVES.get().asItem());
+        registry.registerNbt(ModBlocks.RESOURCES_JUNGLE_LEAVES.get().asItem());
+        registry.registerNbt(ModBlocks.RESOURCES_ACACIA_LEAVES.get().asItem());
+        registry.registerNbt(ModBlocks.RESOURCES_DARK_OAK_LEAVES.get().asItem());
+        registry.registerNbt(ModBlocks.RESOURCES_CHERRY_LEAVES.get().asItem());
 
-        registry.registerComponents(ModItems.LEAF_FRAGMENT.get());
+        registry.registerNbt(ModItems.LEAF_FRAGMENT.get());
     }
 }

@@ -5,11 +5,11 @@ import com.coolerpromc.resourcestrees.block.ModBlocks;
 import com.coolerpromc.resourcestrees.block.custom.ResourcesSaplingBlock;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
-import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
-import net.neoforged.neoforge.client.model.generators.ModelFile;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import net.neoforged.neoforge.registries.DeferredBlock;
+import net.minecraftforge.client.model.generators.BlockStateProvider;
+import net.minecraftforge.client.model.generators.ConfiguredModel;
+import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.RegistryObject;
 
 public class ModBlockStateProvider extends BlockStateProvider {
     public ModBlockStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
@@ -42,7 +42,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         this.simpleBlockWithItem(ModBlocks.TREE_SIMULATOR.get(), new ModelFile.ExistingModelFile(ResourcesTrees.id("block/tree_simulator"), models().existingFileHelper));
     }
 
-    private <T extends Block> void generateResourcesLeaves(DeferredBlock<T> block) {
+    private <T extends Block> void generateResourcesLeaves(RegistryObject<T> block) {
         models().withExistingParent("block/" + block.getId().getPath(), mcLoc("block/leaves"))
                 .texture("all", block.getId().withPrefix("block/"));
 
@@ -52,7 +52,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         itemModels().withExistingParent(block.getId().getPath(), modLoc("block/" + block.getId().getPath()));
     }
 
-    private void generateResourcesSapling(DeferredBlock<ResourcesSaplingBlock> block) {
+    private void generateResourcesSapling(RegistryObject<ResourcesSaplingBlock> block) {
         models().withExistingParent("block/" + block.getId().getPath(), ResourcesTrees.id("block/cross_tinted"))
                 .texture("cross", block.getId().withPrefix("block/"))
                 .texture("cross_tinted", block.getId().withPrefix("block/").withSuffix("_layer1"));

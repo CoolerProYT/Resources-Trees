@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "type": "forge:partial_nbt",
+      "item": "resourcestrees:leaf_fragment",
+      "nbt": "{type:\"resourcestrees:dirt\"}"
+    },
+    "B": {
+      "type": "forge:partial_nbt",
+      "item": "resourcestrees:leaf_fragment",
+      "nbt": "{type:\"resourcestrees:nature\"}"
+    }
+  },
+  "pattern": [
+    "AAA",
+    "ABA",
+    "AAA"
+  ],
+  "result": {
+    "count": 12,
+    "item": "minecraft:grass_block"
+  },
+  "show_notification": true
+}

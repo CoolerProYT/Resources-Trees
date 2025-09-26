@@ -4,16 +4,15 @@ import com.coolerpromc.resourcestrees.ResourcesTrees;
 import com.coolerpromc.resourcestrees.block.ModBlocks;
 import com.coolerpromc.resourcestrees.block.custom.ResourcesLeavesBlock;
 import com.coolerpromc.resourcestrees.block.custom.ResourcesSaplingBlock;
-import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
 import com.coolerpromc.resourcestrees.core.ResourcesTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.RegistryObject;
 
 import java.lang.reflect.Field;
 import java.util.function.Supplier;
@@ -21,16 +20,16 @@ import java.util.function.Supplier;
 public class ModCreativeTab {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MOD_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, ResourcesTrees.MODID);
 
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> RESOURCES_TREES_TAB = CREATIVE_MOD_TABS.register("resourcestrees",
+    public static final RegistryObject<CreativeModeTab> RESOURCES_TREES_TAB = CREATIVE_MOD_TABS.register("resourcestrees",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(Blocks.OAK_SAPLING))
                     .title(Component.translatable("creativetab.resourcestrees"))
                     .displayItems((pParameters, pOutput) -> {
-                        pOutput.accept(ModBlocks.TREE_SIMULATOR);
+                        pOutput.accept(ModBlocks.TREE_SIMULATOR.get());
 
-                        pOutput.accept(ModItems.FIRE_ESSENCE);
-                        pOutput.accept(ModItems.WATER_ESSENCE);
-                        pOutput.accept(ModItems.NATURE_ESSENCE);
-                        pOutput.accept(ModItems.END_ESSENCE);
+                        pOutput.accept(ModItems.FIRE_ESSENCE.get());
+                        pOutput.accept(ModItems.WATER_ESSENCE.get());
+                        pOutput.accept(ModItems.NATURE_ESSENCE.get());
+                        pOutput.accept(ModItems.END_ESSENCE.get());
 
                         ResourcesTypes.getAllResourcesTypes(pParameters.holders()).forEach((key, value) -> {
                             Field[] fields = ModBlocks.class.getDeclaredFields();
@@ -41,7 +40,7 @@ public class ModCreativeTab {
                                     if (obj instanceof Supplier<?> supplier){
                                         if (supplier.get() instanceof ResourcesSaplingBlock resourcesSaplingBlock){
                                             ItemStack sapling = resourcesSaplingBlock.asItem().getDefaultInstance();
-                                            sapling.set(ModDataComponents.TYPE, key);
+                                            sapling.getOrCreateTag().putString("type", key.toString());
                                             pOutput.accept(sapling);
                                         }
                                     }
@@ -60,7 +59,7 @@ public class ModCreativeTab {
                                     if (obj instanceof Supplier<?> supplier){
                                         if (supplier.get() instanceof ResourcesLeavesBlock resourcesLeavesBlock){
                                             ItemStack leaves = resourcesLeavesBlock.asItem().getDefaultInstance();
-                                            leaves.set(ModDataComponents.TYPE, key);
+                                            leaves.getOrCreateTag().putString("type", key.toString());
                                             pOutput.accept(leaves);
                                         }
                                     }
@@ -71,8 +70,8 @@ public class ModCreativeTab {
                         });
 
                         ResourcesTypes.getAllResourcesTypes(pParameters.holders()).forEach((key, value) -> {
-                            ItemStack leaf = ModItems.LEAF_FRAGMENT.toStack();
-                            leaf.set(ModDataComponents.TYPE, key);
+                            ItemStack leaf = ModItems.LEAF_FRAGMENT.get().getDefaultInstance();
+                            leaf.getOrCreateTag().putString("type", key.toString());
                             pOutput.accept(leaf);
                         });
                     }).build());

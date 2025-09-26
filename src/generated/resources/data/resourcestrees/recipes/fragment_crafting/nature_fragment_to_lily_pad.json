@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "type": "forge:partial_nbt",
+      "item": "resourcestrees:leaf_fragment",
+      "nbt": "{type:\"resourcestrees:nature\"}"
+    }
+  },
+  "pattern": [
+    "   ",
+    "AAA",
+    "   "
+  ],
+  "result": {
+    "count": 12,
+    "item": "minecraft:lily_pad"
+  },
+  "show_notification": true
+}

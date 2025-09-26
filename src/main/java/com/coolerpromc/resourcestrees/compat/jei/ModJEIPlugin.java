@@ -18,7 +18,6 @@ import mezz.jei.api.registration.*;
 import mezz.jei.common.util.RegistryUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.crafting.RecipeHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +28,7 @@ public class ModJEIPlugin implements IModPlugin {
 
     @Override
     public ResourceLocation getPluginUid() {
-        return ResourceLocation.fromNamespaceAndPath(ResourcesTrees.MODID, "jei_plugin");
+        return new ResourceLocation(ResourcesTrees.MODID, "jei_plugin");
     }
 
     @Override
@@ -42,35 +41,35 @@ public class ModJEIPlugin implements IModPlugin {
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-        registration.addRecipeCatalyst(ModBlocks.TREE_SIMULATOR.toStack(), TREE_SIMULATOR_TYPE);
+        registration.addRecipeCatalyst(ModBlocks.TREE_SIMULATOR.get(), TREE_SIMULATOR_TYPE);
     }
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
-        List<RecipeHolder<TreeSimulatorRecipe>> treeSimulatorRecipe = new ArrayList<>(Minecraft.getInstance().level.getRecipeManager().getAllRecipesFor(ModRecipes.TREE_SIMULATOR_TYPE.get()));
-        List<ResourceLocation> keys = treeSimulatorRecipe.stream().map(RecipeHolder::id).toList();
+        List<TreeSimulatorRecipe> treeSimulatorRecipe = new ArrayList<>(Minecraft.getInstance().level.getRecipeManager().getAllRecipesFor(ModRecipes.TREE_SIMULATOR_TYPE.get()));
+        List<ResourceLocation> keys = treeSimulatorRecipe.stream().map(TreeSimulatorRecipe::id).toList();
 
         treeSimulatorRecipe.addAll(RecipeViewerFiller.addUndefinedRecipes(RegistryUtil.getRegistryAccess(), keys));
-        registration.addRecipes(TREE_SIMULATOR_TYPE, treeSimulatorRecipe.stream().map(RecipeHolder::value).toList());
+        registration.addRecipes(TREE_SIMULATOR_TYPE, treeSimulatorRecipe);
     }
 
     @Override
     public void registerItemSubtypes(ISubtypeRegistration registration) {
-        registration.registerSubtypeInterpreter(ModBlocks.RESOURCES_OAK_SAPLING.asItem(), ResourcesTypeSubtypeInterpreter.INSTANCE);
-        registration.registerSubtypeInterpreter(ModBlocks.RESOURCES_SPRUCE_SAPLING.asItem(), ResourcesTypeSubtypeInterpreter.INSTANCE);
-        registration.registerSubtypeInterpreter(ModBlocks.RESOURCES_BIRCH_SAPLING.asItem(), ResourcesTypeSubtypeInterpreter.INSTANCE);
-        registration.registerSubtypeInterpreter(ModBlocks.RESOURCES_JUNGLE_SAPLING.asItem(), ResourcesTypeSubtypeInterpreter.INSTANCE);
-        registration.registerSubtypeInterpreter(ModBlocks.RESOURCES_ACACIA_SAPLING.asItem(), ResourcesTypeSubtypeInterpreter.INSTANCE);
-        registration.registerSubtypeInterpreter(ModBlocks.RESOURCES_DARK_OAK_SAPLING.asItem(), ResourcesTypeSubtypeInterpreter.INSTANCE);
-        registration.registerSubtypeInterpreter(ModBlocks.RESOURCES_CHERRY_SAPLING.asItem(), ResourcesTypeSubtypeInterpreter.INSTANCE);
+        registration.registerSubtypeInterpreter(ModBlocks.RESOURCES_OAK_SAPLING.get().asItem(), ResourcesTypeSubtypeInterpreter.INSTANCE);
+        registration.registerSubtypeInterpreter(ModBlocks.RESOURCES_SPRUCE_SAPLING.get().asItem(), ResourcesTypeSubtypeInterpreter.INSTANCE);
+        registration.registerSubtypeInterpreter(ModBlocks.RESOURCES_BIRCH_SAPLING.get().asItem(), ResourcesTypeSubtypeInterpreter.INSTANCE);
+        registration.registerSubtypeInterpreter(ModBlocks.RESOURCES_JUNGLE_SAPLING.get().asItem(), ResourcesTypeSubtypeInterpreter.INSTANCE);
+        registration.registerSubtypeInterpreter(ModBlocks.RESOURCES_ACACIA_SAPLING.get().asItem(), ResourcesTypeSubtypeInterpreter.INSTANCE);
+        registration.registerSubtypeInterpreter(ModBlocks.RESOURCES_DARK_OAK_SAPLING.get().asItem(), ResourcesTypeSubtypeInterpreter.INSTANCE);
+        registration.registerSubtypeInterpreter(ModBlocks.RESOURCES_CHERRY_SAPLING.get().asItem(), ResourcesTypeSubtypeInterpreter.INSTANCE);
 
-        registration.registerSubtypeInterpreter(ModBlocks.RESOURCES_OAK_LEAVES.asItem(), ResourcesTypeSubtypeInterpreter.INSTANCE);
-        registration.registerSubtypeInterpreter(ModBlocks.RESOURCES_SPRUCE_LEAVES.asItem(), ResourcesTypeSubtypeInterpreter.INSTANCE);
-        registration.registerSubtypeInterpreter(ModBlocks.RESOURCES_BIRCH_LEAVES.asItem(), ResourcesTypeSubtypeInterpreter.INSTANCE);
-        registration.registerSubtypeInterpreter(ModBlocks.RESOURCES_JUNGLE_LEAVES.asItem(), ResourcesTypeSubtypeInterpreter.INSTANCE);
-        registration.registerSubtypeInterpreter(ModBlocks.RESOURCES_ACACIA_LEAVES.asItem(), ResourcesTypeSubtypeInterpreter.INSTANCE);
-        registration.registerSubtypeInterpreter(ModBlocks.RESOURCES_DARK_OAK_LEAVES.asItem(), ResourcesTypeSubtypeInterpreter.INSTANCE);
-        registration.registerSubtypeInterpreter(ModBlocks.RESOURCES_CHERRY_LEAVES.asItem(), ResourcesTypeSubtypeInterpreter.INSTANCE);
+        registration.registerSubtypeInterpreter(ModBlocks.RESOURCES_OAK_LEAVES.get().asItem(), ResourcesTypeSubtypeInterpreter.INSTANCE);
+        registration.registerSubtypeInterpreter(ModBlocks.RESOURCES_SPRUCE_LEAVES.get().asItem(), ResourcesTypeSubtypeInterpreter.INSTANCE);
+        registration.registerSubtypeInterpreter(ModBlocks.RESOURCES_BIRCH_LEAVES.get().asItem(), ResourcesTypeSubtypeInterpreter.INSTANCE);
+        registration.registerSubtypeInterpreter(ModBlocks.RESOURCES_JUNGLE_LEAVES.get().asItem(), ResourcesTypeSubtypeInterpreter.INSTANCE);
+        registration.registerSubtypeInterpreter(ModBlocks.RESOURCES_ACACIA_LEAVES.get().asItem(), ResourcesTypeSubtypeInterpreter.INSTANCE);
+        registration.registerSubtypeInterpreter(ModBlocks.RESOURCES_DARK_OAK_LEAVES.get().asItem(), ResourcesTypeSubtypeInterpreter.INSTANCE);
+        registration.registerSubtypeInterpreter(ModBlocks.RESOURCES_CHERRY_LEAVES.get().asItem(), ResourcesTypeSubtypeInterpreter.INSTANCE);
 
         registration.registerSubtypeInterpreter(ModItems.LEAF_FRAGMENT.get(), ResourcesTypeSubtypeInterpreter.INSTANCE);
     }

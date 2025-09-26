@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "type": "forge:partial_nbt",
+      "item": "resourcestrees:leaf_fragment",
+      "nbt": "{type:\"resourcestrees:nature\"}"
+    }
+  },
+  "pattern": [
+    "  A",
+    " AA",
+    "A  "
+  ],
+  "result": {
+    "count": 12,
+    "item": "minecraft:beetroot"
+  },
+  "show_notification": true
+}

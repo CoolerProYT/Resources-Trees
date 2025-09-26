@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "type": "forge:partial_nbt",
+      "item": "resourcestrees:leaf_fragment",
+      "nbt": "{type:\"resourcestrees:dirt\"}"
+    },
+    "B": {
+      "type": "forge:partial_nbt",
+      "item": "resourcestrees:leaf_fragment",
+      "nbt": "{type:\"resourcestrees:fire\"}"
+    }
+  },
+  "pattern": [
+    "BA ",
+    "AB ",
+    "   "
+  ],
+  "result": {
+    "count": 8,
+    "item": "minecraft:sand"
+  },
+  "show_notification": true
+}

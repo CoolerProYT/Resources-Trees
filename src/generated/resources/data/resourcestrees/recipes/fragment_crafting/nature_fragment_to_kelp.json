@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "type": "forge:partial_nbt",
+      "item": "resourcestrees:leaf_fragment",
+      "nbt": "{type:\"resourcestrees:nature\"}"
+    },
+    "B": {
+      "type": "forge:partial_nbt",
+      "item": "resourcestrees:leaf_fragment",
+      "nbt": "{type:\"resourcestrees:water\"}"
+    }
+  },
+  "pattern": [
+    "  A",
+    " B ",
+    "A  "
+  ],
+  "result": {
+    "count": 12,
+    "item": "minecraft:kelp"
+  },
+  "show_notification": true
+}

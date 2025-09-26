@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "item": "minecraft:cyan_terracotta"
+    },
+    "B": {
+      "item": "minecraft:grass_block"
+    }
+  },
+  "pattern": [
+    "   ",
+    "ABA",
+    "AAA"
+  ],
+  "result": {
+    "item": "resourcestrees:tree_simulator"
+  },
+  "show_notification": true
+}

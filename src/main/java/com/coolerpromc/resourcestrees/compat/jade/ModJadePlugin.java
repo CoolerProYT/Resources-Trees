@@ -3,7 +3,6 @@ package com.coolerpromc.resourcestrees.compat.jade;
 import com.coolerpromc.resourcestrees.ResourcesTrees;
 import com.coolerpromc.resourcestrees.block.custom.ResourcesLeavesBlock;
 import com.coolerpromc.resourcestrees.block.entity.custom.ResourcesTypesBlockEntity;
-import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
 import com.coolerpromc.resourcestrees.core.ResourcesTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -23,7 +22,7 @@ public class ModJadePlugin implements IWailaPlugin {
                     if (blockEntity.getResourcesType() != null){
                         ResourcesTypes resourcesTypes = ResourcesTypes.getAllResourcesTypes(blockAccessor.getLevel()).getOrDefault(blockEntity.getResourcesType(), ResourcesTypes.EMPTY);
                         ItemStack stack = blockAccessor.getBlock().asItem().getDefaultInstance();
-                        stack.set(ModDataComponents.TYPE.get(), blockEntity.getResourcesType());
+                        stack.getOrCreateTag().putString("type", blockEntity.getResourcesType().toString());
                         iTooltip.add(Component.translatable(resourcesTypes.translationKey()));
                     }
                 }
@@ -39,7 +38,7 @@ public class ModJadePlugin implements IWailaPlugin {
             if (accessor instanceof BlockAccessor blockAccessor) {
                 if (blockAccessor.getBlockEntity() instanceof ResourcesTypesBlockEntity blockEntity) {
                     ItemStack stack = blockAccessor.getBlock().asItem().getDefaultInstance();
-                    stack.set(ModDataComponents.TYPE.get(), blockEntity.getResourcesType());
+                    stack.getOrCreateTag().putString("type", blockEntity.getResourcesType().toString());
                     return registration.blockAccessor().from(blockAccessor).fakeBlock(stack).build();
                 }
             }

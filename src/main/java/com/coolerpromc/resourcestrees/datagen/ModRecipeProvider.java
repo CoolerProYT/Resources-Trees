@@ -4,7 +4,7 @@ import com.coolerpromc.resourcestrees.block.ModBlocks;
 import com.coolerpromc.resourcestrees.block.custom.ResourcesSaplingBlock;
 import com.coolerpromc.resourcestrees.block.entity.custom.TreeSimulatorBlockEntity;
 import com.coolerpromc.resourcestrees.core.ResourcesTypes;
-import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
+import com.coolerpromc.resourcestrees.datagen.recipebuilder.ShapedRecipeNBTOutputBuilder;
 import com.coolerpromc.resourcestrees.datagen.recipebuilder.TreeSimulatorRecipeBuilder;
 import com.coolerpromc.resourcestrees.item.ModItems;
 import com.coolerpromc.resourcestrees.recipe.output.TreeSimulatorOutput;
@@ -14,15 +14,17 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
+import net.minecraftforge.common.crafting.PartialNBTIngredient;
 
 import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class ModRecipeProvider extends RecipeProvider {
@@ -40,13 +42,13 @@ public class ModRecipeProvider extends RecipeProvider {
     private final HolderLookup.Provider lookupProvider;
 
     public ModRecipeProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
-        super(output, lookupProvider);
+        super(output);
         this.types = lookupProvider.join().lookupOrThrow(ModRegistries.RESOURCES_TYPES_KEY);
         this.lookupProvider = lookupProvider.join();
     }
 
     @Override
-    protected void buildRecipes(RecipeOutput output) {
+    protected void buildRecipes(Consumer<FinishedRecipe> output) {
         // Leaf Fragment to resources recipes
         circleShape(Items.COBBLESTONE, 12, ResourcesTypes.STONE, output);
         circleSurroundedShape(Items.STONE, 12, ResourcesTypes.STONE, ResourcesTypes.COAL, output);
@@ -123,7 +125,7 @@ public class ModRecipeProvider extends RecipeProvider {
         customShape(Items.WHEAT, 12, ResourcesTypes.NATURE, "  A", "AA ", "   ", output);
 
         // Block Recipe
-        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.TREE_SIMULATOR, 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.TREE_SIMULATOR.get(), 1)
                 .pattern("   ")
                 .pattern("ABA")
                 .pattern("AAA")
@@ -147,30 +149,30 @@ public class ModRecipeProvider extends RecipeProvider {
                     if (obj instanceof Supplier<?> supplier){
                         if (supplier.get() instanceof ResourcesSaplingBlock resourcesSaplingBlock){
                             ItemStack sapling = resourcesSaplingBlock.asItem().getDefaultInstance();
-                            sapling.set(ModDataComponents.TYPE, key);
+                            sapling.getOrCreateTag().putString("type", key.toString());
                             if (value.material().left().isPresent()){
-                                ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, sapling)
+                                ShapedRecipeNBTOutputBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, sapling)
                                         .pattern(" A ")
                                         .pattern("ABA")
                                         .pattern(" A ")
                                         .define('A', BuiltInRegistries.ITEM.get(value.material().left().get()))
                                         .define('B', SAPLINGS_BY_SAPLINGS.get(resourcesSaplingBlock))
-                                        .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT), has(ModItems.LEAF_FRAGMENT))
+                                        .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT.get()), has(ModItems.LEAF_FRAGMENT.get()))
                                         .save(output, key.withSuffix(BuiltInRegistries.BLOCK.getKey(resourcesSaplingBlock).getPath().substring(9)).withPrefix("saplings/"));
                             }
                             else if (value.material().right().isPresent()){
-                                ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, sapling)
+                                ShapedRecipeNBTOutputBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, sapling)
                                         .pattern(" A ")
                                         .pattern("ABA")
                                         .pattern(" A ")
                                         .define('A', (value.material().right().get()))
                                         .define('B', SAPLINGS_BY_SAPLINGS.get(resourcesSaplingBlock))
-                                        .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT), has(ModItems.LEAF_FRAGMENT))
+                                        .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT.get()), has(ModItems.LEAF_FRAGMENT.get()))
                                         .save(output, key.withSuffix(BuiltInRegistries.BLOCK.getKey(resourcesSaplingBlock).getPath().substring(9)).withPrefix("saplings/"));
                             }
 
-                            ItemStack leaf = ModItems.LEAF_FRAGMENT.toStack();
-                            leaf.set(ModDataComponents.TYPE, key);
+                            ItemStack leaf = ModItems.LEAF_FRAGMENT.get().getDefaultInstance();
+                            leaf.getOrCreateTag().putString("type", key.toString());
 
                             TreeSimulatorRecipeBuilder.builder()
                                     .setTree(sapling)
@@ -192,7 +194,7 @@ public class ModRecipeProvider extends RecipeProvider {
         });
     }
     
-    private void essenceItem(Item ouputItem, RecipeOutput output, Item... inputItems){
+    private void essenceItem(Item ouputItem, Consumer<FinishedRecipe> output, Item... inputItems){
         ShapelessRecipeBuilder builder = ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ouputItem, 1);
 
         for (Item item : inputItems){
@@ -202,87 +204,120 @@ public class ModRecipeProvider extends RecipeProvider {
         builder.unlockedBy(getHasName(inputItems[0]), has(inputItems[0])).save(output);
     }
 
-    private void circleShape(Item outputItem, int count, ResourceKey<ResourcesTypes> resourceType, RecipeOutput output){
+    private void circleShape(Item outputItem, int count, ResourceKey<ResourcesTypes> resourceType, Consumer<FinishedRecipe> output){
+        CompoundTag compoundTag = new CompoundTag();
+        compoundTag.putString("type", types.getOrThrow(resourceType).key().location().toString());
+
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, count)
                 .pattern("AAA")
                 .pattern("A A")
                 .pattern("AAA")
-                .define('A', DataComponentIngredient.of(true, ModDataComponents.TYPE.get(), types.getOrThrow(resourceType).key().location(), ModItems.LEAF_FRAGMENT))
-                .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT), has(ModItems.LEAF_FRAGMENT))
+                .define('A', PartialNBTIngredient.of(compoundTag, ModItems.LEAF_FRAGMENT.get()))
+                .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT.get()), has(ModItems.LEAF_FRAGMENT.get()))
                 .save(output, resourceType.location().withSuffix("_fragment_to_" + getItemName(outputItem)).withPrefix("fragment_crafting/"));
     }
 
-    private void circleSurroundedShapeWithItem(Item outputItem, int count, ResourceKey<ResourcesTypes> resourceType, Item item, RecipeOutput output){
+    private void circleSurroundedShapeWithItem(Item outputItem, int count, ResourceKey<ResourcesTypes> resourceType, Item item, Consumer<FinishedRecipe> output){
+        CompoundTag compoundTag = new CompoundTag();
+        compoundTag.putString("type", types.getOrThrow(resourceType).key().location().toString());
+
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, count)
                 .pattern("AAA")
                 .pattern("ABA")
                 .pattern("AAA")
-                .define('B', DataComponentIngredient.of(true, ModDataComponents.TYPE.get(), types.getOrThrow(resourceType).key().location(), ModItems.LEAF_FRAGMENT))
+                .define('B', PartialNBTIngredient.of(compoundTag, ModItems.LEAF_FRAGMENT.get()))
                 .define('A', item)
-                .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT), has(ModItems.LEAF_FRAGMENT))
+                .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT.get()), has(ModItems.LEAF_FRAGMENT.get()))
                 .save(output, resourceType.location().withSuffix("_fragment_to_" + getItemName(outputItem)).withPrefix("fragment_crafting/"));
     }
 
-    private void circleSurroundedShape(Item outputItem, int count, ResourceKey<ResourcesTypes> resourceType, ResourceKey<ResourcesTypes> middleResourceType, RecipeOutput output){
+    private void circleSurroundedShape(Item outputItem, int count, ResourceKey<ResourcesTypes> resourceType, ResourceKey<ResourcesTypes> middleResourceType, Consumer<FinishedRecipe> output){
+        CompoundTag compoundTag = new CompoundTag();
+        compoundTag.putString("type", types.getOrThrow(resourceType).key().location().toString());
+
+        CompoundTag compoundTag2 = new CompoundTag();
+        compoundTag2.putString("type", types.getOrThrow(middleResourceType).key().location().toString());
+
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, count)
                 .pattern("AAA")
                 .pattern("ABA")
                 .pattern("AAA")
-                .define('A', DataComponentIngredient.of(true, ModDataComponents.TYPE.get(), types.getOrThrow(resourceType).key().location(), ModItems.LEAF_FRAGMENT))
-                .define('B', DataComponentIngredient.of(true, ModDataComponents.TYPE.get(), types.getOrThrow(middleResourceType).key().location(), ModItems.LEAF_FRAGMENT))
-                .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT), has(ModItems.LEAF_FRAGMENT))
+                .define('A', PartialNBTIngredient.of(compoundTag, ModItems.LEAF_FRAGMENT.get()))
+                .define('B', PartialNBTIngredient.of(compoundTag2, ModItems.LEAF_FRAGMENT.get()))
+                .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT.get()), has(ModItems.LEAF_FRAGMENT.get()))
                 .save(output, resourceType.location().withSuffix("_fragment_to_" + getItemName(outputItem)).withPrefix("fragment_crafting/"));
     }
 
-    private void twoByTwoShape(Item outputItem, int count, ResourceKey<ResourcesTypes> resourceType, ResourceKey<ResourcesTypes> middleResourceType, RecipeOutput output){
+    private void twoByTwoShape(Item outputItem, int count, ResourceKey<ResourcesTypes> resourceType, ResourceKey<ResourcesTypes> middleResourceType, Consumer<FinishedRecipe> output){
+        CompoundTag compoundTag = new CompoundTag();
+        compoundTag.putString("type", types.getOrThrow(resourceType).key().location().toString());
+
+        CompoundTag compoundTag2 = new CompoundTag();
+        compoundTag2.putString("type", types.getOrThrow(middleResourceType).key().location().toString());
+
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, count)
                 .pattern("BA ")
                 .pattern("AB ")
                 .pattern("   ")
-                .define('A', DataComponentIngredient.of(true, ModDataComponents.TYPE.get(), types.getOrThrow(resourceType).key().location(), ModItems.LEAF_FRAGMENT))
-                .define('B', DataComponentIngredient.of(true, ModDataComponents.TYPE.get(), types.getOrThrow(middleResourceType).key().location(), ModItems.LEAF_FRAGMENT))
-                .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT), has(ModItems.LEAF_FRAGMENT))
+                .define('A', PartialNBTIngredient.of(compoundTag, ModItems.LEAF_FRAGMENT.get()))
+                .define('B', PartialNBTIngredient.of(compoundTag2, ModItems.LEAF_FRAGMENT.get()))
+                .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT.get()), has(ModItems.LEAF_FRAGMENT.get()))
                 .save(output, resourceType.location().withSuffix("_fragment_to_" + getItemName(outputItem)).withPrefix("fragment_crafting/"));
     }
 
-    private void cubeShape(Item outputItem, int count, ResourceKey<ResourcesTypes> resourceType, RecipeOutput output){
+    private void cubeShape(Item outputItem, int count, ResourceKey<ResourcesTypes> resourceType, Consumer<FinishedRecipe> output){
+        CompoundTag compoundTag = new CompoundTag();
+        compoundTag.putString("type", types.getOrThrow(resourceType).key().location().toString());
+
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, count)
                 .pattern("AAA")
                 .pattern("AAA")
                 .pattern("AAA")
-                .define('A', DataComponentIngredient.of(true, ModDataComponents.TYPE.get(), types.getOrThrow(resourceType).key().location(), ModItems.LEAF_FRAGMENT))
-                .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT), has(ModItems.LEAF_FRAGMENT))
+                .define('A', PartialNBTIngredient.of(compoundTag, ModItems.LEAF_FRAGMENT.get()))
+                .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT.get()), has(ModItems.LEAF_FRAGMENT.get()))
                 .save(output, resourceType.location().withSuffix("_fragment_to_" + getItemName(outputItem)).withPrefix("fragment_crafting/"));
     }
 
-    private void lineShape(Item outputItem, int count, ResourceKey<ResourcesTypes> resourceType, RecipeOutput output){
+    private void lineShape(Item outputItem, int count, ResourceKey<ResourcesTypes> resourceType, Consumer<FinishedRecipe> output){
+        CompoundTag compoundTag = new CompoundTag();
+        compoundTag.putString("type", types.getOrThrow(resourceType).key().location().toString());
+
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, count)
                 .pattern("   ")
                 .pattern("AAA")
                 .pattern("   ")
-                .define('A', DataComponentIngredient.of(true, ModDataComponents.TYPE.get(), types.getOrThrow(resourceType).key().location(), ModItems.LEAF_FRAGMENT))
-                .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT), has(ModItems.LEAF_FRAGMENT))
+                .define('A', PartialNBTIngredient.of(compoundTag, ModItems.LEAF_FRAGMENT.get()))
+                .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT.get()), has(ModItems.LEAF_FRAGMENT.get()))
                 .save(output, resourceType.location().withSuffix("_fragment_to_" + getItemName(outputItem)).withPrefix("fragment_crafting/"));
     }
 
-    private void customShape(Item outputItem, int count, ResourceKey<ResourcesTypes> resourceType, String line1, String line2, String line3, RecipeOutput output){
+    private void customShape(Item outputItem, int count, ResourceKey<ResourcesTypes> resourceType, String line1, String line2, String line3, Consumer<FinishedRecipe> output){
+        CompoundTag compoundTag = new CompoundTag();
+        compoundTag.putString("type", types.getOrThrow(resourceType).key().location().toString());
+        
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, count)
                 .pattern(line1)
                 .pattern(line2)
                 .pattern(line3)
-                .define('A', DataComponentIngredient.of(true, ModDataComponents.TYPE.get(), types.getOrThrow(resourceType).key().location(), ModItems.LEAF_FRAGMENT))
-                .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT), has(ModItems.LEAF_FRAGMENT))
+                .define('A', PartialNBTIngredient.of(compoundTag, ModItems.LEAF_FRAGMENT.get()))
+                .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT.get()), has(ModItems.LEAF_FRAGMENT.get()))
                 .save(output, resourceType.location().withSuffix("_fragment_to_" + getItemName(outputItem)).withPrefix("fragment_crafting/"));
     }
 
-    private void twoItemCustomShape(Item outputItem, int count, ResourceKey<ResourcesTypes> resourceType, ResourceKey<ResourcesTypes> resourceType2, String line1, String line2, String line3, RecipeOutput output){
+    private void twoItemCustomShape(Item outputItem, int count, ResourceKey<ResourcesTypes> resourceType, ResourceKey<ResourcesTypes> resourceType2, String line1, String line2, String line3, Consumer<FinishedRecipe> output){
+        CompoundTag compoundTag = new CompoundTag();
+        compoundTag.putString("type", types.getOrThrow(resourceType).key().location().toString());
+
+        CompoundTag compoundTag2 = new CompoundTag();
+        compoundTag2.putString("type", types.getOrThrow(resourceType2).key().location().toString());
+
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, count)
                 .pattern(line1)
                 .pattern(line2)
                 .pattern(line3)
-                .define('A', DataComponentIngredient.of(true, ModDataComponents.TYPE.get(), types.getOrThrow(resourceType).key().location(), ModItems.LEAF_FRAGMENT))
-                .define('B', DataComponentIngredient.of(true, ModDataComponents.TYPE.get(), types.getOrThrow(resourceType2).key().location(), ModItems.LEAF_FRAGMENT))
-                .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT), has(ModItems.LEAF_FRAGMENT))
+                .define('A', PartialNBTIngredient.of(compoundTag, ModItems.LEAF_FRAGMENT.get()))
+                .define('B', PartialNBTIngredient.of(compoundTag2, ModItems.LEAF_FRAGMENT.get()))
+                .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT.get()), has(ModItems.LEAF_FRAGMENT.get()))
                 .save(output, resourceType.location().withSuffix("_fragment_to_" + getItemName(outputItem)).withPrefix("fragment_crafting/"));
     }
 }

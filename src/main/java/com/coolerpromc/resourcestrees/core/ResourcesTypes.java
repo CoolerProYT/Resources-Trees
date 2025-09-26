@@ -1,7 +1,6 @@
 package com.coolerpromc.resourcestrees.core;
 
 import com.coolerpromc.resourcestrees.ResourcesTrees;
-import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
 import com.coolerpromc.resourcestrees.item.ModItems;
 import com.coolerpromc.resourcestrees.registry.ModRegistries;
 import com.mojang.datafixers.util.Either;
@@ -12,7 +11,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.data.worldgen.BootstapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
@@ -81,10 +80,10 @@ public record ResourcesTypes(Either<ResourceLocation, TagKey<Item>> material, in
     public static final ResourceKey<ResourcesTypes> ICE = register("ice");
 
     private static ResourceKey<ResourcesTypes> register(String name){
-        return ResourceKey.create(ModRegistries.RESOURCES_TYPES_KEY, ResourceLocation.fromNamespaceAndPath(ResourcesTrees.MODID, name));
+        return ResourceKey.create(ModRegistries.RESOURCES_TYPES_KEY, ResourcesTrees.id(name));
     }
 
-    public static void bootstrap(BootstrapContext<ResourcesTypes> context){
+    public static void bootstrap(BootstapContext<ResourcesTypes> context){
         context.register(STONE, new ResourcesTypes(Items.COBBLESTONE, 0xFF4D4B49, "item.resourcestrees.stone", 5, 0.25f, 0.5f));
         context.register(COAL, new ResourcesTypes(Items.COAL_BLOCK, 0xFF000000, "item.resourcestrees.coal", 5, 0.25f, 0.5f));
         context.register(IRON, new ResourcesTypes(Items.IRON_BLOCK, 0xFFB0BEC5, "item.resourcestrees.iron", 5, 0.25f, 0.5f));
@@ -147,11 +146,11 @@ public record ResourcesTypes(Either<ResourceLocation, TagKey<Item>> material, in
             return false;
         }
 
-        boolean hasType1 = stack.has(ModDataComponents.TYPE);
-        boolean hasType2 = other.has(ModDataComponents.TYPE);
+        boolean hasType1 = stack.hasTag() && stack.getTag().contains("type");
+        boolean hasType2 = stack.hasTag() && other.getTag().contains("type");
 
         if (hasType1 && hasType2) {
-            return Objects.equals(stack.get(ModDataComponents.TYPE), other.get(ModDataComponents.TYPE));
+            return Objects.equals(stack.getTag().getString("type"), other.getTag().getString("type"));
         }
 
         return !hasType1 && !hasType2;

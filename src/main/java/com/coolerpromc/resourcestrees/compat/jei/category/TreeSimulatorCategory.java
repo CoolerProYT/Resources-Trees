@@ -31,6 +31,8 @@ public record TreeSimulatorCategory(IGuiHelper guiHelper) implements IRecipeCate
 
     @Override
     public void draw(TreeSimulatorRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+        guiGraphics.blit(TEXTURE, 0, 0, 20, 15, 137, 65);
+
         tickCount++;
         int arrowWidth = (tickCount % 600) * 23 / 600;
 
@@ -57,7 +59,7 @@ public record TreeSimulatorCategory(IGuiHelper guiHelper) implements IRecipeCate
     private void tooltipCallback(IRecipeSlotView ignored, ITooltipBuilder tooltipBuilder, TreeSimulatorOutput output){
         int chance = (int) (output.chance() * 100);
         String chanceStr = String.format("Output Chance: %s", chance);
-        tooltipBuilder.add(Component.literal(chanceStr).append("%").withColor(ChatFormatting.GRAY.getColor()));
+        tooltipBuilder.add(Component.literal(chanceStr).append("%").withStyle(ChatFormatting.GRAY));
     }
 
     @Override
@@ -71,8 +73,13 @@ public record TreeSimulatorCategory(IGuiHelper guiHelper) implements IRecipeCate
     }
 
     @Override
-    public IDrawable getBackground() {
-        return guiHelper.createDrawable(TEXTURE, 20, 15, 137, 65);
+    public int getWidth() {
+        return 137;
+    }
+
+    @Override
+    public int getHeight() {
+        return 65;
     }
 
     @Override

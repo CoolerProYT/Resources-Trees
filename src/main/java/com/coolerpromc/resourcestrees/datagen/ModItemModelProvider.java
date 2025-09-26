@@ -4,10 +4,10 @@ import com.coolerpromc.resourcestrees.ResourcesTrees;
 import com.coolerpromc.resourcestrees.item.ModItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.Item;
-import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
-import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import net.neoforged.neoforge.registries.DeferredItem;
+import net.minecraftforge.client.model.generators.ItemModelBuilder;
+import net.minecraftforge.client.model.generators.ItemModelProvider;
+import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.RegistryObject;
 
 public class ModItemModelProvider extends ItemModelProvider {
     public ModItemModelProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
@@ -23,13 +23,13 @@ public class ModItemModelProvider extends ItemModelProvider {
         this.generateTintedEssenceItem(ModItems.END_ESSENCE);
     }
 
-    private ItemModelBuilder generateTintedEssenceItem(DeferredItem<Item> item){
+    private ItemModelBuilder generateTintedEssenceItem(RegistryObject<Item> item){
         return getBuilder(item.getId().getPath())
                 .parent(getExistingFile(mcLoc("item/generated")))
                 .texture("layer0", ResourcesTrees.id("item/essence"));
     }
 
-    private <T extends Item> ItemModelBuilder generateFlatTintedItem(DeferredItem<T> item){
+    private <T extends Item> ItemModelBuilder generateFlatTintedItem(RegistryObject<T> item){
         return getBuilder(item.getId().getPath())
                 .parent(getExistingFile(mcLoc("item/generated")))
                 .texture("layer0", item.getId().withPrefix("item/"));

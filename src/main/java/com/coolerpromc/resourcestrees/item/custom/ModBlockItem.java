@@ -1,9 +1,7 @@
 package com.coolerpromc.resourcestrees.item.custom;
 
-import com.coolerpromc.resourcestrees.ResourcesTrees;
 import com.coolerpromc.resourcestrees.block.custom.ResourcesLeavesBlock;
 import com.coolerpromc.resourcestrees.block.custom.ResourcesSaplingBlock;
-import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
 import com.coolerpromc.resourcestrees.core.ResourcesTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -18,7 +16,7 @@ public class ModBlockItem extends BlockItem {
 
     @Override
     public Component getName(ItemStack stack) {
-        ResourceLocation type = stack.getOrDefault(ModDataComponents.TYPE, ResourcesTrees.id("empty"));
+        ResourceLocation type = new ResourceLocation(stack.getOrCreateTag().getString("type"));
         ResourcesTypes resourcesTypes = ResourcesTypes.byId(type, null);
         if (Block.byItem(stack.getItem()) instanceof ResourcesSaplingBlock || Block.byItem(stack.getItem()) instanceof ResourcesLeavesBlock){
             return Component.translatable(resourcesTypes.translationKey()).append(" ").append(super.getName(stack));

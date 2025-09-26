@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "type": "forge:partial_nbt",
+      "item": "resourcestrees:leaf_fragment",
+      "nbt": "{type:\"resourcestrees:nature\"}"
+    }
+  },
+  "pattern": [
+    "AA ",
+    "AA ",
+    "   "
+  ],
+  "result": {
+    "count": 12,
+    "item": "minecraft:cactus"
+  },
+  "show_notification": true
+}

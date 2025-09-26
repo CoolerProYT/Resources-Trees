@@ -7,37 +7,31 @@ import com.coolerpromc.resourcestrees.block.entity.ModBlockEntities;
 import com.coolerpromc.resourcestrees.block.entity.custom.ResourcesTypesBlockEntity;
 import com.coolerpromc.resourcestrees.block.entity.renderer.TreeSimulatorBlockEntityRenderer;
 import com.coolerpromc.resourcestrees.core.ResourcesTypes;
-import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
 import com.coolerpromc.resourcestrees.item.ModItems;
 import com.coolerpromc.resourcestrees.item.custom.EssenceItem;
 import com.coolerpromc.resourcestrees.item.custom.LeafFragmentItem;
 import com.coolerpromc.resourcestrees.screen.ModMenuTypes;
 import com.coolerpromc.resourcestrees.screen.custom.TreeSimulatorScreen;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModContainer;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
-import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 import static com.coolerpromc.resourcestrees.ResourcesTrees.MODID;
 
-@Mod(value = MODID, dist = Dist.CLIENT)
-@EventBusSubscriber(modid = MODID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ResourcesTreesClient {
-    public ResourcesTreesClient(ModContainer container) {
-
-    }
-
     @SubscribeEvent
-    static void onClientSetup(FMLClientSetupEvent event) {
-
+    public static void onFMLClientSetup(FMLClientSetupEvent event) {
+        event.enqueueWork(() -> {
+            MenuScreens.register(ModMenuTypes.TREE_SIMULATOR.get(), TreeSimulatorScreen::new);
+        });
     }
 
     @SubscribeEvent
@@ -71,8 +65,8 @@ public class ResourcesTreesClient {
     @SubscribeEvent
     public static void onRegisterColorHandlers(RegisterColorHandlersEvent.Item event) {
         event.register((itemStack, i) -> {
-            if (itemStack.has(ModDataComponents.TYPE)){
-                ResourceLocation type = itemStack.get(ModDataComponents.TYPE);
+            if (itemStack.hasTag() && itemStack.getTag().contains("type")){
+                ResourceLocation type = new ResourceLocation(itemStack.getTag().getString("type"));
                 if ((Block.byItem(itemStack.getItem()) instanceof ResourcesSaplingBlock && i == 1) || Block.byItem(itemStack.getItem()) instanceof ResourcesLeavesBlock || itemStack.getItem() instanceof LeafFragmentItem){
                     return ResourcesTypes.byId(type, null).color();
                 }
@@ -102,11 +96,6 @@ public class ResourcesTreesClient {
                 ModItems.NATURE_ESSENCE.get(),
                 ModItems.END_ESSENCE.get()
         );
-    }
-
-    @SubscribeEvent
-    public static void onRegisterMenuScreens(RegisterMenuScreensEvent event) {
-        event.register(ModMenuTypes.TREE_SIMULATOR.get(), TreeSimulatorScreen::new);
     }
 
     @SubscribeEvent

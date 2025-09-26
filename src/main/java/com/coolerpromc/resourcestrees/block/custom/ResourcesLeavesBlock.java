@@ -2,19 +2,16 @@ package com.coolerpromc.resourcestrees.block.custom;
 
 import com.coolerpromc.resourcestrees.block.entity.custom.ResourcesTypesBlockEntity;
 import com.coolerpromc.resourcestrees.core.ResourcesTypes;
-import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
 import com.coolerpromc.resourcestrees.item.ModItems;
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.LeavesBlock;
@@ -29,12 +26,6 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class ResourcesLeavesBlock extends LeavesBlock implements EntityBlock {
-    public static final MapCodec<ResourcesLeavesBlock> CODEC = RecordCodecBuilder.mapCodec((p_400250_) ->
-            p_400250_.group(
-                    propertiesCodec(),
-                    ResourcesSaplingBlock.CODEC.fieldOf("sapling").forGetter(resourcesLeavesBlock -> resourcesLeavesBlock.sapling.get())
-            ).apply(p_400250_, (p, s) -> new ResourcesLeavesBlock(p, () -> s)));
-
     private final Supplier<ResourcesSaplingBlock> sapling;
 
     public ResourcesLeavesBlock(Properties properties, Supplier<ResourcesSaplingBlock> sapling) {
@@ -43,12 +34,7 @@ public class ResourcesLeavesBlock extends LeavesBlock implements EntityBlock {
     }
 
     @Override
-    public MapCodec<? extends LeavesBlock> codec() {
-        return CODEC;
-    }
-
-    @Override
-    protected List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
+    public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
         List<ItemStack> drops = super.getDrops(state, builder);
         BlockEntity blockEntity = builder.getOptionalParameter(LootContextParams.BLOCK_ENTITY);
 
@@ -59,12 +45,14 @@ public class ResourcesLeavesBlock extends LeavesBlock implements EntityBlock {
             if (drops.isEmpty()){
                 if (builder.getLevel().getRandom().nextFloat() < resourcesTypes.saplingChance()) {
                     ItemStack saplingDrop = sapling.get().asItem().getDefaultInstance();
-                    saplingDrop.set(ModDataComponents.TYPE, type);
+                    CompoundTag tag = saplingDrop.getOrCreateTag();
+                    tag.putString("type", type.toString());
                     drops.add(saplingDrop);
                 }
 
-                ItemStack fragment = ModItems.LEAF_FRAGMENT.toStack();
-                fragment.set(ModDataComponents.TYPE, type);
+                ItemStack fragment = ModItems.LEAF_FRAGMENT.get().getDefaultInstance();
+                CompoundTag tag = fragment.getOrCreateTag();
+                tag.putString("type", type.toString());
 
                 drops.add(fragment.copy());
 
@@ -73,8 +61,8 @@ public class ResourcesLeavesBlock extends LeavesBlock implements EntityBlock {
                 }
             }
             else{
-                if (Block.byItem(drops.getFirst().getItem()) instanceof ResourcesLeavesBlock){
-                    drops.getFirst().set(ModDataComponents.TYPE, type);
+                if (Block.byItem(drops.get(0).getItem()) instanceof ResourcesLeavesBlock){
+                    drops.get(0).getOrCreateTag().putString("type", type.toString());
                 }
             }
         }
@@ -85,17 +73,17 @@ public class ResourcesLeavesBlock extends LeavesBlock implements EntityBlock {
     @Override
     public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
         BlockEntity blockEntity = level.getBlockEntity(pos);
-        if (blockEntity instanceof ResourcesTypesBlockEntity be && stack.has(ModDataComponents.TYPE.get())){
-            be.setResourcesType(stack.get(ModDataComponents.TYPE.get()));
+        if (blockEntity instanceof ResourcesTypesBlockEntity be && stack.hasTag() && stack.getTag().contains("type")){
+            be.setResourcesType(new ResourceLocation(stack.getTag().getString("type")));
         }
     }
 
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player) {
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if (blockEntity instanceof ResourcesTypesBlockEntity be && be.getResourcesType() != null){
             ItemStack stack = super.getCloneItemStack(state, target, level, pos, player);
-            stack.set(ModDataComponents.TYPE, be.getResourcesType());
+            stack.getOrCreateTag().putString("type", be.getResourcesType().toString());
             return stack;
         }
         return super.getCloneItemStack(state, target, level, pos, player);

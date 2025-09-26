@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "type": "forge:partial_nbt",
+      "item": "resourcestrees:leaf_fragment",
+      "nbt": "{type:\"resourcestrees:end\"}"
+    },
+    "B": {
+      "type": "forge:partial_nbt",
+      "item": "resourcestrees:leaf_fragment",
+      "nbt": "{type:\"resourcestrees:nature\"}"
+    }
+  },
+  "pattern": [
+    "BA ",
+    "AB ",
+    "   "
+  ],
+  "result": {
+    "count": 8,
+    "item": "minecraft:chorus_plant"
+  },
+  "show_notification": true
+}

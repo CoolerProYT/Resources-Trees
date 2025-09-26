@@ -3,7 +3,7 @@ package com.coolerpromc.resourcestrees.screen.custom;
 import com.coolerpromc.resourcestrees.block.entity.custom.TreeSimulatorBlockEntity;
 import com.coolerpromc.resourcestrees.screen.ModMenuTypes;
 import com.coolerpromc.resourcestrees.screen.container.OutputSlot;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -11,8 +11,9 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.SlotItemHandler;
+
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.SlotItemHandler;
 import org.jetbrains.annotations.NotNull;
 
 public class TreeSimulatorMenu extends AbstractContainerMenu {
@@ -27,7 +28,7 @@ public class TreeSimulatorMenu extends AbstractContainerMenu {
 
     protected final ContainerData data;
 
-    public TreeSimulatorMenu(int containerId, Inventory playerInventory, RegistryFriendlyByteBuf byteBuf) {
+    public TreeSimulatorMenu(int containerId, Inventory playerInventory, FriendlyByteBuf byteBuf) {
         this(containerId, playerInventory, (TreeSimulatorBlockEntity) playerInventory.player.level().getBlockEntity(byteBuf.readBlockPos()), new SimpleContainerData(2));
     }
 

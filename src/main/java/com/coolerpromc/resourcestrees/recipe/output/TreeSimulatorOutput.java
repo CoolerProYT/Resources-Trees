@@ -1,36 +1,37 @@
 package com.coolerpromc.resourcestrees.recipe.output;
 
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.network.codec.StreamCodec;
+import com.coolerpromc.resourcestrees.datagen.recipebuilder.TreeSimulatorRecipeBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.util.GsonHelper;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.crafting.CraftingHelper;
 
 public record TreeSimulatorOutput(ItemStack output, float chance, int minRolls, int maxRolls) {
     public static TreeSimulatorOutput of(ItemStack output, float chance, int minRolls, int maxRolls){
         return new TreeSimulatorOutput(output, chance, minRolls, maxRolls);
     }
 
-    public static final Codec<TreeSimulatorOutput> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            ItemStack.CODEC.fieldOf("output").forGetter(TreeSimulatorOutput::output),
-            Codec.FLOAT.fieldOf("chance").forGetter(TreeSimulatorOutput::chance),
-            Codec.INT.fieldOf("minRolls").forGetter(TreeSimulatorOutput::minRolls),
-            Codec.INT.fieldOf("maxRolls").forGetter(TreeSimulatorOutput::maxRolls)
-    ).apply(instance, TreeSimulatorOutput::new));
+    public JsonElement toJson(){
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.add("output", TreeSimulatorRecipeBuilder.itemToJson(output));
+        jsonObject.addProperty("chance", chance);
+        jsonObject.addProperty("minRolls", minRolls);
+        jsonObject.addProperty("maxRolls", maxRolls);
 
-    public static final StreamCodec<RegistryFriendlyByteBuf, TreeSimulatorOutput> STREAM_CODEC = StreamCodec.composite(
-            ItemStack.STREAM_CODEC,
-            TreeSimulatorOutput::output,
-            ByteBufCodecs.FLOAT,
-            TreeSimulatorOutput::chance,
-            ByteBufCodecs.INT,
-            TreeSimulatorOutput::minRolls,
-            ByteBufCodecs.INT,
-            TreeSimulatorOutput::maxRolls,
-            TreeSimulatorOutput::new
-    );
+        return jsonObject;
+    }
+
+    public static TreeSimulatorOutput fromJson(JsonObject jsonObject){
+        return new TreeSimulatorOutput(
+                CraftingHelper.getItemStack(jsonObject.getAsJsonObject("output"), true),
+                GsonHelper.getAsFloat(jsonObject, "chance"),
+                GsonHelper.getAsInt(jsonObject, "minRolls"),
+                GsonHelper.getAsInt(jsonObject, "maxRolls")
+        );
+    }
 
     public int getRolls(RandomSource random){
         if (minRolls > maxRolls) {
@@ -40,5 +41,21 @@ public record TreeSimulatorOutput(ItemStack output, float chance, int minRolls, 
             return minRolls;
         }
         return random.nextInt(maxRolls - minRolls + 1) + minRolls;
+    }
+
+    public static void writeOutput(FriendlyByteBuf buf, TreeSimulatorOutput output) {
+        buf.writeItem(output.output);
+        buf.writeFloat(output.chance);
+        buf.writeInt(output.minRolls);
+        buf.writeInt(output.maxRolls);
+    }
+
+    public static TreeSimulatorOutput readOutput(FriendlyByteBuf buf){
+        ItemStack output = buf.readItem();
+        float chance = buf.readFloat();
+        int minRolls = buf.readInt();
+        int maxRolls = buf.readInt();
+
+        return new TreeSimulatorOutput(output, chance, minRolls, maxRolls);
     }
 }
