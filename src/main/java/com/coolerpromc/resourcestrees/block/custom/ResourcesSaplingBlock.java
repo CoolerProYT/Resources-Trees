@@ -6,20 +6,19 @@ import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
 import com.coolerpromc.resourcestrees.worldgen.tree.ResourcesFoliagePlacer;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.context.LootContextParameterSet;
 import net.minecraft.loot.context.LootContextParameters;
-import net.minecraft.loot.context.LootWorldContext;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.collection.Pool;
+import net.minecraft.util.collection.DataPool;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
@@ -47,7 +46,7 @@ public class ResourcesSaplingBlock extends SaplingBlock implements BlockEntityPr
     }
 
     @Override
-    protected List<ItemStack> getDroppedStacks(BlockState state, LootWorldContext.Builder builder) {
+    protected List<ItemStack> getDroppedStacks(BlockState state, LootContextParameterSet.Builder builder) {
         List<ItemStack> drops = super.getDroppedStacks(state, builder);
         BlockEntity blockEntity = builder.get(LootContextParameters.BLOCK_ENTITY);
 
@@ -60,14 +59,14 @@ public class ResourcesSaplingBlock extends SaplingBlock implements BlockEntityPr
     }
 
     @Override
-    protected ItemStack getPickStack(WorldView world, BlockPos pos, BlockState state, boolean includeData) {
+    public ItemStack getPickStack(WorldView world, BlockPos pos, BlockState state) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof ResourcesTypesBlockEntity be && be.getResourcesType() != null){
-            ItemStack stack = super.getPickStack(world, pos, state, includeData);
+            ItemStack stack = super.getPickStack(world, pos, state);
             stack.set(ModDataComponents.TYPE, be.getResourcesType());
             return stack;
         }
-        return super.getPickStack(world, pos, state, includeData);
+        return super.getPickStack(world, pos, state);
     }
 
     @Override
@@ -88,7 +87,7 @@ public class ResourcesSaplingBlock extends SaplingBlock implements BlockEntityPr
             RegistryKey<ConfiguredFeature<?, ?>> resourcekey = generator.getMegaTreeFeature(random);
 
             if(resourcekey != null){
-                RegistryEntry<ConfiguredFeature<?, ?>> holder = world.getRegistryManager().getOrThrow(RegistryKeys.CONFIGURED_FEATURE).getOptional(resourcekey).orElse(null);
+                RegistryEntry<ConfiguredFeature<?, ?>> holder = world.getRegistryManager().get(RegistryKeys.CONFIGURED_FEATURE).getEntry(resourcekey).orElse(null);
 
                 if (holder != null) {
                     ConfiguredFeature<?, ?> feature = holder.value();
@@ -121,7 +120,7 @@ public class ResourcesSaplingBlock extends SaplingBlock implements BlockEntityPr
             RegistryKey<ConfiguredFeature<?, ?>> resourcekey1 = generator.getSmallTreeFeature(random, generator.areFlowersNearby(world, pos));
 
             if (resourcekey1 != null){
-                RegistryEntry<ConfiguredFeature<?, ?>> holder = world.getRegistryManager().getOrThrow(RegistryKeys.CONFIGURED_FEATURE).getOptional(resourcekey1).orElse(null);
+                RegistryEntry<ConfiguredFeature<?, ?>> holder = world.getRegistryManager().get(RegistryKeys.CONFIGURED_FEATURE).getEntry(resourcekey1).orElse(null);
 
                 if (holder != null){
                     ConfiguredFeature<?, ?> feature = holder.value();
@@ -150,7 +149,7 @@ public class ResourcesSaplingBlock extends SaplingBlock implements BlockEntityPr
         return new TreeFeatureConfig.Builder(
                 oldConfig.trunkProvider,
                 oldConfig.trunkPlacer,
-                new WeightedBlockStateProvider(Pool.<BlockState>builder()
+                new WeightedBlockStateProvider(DataPool.<BlockState>builder()
                         .add(oldConfig.foliageProvider.get(randomSource, pos), 10)
                         .add(block.getDefaultState(), weight)
                         .build()),

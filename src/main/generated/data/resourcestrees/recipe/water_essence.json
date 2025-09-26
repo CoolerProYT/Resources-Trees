@@ -2,10 +2,18 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    "minecraft:water_bucket",
-    "minecraft:kelp",
-    "minecraft:seagrass",
-    "minecraft:clay_ball"
+    {
+      "item": "minecraft:water_bucket"
+    },
+    {
+      "item": "minecraft:kelp"
+    },
+    {
+      "item": "minecraft:seagrass"
+    },
+    {
+      "item": "minecraft:clay_ball"
+    }
   ],
   "result": {
     "count": 1,

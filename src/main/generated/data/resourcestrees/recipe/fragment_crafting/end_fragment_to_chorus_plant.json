@@ -4,14 +4,18 @@
   "key": {
     "A": {
       "fabric:type": "fabric:components",
-      "base": "resourcestrees:leaf_fragment",
+      "base": {
+        "item": "resourcestrees:leaf_fragment"
+      },
       "components": {
         "resourcestrees:resources_type": "resourcestrees:end"
       }
     },
     "B": {
       "fabric:type": "fabric:components",
-      "base": "resourcestrees:leaf_fragment",
+      "base": {
+        "item": "resourcestrees:leaf_fragment"
+      },
       "components": {
         "resourcestrees:resources_type": "resourcestrees:nature"
       }

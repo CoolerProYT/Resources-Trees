@@ -2,8 +2,12 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "A": "minecraft:netherite_block",
-    "B": "minecraft:oak_sapling"
+    "A": {
+      "item": "minecraft:netherite_block"
+    },
+    "B": {
+      "item": "minecraft:oak_sapling"
+    }
   },
   "pattern": [
     " A ",

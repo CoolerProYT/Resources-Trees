@@ -14,7 +14,7 @@ public class ModDatapackProvider extends FabricDynamicRegistryProvider {
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup, Entries entries) {
-        entries.addAll(wrapperLookup.getOrThrow(ModRegistries.RESOURCES_TYPES_KEY));
+        entries.addAll(wrapperLookup.getWrapperOrThrow(ModRegistries.RESOURCES_TYPES_KEY));
     }
 
     @Override

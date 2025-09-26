@@ -28,8 +28,8 @@
 		"rei_client": [
 			"com.coolerpromc.resourcestrees.compat.rei.ModREIPlugin"
 		],
-		"rei_common": [
-			"com.coolerpromc.resourcestrees.compat.rei.ModREIPluginServer"
+		"jei_mod_plugin": [
+			"com.coolerpromc.resourcestrees.compat.jei.ModJEIPlugin"
 		],
 		"jade": [
 			"com.coolerpromc.resourcestrees.compat.jade.ModJadePlugin"
@@ -40,7 +40,7 @@
 	],
 	"depends": {
 		"fabricloader": ">=0.17.2",
-		"minecraft": "~1.21.8",
+		"minecraft": "1.21.1",
 		"java": ">=21",
 		"fabric-api": "*"
 	},

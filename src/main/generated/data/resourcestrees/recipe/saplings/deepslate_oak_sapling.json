@@ -2,8 +2,12 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "A": "minecraft:deepslate",
-    "B": "minecraft:oak_sapling"
+    "A": {
+      "item": "minecraft:deepslate"
+    },
+    "B": {
+      "item": "minecraft:oak_sapling"
+    }
   },
   "pattern": [
     " A ",

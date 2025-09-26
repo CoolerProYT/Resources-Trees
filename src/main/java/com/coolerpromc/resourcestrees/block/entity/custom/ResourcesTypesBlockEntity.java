@@ -10,8 +10,6 @@ import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.storage.ReadView;
-import net.minecraft.storage.WriteView;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
@@ -41,17 +39,17 @@ public class ResourcesTypesBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void writeData(WriteView view) {
-        super.writeData(view);
+    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        super.writeNbt(nbt, registryLookup);
         if (resourcesType != null){
-            view.putString("type", resourcesType.toString());
+            nbt.putString("type", resourcesType.toString());
         }
     }
 
     @Override
-    protected void readData(ReadView view) {
-        super.readData(view);
-        view.getOptionalString("type").ifPresent(s -> setResourcesType(Identifier.of(s)));
+    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        super.readNbt(nbt, registryLookup);
+        setResourcesType(Identifier.of(nbt.getString("type")));
     }
 
     @Override

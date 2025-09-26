@@ -107,7 +107,7 @@ public record ResourcesTypes(Either<Identifier, TagKey<Item>> material, int colo
     }
 
     public static Map<Identifier, ResourcesTypes> getAllResourcesTypes(World level){
-        Registry<ResourcesTypes> registry = level.getRegistryManager().getOrThrow(ModRegistries.RESOURCES_TYPES_KEY);
+        Registry<ResourcesTypes> registry = level.getRegistryManager().get(ModRegistries.RESOURCES_TYPES_KEY);
         Map<Identifier, ResourcesTypes> types = new HashMap<>();
         registry.getEntrySet().forEach(entry -> {
             if (types.containsKey(entry.getKey().getValue())){
@@ -119,7 +119,7 @@ public record ResourcesTypes(Either<Identifier, TagKey<Item>> material, int colo
     }
 
     public static Map<Identifier, ResourcesTypes> getAllResourcesTypes(RegistryWrapper.WrapperLookup provider){
-        Stream<RegistryEntry.Reference<ResourcesTypes>> registry = provider.getOrThrow(ModRegistries.RESOURCES_TYPES_KEY).streamEntries();
+        Stream<RegistryEntry.Reference<ResourcesTypes>> registry = provider.getWrapperOrThrow(ModRegistries.RESOURCES_TYPES_KEY).streamEntries();
         Map<Identifier, ResourcesTypes> types = new HashMap<>();
         registry.forEachOrdered(entry -> {
             if (types.containsKey(entry.registryKey().getValue())){

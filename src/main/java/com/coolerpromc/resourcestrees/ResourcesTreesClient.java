@@ -1,32 +1,31 @@
 package com.coolerpromc.resourcestrees;
 
 import com.coolerpromc.resourcestrees.block.ModBlocks;
+import com.coolerpromc.resourcestrees.block.custom.ResourcesLeavesBlock;
 import com.coolerpromc.resourcestrees.block.custom.ResourcesSaplingBlock;
 import com.coolerpromc.resourcestrees.block.entity.ModBlockEntities;
 import com.coolerpromc.resourcestrees.block.entity.custom.ResourcesTypesBlockEntity;
 import com.coolerpromc.resourcestrees.block.entity.renderer.TreeSimulatorBlockEntityRenderer;
-import com.coolerpromc.resourcestrees.datagen.model.ResourcesTypeTintSource;
-import com.coolerpromc.resourcestrees.networking.RecipeSyncPayload;
+import com.coolerpromc.resourcestrees.core.ResourcesTypes;
+import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
+import com.coolerpromc.resourcestrees.item.ModItems;
+import com.coolerpromc.resourcestrees.item.custom.EssenceItem;
+import com.coolerpromc.resourcestrees.item.custom.LeafFragmentItem;
 import com.coolerpromc.resourcestrees.screen.ModMenuTypes;
 import com.coolerpromc.resourcestrees.screen.custom.TreeSimulatorScreen;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
-import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.render.ColorProviderRegistry;
+import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
-import net.minecraft.client.render.BlockRenderLayer;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
-import net.minecraft.client.render.item.tint.TintSourceTypes;
-import net.minecraft.recipe.PreparedRecipes;
+import net.minecraft.util.Identifier;
 
 public class ResourcesTreesClient implements ClientModInitializer {
-    public static PreparedRecipes recipeMap;
-
     @Override
     public void onInitializeClient() {
-        TintSourceTypes.ID_MAPPER.put(ResourcesTrees.id("resources_type_tint"), ResourcesTypeTintSource.MAP_CODEC);
-
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> {
             if (world != null){
                 BlockEntity blockEntity = world.getBlockEntity(pos);
@@ -50,7 +49,34 @@ public class ResourcesTreesClient implements ClientModInitializer {
                 ModBlocks.RESOURCES_ACACIA_SAPLING,
                 ModBlocks.RESOURCES_DARK_OAK_SAPLING,
                 ModBlocks.RESOURCES_CHERRY_SAPLING,
-                ModBlocks.RESOURCES_PALE_OAK_SAPLING,
+                ModBlocks.RESOURCES_OAK_LEAVES,
+                ModBlocks.RESOURCES_SPRUCE_LEAVES,
+                ModBlocks.RESOURCES_BIRCH_LEAVES,
+                ModBlocks.RESOURCES_JUNGLE_LEAVES,
+                ModBlocks.RESOURCES_ACACIA_LEAVES,
+                ModBlocks.RESOURCES_DARK_OAK_LEAVES,
+                ModBlocks.RESOURCES_CHERRY_LEAVES
+        );
+
+        ColorProviderRegistry.ITEM.register((itemStack, i) -> {
+                    if (itemStack.contains(ModDataComponents.TYPE)){
+                        Identifier type = itemStack.get(ModDataComponents.TYPE);
+                        if ((Block.getBlockFromItem(itemStack.getItem()) instanceof ResourcesSaplingBlock && i == 1) || Block.getBlockFromItem(itemStack.getItem()) instanceof ResourcesLeavesBlock || itemStack.getItem() instanceof LeafFragmentItem){
+                            return ResourcesTypes.byId(type, null).color();
+                        }
+                    }
+                    if (itemStack.getItem() instanceof EssenceItem essenceItem){
+                        return essenceItem.getColor();
+                    }
+                    return -1;
+        },
+                ModBlocks.RESOURCES_OAK_SAPLING,
+                ModBlocks.RESOURCES_SPRUCE_SAPLING,
+                ModBlocks.RESOURCES_BIRCH_SAPLING,
+                ModBlocks.RESOURCES_JUNGLE_SAPLING,
+                ModBlocks.RESOURCES_ACACIA_SAPLING,
+                ModBlocks.RESOURCES_DARK_OAK_SAPLING,
+                ModBlocks.RESOURCES_CHERRY_SAPLING,
                 ModBlocks.RESOURCES_OAK_LEAVES,
                 ModBlocks.RESOURCES_SPRUCE_LEAVES,
                 ModBlocks.RESOURCES_BIRCH_LEAVES,
@@ -58,23 +84,24 @@ public class ResourcesTreesClient implements ClientModInitializer {
                 ModBlocks.RESOURCES_ACACIA_LEAVES,
                 ModBlocks.RESOURCES_DARK_OAK_LEAVES,
                 ModBlocks.RESOURCES_CHERRY_LEAVES,
-                ModBlocks.RESOURCES_PALE_OAK_LEAVES);
+                ModItems.LEAF_FRAGMENT,
+                ModItems.FIRE_ESSENCE,
+                ModItems.WATER_ESSENCE,
+                ModItems.NATURE_ESSENCE,
+                ModItems.END_ESSENCE
+        );
 
         HandledScreens.register(ModMenuTypes.TREE_SIMULATOR, TreeSimulatorScreen::new);
 
         BlockEntityRendererFactories.register(ModBlockEntities.TREE_SIMULATOR_BE, TreeSimulatorBlockEntityRenderer::new);
 
-        ClientPlayNetworking.registerGlobalReceiver(RecipeSyncPayload.ID, (recipeSyncPayload, context) -> {
-            ResourcesTreesClient.recipeMap = PreparedRecipes.of(recipeSyncPayload.recipes());
-        });
-
-        BlockRenderLayerMap.putBlocks(BlockRenderLayer.CUTOUT,  ModBlocks.RESOURCES_OAK_SAPLING,
+        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), ModBlocks.RESOURCES_OAK_SAPLING,
                 ModBlocks.RESOURCES_SPRUCE_SAPLING,
                 ModBlocks.RESOURCES_BIRCH_SAPLING,
                 ModBlocks.RESOURCES_JUNGLE_SAPLING,
                 ModBlocks.RESOURCES_ACACIA_SAPLING,
                 ModBlocks.RESOURCES_DARK_OAK_SAPLING,
-                ModBlocks.RESOURCES_CHERRY_SAPLING,
-                ModBlocks.RESOURCES_PALE_OAK_SAPLING);
+                ModBlocks.RESOURCES_CHERRY_SAPLING
+        );
     }
 }

@@ -10,7 +10,7 @@ public record TreeSimulatorRecipeInput(ItemStack tree) implements RecipeInput {
     }
 
     @Override
-    public int size() {
+    public int getSize() {
         return 1;
     }
 }

@@ -4,6 +4,11 @@ import com.coolerpromc.resourcestrees.block.ModBlocks;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.minecraft.block.Block;
+import net.minecraft.item.ItemConvertible;
+import net.minecraft.loot.LootPool;
+import net.minecraft.loot.LootTable;
+import net.minecraft.loot.entry.ItemEntry;
+import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.registry.RegistryWrapper;
 
 import java.util.concurrent.CompletableFuture;
@@ -36,13 +41,15 @@ public class ModBlockLootTables extends FabricBlockLootTableProvider {
         addDrop(ModBlocks.RESOURCES_CHERRY_SAPLING);
         shearOrSilkTouchOnlyDrop(ModBlocks.RESOURCES_CHERRY_LEAVES);
 
-        addDrop(ModBlocks.RESOURCES_PALE_OAK_SAPLING);
-        shearOrSilkTouchOnlyDrop(ModBlocks.RESOURCES_PALE_OAK_LEAVES);
-
         addDrop(ModBlocks.TREE_SIMULATOR);
     }
 
     protected void shearOrSilkTouchOnlyDrop(Block block){
         addDrop(block, dropsWithSilkTouchOrShears(block));
+    }
+
+    protected LootTable.Builder dropsWithSilkTouchOrShears(ItemConvertible item) {
+        return LootTable.builder()
+                .pool(LootPool.builder().rolls(ConstantLootNumberProvider.create(1.0F)).conditionally(createWithShearsOrSilkTouchCondition()).with(ItemEntry.builder(item)));
     }
 }

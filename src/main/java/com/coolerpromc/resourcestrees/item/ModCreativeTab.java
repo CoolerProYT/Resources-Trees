@@ -15,7 +15,6 @@ import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
 
 import java.lang.reflect.Field;
-import java.util.function.Supplier;
 
 public class ModCreativeTab {
     public static final ItemGroup RESOURCES_TREES_TAB = Registry.register(Registries.ITEM_GROUP, ResourcesTrees.id("resourcestrees"),

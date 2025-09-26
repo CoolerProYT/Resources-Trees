@@ -2,15 +2,33 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    "minecraft:grass_block",
-    "minecraft:moss_block",
-    "minecraft:pumpkin",
-    "minecraft:melon",
-    "minecraft:sugar_cane",
-    "minecraft:cactus",
-    "minecraft:wheat",
-    "minecraft:carrot",
-    "minecraft:potato"
+    {
+      "item": "minecraft:grass_block"
+    },
+    {
+      "item": "minecraft:moss_block"
+    },
+    {
+      "item": "minecraft:pumpkin"
+    },
+    {
+      "item": "minecraft:melon"
+    },
+    {
+      "item": "minecraft:sugar_cane"
+    },
+    {
+      "item": "minecraft:cactus"
+    },
+    {
+      "item": "minecraft:wheat"
+    },
+    {
+      "item": "minecraft:carrot"
+    },
+    {
+      "item": "minecraft:potato"
+    }
   ],
   "result": {
     "count": 1,

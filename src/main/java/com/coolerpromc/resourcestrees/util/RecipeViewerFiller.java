@@ -1,6 +1,5 @@
 package com.coolerpromc.resourcestrees.util;
 
-import com.coolerpromc.resourcestrees.ResourcesTreesClient;
 import com.coolerpromc.resourcestrees.block.ModBlocks;
 import com.coolerpromc.resourcestrees.block.custom.ResourcesSaplingBlock;
 import com.coolerpromc.resourcestrees.block.entity.custom.TreeSimulatorBlockEntity;
@@ -12,6 +11,7 @@ import com.coolerpromc.resourcestrees.recipe.ModRecipes;
 import com.coolerpromc.resourcestrees.recipe.custom.TreeSimulatorRecipe;
 import com.coolerpromc.resourcestrees.recipe.input.TreeSimulatorRecipeInput;
 import com.coolerpromc.resourcestrees.recipe.output.TreeSimulatorOutput;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Recipe;
@@ -20,6 +20,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.util.Identifier;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 public class RecipeViewerFiller {
-    public static List<RecipeEntry<TreeSimulatorRecipe>> addUndefinedRecipes(RegistryWrapper.WrapperLookup registryAccess, List<RegistryKey<Recipe<?>>> keys){
+    public static List<RecipeEntry<TreeSimulatorRecipe>> addUndefinedRecipes(RegistryWrapper.WrapperLookup registryAccess, List<Identifier> keys){
         List<RecipeEntry<TreeSimulatorRecipe>> treeSimulatorRecipe = new ArrayList<>();
 
         ResourcesTypes.getAllResourcesTypes(registryAccess).forEach((type, value) -> {
@@ -43,7 +44,7 @@ public class RecipeViewerFiller {
                             leaf.set(ModDataComponents.TYPE, type);
                             ItemStack sapling = block.asItem().getDefaultStack();
                             sapling.set(ModDataComponents.TYPE, type);
-                            Optional<RecipeEntry<TreeSimulatorRecipe>> exisingRecipe = ResourcesTreesClient.recipeMap.find(ModRecipes.TREE_SIMULATOR_TYPE, new TreeSimulatorRecipeInput(sapling), null).findFirst();
+                            Optional<RecipeEntry<TreeSimulatorRecipe>> exisingRecipe = MinecraftClient.getInstance().world.getRecipeManager().getFirstMatch(ModRecipes.TREE_SIMULATOR_TYPE, new TreeSimulatorRecipeInput(sapling), null);
                             if (value != ResourcesTypes.EMPTY && type != null && exisingRecipe.isEmpty()){
                                 List<TreeSimulatorOutput> drops = new ArrayList<>();
                                 drops.add(TreeSimulatorOutput.of(TreeSimulatorBlockEntity.LOG_BY_SAPLINGS.get(block).getDefaultStack(), 1, 2, 4));
@@ -56,7 +57,7 @@ public class RecipeViewerFiller {
                                 TreeSimulatorRecipe newRecipe = new TreeSimulatorRecipe(sapling, drops, 1200);
                                 RegistryKey<Recipe<?>> key = RegistryKey.of(RegistryKeys.RECIPE, type.withSuffixedPath(Registries.BLOCK.getId(block).getPath().substring(9)).withPrefixedPath("tree_simulator/"));
                                 if (!keys.contains(key)){
-                                    treeSimulatorRecipe.add(new RecipeEntry<>(key, newRecipe));
+                                    treeSimulatorRecipe.add(new RecipeEntry<>(key.getValue(), newRecipe));
                                 }
                             }
                         }

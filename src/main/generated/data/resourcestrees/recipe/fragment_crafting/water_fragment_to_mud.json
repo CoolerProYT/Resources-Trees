@@ -2,10 +2,14 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "A": "minecraft:clay_ball",
+    "A": {
+      "item": "minecraft:clay_ball"
+    },
     "B": {
       "fabric:type": "fabric:components",
-      "base": "resourcestrees:leaf_fragment",
+      "base": {
+        "item": "resourcestrees:leaf_fragment"
+      },
       "components": {
         "resourcestrees:resources_type": "resourcestrees:water"
       }

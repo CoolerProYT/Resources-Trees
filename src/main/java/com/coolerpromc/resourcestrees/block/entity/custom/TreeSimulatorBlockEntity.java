@@ -42,8 +42,6 @@ import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.storage.ReadView;
-import net.minecraft.storage.WriteView;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -65,8 +63,7 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements ExtendedScr
             ModBlocks.RESOURCES_JUNGLE_SAPLING, Items.JUNGLE_LOG,
             ModBlocks.RESOURCES_ACACIA_SAPLING, Items.ACACIA_LOG,
             ModBlocks.RESOURCES_DARK_OAK_SAPLING, Items.DARK_OAK_LOG,
-            ModBlocks.RESOURCES_CHERRY_SAPLING, Items.CHERRY_LOG,
-            ModBlocks.RESOURCES_PALE_OAK_SAPLING,  Items.PALE_OAK_LOG
+            ModBlocks.RESOURCES_CHERRY_SAPLING, Items.CHERRY_LOG
     );
 
     public int growTicks = 0;
@@ -160,23 +157,31 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements ExtendedScr
     }
 
     @Override
-    protected void writeData(WriteView view) {
-        super.writeData(view);
-        Inventories.writeData(view.get("input"), inputHandler.getHeldStacks());
-        Inventories.writeData(view.get("output"), outputHandler.getHeldStacks());
-        Inventories.writeData(view.get("axe"), axeHandler.getHeldStacks());
-        view.putInt("growTicks", growTicks);
-        view.putInt("maxGrowTicks", maxGrowTicks);
+    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        super.writeNbt(nbt, registryLookup);
+        NbtCompound inputNbt = new NbtCompound();
+        Inventories.writeNbt(inputNbt, inputHandler.getHeldStacks(), registryLookup);
+        nbt.put("input", inputNbt);
+
+        NbtCompound outputNbt = new NbtCompound();
+        Inventories.writeNbt(outputNbt, outputHandler.getHeldStacks(), registryLookup);
+        nbt.put("output", outputNbt);
+
+        NbtCompound axeNbt = new NbtCompound();
+        Inventories.writeNbt(axeNbt, axeHandler.getHeldStacks(), registryLookup);
+        nbt.put("axe", axeNbt);
+        nbt.putInt("growTicks", growTicks);
+        nbt.putInt("maxGrowTicks", maxGrowTicks);
     }
 
     @Override
-    protected void readData(ReadView view) {
-        super.readData(view);
-        Inventories.readData(view.getReadView("input"), inputHandler.getHeldStacks());
-        Inventories.readData(view.getReadView("output"), outputHandler.getHeldStacks());
-        Inventories.readData(view.getReadView("axe"), axeHandler.getHeldStacks());
-        this.data.set(0, view.getInt("growTicks", 0));
-        this.data.set(1, view.getInt("maxGrowTicks", 0));
+    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        super.readNbt(nbt, registryLookup);
+        Inventories.readNbt(nbt.getCompound("input"), inputHandler.getHeldStacks(), registryLookup);
+        Inventories.readNbt(nbt.getCompound("output"), outputHandler.getHeldStacks(), registryLookup);
+        Inventories.readNbt(nbt.getCompound("axe"), axeHandler.getHeldStacks(), registryLookup);
+        this.data.set(0, nbt.getInt("growTicks"));
+        this.data.set(1, nbt.getInt("maxGrowTicks"));
     }
 
     @Override
@@ -354,7 +359,7 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements ExtendedScr
                     drops.add(TreeSimulatorOutput.of(ModRecipeProvider.SAPLINGS_BY_SAPLINGS.get(block).getDefaultStack(), 0.1f, 1, 1));
                     TreeSimulatorRecipe newRecipe = new TreeSimulatorRecipe(getSapling(), drops, 1200);
                     RegistryKey<Recipe<?>> key = RegistryKey.of(RegistryKeys.RECIPE, type.withSuffixedPath(Registries.BLOCK.getId(block).getPath().substring(9)).withPrefixedPath("tree_simulator/"));
-                    return Optional.of(new RecipeEntry<>(key, newRecipe));
+                    return Optional.of(new RecipeEntry<>(key.getValue(), newRecipe));
                 }
             }
         }

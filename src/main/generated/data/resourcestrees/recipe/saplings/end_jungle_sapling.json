@@ -2,8 +2,12 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "A": "resourcestrees:end_essence",
-    "B": "minecraft:jungle_sapling"
+    "A": {
+      "item": "resourcestrees:end_essence"
+    },
+    "B": {
+      "item": "minecraft:jungle_sapling"
+    }
   },
   "pattern": [
     " A ",

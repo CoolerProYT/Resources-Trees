@@ -2,10 +2,14 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "A": "minecraft:brown_mushroom_block",
+    "A": {
+      "item": "minecraft:brown_mushroom_block"
+    },
     "B": {
       "fabric:type": "fabric:components",
-      "base": "resourcestrees:leaf_fragment",
+      "base": {
+        "item": "resourcestrees:leaf_fragment"
+      },
       "components": {
         "resourcestrees:resources_type": "resourcestrees:dirt"
       }

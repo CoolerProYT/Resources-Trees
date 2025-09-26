@@ -7,13 +7,12 @@ import net.minecraft.advancement.AdvancementCriterion;
 import net.minecraft.advancement.AdvancementRequirements;
 import net.minecraft.advancement.AdvancementRewards;
 import net.minecraft.advancement.criterion.RecipeUnlockedCriterion;
-import net.minecraft.data.recipe.CraftingRecipeJsonBuilder;
-import net.minecraft.data.recipe.RecipeExporter;
+import net.minecraft.data.server.recipe.CraftingRecipeJsonBuilder;
+import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.recipe.Recipe;
-import net.minecraft.registry.RegistryKey;
+import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -68,14 +67,14 @@ public class TreeSimulatorRecipeBuilder implements CraftingRecipeJsonBuilder {
     }
 
     @Override
-    public void offerTo(RecipeExporter exporter, RegistryKey<Recipe<?>> recipeKey) {
+    public void offerTo(RecipeExporter exporter, Identifier recipeId) {
         Advancement.Builder advancement = exporter.getAdvancementBuilder()
-                .criterion("has_the_recipe", RecipeUnlockedCriterion.create(recipeKey))
-                .rewards(AdvancementRewards.Builder.recipe(recipeKey))
+                .criterion("has_the_recipe", RecipeUnlockedCriterion.create(recipeId))
+                .rewards(AdvancementRewards.Builder.recipe(recipeId))
                 .criteriaMerger(AdvancementRequirements.CriterionMerger.OR);
         this.criteria.forEach(advancement::criterion);
 
         TreeSimulatorRecipe recipe = new TreeSimulatorRecipe(tree, drops, ticksToGrow);
-        exporter.accept(recipeKey, recipe, advancement.build(recipeKey.getValue()));
+        exporter.accept(recipeId, recipe, advancement.build(recipeId));
     }
 }

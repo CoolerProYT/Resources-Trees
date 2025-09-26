@@ -5,11 +5,9 @@ import com.coolerpromc.resourcestrees.recipe.custom.TreeSimulatorRecipe;
 import com.coolerpromc.resourcestrees.recipe.output.TreeSimulatorOutput;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.Display;
-import me.shedaniel.rei.api.common.display.DisplaySerializer;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,10 +33,5 @@ public record TreeSimulatorDisplay(TreeSimulatorRecipe treeSimulatorRecipe) impl
     @Override
     public Optional<Identifier> getDisplayLocation() {
         return Optional.empty();
-    }
-
-    @Override
-    public @Nullable DisplaySerializer<? extends Display> getSerializer() {
-        return null;
     }
 }

@@ -2,8 +2,12 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "A": "minecraft:diamond_block",
-    "B": "minecraft:birch_sapling"
+    "A": {
+      "item": "minecraft:diamond_block"
+    },
+    "B": {
+      "item": "minecraft:birch_sapling"
+    }
   },
   "pattern": [
     " A ",

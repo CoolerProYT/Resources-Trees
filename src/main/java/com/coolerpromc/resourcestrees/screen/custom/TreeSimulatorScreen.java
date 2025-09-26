@@ -1,7 +1,6 @@
 package com.coolerpromc.resourcestrees.screen.custom;
 
 import com.coolerpromc.resourcestrees.ResourcesTrees;
-import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.entity.player.PlayerInventory;
@@ -24,7 +23,7 @@ public class TreeSimulatorScreen extends HandledScreen<TreeSimulatorMenu> {
 
     @Override
     protected void drawBackground(DrawContext guiGraphics, float v, int i, int i1) {
-        guiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, TEXTURE, this.x, this.y, 0, 0, this.backgroundWidth, this.backgroundHeight, 256, 256);
+        guiGraphics.drawTexture(TEXTURE, this.x, this.y, 0, 0, this.backgroundWidth, this.backgroundHeight, 256, 256);
         renderProgressArrow(guiGraphics);
     }
 
@@ -36,6 +35,6 @@ public class TreeSimulatorScreen extends HandledScreen<TreeSimulatorMenu> {
 
     private void renderProgressArrow(DrawContext guiGraphics){
         Identifier texture = ResourcesTrees.id("textures/gui/progress.png");
-        guiGraphics.drawTexture(RenderPipelines.GUI_TEXTURED, texture, this.x + 59, this.y + 35, 0, 0, this.handler.getProgress(), 16, 22, 16);
+        guiGraphics.drawTexture(texture, this.x + 59, this.y + 35, 0, 0, this.handler.getProgress(), 16, 22, 16);
     }
 }

@@ -11,8 +11,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
-import net.minecraft.recipe.*;
-import net.minecraft.recipe.book.RecipeBookCategory;
+import net.minecraft.recipe.Recipe;
+import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.recipe.RecipeType;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.world.World;
 
@@ -30,6 +31,16 @@ public record TreeSimulatorRecipe(ItemStack tree, List<TreeSimulatorOutput> drop
     }
 
     @Override
+    public boolean fits(int width, int height) {
+        return true;
+    }
+
+    @Override
+    public ItemStack getResult(RegistryWrapper.WrapperLookup registriesLookup) {
+        return ItemStack.EMPTY;
+    }
+
+    @Override
     public RecipeSerializer<? extends Recipe<TreeSimulatorRecipeInput>> getSerializer() {
         return ModRecipes.TREE_SIMULATOR_SERIALIZER;
     }
@@ -37,16 +48,6 @@ public record TreeSimulatorRecipe(ItemStack tree, List<TreeSimulatorOutput> drop
     @Override
     public RecipeType<? extends Recipe<TreeSimulatorRecipeInput>> getType() {
         return ModRecipes.TREE_SIMULATOR_TYPE;
-    }
-
-    @Override
-    public IngredientPlacement getIngredientPlacement() {
-        return IngredientPlacement.forSingleSlot(Ingredient.ofItems(tree.getItem()));
-    }
-
-    @Override
-    public RecipeBookCategory getRecipeBookCategory() {
-        return null;
     }
 
     public static class Serializer implements RecipeSerializer<TreeSimulatorRecipe> {

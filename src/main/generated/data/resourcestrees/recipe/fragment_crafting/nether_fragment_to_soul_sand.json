@@ -2,10 +2,14 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "A": "minecraft:sand",
+    "A": {
+      "item": "minecraft:sand"
+    },
     "B": {
       "fabric:type": "fabric:components",
-      "base": "resourcestrees:leaf_fragment",
+      "base": {
+        "item": "resourcestrees:leaf_fragment"
+      },
       "components": {
         "resourcestrees:resources_type": "resourcestrees:nether"
       }

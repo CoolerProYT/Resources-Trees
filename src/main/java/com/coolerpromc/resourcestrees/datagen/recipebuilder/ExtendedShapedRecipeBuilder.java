@@ -7,19 +7,17 @@ import net.minecraft.advancement.AdvancementCriterion;
 import net.minecraft.advancement.AdvancementRequirements.CriterionMerger;
 import net.minecraft.advancement.AdvancementRewards.Builder;
 import net.minecraft.advancement.criterion.RecipeUnlockedCriterion;
-import net.minecraft.data.recipe.CraftingRecipeJsonBuilder;
-import net.minecraft.data.recipe.RecipeExporter;
+import net.minecraft.data.server.recipe.CraftingRecipeJsonBuilder;
+import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RawShapedRecipe;
-import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.ShapedRecipe;
 import net.minecraft.recipe.book.RecipeCategory;
-import net.minecraft.registry.RegistryEntryLookup;
-import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.tag.TagKey;
+import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedHashMap;
@@ -28,7 +26,6 @@ import java.util.Map;
 import java.util.Objects;
 
 public class ExtendedShapedRecipeBuilder implements CraftingRecipeJsonBuilder {
-    private final RegistryEntryLookup<Item> registryLookup;
     private final RecipeCategory category;
     private final Item output;
     private final int count;
@@ -40,36 +37,35 @@ public class ExtendedShapedRecipeBuilder implements CraftingRecipeJsonBuilder {
     private String group;
     private boolean showNotification = true;
 
-    private ExtendedShapedRecipeBuilder(RegistryEntryLookup<Item> registryLookup, RecipeCategory category, ItemConvertible output, int count) {
-        this(registryLookup, category, new ItemStack(output, count));
+    private ExtendedShapedRecipeBuilder(RecipeCategory category, ItemConvertible output, int count) {
+        this(category, new ItemStack(output, count));
     }
 
-    private ExtendedShapedRecipeBuilder(RegistryEntryLookup<Item> registryLookup, RecipeCategory category, ItemStack result) {
-        this.registryLookup = registryLookup;
+    private ExtendedShapedRecipeBuilder(RecipeCategory category, ItemStack result) {
         this.category = category;
         this.output = result.getItem();
         this.count = result.getCount();
         this.resultStack = result;
     }
 
-    public static ExtendedShapedRecipeBuilder create(RegistryEntryLookup<Item> registryLookup, RecipeCategory category, ItemConvertible output) {
-        return create(registryLookup, category, output, 1);
+    public static ExtendedShapedRecipeBuilder create(RecipeCategory category, ItemConvertible output) {
+        return create(category, output, 1);
     }
 
-    public static ExtendedShapedRecipeBuilder create(RegistryEntryLookup<Item> registryLookup, RecipeCategory category, ItemConvertible output, int count) {
-        return new ExtendedShapedRecipeBuilder(registryLookup, category, output, count);
+    public static ExtendedShapedRecipeBuilder create(RecipeCategory category, ItemConvertible output, int count) {
+        return new ExtendedShapedRecipeBuilder(category, output, count);
     }
 
-    public static ExtendedShapedRecipeBuilder create(RegistryEntryLookup<Item> p_365019_, RecipeCategory p_251325_, ItemStack result) {
-        return new ExtendedShapedRecipeBuilder(p_365019_, p_251325_, result);
+    public static ExtendedShapedRecipeBuilder create(RecipeCategory p_251325_, ItemStack result) {
+        return new ExtendedShapedRecipeBuilder(p_251325_, result);
     }
 
     public ExtendedShapedRecipeBuilder input(Character c, TagKey<Item> tag) {
-        return this.input(c, Ingredient.ofTag(this.registryLookup.getOrThrow(tag)));
+        return this.input(c, Ingredient.fromTag(tag));
     }
 
     public ExtendedShapedRecipeBuilder input(Character c, ItemConvertible item) {
-        return this.input(c, Ingredient.ofItem(item));
+        return this.input(c, Ingredient.ofItems(item));
     }
 
     public ExtendedShapedRecipeBuilder input(Character c, Ingredient ingredient) {
@@ -111,19 +107,20 @@ public class ExtendedShapedRecipeBuilder implements CraftingRecipeJsonBuilder {
         return this.output;
     }
 
-    public void offerTo(RecipeExporter exporter, RegistryKey<Recipe<?>> recipeKey) {
-        RawShapedRecipe rawShapedRecipe = this.validate(recipeKey);
-        Advancement.Builder builder = exporter.getAdvancementBuilder().criterion("has_the_recipe", RecipeUnlockedCriterion.create(recipeKey)).rewards(Builder.recipe(recipeKey)).criteriaMerger(CriterionMerger.OR);
+    @Override
+    public void offerTo(RecipeExporter exporter, Identifier recipeId) {
+        RawShapedRecipe rawShapedRecipe = this.validate(recipeId);
+        Advancement.Builder builder = exporter.getAdvancementBuilder().criterion("has_the_recipe", RecipeUnlockedCriterion.create(recipeId)).rewards(Builder.recipe(recipeId)).criteriaMerger(CriterionMerger.OR);
         Map<String, AdvancementCriterion<?>> var10000 = this.criteria;
         Objects.requireNonNull(builder);
         var10000.forEach(builder::criterion);
-        ShapedRecipe shapedRecipe = new ShapedRecipe((String)Objects.requireNonNullElse(this.group, ""), CraftingRecipeJsonBuilder.toCraftingCategory(this.category), rawShapedRecipe, resultStack, this.showNotification);
-        exporter.accept(recipeKey, shapedRecipe, builder.build(recipeKey.getValue().withPrefixedPath("recipes/" + this.category.getName() + "/")));
+        ShapedRecipe shapedRecipe = new ShapedRecipe(Objects.requireNonNullElse(this.group, ""), CraftingRecipeJsonBuilder.toCraftingCategory(this.category), rawShapedRecipe, resultStack, this.showNotification);
+        exporter.accept(recipeId, shapedRecipe, builder.build(recipeId.withPrefixedPath("recipes/" + this.category.getName() + "/")));
     }
 
-    private RawShapedRecipe validate(RegistryKey<Recipe<?>> recipeKey) {
+    private RawShapedRecipe validate(Identifier recipeKey) {
         if (this.criteria.isEmpty()) {
-            throw new IllegalStateException("No way of obtaining recipe " + String.valueOf(recipeKey.getValue()));
+            throw new IllegalStateException("No way of obtaining recipe " + String.valueOf(recipeKey));
         } else {
             return RawShapedRecipe.create(this.inputs, this.pattern);
         }

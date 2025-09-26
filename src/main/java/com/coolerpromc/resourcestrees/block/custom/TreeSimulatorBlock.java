@@ -3,10 +3,7 @@ package com.coolerpromc.resourcestrees.block.custom;
 import com.coolerpromc.resourcestrees.block.entity.ModBlockEntities;
 import com.coolerpromc.resourcestrees.block.entity.custom.TreeSimulatorBlockEntity;
 import com.mojang.serialization.MapCodec;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.BlockWithEntity;
-import net.minecraft.block.ShapeContext;
+import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
@@ -43,6 +40,11 @@ public class TreeSimulatorBlock extends BlockWithEntity {
                 Block.createCuboidShape(1, 2, 15, 15, 3, 16),
                 Block.createCuboidShape(1, 2, 0, 15, 3, 1)
         ).reduce((v1, v2) -> VoxelShapes.combine(v1, v2, BooleanBiFunction.OR)).get();
+    }
+
+    @Override
+    protected BlockRenderType getRenderType(BlockState state) {
+        return BlockRenderType.MODEL;
     }
 
     @Override

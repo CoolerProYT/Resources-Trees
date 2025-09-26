@@ -8,31 +8,31 @@ import net.minecraft.registry.tag.BlockTags;
 
 import java.util.concurrent.CompletableFuture;
 
-public class ModBlockTagGenerator extends FabricTagProvider.BlockTagProvider {
+public class ModBlockTagGenerator extends FabricTagProvider
+
+        .BlockTagProvider {
     public ModBlockTagGenerator(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> lookupProvider) {
         super(output, lookupProvider);
     }
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
-        this.valueLookupBuilder(BlockTags.SAPLINGS)
+        this.getOrCreateTagBuilder(BlockTags.SAPLINGS)
                 .add(ModBlocks.RESOURCES_OAK_SAPLING)
                 .add(ModBlocks.RESOURCES_SPRUCE_SAPLING)
                 .add(ModBlocks.RESOURCES_BIRCH_SAPLING)
                 .add(ModBlocks.RESOURCES_JUNGLE_SAPLING)
                 .add(ModBlocks.RESOURCES_ACACIA_SAPLING)
                 .add(ModBlocks.RESOURCES_DARK_OAK_SAPLING)
-                .add(ModBlocks.RESOURCES_CHERRY_SAPLING)
-                .add(ModBlocks.RESOURCES_PALE_OAK_SAPLING);
+                .add(ModBlocks.RESOURCES_CHERRY_SAPLING);
 
-        this.valueLookupBuilder(BlockTags.LEAVES)
+        this.getOrCreateTagBuilder(BlockTags.LEAVES)
                 .add(ModBlocks.RESOURCES_OAK_LEAVES)
                 .add(ModBlocks.RESOURCES_SPRUCE_LEAVES)
                 .add(ModBlocks.RESOURCES_BIRCH_LEAVES)
                 .add(ModBlocks.RESOURCES_JUNGLE_LEAVES)
                 .add(ModBlocks.RESOURCES_ACACIA_LEAVES)
                 .add(ModBlocks.RESOURCES_DARK_OAK_LEAVES)
-                .add(ModBlocks.RESOURCES_CHERRY_LEAVES)
-                .add(ModBlocks.RESOURCES_PALE_OAK_LEAVES);
+                .add(ModBlocks.RESOURCES_CHERRY_LEAVES);
     }
 }
