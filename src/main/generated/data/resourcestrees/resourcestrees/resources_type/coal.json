@@ -1,0 +1,8 @@
+{
+  "color": -16777216,
+  "material": "minecraft:coal_block",
+  "saplingChance": 0.25,
+  "secondaryDropChance": 0.5,
+  "translationKey": "item.resourcestrees.coal",
+  "weight": 5
+}

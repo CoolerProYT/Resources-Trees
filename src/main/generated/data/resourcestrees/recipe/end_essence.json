@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:end_stone",
+    "minecraft:chorus_fruit",
+    "minecraft:chorus_plant",
+    "minecraft:purpur_block"
+  ],
+  "result": {
+    "count": 1,
+    "id": "resourcestrees:end_essence"
+  }
+}

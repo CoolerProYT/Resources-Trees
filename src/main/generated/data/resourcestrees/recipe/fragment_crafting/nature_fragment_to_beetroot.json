@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "fabric:type": "fabric:components",
+      "base": "resourcestrees:leaf_fragment",
+      "components": {
+        "resourcestrees:resources_type": "resourcestrees:nature"
+      }
+    }
+  },
+  "pattern": [
+    "  A",
+    " AA",
+    "A  "
+  ],
+  "result": {
+    "count": 12,
+    "id": "minecraft:beetroot"
+  }
+}

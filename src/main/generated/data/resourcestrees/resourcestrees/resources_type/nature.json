@@ -1,0 +1,8 @@
+{
+  "color": -15045112,
+  "material": "resourcestrees:nature_essence",
+  "saplingChance": 0.25,
+  "secondaryDropChance": 0.5,
+  "translationKey": "item.resourcestrees.nature",
+  "weight": 5
+}

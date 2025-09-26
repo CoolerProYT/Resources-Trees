@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/leaves",
+  "textures": {
+    "all": "resourcestrees:block/resources_cherry_leaves"
+  }
+}

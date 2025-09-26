@@ -1,0 +1,8 @@
+{
+  "color": -10565432,
+  "material": "minecraft:prismarine",
+  "saplingChance": 0.25,
+  "secondaryDropChance": 0.5,
+  "translationKey": "item.resourcestrees.prismarine",
+  "weight": 5
+}

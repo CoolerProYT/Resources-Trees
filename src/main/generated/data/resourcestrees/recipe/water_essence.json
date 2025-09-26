@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:water_bucket",
+    "minecraft:kelp",
+    "minecraft:seagrass",
+    "minecraft:clay_ball"
+  ],
+  "result": {
+    "count": 1,
+    "id": "resourcestrees:water_essence"
+  }
+}

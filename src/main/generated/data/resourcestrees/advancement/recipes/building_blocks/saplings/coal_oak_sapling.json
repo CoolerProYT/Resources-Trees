@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_leaf_fragment": {
+      "conditions": {
+        "items": [
+          {
+            "items": "resourcestrees:leaf_fragment"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "resourcestrees:saplings/coal_oak_sapling"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_leaf_fragment"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "resourcestrees:saplings/coal_oak_sapling"
+    ]
+  }
+}

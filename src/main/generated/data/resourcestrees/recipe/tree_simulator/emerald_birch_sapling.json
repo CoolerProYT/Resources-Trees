@@ -1,0 +1,85 @@
+{
+  "type": "resourcestrees:tree_simulator",
+  "drops": [
+    {
+      "chance": 1.0,
+      "maxRolls": 4,
+      "minRolls": 2,
+      "output": {
+        "count": 1,
+        "id": "minecraft:birch_log"
+      }
+    },
+    {
+      "chance": 1.0,
+      "maxRolls": 1,
+      "minRolls": 1,
+      "output": {
+        "components": {
+          "resourcestrees:resources_type": "resourcestrees:emerald"
+        },
+        "count": 1,
+        "id": "resourcestrees:leaf_fragment"
+      }
+    },
+    {
+      "chance": 0.5,
+      "maxRolls": 1,
+      "minRolls": 1,
+      "output": {
+        "components": {
+          "resourcestrees:resources_type": "resourcestrees:emerald"
+        },
+        "count": 1,
+        "id": "resourcestrees:leaf_fragment"
+      }
+    },
+    {
+      "chance": 0.25,
+      "maxRolls": 1,
+      "minRolls": 1,
+      "output": {
+        "components": {
+          "resourcestrees:resources_type": "resourcestrees:emerald"
+        },
+        "count": 1,
+        "id": "resourcestrees:resources_birch_sapling"
+      }
+    },
+    {
+      "chance": 0.1,
+      "maxRolls": 2,
+      "minRolls": 1,
+      "output": {
+        "count": 1,
+        "id": "minecraft:stick"
+      }
+    },
+    {
+      "chance": 0.05,
+      "maxRolls": 1,
+      "minRolls": 1,
+      "output": {
+        "count": 1,
+        "id": "minecraft:apple"
+      }
+    },
+    {
+      "chance": 0.1,
+      "maxRolls": 1,
+      "minRolls": 1,
+      "output": {
+        "count": 1,
+        "id": "minecraft:birch_sapling"
+      }
+    }
+  ],
+  "ticksToGrow": 1200,
+  "tree": {
+    "components": {
+      "resourcestrees:resources_type": "resourcestrees:emerald"
+    },
+    "count": 1,
+    "id": "resourcestrees:resources_birch_sapling"
+  }
+}

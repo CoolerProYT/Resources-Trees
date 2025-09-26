@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": "minecraft:netherite_block",
+    "B": "minecraft:jungle_sapling"
+  },
+  "pattern": [
+    " A ",
+    "ABA",
+    " A "
+  ],
+  "result": {
+    "components": {
+      "resourcestrees:resources_type": "resourcestrees:netherite"
+    },
+    "count": 1,
+    "id": "resourcestrees:resources_jungle_sapling"
+  }
+}
