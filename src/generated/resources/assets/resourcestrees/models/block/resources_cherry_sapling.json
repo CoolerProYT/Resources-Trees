@@ -1,0 +1,7 @@
+{
+  "parent": "resourcestrees:block/cross_tinted",
+  "textures": {
+    "cross": "resourcestrees:block/resources_cherry_sapling",
+    "cross_tinted": "resourcestrees:block/resources_cherry_sapling_layer1"
+  }
+}

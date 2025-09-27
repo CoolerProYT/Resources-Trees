@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": "minecraft:lapis_block",
+    "B": "minecraft:cherry_sapling"
+  },
+  "pattern": [
+    " A ",
+    "ABA",
+    " A "
+  ],
+  "result": {
+    "components": {
+      "resourcestrees:resources_type": "resourcestrees:lapis"
+    },
+    "count": 1,
+    "id": "resourcestrees:resources_cherry_sapling"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "color": -13755833,
+  "material": "minecraft:obsidian",
+  "saplingChance": 0.25,
+  "secondaryDropChance": 0.5,
+  "translationKey": "item.resourcestrees.obsidian",
+  "weight": 4
+}

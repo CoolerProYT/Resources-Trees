@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": "minecraft:diamond_block",
+    "B": "minecraft:dark_oak_sapling"
+  },
+  "pattern": [
+    " A ",
+    "ABA",
+    " A "
+  ],
+  "result": {
+    "components": {
+      "resourcestrees:resources_type": "resourcestrees:diamond"
+    },
+    "count": 1,
+    "id": "resourcestrees:resources_dark_oak_sapling"
+  }
+}

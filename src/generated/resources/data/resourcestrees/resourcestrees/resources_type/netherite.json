@@ -1,0 +1,8 @@
+{
+  "color": -12698050,
+  "material": "minecraft:netherite_block",
+  "saplingChance": 0.15,
+  "secondaryDropChance": 0.3,
+  "translationKey": "item.resourcestrees.netherite",
+  "weight": 2
+}

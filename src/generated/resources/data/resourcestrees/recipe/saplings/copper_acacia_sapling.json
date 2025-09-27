@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": "minecraft:copper_block",
+    "B": "minecraft:acacia_sapling"
+  },
+  "pattern": [
+    " A ",
+    "ABA",
+    " A "
+  ],
+  "result": {
+    "components": {
+      "resourcestrees:resources_type": "resourcestrees:copper"
+    },
+    "count": 1,
+    "id": "resourcestrees:resources_acacia_sapling"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "color": -5194043,
+  "material": "minecraft:iron_block",
+  "saplingChance": 0.25,
+  "secondaryDropChance": 0.5,
+  "translationKey": "item.resourcestrees.iron",
+  "weight": 5
+}

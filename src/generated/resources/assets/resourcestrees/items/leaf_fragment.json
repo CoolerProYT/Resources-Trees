@@ -1,0 +1,12 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "resourcestrees:item/leaf_fragment",
+    "tints": [
+      {
+        "type": "resourcestrees:resources_type_tint",
+        "default": -1
+      }
+    ]
+  }
+}

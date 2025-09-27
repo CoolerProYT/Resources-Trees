@@ -1,0 +1,8 @@
+{
+  "color": -6543440,
+  "material": "minecraft:amethyst_block",
+  "saplingChance": 0.25,
+  "secondaryDropChance": 0.5,
+  "translationKey": "item.resourcestrees.amethyst",
+  "weight": 5
+}

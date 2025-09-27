@@ -1,0 +1,8 @@
+{
+  "color": -657931,
+  "material": "minecraft:quartz_block",
+  "saplingChance": 0.25,
+  "secondaryDropChance": 0.5,
+  "translationKey": "item.resourcestrees.quartz",
+  "weight": 5
+}
