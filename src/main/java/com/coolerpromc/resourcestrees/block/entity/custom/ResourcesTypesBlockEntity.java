@@ -28,7 +28,7 @@ public class ResourcesTypesBlockEntity extends BlockEntity {
     public void setResourcesType(ResourceLocation resourcesType) {
         this.resourcesType = resourcesType;
         setChanged();
-        if (level != null && !level.isClientSide) {
+        if (level != null && !level.isClientSide()) {
             level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_ALL);
         }
     }
