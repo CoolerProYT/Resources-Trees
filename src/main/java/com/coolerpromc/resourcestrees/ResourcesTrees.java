@@ -56,7 +56,7 @@ public class ResourcesTrees implements ModInitializer {
 		PayloadTypeRegistry.playS2C().register(RecipeSyncPayload.ID, RecipeSyncPayload.PACKET_CODEC);
 
 		ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register((player, b) -> {
-			List<RecipeEntry<?>> recipeEntry = new ArrayList<>(player.getWorld().getRecipeManager().getAllOfType(ModRecipes.TREE_SIMULATOR_TYPE));
+			List<RecipeEntry<?>> recipeEntry = new ArrayList<>(player.getEntityWorld().getRecipeManager().getAllOfType(ModRecipes.TREE_SIMULATOR_TYPE));
 			RecipeSyncPayload payload = new RecipeSyncPayload(recipeEntry);
 			ServerPlayNetworking.send(player, payload);
 		});

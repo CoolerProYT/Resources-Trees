@@ -26,7 +26,7 @@ public class TreeSimulatorMenu extends ScreenHandler {
     protected final PropertyDelegate data;
 
     public TreeSimulatorMenu(int containerId, PlayerInventory playerInventory, BlockPos blockPos) {
-        this(containerId, playerInventory, (TreeSimulatorBlockEntity) playerInventory.player.getWorld().getBlockEntity(blockPos), new ArrayPropertyDelegate(2));
+        this(containerId, playerInventory, (TreeSimulatorBlockEntity) playerInventory.player.getEntityWorld().getBlockEntity(blockPos), new ArrayPropertyDelegate(2));
     }
 
     public TreeSimulatorMenu(int containerId, PlayerInventory playerInventory, TreeSimulatorBlockEntity blockEntity, PropertyDelegate data){
