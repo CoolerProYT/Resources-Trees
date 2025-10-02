@@ -45,8 +45,11 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.ItemStackHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -69,9 +72,9 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
     public int growTicks = 0;
     public int maxGrowTicks = 0;
 
-    private final ItemStackHandler inputHandler = new ItemStackHandler(1){
+    private final ItemStacksResourceHandler inputHandler = new ItemStacksResourceHandler(1){
         @Override
-        protected void onContentsChanged(int slot) {
+        protected void onContentsChanged(int index, @NotNull ItemStack previousContents) {
             Optional<RecipeHolder<TreeSimulatorRecipe>> recipeHolder = getCurrentRecipe();
             if (recipeHolder.isPresent()){
                 TreeSimulatorRecipe recipe = recipeHolder.get().value();
@@ -83,12 +86,12 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
         }
     };
 
-    private final ItemStackHandler outputHandler = new ItemStackHandler(9);
+    private final ItemStacksResourceHandler outputHandler = new ItemStacksResourceHandler(9);
 
-    private final ItemStackHandler axeHandler = new ItemStackHandler(1){
+    private final ItemStacksResourceHandler axeHandler = new ItemStacksResourceHandler(1){
         @Override
-        public boolean isItemValid(int slot, ItemStack stack) {
-            return stack.getItem() instanceof AxeItem;
+        public boolean isValid(int index, ItemResource resource) {
+            return resource.getItem() instanceof AxeItem;
         }
     };
 
@@ -220,7 +223,11 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
             for (ItemStack result : results) {
                 int outputSlot = findSuitableOutputSlot(result);
                 if (outputSlot != -1) {
-                    this.outputHandler.insertItem(outputSlot, result, false);
+                    try(Transaction tx = Transaction.open(null)){
+                        if (this.outputHandler.insert(outputSlot, ItemResource.of(result), result.getCount(), tx) > 0){
+                            tx.commit();
+                        }
+                    }
                 } else {
                     ResourcesTrees.LOGGER.warn("No suitable output slot found for item: {} at {}", result, getBlockPos());
                 }
@@ -245,8 +252,8 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
     }
 
     private int findSuitableOutputSlot(ItemStack result) {
-        for (int i = 0; i < this.outputHandler.getSlots(); i++) {
-            ItemStack stackInSlot = this.outputHandler.getStackInSlot(i);
+        for (int i = 0; i < this.outputHandler.size(); i++) {
+            ItemStack stackInSlot = this.outputHandler.copyToList().get(i);
             if (stackInSlot.isEmpty() || (ResourcesTypes.isSameItemSameType(stackInSlot, result) && stackInSlot.getCount() + result.getCount() <= stackInSlot.getMaxStackSize())) {
                 return i;
             }
@@ -276,8 +283,8 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
         int count = results.size();
         int emptyCount = 0;
 
-        for (int i = 0; i < this.outputHandler.getSlots(); i++) {
-            ItemStack stackInSlot = this.outputHandler.getStackInSlot(i);
+        for (int i = 0; i < this.outputHandler.size(); i++) {
+            ItemStack stackInSlot = this.outputHandler.copyToList().get(i);
             if(!stackInSlot.isEmpty()){
                 for (ItemStack result : results){
                     if(stackInSlot.getItem() == result.getItem()){
@@ -296,8 +303,8 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
     }
 
     private boolean canInsertAmountIntoOutputSlot(ItemStack result) {
-        for (int i = 0; i < this.outputHandler.getSlots(); i++) {
-            ItemStack stackInSlot = this.outputHandler.getStackInSlot(i);
+        for (int i = 0; i < this.outputHandler.size(); i++) {
+            ItemStack stackInSlot = this.outputHandler.copyToList().get(i);
             if (stackInSlot.isEmpty() || (ResourcesTypes.isSameItemSameType(stackInSlot, result) && stackInSlot.getCount() + result.getCount() <= stackInSlot.getMaxStackSize())) {
                 return true;
             }
@@ -306,8 +313,8 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
     }
 
     private boolean canInsertItemIntoOutputSlot(ItemStack item) {
-        for (int i = 0; i < this.outputHandler.getSlots(); i++) {
-            ItemStack stackInSlot = this.outputHandler.getStackInSlot(i);
+        for (int i = 0; i < this.outputHandler.size(); i++) {
+            ItemStack stackInSlot = this.outputHandler.copyToList().get(i);
             if (stackInSlot.isEmpty() || ResourcesTypes.isSameItemSameType(stackInSlot, item)) {
                 return true;
             }
@@ -344,35 +351,35 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
         return Optional.empty();
     }
 
-    public ItemStackHandler getInputHandler() {
+    public ItemStacksResourceHandler getInputHandler() {
         return inputHandler;
     }
 
-    public ItemStackHandler getOutputHandler() {
+    public ItemStacksResourceHandler getOutputHandler() {
         return outputHandler;
     }
 
     public ItemStack getSapling(){
-        return inputHandler.getStackInSlot(0);
+        return inputHandler.copyToList().getFirst();
     }
 
     public ContainerData getData() {
         return data;
     }
 
-    public IItemHandler getCapability(Direction direction){
+    public ResourceHandler<ItemResource> getCapability(Direction direction){
         if (direction == Direction.DOWN){
             return outputHandler;
         }
         return inputHandler;
     }
 
-    public ItemStackHandler getAxeHandler() {
+    public ItemStacksResourceHandler getAxeHandler() {
         return axeHandler;
     }
 
     public ItemStack getAxe(){
-        return axeHandler.getStackInSlot(0);
+        return axeHandler.copyToList().getFirst();
     }
 
     public boolean isAxeUnbreakable(){
@@ -385,7 +392,11 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
         Integer maxDamage = axe.get(DataComponents.MAX_DAMAGE);
         if (damage != null && maxDamage != null){
             if (damage >= maxDamage){
-                axeHandler.extractItem(0, 1, false);
+                try(Transaction tx = Transaction.open(null)){
+                    if (axeHandler.extract(0, axeHandler.getResource(0), 1, tx) == 1){
+                        tx.commit();
+                    }
+                }
             }
             return damage < maxDamage || isAxeUnbreakable();
         }

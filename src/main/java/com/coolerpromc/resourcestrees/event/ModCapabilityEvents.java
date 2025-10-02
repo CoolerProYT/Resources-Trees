@@ -12,6 +12,6 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 public class ModCapabilityEvents {
     @SubscribeEvent
     public static void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModBlockEntities.TREE_SIMULATOR_BE.get(), TreeSimulatorBlockEntity::getCapability);
+        event.registerBlockEntity(Capabilities.Item.BLOCK, ModBlockEntities.TREE_SIMULATOR_BE.get(), TreeSimulatorBlockEntity::getCapability);
     }
 }

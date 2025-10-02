@@ -11,8 +11,8 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.SlotItemHandler;
+import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
+import net.neoforged.neoforge.transfer.item.ResourceHandlerSlot;
 import org.jetbrains.annotations.NotNull;
 
 public class TreeSimulatorMenu extends AbstractContainerMenu {
@@ -39,16 +39,16 @@ public class TreeSimulatorMenu extends AbstractContainerMenu {
         addPlayerHotbar(playerInventory);
         addDataSlots(this.data);
 
-        IItemHandler inputHandler = blockEntity.getInputHandler();
-        this.addSlot(new SlotItemHandler(inputHandler, 0, 26, 35));
+        ItemStacksResourceHandler inputHandler = blockEntity.getInputHandler();
+        this.addSlot(new ResourceHandlerSlot(inputHandler, inputHandler::set, 0, 26, 35));
 
-        IItemHandler outputHandler = blockEntity.getOutputHandler();
-        for (int i = 0; i < blockEntity.getOutputHandler().getSlots(); i ++){
+        ItemStacksResourceHandler outputHandler = blockEntity.getOutputHandler();
+        for (int i = 0; i < blockEntity.getOutputHandler().size(); i ++){
             this.addSlot(new OutputSlot(outputHandler, i, 98 + 18 * (i % 3), 17 + (i / 3) * 18, itemStack -> false));
         }
 
-        IItemHandler axeHandler = blockEntity.getAxeHandler();
-        this.addSlot(new SlotItemHandler(axeHandler, 0, 62, 59));
+        ItemStacksResourceHandler axeHandler = blockEntity.getAxeHandler();
+        this.addSlot(new ResourceHandlerSlot(axeHandler, axeHandler::set, 0, 62, 59));
     }
 
     @Override

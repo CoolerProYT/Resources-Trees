@@ -1,16 +1,16 @@
 package com.coolerpromc.resourcestrees.screen.container;
 
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.SlotItemHandler;
+import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
+import net.neoforged.neoforge.transfer.item.ResourceHandlerSlot;
 
 import java.util.function.Predicate;
 
-public class OutputSlot extends SlotItemHandler {
+public class OutputSlot extends ResourceHandlerSlot {
     private final Predicate<ItemStack> canPlace;
 
-    public OutputSlot(IItemHandler itemHandler, int index, int xPosition, int yPosition, Predicate<ItemStack> canPlace) {
-        super(itemHandler, index, xPosition, yPosition);
+    public OutputSlot(ItemStacksResourceHandler itemHandler, int index, int xPosition, int yPosition, Predicate<ItemStack> canPlace) {
+        super(itemHandler, itemHandler::set, index, xPosition, yPosition);
         this.canPlace = canPlace;
     }
 
