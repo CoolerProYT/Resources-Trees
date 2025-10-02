@@ -1,4 +1,3 @@
-/*
 package com.coolerpromc.resourcestrees.block.entity.renderstate;
 
 import com.coolerpromc.resourcestrees.block.entity.custom.TreeSimulatorBlockEntity;
@@ -9,4 +8,3 @@ public class TreeSimulatorRenderState extends BlockEntityRenderState {
     public TreeSimulatorBlockEntity blockEntity;
     public ItemStackRenderState itemStackRenderState;
 }
-*/
