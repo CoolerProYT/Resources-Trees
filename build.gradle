@@ -41,7 +41,7 @@ dependencies {
 	modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${rei_version}"
 	modCompileOnly "me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"
 
-	modCompileOnly "curse.maven:jade-324717:6906804"
+	modImplementation "curse.maven:jade-324717:7056475"
 }
 
 processResources {

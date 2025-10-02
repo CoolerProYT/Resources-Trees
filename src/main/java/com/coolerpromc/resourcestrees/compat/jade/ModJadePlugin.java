@@ -40,7 +40,7 @@ public class ModJadePlugin implements IWailaPlugin {
                 if (blockAccessor.getBlockEntity() instanceof ResourcesTypesBlockEntity blockEntity) {
                     ItemStack stack = blockAccessor.getBlock().asItem().getDefaultStack();
                     stack.set(ModDataComponents.TYPE, blockEntity.getResourcesType());
-                    return registration.blockAccessor().from(blockAccessor).fakeBlock(stack).build();
+                    return registration.blockAccessor().from(blockAccessor).serversideRep(stack).build();
                 }
             }
             return accessor;
