@@ -48,7 +48,7 @@ public class ResourcesSaplingBlock extends SaplingBlock implements BlockEntityPr
     @Override
     protected List<ItemStack> getDroppedStacks(BlockState state, LootContextParameterSet.Builder builder) {
         List<ItemStack> drops = super.getDroppedStacks(state, builder);
-        BlockEntity blockEntity = builder.get(LootContextParameters.BLOCK_ENTITY);
+        BlockEntity blockEntity = builder.getOptional(LootContextParameters.BLOCK_ENTITY);
 
         if (blockEntity instanceof ResourcesTypesBlockEntity be){
             if (!drops.isEmpty() && be.getResourcesType() != null){
