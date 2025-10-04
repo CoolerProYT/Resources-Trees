@@ -1,11 +1,24 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_leaf_fragment": {
+    "has_fire_leaf_fragment": {
       "conditions": {
         "items": [
           {
+            "components": {
+              "resourcestrees:resources_type": "resourcestrees:fire"
+            },
             "items": "resourcestrees:leaf_fragment"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_sand": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:sand"
           }
         ]
       },
@@ -21,7 +34,8 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_leaf_fragment"
+      "has_fire_leaf_fragment",
+      "has_sand"
     ]
   ],
   "rewards": {

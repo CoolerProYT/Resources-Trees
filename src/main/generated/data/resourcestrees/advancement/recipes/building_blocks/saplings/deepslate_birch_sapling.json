@@ -1,11 +1,21 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_leaf_fragment": {
+    "has_birch_sapling": {
       "conditions": {
         "items": [
           {
-            "items": "resourcestrees:leaf_fragment"
+            "items": "minecraft:birch_sapling"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_deepslate": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:deepslate"
           }
         ]
       },
@@ -21,7 +31,8 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_leaf_fragment"
+      "has_deepslate",
+      "has_birch_sapling"
     ]
   ],
   "rewards": {

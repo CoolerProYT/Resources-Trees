@@ -1,6 +1,16 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
+    "has_cyan_terracotta": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:cyan_terracotta"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
     "has_grass_block": {
       "conditions": {
         "items": [
@@ -21,7 +31,8 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_grass_block"
+      "has_grass_block",
+      "has_cyan_terracotta"
     ]
   ],
   "rewards": {
