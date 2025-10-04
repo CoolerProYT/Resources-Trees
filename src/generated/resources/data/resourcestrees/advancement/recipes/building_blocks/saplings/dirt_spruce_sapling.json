@@ -1,11 +1,21 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_leaf_fragment": {
+    "has_dirt": {
       "conditions": {
         "items": [
           {
-            "items": "resourcestrees:leaf_fragment"
+            "items": "minecraft:dirt"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_spruce_sapling": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:spruce_sapling"
           }
         ]
       },
@@ -21,7 +31,8 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_leaf_fragment"
+      "has_dirt",
+      "has_spruce_sapling"
     ]
   ],
   "rewards": {

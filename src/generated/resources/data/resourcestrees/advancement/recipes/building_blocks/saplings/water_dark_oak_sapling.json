@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_leaf_fragment": {
+    "has_dark_oak_sapling": {
       "conditions": {
         "items": [
           {
-            "items": "resourcestrees:leaf_fragment"
+            "items": "minecraft:dark_oak_sapling"
           }
         ]
       },
@@ -16,12 +16,23 @@
         "recipe": "resourcestrees:saplings/water_dark_oak_sapling"
       },
       "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_water_essence": {
+      "conditions": {
+        "items": [
+          {
+            "items": "resourcestrees:water_essence"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     }
   },
   "requirements": [
     [
       "has_the_recipe",
-      "has_leaf_fragment"
+      "has_water_essence",
+      "has_dark_oak_sapling"
     ]
   ],
   "rewards": {
