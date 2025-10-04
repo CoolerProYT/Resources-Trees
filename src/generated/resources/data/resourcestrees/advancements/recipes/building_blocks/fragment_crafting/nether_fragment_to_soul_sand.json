@@ -1,12 +1,25 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_leaf_fragment": {
+    "has_nether_leaf_fragment": {
       "conditions": {
         "items": [
           {
             "items": [
               "resourcestrees:leaf_fragment"
+            ],
+            "nbt": "{type:\"resourcestrees:nether\"}"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_sand": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:sand"
             ]
           }
         ]
@@ -22,7 +35,8 @@
   },
   "requirements": [
     [
-      "has_leaf_fragment",
+      "has_nether_leaf_fragment",
+      "has_sand",
       "has_the_recipe"
     ]
   ],

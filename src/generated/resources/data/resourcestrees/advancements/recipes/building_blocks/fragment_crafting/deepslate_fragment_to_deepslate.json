@@ -1,13 +1,27 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_leaf_fragment": {
+    "has_coal_leaf_fragment": {
       "conditions": {
         "items": [
           {
             "items": [
               "resourcestrees:leaf_fragment"
-            ]
+            ],
+            "nbt": "{type:\"resourcestrees:coal\"}"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_deepslate_leaf_fragment": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "resourcestrees:leaf_fragment"
+            ],
+            "nbt": "{type:\"resourcestrees:deepslate\"}"
           }
         ]
       },
@@ -22,7 +36,8 @@
   },
   "requirements": [
     [
-      "has_leaf_fragment",
+      "has_deepslate_leaf_fragment",
+      "has_coal_leaf_fragment",
       "has_the_recipe"
     ]
   ],

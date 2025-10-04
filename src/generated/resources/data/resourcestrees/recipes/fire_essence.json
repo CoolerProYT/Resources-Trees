@@ -1,17 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
-  "ingredients": [
-    {
-      "item": "minecraft:fire_charge"
-    },
-    {
-      "item": "minecraft:magma_block"
-    },
-    {
-      "item": "minecraft:lava_bucket"
-    }
-  ],
+  "ingredients": [],
   "result": {
     "item": "resourcestrees:fire_essence"
   }

@@ -1,6 +1,42 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
+    "has_clay_ball": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:clay_ball"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_kelp": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:kelp"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_seagrass": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:seagrass"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
     "has_the_recipe": {
       "conditions": {
         "recipe": "resourcestrees:water_essence"
@@ -23,6 +59,9 @@
   "requirements": [
     [
       "has_water_bucket",
+      "has_kelp",
+      "has_seagrass",
+      "has_clay_ball",
       "has_the_recipe"
     ]
   ],

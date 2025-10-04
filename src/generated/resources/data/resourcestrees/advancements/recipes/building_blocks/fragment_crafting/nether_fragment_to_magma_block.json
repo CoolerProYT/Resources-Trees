@@ -1,13 +1,27 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_leaf_fragment": {
+    "has_fire_leaf_fragment": {
       "conditions": {
         "items": [
           {
             "items": [
               "resourcestrees:leaf_fragment"
-            ]
+            ],
+            "nbt": "{type:\"resourcestrees:fire\"}"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_nether_leaf_fragment": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "resourcestrees:leaf_fragment"
+            ],
+            "nbt": "{type:\"resourcestrees:nether\"}"
           }
         ]
       },
@@ -22,7 +36,8 @@
   },
   "requirements": [
     [
-      "has_leaf_fragment",
+      "has_nether_leaf_fragment",
+      "has_fire_leaf_fragment",
       "has_the_recipe"
     ]
   ],

@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_leaf_fragment": {
+    "has_cherry_sapling": {
       "conditions": {
         "items": [
           {
             "items": [
-              "resourcestrees:leaf_fragment"
+              "minecraft:cherry_sapling"
             ]
           }
         ]
@@ -18,11 +18,24 @@
         "recipe": "resourcestrees:saplings/water_cherry_sapling"
       },
       "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_water_essence": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "resourcestrees:water_essence"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     }
   },
   "requirements": [
     [
-      "has_leaf_fragment",
+      "has_water_essence",
+      "has_cherry_sapling",
       "has_the_recipe"
     ]
   ],

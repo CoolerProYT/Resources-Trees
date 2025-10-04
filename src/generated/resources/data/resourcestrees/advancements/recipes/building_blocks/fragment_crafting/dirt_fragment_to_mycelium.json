@@ -1,13 +1,26 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_leaf_fragment": {
+    "has_brown_mushroom_block": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:brown_mushroom_block"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_dirt_leaf_fragment": {
       "conditions": {
         "items": [
           {
             "items": [
               "resourcestrees:leaf_fragment"
-            ]
+            ],
+            "nbt": "{type:\"resourcestrees:dirt\"}"
           }
         ]
       },
@@ -22,7 +35,8 @@
   },
   "requirements": [
     [
-      "has_leaf_fragment",
+      "has_dirt_leaf_fragment",
+      "has_brown_mushroom_block",
       "has_the_recipe"
     ]
   ],

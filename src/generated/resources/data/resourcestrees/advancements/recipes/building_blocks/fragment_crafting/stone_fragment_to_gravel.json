@@ -1,13 +1,26 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_leaf_fragment": {
+    "has_sand": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:sand"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_stone_leaf_fragment": {
       "conditions": {
         "items": [
           {
             "items": [
               "resourcestrees:leaf_fragment"
-            ]
+            ],
+            "nbt": "{type:\"resourcestrees:stone\"}"
           }
         ]
       },
@@ -22,7 +35,8 @@
   },
   "requirements": [
     [
-      "has_leaf_fragment",
+      "has_stone_leaf_fragment",
+      "has_sand",
       "has_the_recipe"
     ]
   ],

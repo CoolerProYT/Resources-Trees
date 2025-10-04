@@ -1,12 +1,24 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_leaf_fragment": {
+    "has_jungle_sapling": {
       "conditions": {
         "items": [
           {
             "items": [
-              "resourcestrees:leaf_fragment"
+              "minecraft:jungle_sapling"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_lapis_block": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:lapis_block"
             ]
           }
         ]
@@ -22,7 +34,8 @@
   },
   "requirements": [
     [
-      "has_leaf_fragment",
+      "has_lapis_block",
+      "has_jungle_sapling",
       "has_the_recipe"
     ]
   ],

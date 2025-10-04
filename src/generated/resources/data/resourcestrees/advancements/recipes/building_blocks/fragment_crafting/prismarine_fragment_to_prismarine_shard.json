@@ -1,13 +1,14 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_leaf_fragment": {
+    "has_prismarine_leaf_fragment": {
       "conditions": {
         "items": [
           {
             "items": [
               "resourcestrees:leaf_fragment"
-            ]
+            ],
+            "nbt": "{type:\"resourcestrees:prismarine\"}"
           }
         ]
       },
@@ -22,7 +23,7 @@
   },
   "requirements": [
     [
-      "has_leaf_fragment",
+      "has_prismarine_leaf_fragment",
       "has_the_recipe"
     ]
   ],

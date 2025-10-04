@@ -1,12 +1,24 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_leaf_fragment": {
+    "has_acacia_sapling": {
       "conditions": {
         "items": [
           {
             "items": [
-              "resourcestrees:leaf_fragment"
+              "minecraft:acacia_sapling"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_prismarine": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:prismarine"
             ]
           }
         ]
@@ -22,7 +34,8 @@
   },
   "requirements": [
     [
-      "has_leaf_fragment",
+      "has_prismarine",
+      "has_acacia_sapling",
       "has_the_recipe"
     ]
   ],

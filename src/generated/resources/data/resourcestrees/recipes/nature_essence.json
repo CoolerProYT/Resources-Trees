@@ -1,35 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
-  "ingredients": [
-    {
-      "item": "minecraft:grass_block"
-    },
-    {
-      "item": "minecraft:moss_block"
-    },
-    {
-      "item": "minecraft:pumpkin"
-    },
-    {
-      "item": "minecraft:melon"
-    },
-    {
-      "item": "minecraft:sugar_cane"
-    },
-    {
-      "item": "minecraft:cactus"
-    },
-    {
-      "item": "minecraft:wheat"
-    },
-    {
-      "item": "minecraft:carrot"
-    },
-    {
-      "item": "minecraft:potato"
-    }
-  ],
+  "ingredients": [],
   "result": {
     "item": "resourcestrees:nature_essence"
   }
