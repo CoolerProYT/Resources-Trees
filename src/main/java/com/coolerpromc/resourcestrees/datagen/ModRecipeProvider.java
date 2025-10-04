@@ -9,16 +9,23 @@ import com.coolerpromc.resourcestrees.datagen.recipebuilder.TreeSimulatorRecipeB
 import com.coolerpromc.resourcestrees.item.ModItems;
 import com.coolerpromc.resourcestrees.recipe.output.TreeSimulatorOutput;
 import com.coolerpromc.resourcestrees.registry.ModRegistries;
+import net.minecraft.advancements.Criterion;
+import net.minecraft.advancements.critereon.DataComponentMatchers;
+import net.minecraft.advancements.critereon.InventoryChangeTrigger;
+import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentExactPredicate;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 
 import java.lang.reflect.Field;
@@ -137,6 +144,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .define('A', Items.CYAN_TERRACOTTA)
                 .define('B', Items.GRASS_BLOCK)
                 .unlockedBy(getHasName(Items.GRASS_BLOCK), has(Items.GRASS_BLOCK))
+                .unlockedBy(getHasName(Items.CYAN_TERRACOTTA), has(Items.CYAN_TERRACOTTA))
                 .save(output);
 
         // Item Recipe
@@ -163,7 +171,8 @@ public class ModRecipeProvider extends RecipeProvider {
                                         .pattern(" A ")
                                         .define('A', BuiltInRegistries.ITEM.getValue(value.material().left().get()))
                                         .define('B', SAPLINGS_BY_SAPLINGS.get(resourcesSaplingBlock))
-                                        .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT), has(ModItems.LEAF_FRAGMENT))
+                                        .unlockedBy(getHasName(BuiltInRegistries.ITEM.getValue(value.material().left().get())), has(BuiltInRegistries.ITEM.getValue(value.material().left().get())))
+                                        .unlockedBy(getHasName(SAPLINGS_BY_SAPLINGS.get(resourcesSaplingBlock)), has(SAPLINGS_BY_SAPLINGS.get(resourcesSaplingBlock)))
                                         .save(output, ResourceKey.create(Registries.RECIPE, key.withSuffix(BuiltInRegistries.BLOCK.getKey(resourcesSaplingBlock).getPath().substring(9)).withPrefix("saplings/")));
                             }
                             else if (value.material().right().isPresent()){
@@ -173,7 +182,8 @@ public class ModRecipeProvider extends RecipeProvider {
                                         .pattern(" A ")
                                         .define('A', (value.material().right().get()))
                                         .define('B', SAPLINGS_BY_SAPLINGS.get(resourcesSaplingBlock))
-                                        .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT), has(ModItems.LEAF_FRAGMENT))
+                                        .unlockedBy("has_" + value.material().right().get().location().getPath() + "_tags", has(value.material().right().get()))
+                                        .unlockedBy(getHasName(SAPLINGS_BY_SAPLINGS.get(resourcesSaplingBlock)), has(SAPLINGS_BY_SAPLINGS.get(resourcesSaplingBlock)))
                                         .save(output, ResourceKey.create(Registries.RECIPE, key.withSuffix(BuiltInRegistries.BLOCK.getKey(resourcesSaplingBlock).getPath().substring(9)).withPrefix("saplings/")));
                             }
 
@@ -205,9 +215,10 @@ public class ModRecipeProvider extends RecipeProvider {
 
         for (Item item : inputItems){
             builder.requires(item);
+            builder.unlockedBy(getHasName(item), has(item));
         }
 
-        builder.unlockedBy(getHasName(inputItems[0]), has(inputItems[0])).save(output);
+        builder.save(output);
     }
 
     private void circleShape(Item outputItem, int count, ResourceKey<ResourcesTypes> resourceType){
@@ -216,7 +227,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .pattern("A A")
                 .pattern("AAA")
                 .define('A', DataComponentIngredient.of(true, ModDataComponents.TYPE.get(), types.getOrThrow(resourceType).key().location(), ModItems.LEAF_FRAGMENT))
-                .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT), has(ModItems.LEAF_FRAGMENT))
+                .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType).key().location()), has(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType).key().location()))
                 .save(output, ResourceKey.create(Registries.RECIPE, resourceType.location().withSuffix("_fragment_to_" + getItemName(outputItem)).withPrefix("fragment_crafting/")));
     }
 
@@ -227,7 +238,8 @@ public class ModRecipeProvider extends RecipeProvider {
                 .pattern("AAA")
                 .define('B', DataComponentIngredient.of(true, ModDataComponents.TYPE.get(), types.getOrThrow(resourceType).key().location(), ModItems.LEAF_FRAGMENT))
                 .define('A', item)
-                .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT), has(ModItems.LEAF_FRAGMENT))
+                .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType).key().location()), has(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType).key().location()))
+                .unlockedBy(getHasName(item), has(item))
                 .save(output, ResourceKey.create(Registries.RECIPE, resourceType.location().withSuffix("_fragment_to_" + getItemName(outputItem)).withPrefix("fragment_crafting/")));
     }
 
@@ -238,7 +250,8 @@ public class ModRecipeProvider extends RecipeProvider {
                 .pattern("AAA")
                 .define('A', DataComponentIngredient.of(true, ModDataComponents.TYPE.get(), types.getOrThrow(resourceType).key().location(), ModItems.LEAF_FRAGMENT))
                 .define('B', DataComponentIngredient.of(true, ModDataComponents.TYPE.get(), types.getOrThrow(middleResourceType).key().location(), ModItems.LEAF_FRAGMENT))
-                .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT), has(ModItems.LEAF_FRAGMENT))
+                .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType).key().location()), has(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType).key().location()))
+                .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT, types.getOrThrow(middleResourceType).key().location()), has(ModItems.LEAF_FRAGMENT, types.getOrThrow(middleResourceType).key().location()))
                 .save(output, ResourceKey.create(Registries.RECIPE, resourceType.location().withSuffix("_fragment_to_" + getItemName(outputItem)).withPrefix("fragment_crafting/")));
     }
 
@@ -249,7 +262,8 @@ public class ModRecipeProvider extends RecipeProvider {
                 .pattern("   ")
                 .define('A', DataComponentIngredient.of(true, ModDataComponents.TYPE.get(), types.getOrThrow(resourceType).key().location(), ModItems.LEAF_FRAGMENT))
                 .define('B', DataComponentIngredient.of(true, ModDataComponents.TYPE.get(), types.getOrThrow(middleResourceType).key().location(), ModItems.LEAF_FRAGMENT))
-                .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT), has(ModItems.LEAF_FRAGMENT))
+                .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType).key().location()), has(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType).key().location()))
+                .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT, types.getOrThrow(middleResourceType).key().location()), has(ModItems.LEAF_FRAGMENT, types.getOrThrow(middleResourceType).key().location()))
                 .save(output, ResourceKey.create(Registries.RECIPE, resourceType.location().withSuffix("_fragment_to_" + getItemName(outputItem)).withPrefix("fragment_crafting/")));
     }
 
@@ -259,7 +273,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .pattern("AAA")
                 .pattern("AAA")
                 .define('A', DataComponentIngredient.of(true, ModDataComponents.TYPE.get(), types.getOrThrow(resourceType).key().location(), ModItems.LEAF_FRAGMENT))
-                .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT), has(ModItems.LEAF_FRAGMENT))
+                .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType).key().location()), has(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType).key().location()))
                 .save(output, ResourceKey.create(Registries.RECIPE, resourceType.location().withSuffix("_fragment_to_" + getItemName(outputItem)).withPrefix("fragment_crafting/")));
     }
 
@@ -269,7 +283,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .pattern("AAA")
                 .pattern("   ")
                 .define('A', DataComponentIngredient.of(true, ModDataComponents.TYPE.get(), types.getOrThrow(resourceType).key().location(), ModItems.LEAF_FRAGMENT))
-                .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT), has(ModItems.LEAF_FRAGMENT))
+                .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType).key().location()), has(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType).key().location()))
                 .save(output, ResourceKey.create(Registries.RECIPE, resourceType.location().withSuffix("_fragment_to_" + getItemName(outputItem)).withPrefix("fragment_crafting/")));
     }
 
@@ -279,7 +293,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .pattern(line2)
                 .pattern(line3)
                 .define('A', DataComponentIngredient.of(true, ModDataComponents.TYPE.get(), types.getOrThrow(resourceType).key().location(), ModItems.LEAF_FRAGMENT))
-                .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT), has(ModItems.LEAF_FRAGMENT))
+                .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType).key().location()), has(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType).key().location()))
                 .save(output, ResourceKey.create(Registries.RECIPE, resourceType.location().withSuffix("_fragment_to_" + getItemName(outputItem)).withPrefix("fragment_crafting/")));
     }
 
@@ -290,8 +304,17 @@ public class ModRecipeProvider extends RecipeProvider {
                 .pattern(line3)
                 .define('A', DataComponentIngredient.of(true, ModDataComponents.TYPE.get(), types.getOrThrow(resourceType).key().location(), ModItems.LEAF_FRAGMENT))
                 .define('B', DataComponentIngredient.of(true, ModDataComponents.TYPE.get(), types.getOrThrow(resourceType2).key().location(), ModItems.LEAF_FRAGMENT))
-                .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT), has(ModItems.LEAF_FRAGMENT))
+                .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType).key().location()), has(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType).key().location()))
+                .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType2).key().location()), has(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType2).key().location()))
                 .save(output, ResourceKey.create(Registries.RECIPE, resourceType.location().withSuffix("_fragment_to_" + getItemName(outputItem)).withPrefix("fragment_crafting/")));
+    }
+
+    protected Criterion<InventoryChangeTrigger.TriggerInstance> has(ItemLike itemLike, ResourceLocation key) {
+        return inventoryTrigger(ItemPredicate.Builder.item().of(this.items, itemLike).withComponents(DataComponentMatchers.Builder.components().exact(DataComponentExactPredicate.builder().expect(ModDataComponents.TYPE.get(), key).build()).build()));
+    }
+
+    protected static String getHasName(ItemLike itemLike, ResourceLocation key) {
+        return "has_" + key.getPath() + "_" + getItemName(itemLike);
     }
 
     public static final class Runner extends RecipeProvider.Runner {

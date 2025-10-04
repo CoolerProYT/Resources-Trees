@@ -1,11 +1,21 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_leaf_fragment": {
+    "has_cobblestone": {
       "conditions": {
         "items": [
           {
-            "items": "resourcestrees:leaf_fragment"
+            "items": "minecraft:cobblestone"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_jungle_sapling": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:jungle_sapling"
           }
         ]
       },
@@ -21,7 +31,8 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_leaf_fragment"
+      "has_cobblestone",
+      "has_jungle_sapling"
     ]
   ],
   "rewards": {

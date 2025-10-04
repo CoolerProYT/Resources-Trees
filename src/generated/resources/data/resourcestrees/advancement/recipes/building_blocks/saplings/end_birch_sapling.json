@@ -1,11 +1,21 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_leaf_fragment": {
+    "has_birch_sapling": {
       "conditions": {
         "items": [
           {
-            "items": "resourcestrees:leaf_fragment"
+            "items": "minecraft:birch_sapling"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_end_essence": {
+      "conditions": {
+        "items": [
+          {
+            "items": "resourcestrees:end_essence"
           }
         ]
       },
@@ -21,7 +31,8 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_leaf_fragment"
+      "has_end_essence",
+      "has_birch_sapling"
     ]
   ],
   "rewards": {
