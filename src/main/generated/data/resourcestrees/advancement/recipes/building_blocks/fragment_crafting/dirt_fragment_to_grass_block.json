@@ -1,10 +1,26 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_leaf_fragment": {
+    "has_dirt_leaf_fragment": {
       "conditions": {
         "items": [
           {
+            "components": {
+              "resourcestrees:resources_type": "resourcestrees:dirt"
+            },
+            "items": "resourcestrees:leaf_fragment"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_nature_leaf_fragment": {
+      "conditions": {
+        "items": [
+          {
+            "components": {
+              "resourcestrees:resources_type": "resourcestrees:nature"
+            },
             "items": "resourcestrees:leaf_fragment"
           }
         ]
@@ -21,7 +37,8 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_leaf_fragment"
+      "has_dirt_leaf_fragment",
+      "has_nature_leaf_fragment"
     ]
   ],
   "rewards": {

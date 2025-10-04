@@ -1,27 +1,30 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_leaf_fragment": {
-      "conditions": {
-        "items": [
-          {
-            "items": "resourcestrees:leaf_fragment"
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
     "has_the_recipe": {
       "conditions": {
         "recipe": "resourcestrees:fragment_crafting/wood_fragment_to_bamboo_block"
       },
       "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_wood_leaf_fragment": {
+      "conditions": {
+        "items": [
+          {
+            "components": {
+              "resourcestrees:resources_type": "resourcestrees:wood"
+            },
+            "items": "resourcestrees:leaf_fragment"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     }
   },
   "requirements": [
     [
       "has_the_recipe",
-      "has_leaf_fragment"
+      "has_wood_leaf_fragment"
     ]
   ],
   "rewards": {

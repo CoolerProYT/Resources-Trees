@@ -1,11 +1,21 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_leaf_fragment": {
+    "has_acacia_sapling": {
       "conditions": {
         "items": [
           {
-            "items": "resourcestrees:leaf_fragment"
+            "items": "minecraft:acacia_sapling"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_lapis_block": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:lapis_block"
           }
         ]
       },
@@ -21,7 +31,8 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_leaf_fragment"
+      "has_lapis_block",
+      "has_acacia_sapling"
     ]
   ],
   "rewards": {

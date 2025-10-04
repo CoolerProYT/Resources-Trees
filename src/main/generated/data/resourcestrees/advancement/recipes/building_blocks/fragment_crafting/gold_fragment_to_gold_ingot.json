@@ -1,10 +1,13 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_leaf_fragment": {
+    "has_gold_leaf_fragment": {
       "conditions": {
         "items": [
           {
+            "components": {
+              "resourcestrees:resources_type": "resourcestrees:gold"
+            },
             "items": "resourcestrees:leaf_fragment"
           }
         ]
@@ -21,7 +24,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_leaf_fragment"
+      "has_gold_leaf_fragment"
     ]
   ],
   "rewards": {
