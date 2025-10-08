@@ -66,7 +66,7 @@ public final class ResourcesTrees {
         return ResourceLocation.fromNamespaceAndPath(MODID, path);
     }
 
-    @Mod.EventBusSubscriber(modid = MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
+    @Mod.EventBusSubscriber(modid = MODID, value = Dist.CLIENT)
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
@@ -76,12 +76,8 @@ public final class ResourcesTrees {
         }
 
         @SubscribeEvent
-        public static void onRegisterColorHandlersItemTintSources(RegisterColorHandlersEvent event) {
-            ItemTintSources.ID_MAPPER.put(ResourceLocation.fromNamespaceAndPath(MODID, "resources_type_tint"), ResourcesTypeTintSource.MAP_CODEC);
-        }
-
-        @SubscribeEvent
         public static void onRegisterColorHandlers(RegisterColorHandlersEvent.Block event) {
+            ItemTintSources.ID_MAPPER.put(ResourceLocation.fromNamespaceAndPath(MODID, "resources_type_tint"), ResourcesTypeTintSource.MAP_CODEC);
             event.register((blockState, blockAndTintGetter, blockPos, i) -> {
                         if (blockAndTintGetter != null){
                             BlockEntity blockEntity = blockAndTintGetter.getBlockEntity(blockPos);

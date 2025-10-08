@@ -13,7 +13,7 @@ import net.minecraftforge.registries.DataPackRegistryEvent;
 
 import java.util.concurrent.CompletableFuture;
 
-@Mod.EventBusSubscriber(modid = ResourcesTrees.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = ResourcesTrees.MODID)
 public class DataGenerators {
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event){
