@@ -81,7 +81,12 @@ public class ResourcesSaplingBlock extends SaplingBlock implements EntityBlock {
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if (state.getBlock() instanceof ResourcesSaplingBlock && blockEntity instanceof ResourcesTypesBlockEntity be && be.getResourcesType() != null) {
             ResourceLocation type = be.getResourcesType();
-            ResourcesTypes resourcesTypes = ResourcesTypes.byId(type, level);
+            Holder<ResourcesTypes> typesHolder = ResourcesTypes.asHolder(level, type);
+            if (typesHolder == null){
+                super.advanceTree(level, pos, state, random);
+                return;
+            }
+            ResourcesTypes resourcesTypes = typesHolder.value();
             ResourceKey<ConfiguredFeature<?, ?>> resourcekey = null;
 
             if (treeGrower instanceof AbstractMegaTreeGrower megaTreeGrower){

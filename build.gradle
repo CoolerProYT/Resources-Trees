@@ -49,7 +49,6 @@ legacyForge  {
 
         server {
             server()
-            programArgument '--enable-debug-commands'
             programArgument '--nogui'
         }
 
@@ -81,12 +80,15 @@ dependencies {
     modImplementation("curse.maven:jade-324717:6855440")
 
     modCompileOnly("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
-    modCompileOnly("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
+    modImplementation("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
 
     modImplementation("dev.architectury:architectury-forge:${architectury_version}")
     modImplementation("me.shedaniel.cloth:cloth-config-forge:${cloth_config_version}")
     modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-forge:${rei_version}")
-    modImplementation("me.shedaniel:RoughlyEnoughItems-forge:${rei_version}")
+    modCompileOnly("me.shedaniel:RoughlyEnoughItems-forge:${rei_version}")
+
+    modImplementation("curse.maven:collective-342584:7120358")
+    modImplementation("curse.maven:tree-harvester-367178:6184914")
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {

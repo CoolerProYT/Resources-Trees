@@ -40,12 +40,12 @@ public class RecipeViewerFiller {
                             ItemStack sapling = block.asItem().getDefaultInstance();
                             sapling.getOrCreateTag().putString("type", type.toString());
                             Optional<TreeSimulatorRecipe> exisingRecipe = Minecraft.getInstance().level.getRecipeManager().getRecipesFor(ModRecipes.TREE_SIMULATOR_TYPE.get(), new TreeSimulatorRecipeInput(sapling), null).stream().findFirst();
-                            if (value != ResourcesTypes.EMPTY && exisingRecipe.isEmpty()){
+                            if (value.value() != ResourcesTypes.EMPTY && exisingRecipe.isEmpty()){
                                 List<TreeSimulatorOutput> drops = new ArrayList<>();
                                 drops.add(TreeSimulatorOutput.of(TreeSimulatorBlockEntity.LOG_BY_SAPLINGS.get(block).getDefaultInstance(), 1, 2, 4));
                                 drops.add(TreeSimulatorOutput.of(leaf, 1, 1, 1));
-                                drops.add(TreeSimulatorOutput.of(leaf, value.secondaryDropChance(), 1, 1));
-                                drops.add(TreeSimulatorOutput.of(sapling, value.saplingChance(), 1, 1));
+                                drops.add(TreeSimulatorOutput.of(leaf, value.value().secondaryDropChance(), 1, 1));
+                                drops.add(TreeSimulatorOutput.of(sapling, value.value().saplingChance(), 1, 1));
                                 drops.add(TreeSimulatorOutput.of(Items.STICK.getDefaultInstance(), 0.1f, 1, 2));
                                 drops.add(TreeSimulatorOutput.of(Items.APPLE.getDefaultInstance(), 0.05f, 1, 1));
                                 drops.add(TreeSimulatorOutput.of(ModRecipeProvider.SAPLINGS_BY_SAPLINGS.get(block).getDefaultInstance(), 0.1f, 1, 1));

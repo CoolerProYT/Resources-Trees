@@ -20,6 +20,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -36,38 +37,47 @@ public class ResourcesLeavesBlock extends LeavesBlock implements EntityBlock {
     @Override
     public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
         List<ItemStack> drops = super.getDrops(state, builder);
+        Vec3 pos = builder.getOptionalParameter(LootContextParams.ORIGIN);
         BlockEntity blockEntity = builder.getOptionalParameter(LootContextParams.BLOCK_ENTITY);
 
-        if (blockEntity instanceof ResourcesTypesBlockEntity be){
-            ResourceLocation type = be.getResourcesType();
-            ResourcesTypes resourcesTypes = ResourcesTypes.byId(type, builder.getLevel());
-
-            if (drops.isEmpty()){
-                if (builder.getLevel().getRandom().nextFloat() < resourcesTypes.saplingChance()) {
-                    ItemStack saplingDrop = sapling.get().asItem().getDefaultInstance();
-                    CompoundTag tag = saplingDrop.getOrCreateTag();
-                    tag.putString("type", type.toString());
-                    drops.add(saplingDrop);
-                }
-
-                ItemStack fragment = ModItems.LEAF_FRAGMENT.get().getDefaultInstance();
-                CompoundTag tag = fragment.getOrCreateTag();
-                tag.putString("type", type.toString());
-
-                drops.add(fragment.copy());
-
-                if (builder.getLevel().getRandom().nextFloat() < resourcesTypes.secondaryDropChance()){
-                    drops.add(fragment.copy());
-                }
-            }
-            else{
-                if (Block.byItem(drops.get(0).getItem()) instanceof ResourcesLeavesBlock){
-                    drops.get(0).getOrCreateTag().putString("type", type.toString());
-                }
-            }
+        if(blockEntity instanceof ResourcesTypesBlockEntity be){
+            calculateDrops(be, builder, drops);
+        }
+        else if (builder.getLevel().getBlockEntity(new BlockPos((int) pos.x, (int) pos.y, (int) pos.z)) instanceof ResourcesTypesBlockEntity be){
+            calculateDrops(be, builder, drops);
         }
 
+
         return drops;
+    }
+
+    private void calculateDrops(ResourcesTypesBlockEntity be, LootParams.Builder builder, List<ItemStack> drops){
+        ResourceLocation type = be.getResourcesType();
+        ResourcesTypes resourcesTypes = ResourcesTypes.asHolder(builder.getLevel(), type).value();
+
+        if (drops.isEmpty()){
+            if (builder.getLevel().getRandom().nextFloat() < resourcesTypes.saplingChance()) {
+                ItemStack saplingDrop = sapling.get().asItem().getDefaultInstance();
+                CompoundTag tag = saplingDrop.getOrCreateTag();
+                tag.putString("type", type.toString());
+                drops.add(saplingDrop);
+            }
+
+            ItemStack fragment = ModItems.LEAF_FRAGMENT.get().getDefaultInstance();
+            CompoundTag tag = fragment.getOrCreateTag();
+            tag.putString("type", type.toString());
+
+            drops.add(fragment.copy());
+
+            if (builder.getLevel().getRandom().nextFloat() < resourcesTypes.secondaryDropChance()){
+                drops.add(fragment.copy());
+            }
+        }
+        else{
+            if (Block.byItem(drops.get(0).getItem()) instanceof ResourcesLeavesBlock){
+                drops.get(0).getOrCreateTag().putString("type", type.toString());
+            }
+        }
     }
 
     @Override

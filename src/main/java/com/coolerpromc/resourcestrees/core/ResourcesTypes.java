@@ -8,7 +8,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstapContext;
@@ -20,7 +19,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,8 +26,6 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 public record ResourcesTypes(Either<ResourceLocation, TagKey<Item>> material, int color, String translationKey, int weight, float saplingChance, float secondaryDropChance){
-    public static final Map<ResourceLocation, ResourcesTypes> LOADED_TYPES = new HashMap<>();
-
     public ResourcesTypes(Item material, int color, String translationKey, int weight, float saplingChance, float secondaryDropChance) {
         this(Either.left(BuiltInRegistries.ITEM.getKey(material)), color, translationKey, weight, saplingChance, secondaryDropChance);
     }
@@ -110,35 +106,29 @@ public record ResourcesTypes(Either<ResourceLocation, TagKey<Item>> material, in
         context.register(ICE, new ResourcesTypes(Items.ICE, 0xFFb9e8ea, "item.resourcestrees.ice", 5, 0.25f, 0.5f));
     }
 
-    public static Map<ResourceLocation, ResourcesTypes> getAllResourcesTypes(Level level){
-        Registry<ResourcesTypes> registry = level.registryAccess().registryOrThrow(ModRegistries.RESOURCES_TYPES_KEY);
-        Map<ResourceLocation, ResourcesTypes> types = new HashMap<>();
-        registry.entrySet().forEach(entry -> {
-            if (types.containsKey(entry.getKey().location())){
-                throw new IllegalStateException("Duplicate resource location " + entry.getKey().location() + " for " + entry.getKey().location());
-            }
-            types.put(entry.getKey().location(), entry.getValue());
-        });
-        return types;
-    }
-
-    public static Map<ResourceLocation, ResourcesTypes> getAllResourcesTypes(HolderLookup.Provider provider){
+    public static Map<ResourceLocation, Holder<ResourcesTypes>> getAllResourcesTypes(HolderLookup.Provider provider){
         Stream<Holder.Reference<ResourcesTypes>> registry = provider.lookupOrThrow(ModRegistries.RESOURCES_TYPES_KEY).listElements();
-        Map<ResourceLocation, ResourcesTypes> types = new HashMap<>();
+        Map<ResourceLocation, Holder<ResourcesTypes>> types = new HashMap<>();
         registry.forEachOrdered(entry -> {
             if (types.containsKey(entry.key().location())){
                 throw new IllegalStateException("Duplicate resource index " + entry.key().location() + " for " + entry.key().location());
             }
-            types.put(entry.key().location(), entry.value());
+            types.put(entry.key().location(), entry);
         });
         return types;
     }
 
-    public static ResourcesTypes byId(ResourceLocation id, @Nullable Level level){
-        if (LOADED_TYPES.isEmpty() && level != null){
-            return getAllResourcesTypes(level).getOrDefault(id, EMPTY);
+    public static Holder<ResourcesTypes> asHolder(Level level, ResourceLocation resourceLocation) {
+        try{
+            return getAllResourcesTypes(level.registryAccess()).entrySet().stream().filter((holder) -> holder.getKey().equals(resourceLocation)).findFirst().get().getValue();
         }
-        return LOADED_TYPES.getOrDefault(id, EMPTY);
+        catch (Exception ignored){
+            return null;
+        }
+    }
+
+    public boolean isEmpty(){
+        return this.equals(EMPTY);
     }
 
     public static boolean isSameItemSameType(ItemStack stack, ItemStack other) {
@@ -156,4 +146,15 @@ public record ResourcesTypes(Either<ResourceLocation, TagKey<Item>> material, in
         return !hasType1 && !hasType2;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        ResourcesTypes that = (ResourcesTypes) o;
+        return color() == that.color() && weight() == that.weight() && Float.compare(saplingChance(), that.saplingChance()) == 0 && Float.compare(secondaryDropChance(), that.secondaryDropChance()) == 0 && Objects.equals(translationKey(), that.translationKey()) && Objects.equals(material(), that.material());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(material(), color(), translationKey(), weight(), saplingChance(), secondaryDropChance());
+    }
 }

@@ -156,26 +156,26 @@ public class ModRecipeProvider extends RecipeProvider {
                     if (obj instanceof Supplier<?> supplier){
                         if (supplier.get() instanceof ResourcesSaplingBlock resourcesSaplingBlock){
                             ItemStack sapling = resourcesSaplingBlock.asItem().getDefaultInstance();
-                            sapling.getOrCreateTag().putString("type", key.toString());
-                            if (value.material().left().isPresent()){
+                            sapling.getOrCreateTag().putString("type", value.toString());
+                            if (value.value().material().left().isPresent()){
                                 ShapedRecipeNBTOutputBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, sapling)
                                         .pattern(" A ")
                                         .pattern("ABA")
                                         .pattern(" A ")
-                                        .define('A', BuiltInRegistries.ITEM.get(value.material().left().get()))
+                                        .define('A', BuiltInRegistries.ITEM.get(value.value().material().left().get()))
                                         .define('B', SAPLINGS_BY_SAPLINGS.get(resourcesSaplingBlock))
-                                        .unlockedBy(getHasName(BuiltInRegistries.ITEM.get(value.material().left().get())), has(BuiltInRegistries.ITEM.get(value.material().left().get())))
+                                        .unlockedBy(getHasName(BuiltInRegistries.ITEM.get(value.value().material().left().get())), has(BuiltInRegistries.ITEM.get(value.value().material().left().get())))
                                         .unlockedBy(getHasName(SAPLINGS_BY_SAPLINGS.get(resourcesSaplingBlock)), has(SAPLINGS_BY_SAPLINGS.get(resourcesSaplingBlock)))
                                         .save(output, key.withSuffix(BuiltInRegistries.BLOCK.getKey(resourcesSaplingBlock).getPath().substring(9)).withPrefix("saplings/"));
                             }
-                            else if (value.material().right().isPresent()){
+                            else if (value.value().material().right().isPresent()){
                                 ShapedRecipeNBTOutputBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, sapling)
                                         .pattern(" A ")
                                         .pattern("ABA")
                                         .pattern(" A ")
-                                        .define('A', (value.material().right().get()))
+                                        .define('A', (value.value().material().right().get()))
                                         .define('B', SAPLINGS_BY_SAPLINGS.get(resourcesSaplingBlock))
-                                        .unlockedBy("has_" + value.material().right().get().location().getPath() + "_tags", has(value.material().right().get()))
+                                        .unlockedBy("has_" + value.value().material().right().get().location().getPath() + "_tags", has(value.value().material().right().get()))
                                         .unlockedBy(getHasName(SAPLINGS_BY_SAPLINGS.get(resourcesSaplingBlock)), has(SAPLINGS_BY_SAPLINGS.get(resourcesSaplingBlock)))
                                         .save(output, key.withSuffix(BuiltInRegistries.BLOCK.getKey(resourcesSaplingBlock).getPath().substring(9)).withPrefix("saplings/"));
                             }
@@ -187,8 +187,8 @@ public class ModRecipeProvider extends RecipeProvider {
                                     .setTree(sapling)
                                     .addDrops(TreeSimulatorOutput.of(TreeSimulatorBlockEntity.LOG_BY_SAPLINGS.get(resourcesSaplingBlock).getDefaultInstance(), 1, 2, 4))
                                     .addDrops(TreeSimulatorOutput.of(leaf, 1, 1, 1))
-                                    .addDrops(TreeSimulatorOutput.of(leaf, value.secondaryDropChance(), 1, 1))
-                                    .addDrops(TreeSimulatorOutput.of(sapling, value.saplingChance(), 1, 1))
+                                    .addDrops(TreeSimulatorOutput.of(leaf, value.value().secondaryDropChance(), 1, 1))
+                                    .addDrops(TreeSimulatorOutput.of(sapling, value.value().saplingChance(), 1, 1))
                                     .addDrops(TreeSimulatorOutput.of(Items.STICK.getDefaultInstance(), 0.1f, 1, 2))
                                     .addDrops(TreeSimulatorOutput.of(Items.APPLE.getDefaultInstance(), 0.05f, 1, 1))
                                     .addDrops(TreeSimulatorOutput.of(SAPLINGS_BY_SAPLINGS.get(resourcesSaplingBlock).getDefaultInstance(), 0.1f, 1, 1))

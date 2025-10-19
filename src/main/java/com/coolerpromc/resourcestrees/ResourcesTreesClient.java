@@ -12,6 +12,7 @@ import com.coolerpromc.resourcestrees.item.custom.EssenceItem;
 import com.coolerpromc.resourcestrees.item.custom.LeafFragmentItem;
 import com.coolerpromc.resourcestrees.screen.ModMenuTypes;
 import com.coolerpromc.resourcestrees.screen.custom.TreeSimulatorScreen;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
@@ -68,7 +69,12 @@ public class ResourcesTreesClient {
             if (itemStack.hasTag() && itemStack.getTag().contains("type")){
                 ResourceLocation type = new ResourceLocation(itemStack.getTag().getString("type"));
                 if ((Block.byItem(itemStack.getItem()) instanceof ResourcesSaplingBlock && i == 1) || Block.byItem(itemStack.getItem()) instanceof ResourcesLeavesBlock || itemStack.getItem() instanceof LeafFragmentItem){
-                    return ResourcesTypes.byId(type, null).color();
+                    try{
+                        return ResourcesTypes.asHolder(Minecraft.getInstance().level, type).value().color();
+                    }
+                    catch (Exception ignored){
+                        return -1;
+                    }
                 }
             }
             if (itemStack.getItem() instanceof EssenceItem essenceItem){

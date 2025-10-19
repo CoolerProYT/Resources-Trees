@@ -14,6 +14,7 @@ import com.coolerpromc.resourcestrees.recipe.output.TreeSimulatorOutput;
 import com.coolerpromc.resourcestrees.screen.custom.TreeSimulatorMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
@@ -314,15 +315,15 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
             }
             else if (Block.byItem(getSapling().getItem()) instanceof ResourcesSaplingBlock block && getSapling().hasTag() && getSapling().getTag().contains("type")){
                 ResourceLocation type = new ResourceLocation(getSapling().getTag().getString("type"));
-                ResourcesTypes value = ResourcesTypes.byId(type, serverLevel);
+                Holder<ResourcesTypes> value = ResourcesTypes.asHolder(serverLevel, type);
                 ItemStack leaf = ModItems.LEAF_FRAGMENT.get().getDefaultInstance();
                 leaf.getOrCreateTag().putString("type", type.toString());
-                if (value != ResourcesTypes.EMPTY){
+                if (value != null && value.value() != ResourcesTypes.EMPTY){
                     List<TreeSimulatorOutput> drops = new ArrayList<>();
                     drops.add(TreeSimulatorOutput.of(TreeSimulatorBlockEntity.LOG_BY_SAPLINGS.get(block).getDefaultInstance(), 1, 2, 4));
                     drops.add(TreeSimulatorOutput.of(leaf, 1, 1, 1));
-                    drops.add(TreeSimulatorOutput.of(leaf, value.secondaryDropChance(), 1, 1));
-                    drops.add(TreeSimulatorOutput.of(getSapling(), value.saplingChance(), 1, 1));
+                    drops.add(TreeSimulatorOutput.of(leaf, value.value().secondaryDropChance(), 1, 1));
+                    drops.add(TreeSimulatorOutput.of(getSapling(), value.value().saplingChance(), 1, 1));
                     drops.add(TreeSimulatorOutput.of(Items.STICK.getDefaultInstance(), 0.1f, 1, 2));
                     drops.add(TreeSimulatorOutput.of(Items.APPLE.getDefaultInstance(), 0.05f, 1, 1));
                     drops.add(TreeSimulatorOutput.of(ModRecipeProvider.SAPLINGS_BY_SAPLINGS.get(block).getDefaultInstance(), 0.1f, 1, 1));

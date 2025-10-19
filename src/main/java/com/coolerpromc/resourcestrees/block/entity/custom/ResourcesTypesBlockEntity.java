@@ -1,8 +1,10 @@
 package com.coolerpromc.resourcestrees.block.entity.custom;
 
+import com.coolerpromc.resourcestrees.ResourcesTrees;
 import com.coolerpromc.resourcestrees.block.entity.ModBlockEntities;
 import com.coolerpromc.resourcestrees.core.ResourcesTypes;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.Packet;
@@ -19,7 +21,7 @@ public class ResourcesTypesBlockEntity extends BlockEntity {
 
     public ResourcesTypesBlockEntity(BlockPos pos, BlockState blockState) {
         super(ModBlockEntities.RESOURCES_TYPE_BE.get(), pos, blockState);
-        this.resourcesType = null;
+        this.resourcesType = ResourcesTrees.id("empty");
     }
 
     public void setResourcesType(ResourceLocation resourcesType) {
@@ -35,7 +37,11 @@ public class ResourcesTypesBlockEntity extends BlockEntity {
     }
 
     public int getColor(){
-        return ResourcesTypes.byId(getResourcesType(), this.level).color();
+        Holder<ResourcesTypes> holder = ResourcesTypes.asHolder(this.level, getResourcesType());
+        if (holder != null){
+            return holder.value().color();
+        }
+        return -1;
     }
 
     @Override
