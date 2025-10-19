@@ -86,12 +86,15 @@ dependencies {
     implementation "curse.maven:jade-324717:6853386"
 
     compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
-    compileOnly "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
+    implementation "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
 
     implementation "dev.architectury:architectury-neoforge:${architectury_version}"
     implementation "me.shedaniel.cloth:cloth-config-neoforge:${cloth_config_version}"
     compileOnly "me.shedaniel:RoughlyEnoughItems-api-neoforge:${rei_version}"
-    implementation  "me.shedaniel:RoughlyEnoughItems-neoforge:${rei_version}"
+    compileOnly  "me.shedaniel:RoughlyEnoughItems-neoforge:${rei_version}"
+
+    implementation "curse.maven:collective-342584:7120359"
+    implementation "curse.maven:tree-harvester-367178:6184916"
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {

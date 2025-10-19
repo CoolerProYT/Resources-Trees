@@ -13,7 +13,7 @@ import com.coolerpromc.resourcestrees.item.custom.EssenceItem;
 import com.coolerpromc.resourcestrees.item.custom.LeafFragmentItem;
 import com.coolerpromc.resourcestrees.screen.ModMenuTypes;
 import com.coolerpromc.resourcestrees.screen.custom.TreeSimulatorScreen;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.Holder;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.api.distmarker.Dist;
@@ -72,9 +72,9 @@ public class ResourcesTreesClient {
     public static void onRegisterColorHandlers(RegisterColorHandlersEvent.Item event) {
         event.register((itemStack, i) -> {
             if (itemStack.has(ModDataComponents.TYPE)){
-                ResourceLocation type = itemStack.get(ModDataComponents.TYPE);
-                if ((Block.byItem(itemStack.getItem()) instanceof ResourcesSaplingBlock && i == 1) || Block.byItem(itemStack.getItem()) instanceof ResourcesLeavesBlock || itemStack.getItem() instanceof LeafFragmentItem){
-                    return ResourcesTypes.byId(type, null).color();
+                Holder<ResourcesTypes> type = itemStack.get(ModDataComponents.TYPE);
+                if (type != null && ((Block.byItem(itemStack.getItem()) instanceof ResourcesSaplingBlock && i == 1) || Block.byItem(itemStack.getItem()) instanceof ResourcesLeavesBlock || itemStack.getItem() instanceof LeafFragmentItem)){
+                    return type.value().color();
                 }
             }
             if (itemStack.getItem() instanceof EssenceItem essenceItem){

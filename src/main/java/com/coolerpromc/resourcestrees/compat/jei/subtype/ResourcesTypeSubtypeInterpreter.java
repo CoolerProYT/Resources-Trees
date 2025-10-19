@@ -1,9 +1,11 @@
 package com.coolerpromc.resourcestrees.compat.jei.subtype;
 
 import com.coolerpromc.resourcestrees.ResourcesTrees;
+import com.coolerpromc.resourcestrees.core.ResourcesTypes;
 import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
 import mezz.jei.api.ingredients.subtypes.ISubtypeInterpreter;
 import mezz.jei.api.ingredients.subtypes.UidContext;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
@@ -23,10 +25,13 @@ public class ResourcesTypeSubtypeInterpreter implements ISubtypeInterpreter<Item
     }
 
     public String getStringName(ItemStack itemStack) {
-        if (itemStack.getComponentsPatch().isEmpty()) {
+        if (itemStack.has(ModDataComponents.TYPE)) {
             return "";
         }
-        ResourceLocation type = itemStack.getOrDefault(ModDataComponents.TYPE, ResourcesTrees.id("empty"));
-        return type.getPath();
+        Holder<ResourcesTypes> type = itemStack.get(ModDataComponents.TYPE);
+        if (type != null && type.getKey() != null){
+            return type.getKey().location().getPath();
+        }
+        return "";
     }
 }

@@ -41,16 +41,16 @@ public class RecipeViewerFiller {
                     if (obj instanceof Supplier<?> supplier){
                         if (supplier.get() instanceof ResourcesSaplingBlock block){
                             ItemStack leaf = ModItems.LEAF_FRAGMENT.toStack();
-                            leaf.set(ModDataComponents.TYPE, type);
+                            leaf.set(ModDataComponents.TYPE, value);
                             ItemStack sapling = block.asItem().getDefaultInstance();
-                            sapling.set(ModDataComponents.TYPE, type);
+                            sapling.set(ModDataComponents.TYPE, value);
                             Optional<RecipeHolder<TreeSimulatorRecipe>> exisingRecipe = Minecraft.getInstance().level.getRecipeManager().getRecipesFor(ModRecipes.TREE_SIMULATOR_TYPE.get(), new TreeSimulatorRecipeInput(sapling), null).stream().findFirst();
-                            if (value != ResourcesTypes.EMPTY && type != null && exisingRecipe.isEmpty()){
+                            if (value.value() != ResourcesTypes.EMPTY && type != null && exisingRecipe.isEmpty()){
                                 List<TreeSimulatorOutput> drops = new ArrayList<>();
                                 drops.add(TreeSimulatorOutput.of(TreeSimulatorBlockEntity.LOG_BY_SAPLINGS.get(block).getDefaultInstance(), 1, 2, 4));
                                 drops.add(TreeSimulatorOutput.of(leaf, 1, 1, 1));
-                                drops.add(TreeSimulatorOutput.of(leaf, value.secondaryDropChance(), 1, 1));
-                                drops.add(TreeSimulatorOutput.of(sapling, value.saplingChance(), 1, 1));
+                                drops.add(TreeSimulatorOutput.of(leaf, value.value().secondaryDropChance(), 1, 1));
+                                drops.add(TreeSimulatorOutput.of(sapling, value.value().saplingChance(), 1, 1));
                                 drops.add(TreeSimulatorOutput.of(Items.STICK.getDefaultInstance(), 0.1f, 1, 2));
                                 drops.add(TreeSimulatorOutput.of(Items.APPLE.getDefaultInstance(), 0.05f, 1, 1));
                                 drops.add(TreeSimulatorOutput.of(ModRecipeProvider.SAPLINGS_BY_SAPLINGS.get(block).getDefaultInstance(), 0.1f, 1, 1));
