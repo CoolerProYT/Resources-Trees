@@ -75,12 +75,20 @@ repositories {
             includeGroupAndSubgroups('org.spongepowered')
         }
     }
-
+    maven {
+        url "https://www.cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     annotationProcessor 'net.minecraftforge:eventbus-validator:7.0-beta.10'
+
+    implementation "curse.maven:collective-342584:7105756"
+    implementation "curse.maven:tree-harvester-367178:7079088"
 }
 
 tasks.named('processResources', ProcessResources) {

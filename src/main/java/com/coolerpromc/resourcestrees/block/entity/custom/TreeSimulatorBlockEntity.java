@@ -15,6 +15,7 @@ import com.coolerpromc.resourcestrees.recipe.output.TreeSimulatorOutput;
 import com.coolerpromc.resourcestrees.screen.custom.TreeSimulatorMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
@@ -27,7 +28,6 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.MenuProvider;
@@ -353,11 +353,11 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
                 return recipe;
             }
             else if (Block.byItem(getSapling().getItem()) instanceof ResourcesSaplingBlock block){
-                ResourceLocation type = getSapling().get(ModDataComponents.TYPE.get());
-                ResourcesTypes value = ResourcesTypes.byId(type, serverLevel);
+                Holder<ResourcesTypes> type = getSapling().get(ModDataComponents.TYPE.get());
                 ItemStack leaf = ModItems.LEAF_FRAGMENT.get().getDefaultInstance();
                 leaf.set(ModDataComponents.TYPE.get(), type);
-                if (value != ResourcesTypes.EMPTY && type != null){
+                if (type != null && type.value() != ResourcesTypes.EMPTY){
+                    ResourcesTypes value = type.value();
                     List<TreeSimulatorOutput> drops = new ArrayList<>();
                     drops.add(TreeSimulatorOutput.of(TreeSimulatorBlockEntity.LOG_BY_SAPLINGS.get(block).getDefaultInstance(), 1, 2, 4));
                     drops.add(TreeSimulatorOutput.of(leaf, 1, 1, 1));
@@ -367,7 +367,7 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
                     drops.add(TreeSimulatorOutput.of(Items.APPLE.getDefaultInstance(), 0.05f, 1, 1));
                     drops.add(TreeSimulatorOutput.of(ModRecipeProvider.SAPLINGS_BY_SAPLINGS.get(block).getDefaultInstance(), 0.1f, 1, 1));
                     TreeSimulatorRecipe newRecipe = new TreeSimulatorRecipe(getSapling(), drops, 1200);
-                    ResourceKey<Recipe<?>> key = ResourceKey.create(Registries.RECIPE, type.withSuffix(BuiltInRegistries.BLOCK.getKey(block).getPath().substring(9)).withPrefix("tree_simulator/"));
+                    ResourceKey<Recipe<?>> key = ResourceKey.create(Registries.RECIPE, type.unwrapKey().get().location().withSuffix(BuiltInRegistries.BLOCK.getKey(block).getPath().substring(9)).withPrefix("tree_simulator/"));
                     return Optional.of(new RecipeHolder<>(key, newRecipe));
                 }
             }

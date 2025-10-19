@@ -40,7 +40,7 @@ public class ModCreativeTab {
                                     if (obj instanceof Supplier<?> supplier){
                                         if (supplier.get() instanceof ResourcesSaplingBlock resourcesSaplingBlock){
                                             ItemStack sapling = resourcesSaplingBlock.asItem().getDefaultInstance();
-                                            sapling.set(ModDataComponents.TYPE.get(), key);
+                                            sapling.set(ModDataComponents.TYPE.get(), value);
                                             pOutput.accept(sapling);
                                         }
                                     }
@@ -59,7 +59,7 @@ public class ModCreativeTab {
                                     if (obj instanceof Supplier<?> supplier){
                                         if (supplier.get() instanceof ResourcesLeavesBlock resourcesLeavesBlock){
                                             ItemStack leaves = resourcesLeavesBlock.asItem().getDefaultInstance();
-                                            leaves.set(ModDataComponents.TYPE.get(), key);
+                                            leaves.set(ModDataComponents.TYPE.get(), value);
                                             pOutput.accept(leaves);
                                         }
                                     }
@@ -71,7 +71,7 @@ public class ModCreativeTab {
 
                         ResourcesTypes.getAllResourcesTypes(pParameters.holders()).forEach((key, value) -> {
                             ItemStack leaf = ModItems.LEAF_FRAGMENT.get().getDefaultInstance();
-                            leaf.set(ModDataComponents.TYPE.get(), key);
+                            leaf.set(ModDataComponents.TYPE.get(), value);
                             pOutput.accept(leaf);
                         });
                     }).build());

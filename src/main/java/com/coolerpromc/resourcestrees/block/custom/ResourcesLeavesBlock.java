@@ -8,9 +8,9 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ColorParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.RandomSource;
@@ -26,6 +26,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -60,43 +61,53 @@ public class ResourcesLeavesBlock extends LeavesBlock implements EntityBlock {
     @Override
     protected List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
         List<ItemStack> drops = super.getDrops(state, builder);
+        Vec3 pos = builder.getOptionalParameter(LootContextParams.ORIGIN);
         BlockEntity blockEntity = builder.getOptionalParameter(LootContextParams.BLOCK_ENTITY);
 
-        if (blockEntity instanceof ResourcesTypesBlockEntity be){
-            ResourceLocation type = be.getResourcesType();
-            ResourcesTypes resourcesTypes = ResourcesTypes.byId(type, builder.getLevel());
-
-            if (drops.isEmpty()){
-                if (builder.getLevel().getRandom().nextFloat() < resourcesTypes.saplingChance()) {
-                    ItemStack saplingDrop = sapling.get().asItem().getDefaultInstance();
-                    saplingDrop.set(ModDataComponents.TYPE.get(), type);
-                    drops.add(saplingDrop);
-                }
-
-                ItemStack fragment = ModItems.LEAF_FRAGMENT.get().getDefaultInstance();
-                fragment.set(ModDataComponents.TYPE.get(), type);
-
-                drops.add(fragment.copy());
-
-                if (builder.getLevel().getRandom().nextFloat() < resourcesTypes.secondaryDropChance()){
-                    drops.add(fragment.copy());
-                }
-            }
-            else{
-                if (Block.byItem(drops.getFirst().getItem()) instanceof ResourcesLeavesBlock){
-                    drops.getFirst().set(ModDataComponents.TYPE.get(), type);
-                }
-            }
+        if(blockEntity instanceof ResourcesTypesBlockEntity be){
+            calculateDrops(be, builder, drops);
+        }
+        else if (builder.getLevel().getBlockEntity(new BlockPos((int) pos.x, (int) pos.y, (int) pos.z)) instanceof ResourcesTypesBlockEntity be){
+            calculateDrops(be, builder, drops);
         }
 
         return drops;
+    }
+
+    private void calculateDrops(ResourcesTypesBlockEntity be, LootParams.Builder builder, List<ItemStack> drops){
+        ResourcesTypes resourcesTypes = be.getResourcesType();
+
+        if (drops.isEmpty()){
+            if (builder.getLevel().getRandom().nextFloat() < resourcesTypes.saplingChance()) {
+                ItemStack saplingDrop = sapling.get().asItem().getDefaultInstance();
+                saplingDrop.set(ModDataComponents.TYPE.get(), resourcesTypes.asHolder(builder.getLevel()));
+                drops.add(saplingDrop);
+            }
+
+            ItemStack fragment = ModItems.LEAF_FRAGMENT.get().getDefaultInstance();
+            fragment.set(ModDataComponents.TYPE.get(), resourcesTypes.asHolder(builder.getLevel()));
+
+            drops.add(fragment.copy());
+
+            if (builder.getLevel().getRandom().nextFloat() < resourcesTypes.secondaryDropChance()){
+                drops.add(fragment.copy());
+            }
+        }
+        else{
+            if (Block.byItem(drops.getFirst().getItem()) instanceof ResourcesLeavesBlock){
+                drops.getFirst().set(ModDataComponents.TYPE.get(), resourcesTypes.asHolder(builder.getLevel()));
+            }
+        }
     }
 
     @Override
     public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if (blockEntity instanceof ResourcesTypesBlockEntity be && stack.has(ModDataComponents.TYPE.get())){
-            be.setResourcesType(stack.get(ModDataComponents.TYPE.get()));
+            Holder<ResourcesTypes> holder = stack.get(ModDataComponents.TYPE.get());
+            if (holder != null){
+                be.setResourcesType(holder.value());
+            }
         }
     }
 
@@ -105,7 +116,7 @@ public class ResourcesLeavesBlock extends LeavesBlock implements EntityBlock {
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if (blockEntity instanceof ResourcesTypesBlockEntity be && be.getResourcesType() != null){
             ItemStack stack = super.getCloneItemStack(level, pos, state, includeData);
-            stack.set(ModDataComponents.TYPE.get(), be.getResourcesType());
+            stack.set(ModDataComponents.TYPE.get(), be.getResourcesType().asHolder((Level) level));
             return stack;
         }
         return super.getCloneItemStack(level, pos, state, includeData);
