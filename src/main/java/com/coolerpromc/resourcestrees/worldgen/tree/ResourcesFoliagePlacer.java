@@ -1,6 +1,7 @@
 package com.coolerpromc.resourcestrees.worldgen.tree;
 
 import com.coolerpromc.resourcestrees.block.entity.custom.ResourcesTypesBlockEntity;
+import com.coolerpromc.resourcestrees.core.ResourcesTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -19,9 +20,9 @@ import java.util.List;
 
 public class ResourcesFoliagePlacer extends FoliagePlacer {
     private final FoliagePlacer vanilla;
-    private final ResourceLocation resourceType;
+    private final ResourcesTypes resourceType;
 
-    public ResourcesFoliagePlacer(FoliagePlacer vanilla, ResourceLocation type) {
+    public ResourcesFoliagePlacer(FoliagePlacer vanilla, ResourcesTypes type) {
         super(vanilla.radius, vanilla.offset);
         this.vanilla = vanilla;
         this.resourceType = type;

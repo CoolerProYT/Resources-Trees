@@ -21,9 +21,9 @@ public class ModJadePlugin implements IWailaPlugin {
             public void appendTooltip(ITooltip iTooltip, BlockAccessor blockAccessor, IPluginConfig iPluginConfig) {
                 if (blockAccessor.getBlockEntity() instanceof ResourcesTypesBlockEntity blockEntity){
                     if (blockEntity.getResourcesType() != null){
-                        ResourcesTypes resourcesTypes = ResourcesTypes.getAllResourcesTypes(blockAccessor.getLevel()).getOrDefault(blockEntity.getResourcesType(), ResourcesTypes.EMPTY);
+                        ResourcesTypes resourcesTypes = blockEntity.getResourcesType();
                         ItemStack stack = blockAccessor.getBlock().asItem().getDefaultInstance();
-                        stack.set(ModDataComponents.TYPE.get(), blockEntity.getResourcesType());
+                        stack.set(ModDataComponents.TYPE.get(), blockEntity.getResourcesType().asHolder(blockAccessor.getLevel()));
                         iTooltip.add(Component.translatable(resourcesTypes.translationKey()));
                     }
                 }
@@ -39,7 +39,8 @@ public class ModJadePlugin implements IWailaPlugin {
             if (accessor instanceof BlockAccessor blockAccessor) {
                 if (blockAccessor.getBlockEntity() instanceof ResourcesTypesBlockEntity blockEntity) {
                     ItemStack stack = blockAccessor.getBlock().asItem().getDefaultInstance();
-                    stack.set(ModDataComponents.TYPE.get(), blockEntity.getResourcesType());
+                    if (blockEntity.getResourcesType().isEmpty()) return accessor;
+                    stack.set(ModDataComponents.TYPE.get(), blockEntity.getResourcesType().asHolder(blockAccessor.getLevel()));
                     return registration.blockAccessor().from(blockAccessor).serversideRep(stack).build();
                 }
             }
