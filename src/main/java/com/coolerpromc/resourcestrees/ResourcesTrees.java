@@ -2,30 +2,44 @@ package com.coolerpromc.resourcestrees;
 
 import com.coolerpromc.resourcestrees.block.ModBlocks;
 import com.coolerpromc.resourcestrees.block.custom.ResourcesLeavesBlock;
+import com.coolerpromc.resourcestrees.block.custom.ResourcesSaplingBlock;
 import com.coolerpromc.resourcestrees.block.entity.ModBlockEntities;
+import com.coolerpromc.resourcestrees.block.entity.custom.ResourcesTypesBlockEntity;
 import com.coolerpromc.resourcestrees.core.ResourcesTypes;
 import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
 import com.coolerpromc.resourcestrees.item.ModCreativeTab;
 import com.coolerpromc.resourcestrees.item.ModItems;
+import com.coolerpromc.resourcestrees.item.custom.LeafFragmentItem;
 import com.coolerpromc.resourcestrees.networking.RecipeSyncPayload;
 import com.coolerpromc.resourcestrees.recipe.ModRecipes;
 import com.coolerpromc.resourcestrees.registry.ModRegistries;
 import com.coolerpromc.resourcestrees.screen.ModMenuTypes;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
-import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
+import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.block.Block;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.ItemEntity;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.RecipeEntry;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ResourcesTrees implements ModInitializer {
 	public static final String MODID = "resourcestrees";
@@ -61,12 +75,91 @@ public class ResourcesTrees implements ModInitializer {
 			ServerPlayNetworking.send(player, payload);
 		});
 
-		ServerLifecycleEvents.SERVER_STARTED.register(minecraftServer -> {
-			ResourcesTypes.LOADED_TYPES.clear();
-			ResourcesTypes.LOADED_TYPES.putAll(ResourcesTypes.getAllResourcesTypes(minecraftServer.getOverworld()));
-		});
-
 		DynamicRegistries.registerSynced(ModRegistries.RESOURCES_TYPES_KEY, ResourcesTypes.CODEC, ResourcesTypes.CODEC);
+
+		ServerEntityEvents.ENTITY_LOAD.register(id("tree"), (entity, level) -> {
+			if (!FabricLoader.getInstance().isModLoaded("treeharvester")) return;
+			if (!(entity instanceof ItemEntity itemEntity)) return;
+
+			ItemStack itemStack = itemEntity.getStack();
+			Item item = itemStack.getItem();
+			if (!(item instanceof BlockItem || item instanceof LeafFragmentItem)) return;
+
+			if (item instanceof BlockItem){
+				Block block = Block.getBlockFromItem(item);
+				if (!(block instanceof ResourcesSaplingBlock)) return;
+			}
+			if (!itemStack.contains(ModDataComponents.TYPE)) return;
+
+			RegistryEntry<ResourcesTypes> type = itemStack.get(ModDataComponents.TYPE);
+
+			if (type != null){
+				if (itemEntity.isRemoved()) return;
+
+				BlockPos pos = findNearbyBlock(level, itemEntity.getSteppingPos(), 5, 50);
+				if (pos.equals(BlockPos.ZERO)) {
+					return;
+				}
+
+				if (!(level.getBlockState(pos).getBlock() instanceof ResourcesSaplingBlock)) {
+					return;
+				}
+
+				if (!level.isPosLoaded(pos)) {
+					return;
+				}
+
+				BlockEntity blockEntity = level.getBlockEntity(pos);
+				if (!(blockEntity instanceof ResourcesTypesBlockEntity be)) {
+					return;
+				}
+
+				be.setResourcesType(type.value());
+
+				List<BlockPos> nearbyPos = findAllNearbyBlock(level, pos, 1);
+				for (BlockPos blockPos : nearbyPos) {
+					if (blockPos.equals(pos)) continue;
+
+					BlockEntity neighbourBe = level.getBlockEntity(blockPos);
+					if (neighbourBe instanceof ResourcesTypesBlockEntity be2) {
+						be2.setResourcesType(type.value());
+					}
+				}
+			}
+		});
+	}
+
+	public static BlockPos findNearbyBlock(World level, BlockPos center, int radiusXZ, int radiusY) {
+		for (int x = -radiusXZ; x <= radiusXZ; x++) {
+			for (int y = -radiusY; y <= radiusY; y++) {
+				for (int z = -radiusXZ; z <= radiusXZ; z++) {
+					BlockPos checkPos = center.add(x, y, z);
+					if (level.getBlockState(checkPos).getBlock() instanceof ResourcesSaplingBlock) {
+						BlockEntity entity = level.getBlockEntity(checkPos);
+						if (entity instanceof ResourcesTypesBlockEntity be && Objects.equals(be.getResourcesType(), ResourcesTypes.EMPTY)){
+							return checkPos;
+						}
+					}
+				}
+			}
+		}
+		return BlockPos.ORIGIN;
+	}
+
+	public static List<BlockPos> findAllNearbyBlock(World level, BlockPos center, int radius) {
+		List<BlockPos> pos = new ArrayList<>();
+
+		for (int x = -radius; x <= radius; x++) {
+			for (int y = -radius; y <= radius; y++) {
+				for (int z = -radius; z <= radius; z++) {
+					BlockPos checkPos = center.add(x, y, z);
+					if (level.getBlockState(checkPos).getBlock() instanceof ResourcesSaplingBlock) {
+						pos.add(checkPos);
+					}
+				}
+			}
+		}
+		return pos;
 	}
 
 	public static Identifier id(String path){
