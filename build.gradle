@@ -48,6 +48,9 @@ dependencies {
 	modImplementation "curse.maven:jade-324717:6738760"
 
 	modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-common-api-intermediary:${jei_version}")
+
+	modImplementation "curse.maven:collective-342584:7120359"
+	modImplementation "curse.maven:tree-harvester-367178:6184916"
 }
 
 processResources {

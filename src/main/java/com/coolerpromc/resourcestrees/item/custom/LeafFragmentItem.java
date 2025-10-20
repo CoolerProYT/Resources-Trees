@@ -4,6 +4,7 @@ import com.coolerpromc.resourcestrees.core.ResourcesTypes;
 import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -14,10 +15,9 @@ public class LeafFragmentItem extends Item {
 
     @Override
     public Text getName(ItemStack stack) {
-        Identifier type = stack.get(ModDataComponents.TYPE);
-        ResourcesTypes resourcesTypes = ResourcesTypes.byId(type, null);
+        RegistryEntry<ResourcesTypes> resourcesTypes = stack.get(ModDataComponents.TYPE);
         if (resourcesTypes != null){
-            return Text.translatable(resourcesTypes.translationKey()).append(" ").append(super.getName(stack));
+            return Text.translatable(resourcesTypes.value().translationKey()).append(" ").append(super.getName(stack));
         }
         return super.getName(stack);
     }

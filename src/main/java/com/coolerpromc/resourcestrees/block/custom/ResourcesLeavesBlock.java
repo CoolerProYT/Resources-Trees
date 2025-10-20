@@ -15,8 +15,9 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.context.LootContextParameterSet;
 import net.minecraft.loot.context.LootContextParameters;
-import net.minecraft.util.Identifier;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
@@ -46,52 +47,62 @@ public class ResourcesLeavesBlock extends LeavesBlock implements BlockEntityProv
     @Override
     protected List<ItemStack> getDroppedStacks(BlockState state, LootContextParameterSet.Builder builder) {
         List<ItemStack> drops = super.getDroppedStacks(state, builder);
+        Vec3d pos = builder.getOptional(LootContextParameters.ORIGIN);
         BlockEntity blockEntity = builder.getOptional(LootContextParameters.BLOCK_ENTITY);
 
-        if (blockEntity instanceof ResourcesTypesBlockEntity be){
-            Identifier type = be.getResourcesType();
-            ResourcesTypes resourcesTypes = ResourcesTypes.byId(type, builder.getWorld());
-
-            if (drops.isEmpty()){
-                if (builder.getWorld().getRandom().nextFloat() < resourcesTypes.saplingChance()) {
-                    ItemStack saplingDrop = sapling.get().asItem().getDefaultStack();
-                    saplingDrop.set(ModDataComponents.TYPE, type);
-                    drops.add(saplingDrop);
-                }
-
-                ItemStack fragment = ModItems.LEAF_FRAGMENT.getDefaultStack();
-                fragment.set(ModDataComponents.TYPE, type);
-
-                drops.add(fragment.copy());
-
-                if (builder.getWorld().getRandom().nextFloat() < resourcesTypes.secondaryDropChance()){
-                    drops.add(fragment.copy());
-                }
-            }
-            else{
-                if (Block.getBlockFromItem(drops.getFirst().getItem()) instanceof ResourcesLeavesBlock){
-                    drops.getFirst().set(ModDataComponents.TYPE, type);
-                }
-            }
+        if(blockEntity instanceof ResourcesTypesBlockEntity be){
+            calculateDrops(be, builder, drops);
+        }
+        else if (builder.getWorld().getBlockEntity(new BlockPos((int) pos.x, (int) pos.y, (int) pos.z)) instanceof ResourcesTypesBlockEntity be){
+            calculateDrops(be, builder, drops);
         }
 
         return drops;
+    }
+
+    private void calculateDrops(ResourcesTypesBlockEntity be, LootContextParameterSet.Builder builder, List<ItemStack> drops){
+        ResourcesTypes resourcesTypes = be.getResourcesType();
+
+        if (drops.isEmpty()){
+            if (builder.getWorld().getRandom().nextFloat() < resourcesTypes.saplingChance()) {
+                ItemStack saplingDrop = sapling.get().asItem().getDefaultStack();
+                saplingDrop.set(ModDataComponents.TYPE, resourcesTypes.asHolder(be.getWorld()));
+                drops.add(saplingDrop);
+            }
+
+            ItemStack fragment = ModItems.LEAF_FRAGMENT.getDefaultStack();
+            fragment.set(ModDataComponents.TYPE, resourcesTypes.asHolder(be.getWorld()));
+
+            drops.add(fragment.copy());
+
+            if (builder.getWorld().getRandom().nextFloat() < resourcesTypes.secondaryDropChance()){
+                drops.add(fragment.copy());
+            }
+        }
+        else{
+            if (Block.getBlockFromItem(drops.getFirst().getItem()) instanceof ResourcesLeavesBlock){
+                drops.getFirst().set(ModDataComponents.TYPE, resourcesTypes.asHolder(be.getWorld()));
+            }
+        }
     }
 
     @Override
     public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof ResourcesTypesBlockEntity be && itemStack.contains(ModDataComponents.TYPE)){
-            be.setResourcesType(itemStack.get(ModDataComponents.TYPE));
+            RegistryEntry<ResourcesTypes> holder = itemStack.get(ModDataComponents.TYPE);
+            if (holder != null){
+                be.setResourcesType(holder.value());
+            }
         }
     }
 
     @Override
     public ItemStack getPickStack(WorldView world, BlockPos pos, BlockState state) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
-        if (blockEntity instanceof ResourcesTypesBlockEntity be && be.getResourcesType() != null){
+        if (blockEntity instanceof ResourcesTypesBlockEntity be && be.getResourcesType() != ResourcesTypes.EMPTY){
             ItemStack stack = super.getPickStack(world, pos, state);
-            stack.set(ModDataComponents.TYPE, be.getResourcesType());
+            stack.set(ModDataComponents.TYPE, be.getResourcesType().asHolder((World) world));
             return stack;
         }
         return super.getPickStack(world, pos, state);

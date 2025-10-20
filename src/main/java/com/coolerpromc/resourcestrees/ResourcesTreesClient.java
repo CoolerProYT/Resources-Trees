@@ -21,7 +21,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
-import net.minecraft.util.Identifier;
+import net.minecraft.registry.entry.RegistryEntry;
 
 public class ResourcesTreesClient implements ClientModInitializer {
     @Override
@@ -60,9 +60,9 @@ public class ResourcesTreesClient implements ClientModInitializer {
 
         ColorProviderRegistry.ITEM.register((itemStack, i) -> {
                     if (itemStack.contains(ModDataComponents.TYPE)){
-                        Identifier type = itemStack.get(ModDataComponents.TYPE);
-                        if ((Block.getBlockFromItem(itemStack.getItem()) instanceof ResourcesSaplingBlock && i == 1) || Block.getBlockFromItem(itemStack.getItem()) instanceof ResourcesLeavesBlock || itemStack.getItem() instanceof LeafFragmentItem){
-                            return ResourcesTypes.byId(type, null).color();
+                        RegistryEntry<ResourcesTypes> type = itemStack.get(ModDataComponents.TYPE);
+                        if (type != null && ((Block.getBlockFromItem(itemStack.getItem()) instanceof ResourcesSaplingBlock && i == 1) || Block.getBlockFromItem(itemStack.getItem()) instanceof ResourcesLeavesBlock || itemStack.getItem() instanceof LeafFragmentItem)){
+                            return type.value().color();
                         }
                     }
                     if (itemStack.getItem() instanceof EssenceItem essenceItem){

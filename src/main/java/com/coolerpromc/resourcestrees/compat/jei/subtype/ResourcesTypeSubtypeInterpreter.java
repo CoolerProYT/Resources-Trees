@@ -1,10 +1,12 @@
 package com.coolerpromc.resourcestrees.compat.jei.subtype;
 
 import com.coolerpromc.resourcestrees.ResourcesTrees;
+import com.coolerpromc.resourcestrees.core.ResourcesTypes;
 import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
 import mezz.jei.api.ingredients.subtypes.ISubtypeInterpreter;
 import mezz.jei.api.ingredients.subtypes.UidContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
@@ -22,10 +24,13 @@ public class ResourcesTypeSubtypeInterpreter implements ISubtypeInterpreter<Item
     }
 
     public String getStringName(ItemStack itemStack) {
-        if (itemStack.getComponents().isEmpty()) {
+        if (itemStack.contains(ModDataComponents.TYPE)) {
             return "";
         }
-        Identifier type = itemStack.getOrDefault(ModDataComponents.TYPE, ResourcesTrees.id("empty"));
-        return type.getPath();
+        RegistryEntry<ResourcesTypes> type = itemStack.get(ModDataComponents.TYPE);
+        if (type != null && type.getKey().isPresent()){
+            return type.getKey().get().getValue().getPath();
+        }
+        return "";
     }
 }
