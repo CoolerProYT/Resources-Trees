@@ -15,7 +15,6 @@ import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
 
 import java.lang.reflect.Field;
-import java.util.function.Supplier;
 
 public class ModCreativeTab {
     public static final ItemGroup RESOURCES_TREES_TAB = Registry.register(Registries.ITEM_GROUP, ResourcesTrees.id("resourcestrees"),
@@ -37,7 +36,7 @@ public class ModCreativeTab {
                                     Object obj = field.get(null);
                                     if (obj instanceof ResourcesSaplingBlock resourcesSaplingBlock){
                                         ItemStack sapling = resourcesSaplingBlock.asItem().getDefaultStack();
-                                        sapling.set(ModDataComponents.TYPE, key);
+                                        sapling.set(ModDataComponents.TYPE, value);
                                         pOutput.add(sapling);
                                     }
                                 } catch (IllegalAccessException e) {
@@ -54,7 +53,7 @@ public class ModCreativeTab {
                                     Object obj = field.get(null);
                                     if (obj instanceof ResourcesLeavesBlock resourcesLeavesBlock){
                                         ItemStack leaves = resourcesLeavesBlock.asItem().getDefaultStack();
-                                        leaves.set(ModDataComponents.TYPE, key);
+                                        leaves.set(ModDataComponents.TYPE, value);
                                         pOutput.add(leaves);
                                     }
                                 } catch (IllegalAccessException e) {
@@ -65,7 +64,7 @@ public class ModCreativeTab {
 
                         ResourcesTypes.getAllResourcesTypes(pParameters.lookup()).forEach((key, value) -> {
                             ItemStack leaf = ModItems.LEAF_FRAGMENT.getDefaultStack();
-                            leaf.set(ModDataComponents.TYPE, key);
+                            leaf.set(ModDataComponents.TYPE, value);
                             pOutput.add(leaf);
                         });
                     }).build());

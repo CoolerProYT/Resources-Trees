@@ -10,13 +10,15 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.network.codec.PacketCodec;
+import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.registry.*;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,8 +26,6 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 public record ResourcesTypes(Either<Identifier, TagKey<Item>> material, int color, String translationKey, int weight, float saplingChance, float secondaryDropChance){
-    public static final Map<Identifier, ResourcesTypes> LOADED_TYPES = new HashMap<>();
-
     public ResourcesTypes(Item material, int color, String translationKey, int weight, float saplingChance, float secondaryDropChance) {
         this(Either.left(Registries.ITEM.getId(material)), color, translationKey, weight, saplingChance, secondaryDropChance);
     }
@@ -47,6 +47,22 @@ public record ResourcesTypes(Either<Identifier, TagKey<Item>> material, int colo
             Codec.FLOAT.fieldOf("saplingChance").forGetter(ResourcesTypes::saplingChance),
             Codec.FLOAT.fieldOf("secondaryDropChance").forGetter(ResourcesTypes::secondaryDropChance)
     ).apply(instance, ResourcesTypes::new));
+
+    public static final PacketCodec<RegistryByteBuf, ResourcesTypes> STREAM_CODEC = PacketCodec.tuple(
+            PacketCodecs.either(Identifier.PACKET_CODEC, TagKey.packetCodec(RegistryKeys.ITEM)),
+            ResourcesTypes::material,
+            PacketCodecs.INTEGER,
+            ResourcesTypes::color,
+            PacketCodecs.STRING,
+            ResourcesTypes::translationKey,
+            PacketCodecs.INTEGER,
+            ResourcesTypes::weight,
+            PacketCodecs.FLOAT,
+            ResourcesTypes::saplingChance,
+            PacketCodecs.FLOAT,
+            ResourcesTypes::secondaryDropChance,
+            ResourcesTypes::new
+    );
 
     public static final ResourcesTypes EMPTY = new ResourcesTypes(Items.AIR, 0xFF141414, "item.resourcestrees.empty", 0, 0, 0);
 
@@ -106,36 +122,25 @@ public record ResourcesTypes(Either<Identifier, TagKey<Item>> material, int colo
         context.register(ICE, new ResourcesTypes(Items.ICE, 0xFFb9e8ea, "item.resourcestrees.ice", 5, 0.25f, 0.5f));
     }
 
-    public static Map<Identifier, ResourcesTypes> getAllResourcesTypes(World level){
-        Registry<ResourcesTypes> registry = level.getRegistryManager().getOrThrow(ModRegistries.RESOURCES_TYPES_KEY);
-        Map<Identifier, ResourcesTypes> types = new HashMap<>();
-        registry.getEntrySet().forEach(entry -> {
-            if (types.containsKey(entry.getKey().getValue())){
-                throw new IllegalStateException("Duplicate resource location " + entry.getKey().getValue() + " for " + entry.getKey().getValue());
-            }
-            types.put(entry.getKey().getValue(), entry.getValue());
-        });
-        return types;
-    }
-
-    public static Map<Identifier, ResourcesTypes> getAllResourcesTypes(RegistryWrapper.WrapperLookup provider){
+    public static Map<Identifier, RegistryEntry<ResourcesTypes>> getAllResourcesTypes(RegistryWrapper.WrapperLookup provider){
         Stream<RegistryEntry.Reference<ResourcesTypes>> registry = provider.getOrThrow(ModRegistries.RESOURCES_TYPES_KEY).streamEntries();
-        Map<Identifier, ResourcesTypes> types = new HashMap<>();
+        Map<Identifier, RegistryEntry<ResourcesTypes>> types = new HashMap<>();
         registry.forEachOrdered(entry -> {
             if (types.containsKey(entry.registryKey().getValue())){
                 throw new IllegalStateException("Duplicate resource index " + entry.registryKey().getValue() + " for " + entry.registryKey().getValue());
             }
-            types.put(entry.registryKey().getValue(), entry.value());
+            types.put(entry.registryKey().getValue(), entry);
         });
         ResourcesTrees.LOGGER.debug("Getting all resources types: {}", types);
         return types;
     }
 
-    public static ResourcesTypes byId(Identifier id, @Nullable World level){
-        if (LOADED_TYPES.isEmpty() && level != null){
-            return getAllResourcesTypes(level).getOrDefault(id, EMPTY);
-        }
-        return LOADED_TYPES.getOrDefault(id, EMPTY);
+    public RegistryEntry<ResourcesTypes> asHolder(World level) {
+        return getAllResourcesTypes(level.getRegistryManager()).values().stream().filter((holder) -> holder.value().equals(this)).findFirst().get();
+    }
+
+    public boolean isEmpty(){
+        return this.equals(EMPTY);
     }
 
     public static boolean isSameItemSameType(ItemStack stack, ItemStack other) {
@@ -153,4 +158,15 @@ public record ResourcesTypes(Either<Identifier, TagKey<Item>> material, int colo
         return !hasType1 && !hasType2;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        ResourcesTypes that = (ResourcesTypes) o;
+        return color() == that.color() && weight() == that.weight() && Float.compare(saplingChance(), that.saplingChance()) == 0 && Float.compare(secondaryDropChance(), that.secondaryDropChance()) == 0 && Objects.equals(translationKey(), that.translationKey()) && Objects.equals(material(), that.material());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(material(), color(), translationKey(), weight(), saplingChance(), secondaryDropChance());
+    }
 }

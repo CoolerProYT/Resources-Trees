@@ -9,6 +9,7 @@ import net.minecraft.client.render.item.tint.TintSource;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.dynamic.Codecs;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,9 +20,9 @@ public record ResourcesTypeTintSource(int defaultColor) implements TintSource {
 
     @Override
     public int getTint(ItemStack stack, @Nullable ClientWorld world, @Nullable LivingEntity user) {
-        ResourcesTypes types = ResourcesTypes.byId(stack.get(ModDataComponents.TYPE), world);
+        RegistryEntry<ResourcesTypes> types = stack.get(ModDataComponents.TYPE);
         if (types != null){
-            return types.color();
+            return types.value().color();
         }
         return defaultColor;
     }

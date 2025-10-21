@@ -42,6 +42,9 @@ dependencies {
 	modCompileOnly "me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"
 
 	modImplementation "curse.maven:jade-324717:7056475"
+
+	modImplementation "curse.maven:collective-342584:7105756"
+	modImplementation "curse.maven:tree-harvester-367178:7079088"
 }
 
 processResources {

@@ -38,6 +38,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -45,7 +46,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -339,11 +339,12 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements ExtendedScr
                 return recipe;
             }
             else if (Block.getBlockFromItem(getSapling().getItem()) instanceof ResourcesSaplingBlock block){
-                Identifier type = getSapling().get(ModDataComponents.TYPE);
-                ResourcesTypes value = ResourcesTypes.byId(type, serverLevel);
+                RegistryEntry<ResourcesTypes> type = getSapling().get(ModDataComponents.TYPE);
+
                 ItemStack leaf = ModItems.LEAF_FRAGMENT.getDefaultStack();
                 leaf.set(ModDataComponents.TYPE, type);
-                if (value != ResourcesTypes.EMPTY && type != null){
+                if (type != null && type.value() != ResourcesTypes.EMPTY){
+                    ResourcesTypes value = type.value();
                     List<TreeSimulatorOutput> drops = new ArrayList<>();
                     drops.add(TreeSimulatorOutput.of(TreeSimulatorBlockEntity.LOG_BY_SAPLINGS.get(block).getDefaultStack(), 1, 2, 4));
                     drops.add(TreeSimulatorOutput.of(leaf, 1, 1, 1));
@@ -353,7 +354,7 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements ExtendedScr
                     drops.add(TreeSimulatorOutput.of(Items.APPLE.getDefaultStack(), 0.05f, 1, 1));
                     drops.add(TreeSimulatorOutput.of(ModRecipeProvider.SAPLINGS_BY_SAPLINGS.get(block).getDefaultStack(), 0.1f, 1, 1));
                     TreeSimulatorRecipe newRecipe = new TreeSimulatorRecipe(getSapling(), drops, 1200);
-                    RegistryKey<Recipe<?>> key = RegistryKey.of(RegistryKeys.RECIPE, type.withSuffixedPath(Registries.BLOCK.getId(block).getPath().substring(9)).withPrefixedPath("tree_simulator/"));
+                    RegistryKey<Recipe<?>> key = RegistryKey.of(RegistryKeys.RECIPE, type.getKey().get().getValue().withSuffixedPath(Registries.BLOCK.getId(block).getPath().substring(9)).withPrefixedPath("tree_simulator/"));
                     return Optional.of(new RecipeEntry<>(key, newRecipe));
                 }
             }

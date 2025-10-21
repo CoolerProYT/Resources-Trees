@@ -12,46 +12,49 @@ import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
 
 public class ResourcesTypesBlockEntity extends BlockEntity {
-    private Identifier resourcesType;
+    private ResourcesTypes resourcesType;
 
     public ResourcesTypesBlockEntity(BlockPos pos, BlockState blockState) {
         super(ModBlockEntities.RESOURCES_TYPE_BE, pos, blockState);
-        this.resourcesType = null;
+        this.resourcesType = ResourcesTypes.EMPTY;
     }
 
-    public void setResourcesType(Identifier resourcesType) {
+    public void setResourcesType(ResourcesTypes resourcesType) {
         this.resourcesType = resourcesType;
         markDirty();
         if (world != null && !world.isClient()) {
+            world.markDirty(pos);
             world.updateListeners(pos, getCachedState(), getCachedState(), Block.NOTIFY_ALL);
         }
     }
 
-    public Identifier getResourcesType() {
+    public ResourcesTypes getResourcesType() {
         return resourcesType;
     }
 
     public int getColor(){
-        return ResourcesTypes.byId(getResourcesType(), this.world).color();
+        return getResourcesType().color();
     }
 
     @Override
     protected void writeData(WriteView view) {
         super.writeData(view);
-        if (resourcesType != null){
-            view.putString("type", resourcesType.toString());
-        }
+        view.put("type", ResourcesTypes.CODEC, resourcesType);
     }
 
     @Override
     protected void readData(ReadView view) {
         super.readData(view);
-        view.getOptionalString("type").ifPresent(s -> setResourcesType(Identifier.of(s)));
+        view.read("type", ResourcesTypes.CODEC).ifPresent(this::setResourcesType);
+    }
+
+    @Override
+    public void writeDataWithoutId(WriteView data) {
+        super.writeDataWithoutId(data);
     }
 
     @Override
@@ -61,10 +64,6 @@ public class ResourcesTypesBlockEntity extends BlockEntity {
 
     @Override
     public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registries) {
-        NbtCompound tag = super.toInitialChunkDataNbt(registries);
-        if (resourcesType != null) {
-            tag.putString("type", resourcesType.toString());
-        }
-        return tag;
+        return createNbtWithIdentifyingData(registries);
     }
 }
