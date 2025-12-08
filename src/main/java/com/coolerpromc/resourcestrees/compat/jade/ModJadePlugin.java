@@ -1,3 +1,4 @@
+/*
 package com.coolerpromc.resourcestrees.compat.jade;
 
 import com.coolerpromc.resourcestrees.ResourcesTrees;
@@ -6,7 +7,7 @@ import com.coolerpromc.resourcestrees.block.entity.custom.ResourcesTypesBlockEnt
 import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
 import com.coolerpromc.resourcestrees.core.ResourcesTypes;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import snownee.jade.api.*;
 import snownee.jade.api.config.IPluginConfig;
@@ -30,7 +31,7 @@ public class ModJadePlugin implements IWailaPlugin {
             }
 
             @Override
-            public ResourceLocation getUid() {
+            public Identifier getUid() {
                 return ResourcesTrees.id("resources_leaves");
             }
         }, ResourcesLeavesBlock.class);
@@ -48,3 +49,5 @@ public class ModJadePlugin implements IWailaPlugin {
         });
     }
 }
+*/
+// TODO: wait for jade update

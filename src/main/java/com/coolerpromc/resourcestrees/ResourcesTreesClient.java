@@ -7,7 +7,7 @@ import com.coolerpromc.resourcestrees.block.entity.renderer.TreeSimulatorBlockEn
 import com.coolerpromc.resourcestrees.datagen.model.ResourcesTypeTintSource;
 import com.coolerpromc.resourcestrees.screen.ModMenuTypes;
 import com.coolerpromc.resourcestrees.screen.custom.TreeSimulatorScreen;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -35,7 +35,7 @@ public class ResourcesTreesClient {
 
     @SubscribeEvent
     public static void onRegisterColorHandlersItemTintSources(RegisterColorHandlersEvent.ItemTintSources event) {
-        event.register(ResourceLocation.fromNamespaceAndPath(MODID, "resources_type_tint"), ResourcesTypeTintSource.MAP_CODEC);
+        event.register(Identifier.fromNamespaceAndPath(MODID, "resources_type_tint"), ResourcesTypeTintSource.MAP_CODEC);
     }
 
     @SubscribeEvent

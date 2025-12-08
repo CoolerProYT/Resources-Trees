@@ -343,7 +343,7 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
                     drops.add(TreeSimulatorOutput.of(Items.APPLE.getDefaultInstance(), 0.05f, 1, 1));
                     drops.add(TreeSimulatorOutput.of(ModRecipeProvider.SAPLINGS_BY_SAPLINGS.get(block).getDefaultInstance(), 0.1f, 1, 1));
                     TreeSimulatorRecipe newRecipe = new TreeSimulatorRecipe(getSapling(), drops, 1200);
-                    ResourceKey<Recipe<?>> key = ResourceKey.create(Registries.RECIPE, type.getKey().location().withSuffix(BuiltInRegistries.BLOCK.getKey(block).getPath().substring(9)).withPrefix("tree_simulator/"));
+                    ResourceKey<Recipe<?>> key = ResourceKey.create(Registries.RECIPE, type.getKey().identifier().withSuffix(BuiltInRegistries.BLOCK.getKey(block).getPath().substring(9)).withPrefix("tree_simulator/"));
                     return Optional.of(new RecipeHolder<>(key, newRecipe));
                 }
             }

@@ -14,7 +14,7 @@ import com.coolerpromc.resourcestrees.screen.ModMenuTypes;
 import com.mojang.logging.LogUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -154,7 +154,7 @@ public class ResourcesTrees {
         return pos;
     }
 
-    public static ResourceLocation id(String path){
-        return ResourceLocation.fromNamespaceAndPath(MODID, path);
+    public static Identifier id(String path){
+        return Identifier.fromNamespaceAndPath(MODID, path);
     }
 }

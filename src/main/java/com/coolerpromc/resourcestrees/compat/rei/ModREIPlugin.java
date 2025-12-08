@@ -1,3 +1,4 @@
+/*
 package com.coolerpromc.resourcestrees.compat.rei;
 
 import com.coolerpromc.resourcestrees.ResourcesTrees;
@@ -70,3 +71,4 @@ public class ModREIPlugin implements REIClientPlugin {
         registry.registerClickArea(screen -> new Rectangle(((screen.width - 176) / 2) + 59, ((screen.height - 166) / 2) + 27, 22, 15), TreeSimulatorScreen.class, TreeSimulatorDisplay.CATEGORY_IDENTIFIER);
     }
 }
+*/

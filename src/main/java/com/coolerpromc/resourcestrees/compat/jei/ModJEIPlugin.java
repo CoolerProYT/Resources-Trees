@@ -1,3 +1,4 @@
+/*
 package com.coolerpromc.resourcestrees.compat.jei;
 
 import com.coolerpromc.resourcestrees.ResourcesTrees;
@@ -17,7 +18,7 @@ import mezz.jei.api.helpers.IJeiHelpers;
 import mezz.jei.api.registration.*;
 import mezz.jei.common.util.RegistryUtil;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 
@@ -27,8 +28,8 @@ import java.util.List;
 @JeiPlugin
 public class ModJEIPlugin implements IModPlugin {
     @Override
-    public ResourceLocation getPluginUid() {
-        return ResourceLocation.fromNamespaceAndPath(ResourcesTrees.MODID, "jei_plugin");
+    public Identifier getPluginUid() {
+        return Identifier.fromNamespaceAndPath(ResourcesTrees.MODID, "jei_plugin");
     }
 
     @Override
@@ -80,4 +81,4 @@ public class ModJEIPlugin implements IModPlugin {
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {
         registration.addRecipeClickArea(TreeSimulatorScreen.class, 59, 35, 22, 16, TreeSimulatorCategory.TREE_SIMULATOR_TYPE);
     }
-}
+}*/

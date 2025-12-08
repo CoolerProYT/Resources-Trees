@@ -16,7 +16,7 @@ import net.minecraft.client.renderer.item.BlockModelWrapper;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.random.WeightedList;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -74,32 +74,32 @@ public class ModModelProvider extends ModelProvider {
     }
 
     private void generateTintedEssenceItem(ItemModelGenerators itemModels, Item item, ItemTintSource tintSource){
-        ResourceLocation itemModel = ModelTemplates.FLAT_ITEM.create(item, TextureMapping.layer0(ResourcesTrees.id("item/essence")), itemModels.modelOutput);
+        Identifier itemModel = ModelTemplates.FLAT_ITEM.create(item, TextureMapping.layer0(ResourcesTrees.id("item/essence")), itemModels.modelOutput);
         itemModels.itemModelOutput.accept(item, ItemModelUtils.tintedModel(itemModel, tintSource));
     }
 
     private void generateFlatTintedItem(ItemModelGenerators itemModels, Item item, ItemTintSource tintSource){
-        ResourceLocation itemModel = itemModels.createFlatItemModel(item, ModelTemplates.FLAT_ITEM);
+        Identifier itemModel = itemModels.createFlatItemModel(item, ModelTemplates.FLAT_ITEM);
         itemModels.itemModelOutput.accept(item, ItemModelUtils.tintedModel(itemModel, tintSource));
     }
 
     private void generateResourcesLeaves(BlockModelGenerators blockModels, ItemModelGenerators itemModels, Block block, int defaultColor){
-        ResourceLocation blockModel = TexturedModel.LEAVES.create(block, blockModels.modelOutput);
+        Identifier blockModel = TexturedModel.LEAVES.create(block, blockModels.modelOutput);
 
         blockModels.blockStateOutput.accept(createSimpleBlock(block, plainVariant(blockModel)));
         itemModels.itemModelOutput.accept(block.asItem(), ItemModelUtils.tintedModel(blockModel, new ResourcesTypeTintSource(defaultColor)));
     }
 
     private void generateResourcesSapling(BlockModelGenerators blockModels, ItemModelGenerators itemModels, Block block, int defaultColor){
-        ResourceLocation cross = getModelLocation(block, "");
-        ResourceLocation crossTinted = getModelLocation(block, "_layer1");
+        Identifier cross = getModelLocation(block, "");
+        Identifier crossTinted = getModelLocation(block, "_layer1");
 
         TextureMapping textureMapping = new TextureMapping()
                 .put(TextureSlot.CROSS, cross)
                 .put(CROSS_TINTED_SLOT, crossTinted);
 
-        ResourceLocation blockModel = CROSS_TINTED.create(block, textureMapping, blockModels.modelOutput);
-        ResourceLocation itemModel = itemModels.generateLayeredItem(block.asItem(), cross, crossTinted);
+        Identifier blockModel = CROSS_TINTED.create(block, textureMapping, blockModels.modelOutput);
+        Identifier itemModel = itemModels.generateLayeredItem(block.asItem(), cross, crossTinted);
 
         blockModels.blockStateOutput.accept(MultiVariantGenerator.dispatch(block, new MultiVariant(WeightedList.of(new Variant(blockModel)))));
         itemModels.itemModelOutput.accept(block.asItem(), ItemModelUtils.tintedModel(itemModel, ItemModelUtils.constantTint(-1), new ResourcesTypeTintSource(defaultColor)));
@@ -112,10 +112,10 @@ public class ModModelProvider extends ModelProvider {
 
     @Override
     protected @NotNull Stream<? extends Holder<Item>> getKnownItems() {
-        return BuiltInRegistries.ITEM.listElements().filter(itemReference -> Optional.of(BuiltInRegistries.ITEM.getKey(itemReference.value())).filter(resourceLocation -> resourceLocation.getNamespace().equals(ResourcesTrees.MODID)).isPresent());
+        return BuiltInRegistries.ITEM.listElements().filter(itemReference -> Optional.of(BuiltInRegistries.ITEM.getKey(itemReference.value())).filter(Identifier -> Identifier.getNamespace().equals(ResourcesTrees.MODID)).isPresent());
     }
 
-    private ResourceLocation getModelLocation(Block block, String suffix) {
+    private Identifier getModelLocation(Block block, String suffix) {
         return ResourcesTrees.id("block/" + BuiltInRegistries.BLOCK.getKey(block).getPath() + suffix);
     }
 }

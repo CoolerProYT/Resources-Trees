@@ -1,3 +1,4 @@
+/*
 package com.coolerpromc.resourcestrees.compat.rei;
 
 import com.coolerpromc.resourcestrees.block.ModBlocks;
@@ -9,7 +10,7 @@ import me.shedaniel.rei.api.common.registry.display.ServerDisplayRegistry;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import me.shedaniel.rei.forge.REIPluginCommon;
 import me.shedaniel.rei.plugin.common.displays.crafting.DefaultCustomShapedDisplay;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.ShapedRecipe;
@@ -90,10 +91,11 @@ public class ModREIPluginServer implements REICommonPlugin {
 
             // Build output entry (use method you had previously; adjust if your REI version differs)
             EntryIngredient output = EntryIngredients.of(recipe.result);
-            Optional<ResourceLocation> id = Optional.of(recipeEntry.id().location());
+            Optional<Identifier> id = Optional.of(recipeEntry.id().location());
 
             // Return a shaped display only for component-using recipes
             return new DefaultCustomShapedDisplay(inputs, List.of(output), id, width, height);
         });
     }
 }
+*/

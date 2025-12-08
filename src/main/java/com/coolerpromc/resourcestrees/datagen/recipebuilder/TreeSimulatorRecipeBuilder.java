@@ -6,7 +6,7 @@ import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementRequirements;
 import net.minecraft.advancements.AdvancementRewards;
 import net.minecraft.advancements.Criterion;
-import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
+import net.minecraft.advancements.criterion.RecipeUnlockedTrigger;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceKey;
@@ -75,6 +75,6 @@ public class TreeSimulatorRecipeBuilder implements RecipeBuilder {
         this.criteria.forEach(advancement::addCriterion);
 
         TreeSimulatorRecipe recipe = new TreeSimulatorRecipe(tree, drops, ticksToGrow);
-        recipeOutput.accept(resourceKey, recipe, advancement.build(resourceKey.location()));
+        recipeOutput.accept(resourceKey, recipe, advancement.build(resourceKey.identifier()));
     }
 }

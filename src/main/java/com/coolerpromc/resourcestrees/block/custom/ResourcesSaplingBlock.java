@@ -11,7 +11,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.random.WeightedList;
@@ -42,12 +42,12 @@ public class ResourcesSaplingBlock extends SaplingBlock implements EntityBlock {
     public static final MapCodec<ResourcesSaplingBlock> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             TreeGrower.CODEC.fieldOf("tree").forGetter((p_304391_) -> p_304391_.treeGrower),
             propertiesCodec(),
-            ResourceLocation.CODEC.fieldOf("leaves").forGetter(block -> block.leaves)
+            Identifier.CODEC.fieldOf("leaves").forGetter(block -> block.leaves)
     ).apply(instance, ResourcesSaplingBlock::new));
 
-    private final ResourceLocation leaves;
+    private final Identifier leaves;
 
-    public ResourcesSaplingBlock(TreeGrower treeGrower, Properties properties, ResourceLocation leaves) {
+    public ResourcesSaplingBlock(TreeGrower treeGrower, Properties properties, Identifier leaves) {
         super(treeGrower, properties);
         this.leaves = leaves;
     }
@@ -149,7 +149,7 @@ public class ResourcesSaplingBlock extends SaplingBlock implements EntityBlock {
         super.advanceTree(level, pos, state, random);
     }
 
-    public static TreeConfiguration createNewTree(ResourcesTypes type, TreeConfiguration oldConfig, RandomSource randomSource, BlockPos pos, int weight, ResourceLocation leaves){
+    public static TreeConfiguration createNewTree(ResourcesTypes type, TreeConfiguration oldConfig, RandomSource randomSource, BlockPos pos, int weight, Identifier leaves){
         Block block = BuiltInRegistries.BLOCK.getValue(leaves);
 
         return new TreeConfiguration.TreeConfigurationBuilder(
@@ -197,7 +197,7 @@ public class ResourcesSaplingBlock extends SaplingBlock implements EntityBlock {
         return new ResourcesTypesBlockEntity(blockPos, blockState);
     }
 
-    public ResourceLocation getLeaves() {
+    public Identifier getLeaves() {
         return leaves;
     }
 }

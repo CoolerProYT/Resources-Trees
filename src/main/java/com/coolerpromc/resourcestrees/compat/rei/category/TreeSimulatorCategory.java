@@ -1,3 +1,4 @@
+/*
 package com.coolerpromc.resourcestrees.compat.rei.category;
 
 import com.coolerpromc.resourcestrees.block.ModBlocks;
@@ -61,3 +62,4 @@ public class TreeSimulatorCategory implements DisplayCategory<TreeSimulatorDispl
         return EntryStacks.of(ModBlocks.TREE_SIMULATOR);
     }
 }
+*/

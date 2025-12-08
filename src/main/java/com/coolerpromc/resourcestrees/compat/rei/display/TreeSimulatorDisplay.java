@@ -1,3 +1,4 @@
+/*
 package com.coolerpromc.resourcestrees.compat.rei.display;
 
 import com.coolerpromc.resourcestrees.ResourcesTrees;
@@ -8,7 +9,7 @@ import me.shedaniel.rei.api.common.display.Display;
 import me.shedaniel.rei.api.common.display.DisplaySerializer;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -33,7 +34,7 @@ public record TreeSimulatorDisplay(TreeSimulatorRecipe treeSimulatorRecipe) impl
     }
 
     @Override
-    public Optional<ResourceLocation> getDisplayLocation() {
+    public Optional<Identifier> getDisplayLocation() {
         return Optional.empty();
     }
 
@@ -42,3 +43,4 @@ public record TreeSimulatorDisplay(TreeSimulatorRecipe treeSimulatorRecipe) impl
         return null;
     }
 }
+*/

@@ -25,11 +25,10 @@ repositories {
     }
     maven { url "https://maven.architectury.dev/" }
     maven {
-        name = "Maven for PR #2639" // https://github.com/neoforged/NeoForge/pull/2639
-        url = uri("https://prmaven.neoforged.net/NeoForge/pr2639")
+        name = "Maven for PR #2639"
+        url = uri("https://prmaven.neoforged.net/NeoForge/pr2815")
         content {
             includeModule("net.neoforged", "neoforge")
-            includeModule("net.neoforged", "testframework")
         }
     }
 }
@@ -91,18 +90,18 @@ configurations {
 }
 
 dependencies {
-    implementation "curse.maven:jade-324717:7056468"
+    compileOnly "curse.maven:jade-324717:7056468"
 
     compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
-    implementation "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
+    compileOnly "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
 
     compileOnly "dev.architectury:architectury-neoforge:${architectury_version}"
     compileOnly "me.shedaniel.cloth:cloth-config-neoforge:${cloth_config_version}"
     compileOnly "me.shedaniel:RoughlyEnoughItems-api-neoforge:${rei_version}"
     compileOnly  "me.shedaniel:RoughlyEnoughItems-neoforge:${rei_version}"
 
-    implementation "curse.maven:collective-342584:7105756"
-    implementation "curse.maven:tree-harvester-367178:7079088"
+    compileOnly "curse.maven:collective-342584:7105756"
+    compileOnly "curse.maven:tree-harvester-367178:7079088"
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {

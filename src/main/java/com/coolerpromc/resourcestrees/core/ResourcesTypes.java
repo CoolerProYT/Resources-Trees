@@ -18,7 +18,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -31,7 +31,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-public record ResourcesTypes(Either<ResourceLocation, TagKey<Item>> material, int color, String translationKey, int weight, float saplingChance, float secondaryDropChance){
+public record ResourcesTypes(Either<Identifier, TagKey<Item>> material, int color, String translationKey, int weight, float saplingChance, float secondaryDropChance){
     public ResourcesTypes(Item material, int color, String translationKey, int weight, float saplingChance, float secondaryDropChance) {
         this(Either.left(BuiltInRegistries.ITEM.getKey(material)), color, translationKey, weight, saplingChance, secondaryDropChance);
     }
@@ -40,8 +40,8 @@ public record ResourcesTypes(Either<ResourceLocation, TagKey<Item>> material, in
         this(Either.right(material), color, translationKey, weight, saplingChance, secondaryDropChance);
     }
 
-    public static final Codec<Either<ResourceLocation, TagKey<Item>>> MATERIAL_CODEC = Codec.either(
-            ResourceLocation.CODEC,
+    public static final Codec<Either<Identifier, TagKey<Item>>> MATERIAL_CODEC = Codec.either(
+            Identifier.CODEC,
             TagKey.hashedCodec(Registries.ITEM)
     );
 
@@ -55,7 +55,7 @@ public record ResourcesTypes(Either<ResourceLocation, TagKey<Item>> material, in
     ).apply(instance, ResourcesTypes::new));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, ResourcesTypes> STREAM_CODEC = StreamCodec.composite(
-            ByteBufCodecs.either(ResourceLocation.STREAM_CODEC, TagKey.streamCodec(Registries.ITEM)),
+            ByteBufCodecs.either(Identifier.STREAM_CODEC, TagKey.streamCodec(Registries.ITEM)),
             ResourcesTypes::material,
             ByteBufCodecs.INT,
             ResourcesTypes::color,
@@ -98,7 +98,7 @@ public record ResourcesTypes(Either<ResourceLocation, TagKey<Item>> material, in
     public static final ResourceKey<ResourcesTypes> ICE = register("ice");
 
     private static ResourceKey<ResourcesTypes> register(String name){
-        return ResourceKey.create(ModRegistries.RESOURCES_TYPES_KEY, ResourceLocation.fromNamespaceAndPath(ResourcesTrees.MODID, name));
+        return ResourceKey.create(ModRegistries.RESOURCES_TYPES_KEY, Identifier.fromNamespaceAndPath(ResourcesTrees.MODID, name));
     }
 
     public static void bootstrap(BootstrapContext<ResourcesTypes> context){
@@ -128,14 +128,14 @@ public record ResourcesTypes(Either<ResourceLocation, TagKey<Item>> material, in
         context.register(ICE, new ResourcesTypes(Items.ICE, 0xFFb9e8ea, "item.resourcestrees.ice", 5, 0.25f, 0.5f));
     }
 
-    public static Map<ResourceLocation, Holder<ResourcesTypes>> getAllResourcesTypes(HolderLookup.Provider provider){
+    public static Map<Identifier, Holder<ResourcesTypes>> getAllResourcesTypes(HolderLookup.Provider provider){
         Stream<Holder.Reference<ResourcesTypes>> registry = provider.lookupOrThrow(ModRegistries.RESOURCES_TYPES_KEY).listElements();
-        Map<ResourceLocation, Holder<ResourcesTypes>> types = new HashMap<>();
+        Map<Identifier, Holder<ResourcesTypes>> types = new HashMap<>();
         registry.forEachOrdered(entry -> {
-            if (types.containsKey(entry.key().location())){
-                throw new IllegalStateException("Duplicate resource index " + entry.key().location() + " for " + entry.key().location());
+            if (types.containsKey(entry.key().identifier())){
+                throw new IllegalStateException("Duplicate resource index " + entry.key().identifier() + " for " + entry.key().identifier());
             }
-            types.put(entry.key().location(), entry);
+            types.put(entry.key().identifier(), entry);
         });
         return types;
     }
