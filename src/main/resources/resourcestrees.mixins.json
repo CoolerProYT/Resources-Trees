@@ -3,6 +3,8 @@
   "package": "com.coolerpromc.resourcestrees.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "RecipeDisplayEntryMixin",
+    "ServerPlaceRecipeMixin"
   ],
   "injectors": {
     "defaultRequire": 1
