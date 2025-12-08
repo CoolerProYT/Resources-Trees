@@ -11,6 +11,7 @@ import com.coolerpromc.resourcestrees.datagen.model.ResourcesTypeTintSource;
 import com.coolerpromc.resourcestrees.item.ModCreativeTab;
 import com.coolerpromc.resourcestrees.item.ModItems;
 import com.coolerpromc.resourcestrees.item.custom.LeafFragmentItem;
+import com.coolerpromc.resourcestrees.network.packet.ResourceTypeSyncS2CPacket;
 import com.coolerpromc.resourcestrees.recipe.ModRecipes;
 import com.coolerpromc.resourcestrees.screen.ModMenuTypes;
 import com.coolerpromc.resourcestrees.screen.custom.TreeSimulatorScreen;
@@ -20,7 +21,9 @@ import net.minecraft.client.color.item.ItemTintSources;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -41,6 +44,10 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.minecraftforge.network.Channel;
+import net.minecraftforge.network.ChannelBuilder;
+import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -48,12 +55,19 @@ import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Mod(ResourcesTrees.MODID)
 public final class ResourcesTrees {
     public static final String MODID = "resourcestrees";
     public static final Logger LOGGER = LogUtils.getLogger();
+    public static final Channel<CustomPacketPayload> CHANNEL = ChannelBuilder
+            .named(id("channel_registration"))
+            .networkProtocolVersion(0)
+            .payloadChannel()
+            .play()
+            .clientbound()
+            .addMain(ResourceTypeSyncS2CPacket.TYPE, ResourceTypeSyncS2CPacket.STREAM_CODEC, ResourceTypeSyncS2CPacket::handle)
+            .build();
 
     public static final DeferredRegister<IIngredientSerializer<?>> INGREDIENT_SERIALIZERS = DeferredRegister.create(ForgeRegistries.INGREDIENT_SERIALIZERS, MODID);
     public static final RegistryObject<IIngredientSerializer<DataComponentIngredient>> DATA_COMPONENT_INGREDIENT = INGREDIENT_SERIALIZERS.register("data_component", DataComponentIngredient.Serializer::new);
@@ -79,51 +93,58 @@ public final class ResourcesTrees {
         if (!(event.getLevel() instanceof ServerLevel level)) return;
         if (!(entity instanceof ItemEntity itemEntity)) return;
 
-        ItemStack itemStack = itemEntity.getItem();
-        Item item = itemStack.getItem();
-        if (!(item instanceof BlockItem || item instanceof LeafFragmentItem)) return;
+        level.getServer().schedule(new TickTask(5, () -> {
+            ItemStack itemStack = itemEntity.getItem();
+            Item item = itemStack.getItem();
+            if (!(item instanceof BlockItem || item instanceof LeafFragmentItem)) return;
 
-        if (item instanceof BlockItem){
-            Block block = Block.byItem(item);
-            if (!(block instanceof ResourcesSaplingBlock)) return;
-        }
-        if (!itemStack.has(ModDataComponents.TYPE.get())) return;
-
-        Holder<ResourcesTypes> type = itemStack.get(ModDataComponents.TYPE.get());
-
-        if (type != null){
-            if (itemEntity.isRemoved()) return;
-
-            BlockPos pos = findNearbyBlock(level, itemEntity.getOnPos(), 5, 50);
-            if (pos.equals(BlockPos.ZERO)) {
-                return;
+            if (item instanceof BlockItem){
+                Block block = Block.byItem(item);
+                if (!(block instanceof ResourcesSaplingBlock)) return;
             }
+            if (!itemStack.has(ModDataComponents.TYPE.get())) return;
 
-            if (!(level.getBlockState(pos).getBlock() instanceof ResourcesSaplingBlock)) {
-                return;
-            }
+            Holder<ResourcesTypes> type = itemStack.get(ModDataComponents.TYPE.get());
 
-            if (!level.isLoaded(pos)) {
-                return;
-            }
+            if (type != null){
+                if (itemEntity.isRemoved()) return;
 
-            BlockEntity blockEntity = level.getBlockEntity(pos);
-            if (!(blockEntity instanceof ResourcesTypesBlockEntity be)) {
-                return;
-            }
+                BlockPos pos = findNearbyBlock(level, itemEntity.getOnPos(), 5, 50);
+                if (pos.equals(BlockPos.ZERO)) {
+                    return;
+                }
 
-            be.setResourcesType(type.value());
+                if (!(level.getBlockState(pos).getBlock() instanceof ResourcesSaplingBlock)) {
+                    return;
+                }
 
-            List<BlockPos> nearbyPos = findAllNearbyBlock(level, pos, 1);
-            for (BlockPos blockPos : nearbyPos) {
-                if (blockPos.equals(pos)) continue;
+                if (!level.isLoaded(pos)) {
+                    return;
+                }
 
-                BlockEntity neighbourBe = level.getBlockEntity(blockPos);
-                if (neighbourBe instanceof ResourcesTypesBlockEntity be2) {
-                    be2.setResourcesType(type.value());
+                BlockEntity blockEntity = level.getBlockEntity(pos);
+                if (!(blockEntity instanceof ResourcesTypesBlockEntity be)) {
+                    return;
+                }
+
+                be.setResourcesType(type);
+                be.setChanged();
+                level.sendBlockUpdated(pos, level.getBlockState(pos), level.getBlockState(pos), 3);
+                CHANNEL.send(new ResourceTypeSyncS2CPacket(be.getBlockPos(), type), PacketDistributor.ALL.noArg());
+
+                List<BlockPos> nearbyPos = findAllNearbyBlock(level, pos, 1);
+                for (BlockPos blockPos : nearbyPos) {
+                    if (blockPos.equals(pos)) continue;
+
+                    BlockEntity neighbourBe = level.getBlockEntity(blockPos);
+                    if (neighbourBe instanceof ResourcesTypesBlockEntity be2) {
+                        be2.setResourcesType(type);
+                        be2.setChanged();
+                        CHANNEL.send(new ResourceTypeSyncS2CPacket(be2.getBlockPos(), type), PacketDistributor.ALL.noArg());
+                    }
                 }
             }
-        }
+        }));
     }
 
     public static BlockPos findNearbyBlock(Level level, BlockPos center, int radiusXZ, int radiusY) {
@@ -133,7 +154,7 @@ public final class ResourcesTrees {
                     BlockPos checkPos = center.offset(x, y, z);
                     if (level.getBlockState(checkPos).getBlock() instanceof ResourcesSaplingBlock) {
                         BlockEntity entity = level.getBlockEntity(checkPos);
-                        if (entity instanceof ResourcesTypesBlockEntity be && (be.getResourcesType() == null || Objects.equals(be.getResourcesType(), ResourcesTypes.EMPTY))){
+                        if (entity instanceof ResourcesTypesBlockEntity be && (be.getResourcesType() == null)){
                             return checkPos;
                         }
                     }

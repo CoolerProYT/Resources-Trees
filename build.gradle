@@ -3,6 +3,12 @@ plugins {
     id 'idea'
     id 'maven-publish'
     id 'net.minecraftforge.gradle' version '[6.0.36,6.2)'
+    id "me.modmuss50.mod-publish-plugin" version "1.1.0"
+    id 'org.spongepowered.mixin' version '0.7.+'
+}
+
+tasks.named('wrapper', Wrapper).configure {
+    distributionType = Wrapper.DistributionType.BIN
 }
 
 version = mod_version
@@ -86,9 +92,15 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     annotationProcessor 'net.minecraftforge:eventbus-validator:7.0-beta.10'
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
     implementation "curse.maven:collective-342584:7105756"
     implementation "curse.maven:tree-harvester-367178:7079088"
+}
+
+mixin {
+    add sourceSets.main, 'resourcestrees.mixins.refmap.json'
+    config 'resourcestrees.mixins.json'
 }
 
 tasks.named('processResources', ProcessResources) {
@@ -156,4 +168,24 @@ sourceSets.each {
     def dir = layout.buildDirectory.dir("sourcesSets/$it.name")
     it.output.resourcesDir = dir
     it.java.destinationDirectory = dir
+}
+
+publishMods {
+    file.set(jar.archiveFile)
+    type = STABLE
+    modLoaders.add("forge")
+    changelog = file("changelog.md").text
+    displayName = mod_id + "-" + mod_version
+
+    curseforge {
+        projectId = "1354532"
+        accessToken = findProperty("CF_TOKEN")
+        minecraftVersions.add(minecraft_version)
+    }
+
+    modrinth {
+        projectId = 'K5BPYFo9'
+        accessToken = findProperty("MODRINTH_TOKEN")
+        minecraftVersions.add(minecraft_version)
+    }
 }

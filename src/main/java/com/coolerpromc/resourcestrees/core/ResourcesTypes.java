@@ -5,12 +5,10 @@ import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
 import com.coolerpromc.resourcestrees.item.ModItems;
 import com.coolerpromc.resourcestrees.registry.ModRegistries;
 import com.mojang.datafixers.util.Either;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.*;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.HolderOwner;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
@@ -24,20 +22,19 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.Level;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-public record ResourcesTypes(Either<ResourceLocation, TagKey<Item>> material, int color, String translationKey, int weight, float saplingChance, float secondaryDropChance){
-    public ResourcesTypes(Item material, int color, String translationKey, int weight, float saplingChance, float secondaryDropChance) {
-        this(Either.left(BuiltInRegistries.ITEM.getKey(material)), color, translationKey, weight, saplingChance, secondaryDropChance);
+public record ResourcesTypes(Either<ResourceLocation, TagKey<Item>> material, int color, String translationKey, int weight, float saplingDropChance, float leafDropChance){
+    public ResourcesTypes(Item material, int color, String translationKey, int weight, float saplingDropChance, float leafDropChance) {
+        this(Either.left(BuiltInRegistries.ITEM.getKey(material)), color, translationKey, weight, saplingDropChance, leafDropChance);
     }
 
-    public ResourcesTypes(TagKey<Item> material, int color, String translationKey, int weight, float saplingChance, float secondaryDropChance) {
-        this(Either.right(material), color, translationKey, weight, saplingChance, secondaryDropChance);
+    public ResourcesTypes(TagKey<Item> material, int color, String translationKey, int weight, float saplingChance, float leafDropChance) {
+        this(Either.right(material), color, translationKey, weight, saplingChance, leafDropChance);
     }
 
     public static final Codec<Either<ResourceLocation, TagKey<Item>>> MATERIAL_CODEC = Codec.either(
@@ -50,9 +47,41 @@ public record ResourcesTypes(Either<ResourceLocation, TagKey<Item>> material, in
             Codec.INT.fieldOf("color").forGetter(ResourcesTypes::color),
             Codec.STRING.fieldOf("translationKey").forGetter(ResourcesTypes::translationKey),
             Codec.INT.fieldOf("weight").forGetter(ResourcesTypes::weight),
-            Codec.FLOAT.fieldOf("saplingChance").forGetter(ResourcesTypes::saplingChance),
-            Codec.FLOAT.fieldOf("secondaryDropChance").forGetter(ResourcesTypes::secondaryDropChance)
+            floatFieldWithLegacy("saplingDropChance", "saplingChance").forGetter(ResourcesTypes::saplingDropChance),
+            floatFieldWithLegacy("leafDropChance", "secondaryDropChance").forGetter(ResourcesTypes::leafDropChance)
     ).apply(instance, ResourcesTypes::new));
+
+    private static MapCodec<Float> floatFieldWithLegacy(String newName, String oldName) {
+        return new MapCodec<Float>() {
+            @Override
+            public <T> Stream<T> keys(DynamicOps<T> ops) {
+                return Stream.of(ops.createString(newName));
+            }
+
+            @Override
+            public <T> DataResult<Float> decode(DynamicOps<T> ops, MapLike<T> input) {
+                // Try new field name first
+                T newValue = input.get(newName);
+                if (newValue != null) {
+                    return ops.getNumberValue(newValue).map(Number::floatValue);
+                }
+
+                // Fallback to old field name
+                T oldValue = input.get(oldName);
+                if (oldValue != null) {
+                    return ops.getNumberValue(oldValue).map(Number::floatValue);
+                }
+
+                // Return error if neither exists
+                return DataResult.error(() -> "Missing field: " + newName + " or " + oldName);
+            }
+
+            @Override
+            public <T> RecordBuilder<T> encode(Float input, DynamicOps<T> ops, RecordBuilder<T> prefix) {
+                return prefix.add(newName, ops.createFloat(input));
+            }
+        };
+    }
 
     public static final StreamCodec<RegistryFriendlyByteBuf, ResourcesTypes> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.either(ResourceLocation.STREAM_CODEC, TagKey.streamCodec(Registries.ITEM)),
@@ -64,13 +93,11 @@ public record ResourcesTypes(Either<ResourceLocation, TagKey<Item>> material, in
             ByteBufCodecs.INT,
             ResourcesTypes::weight,
             ByteBufCodecs.FLOAT,
-            ResourcesTypes::saplingChance,
+            ResourcesTypes::saplingDropChance,
             ByteBufCodecs.FLOAT,
-            ResourcesTypes::secondaryDropChance,
+            ResourcesTypes::leafDropChance,
             ResourcesTypes::new
     );
-
-    public static final ResourcesTypes EMPTY = new ResourcesTypes(Items.AIR, 0xFF141414, "item.resourcestrees.empty", 0, 0, 0);
 
     public static final ResourceKey<ResourcesTypes> STONE = register("stone");
     public static final ResourceKey<ResourcesTypes> COAL = register("coal");
@@ -102,30 +129,30 @@ public record ResourcesTypes(Either<ResourceLocation, TagKey<Item>> material, in
     }
 
     public static void bootstrap(BootstrapContext<ResourcesTypes> context){
-        context.register(STONE, new ResourcesTypes(Items.COBBLESTONE, 0xFF4D4B49, "item.resourcestrees.stone", 5, 0.25f, 0.5f));
-        context.register(COAL, new ResourcesTypes(Items.COAL_BLOCK, 0xFF000000, "item.resourcestrees.coal", 5, 0.25f, 0.5f));
-        context.register(IRON, new ResourcesTypes(Items.IRON_BLOCK, 0xFFB0BEC5, "item.resourcestrees.iron", 5, 0.25f, 0.5f));
-        context.register(COPPER, new ResourcesTypes(Items.COPPER_BLOCK, 0xFFD46D44, "item.resourcestrees.copper", 5, 0.25f, 0.5f));
-        context.register(GOLD, new ResourcesTypes(Items.GOLD_BLOCK, 0xFFFFD600, "item.resourcestrees.gold", 5, 0.25f, 0.5f));
-        context.register(LAPIS, new ResourcesTypes(Items.LAPIS_BLOCK, 0xFF3F51B5, "item.resourcestrees.lapis", 5, 0.25f, 0.5f));
-        context.register(EMERALD, new ResourcesTypes(Items.EMERALD_BLOCK, 0xFF00C853, "item.resourcestrees.emerald", 5, 0.25f, 0.5f));
-        context.register(DIAMOND, new ResourcesTypes(Items.DIAMOND_BLOCK, 0xFF40C4FF, "item.resourcestrees.diamond", 3, 0.20f, 0.4f));
-        context.register(OBSIDIAN, new ResourcesTypes(Items.OBSIDIAN, 0xFF2E1A47, "item.resourcestrees.obsidian", 4, 0.25f, 0.5f));
-        context.register(AMETHYST, new ResourcesTypes(Items.AMETHYST_BLOCK, 0xFF9C27B0, "item.resourcestrees.amethyst", 5, 0.25f, 0.5f));
-        context.register(NETHERITE, new ResourcesTypes(Items.NETHERITE_BLOCK, 0xFF3E3E3E, "item.resourcestrees.netherite", 2, 0.15f, 0.3f));
-        context.register(WOOD, new ResourcesTypes(ItemTags.LOGS, 0xFF8D6E63, "item.resourcestrees.wood", 5, 0.25f, 0.5f));
-        context.register(QUARTZ, new ResourcesTypes(Items.QUARTZ_BLOCK, 0xFFF5F5F5, "item.resourcestrees.quartz", 5, 0.25f, 0.5f));
-        context.register(PRISMARINE, new ResourcesTypes(Items.PRISMARINE, 0xFF5EC8C8, "item.resourcestrees.prismarine", 5, 0.25f, 0.5f));
-        context.register(GLOWSTONE, new ResourcesTypes(Items.GLOWSTONE, 0xFFFFF176, "item.resourcestrees.glowstone", 5, 0.25f, 0.5f));
-        context.register(REDSTONE, new ResourcesTypes(Items.REDSTONE_BLOCK, 0xFFFF1744, "item.resourcestrees.redstone", 5, 0.25f, 0.5f));
-        context.register(DEEPSLATE, new ResourcesTypes(Items.DEEPSLATE, 0xFF2B2B24, "item.resourcestrees.deepslate", 5, 0.25f, 0.5f));
-        context.register(DIRT, new ResourcesTypes(Items.DIRT, 0xFF9B7653, "item.resourcestrees.dirt", 5, 0.25f, 0.5f));
-        context.register(FIRE, new ResourcesTypes(ModItems.FIRE_ESSENCE.get(), 0xFFE45323 , "item.resourcestrees.fire", 5, 0.25f, 0.5f));
-        context.register(NETHER, new ResourcesTypes(Items.NETHERRACK, 0xFF511515 , "item.resourcestrees.nether", 5, 0.25f, 0.5f));
-        context.register(END, new ResourcesTypes(ModItems.END_ESSENCE.get(), 0xFFC5BE8B , "item.resourcestrees.end", 5, 0.25f, 0.5f));
-        context.register(NATURE, new ResourcesTypes(ModItems.NATURE_ESSENCE.get(), 0xFF1a6e08 , "item.resourcestrees.nature", 5, 0.25f, 0.5f));
-        context.register(WATER, new ResourcesTypes(ModItems.WATER_ESSENCE.get(), 0xFF1787D4, "item.resourcestrees.water", 5, 0.25f, 0.5f));
-        context.register(ICE, new ResourcesTypes(Items.ICE, 0xFFb9e8ea, "item.resourcestrees.ice", 5, 0.25f, 0.5f));
+        context.register(STONE, new ResourcesTypes(Items.COBBLESTONE, 0xFF4D4B49, "item.resourcestrees.stone", 5, 0.125f, 0.25f));
+        context.register(COAL, new ResourcesTypes(Items.COAL_BLOCK, 0xFF000000, "item.resourcestrees.coal", 5, 0.125f, 0.25f));
+        context.register(IRON, new ResourcesTypes(Items.IRON_BLOCK, 0xFFB0BEC5, "item.resourcestrees.iron", 5, 0.125f, 0.25f));
+        context.register(COPPER, new ResourcesTypes(Items.COPPER_BLOCK, 0xFFD46D44, "item.resourcestrees.copper", 5, 0.125f, 0.25f));
+        context.register(GOLD, new ResourcesTypes(Items.GOLD_BLOCK, 0xFFFFD600, "item.resourcestrees.gold", 5, 0.125f, 0.25f));
+        context.register(LAPIS, new ResourcesTypes(Items.LAPIS_BLOCK, 0xFF3F51B5, "item.resourcestrees.lapis", 5, 0.125f, 0.25f));
+        context.register(EMERALD, new ResourcesTypes(Items.EMERALD_BLOCK, 0xFF00C853, "item.resourcestrees.emerald", 5, 0.125f, 0.25f));
+        context.register(DIAMOND, new ResourcesTypes(Items.DIAMOND_BLOCK, 0xFF40C4FF, "item.resourcestrees.diamond", 3, 0.10f, 0.2f));
+        context.register(OBSIDIAN, new ResourcesTypes(Items.OBSIDIAN, 0xFF2E1A47, "item.resourcestrees.obsidian", 4, 0.125f, 0.25f));
+        context.register(AMETHYST, new ResourcesTypes(Items.AMETHYST_BLOCK, 0xFF9C27B0, "item.resourcestrees.amethyst", 5, 0.125f, 0.25f));
+        context.register(NETHERITE, new ResourcesTypes(Items.NETHERITE_BLOCK, 0xFF3E3E3E, "item.resourcestrees.netherite", 2, 0.075f, 0.15f));
+        context.register(WOOD, new ResourcesTypes(ItemTags.LOGS, 0xFF8D6E63, "item.resourcestrees.wood", 5, 0.125f, 0.25f));
+        context.register(QUARTZ, new ResourcesTypes(Items.QUARTZ_BLOCK, 0xFFF5F5F5, "item.resourcestrees.quartz", 5, 0.125f, 0.25f));
+        context.register(PRISMARINE, new ResourcesTypes(Items.PRISMARINE, 0xFF5EC8C8, "item.resourcestrees.prismarine", 5, 0.125f, 0.25f));
+        context.register(GLOWSTONE, new ResourcesTypes(Items.GLOWSTONE, 0xFFFFF176, "item.resourcestrees.glowstone", 5, 0.125f, 0.25f));
+        context.register(REDSTONE, new ResourcesTypes(Items.REDSTONE_BLOCK, 0xFFFF1744, "item.resourcestrees.redstone", 5, 0.125f, 0.25f));
+        context.register(DEEPSLATE, new ResourcesTypes(Items.DEEPSLATE, 0xFF2B2B24, "item.resourcestrees.deepslate", 5, 0.125f, 0.25f));
+        context.register(DIRT, new ResourcesTypes(Items.DIRT, 0xFF9B7653, "item.resourcestrees.dirt", 5, 0.25f, 0.125f));
+        context.register(FIRE, new ResourcesTypes(ModItems.FIRE_ESSENCE.get(), 0xFFE45323 , "item.resourcestrees.fire", 5, 0.125f, 0.25f));
+        context.register(NETHER, new ResourcesTypes(Items.NETHERRACK, 0xFF511515 , "item.resourcestrees.nether", 5, 0.125f, 0.25f));
+        context.register(END, new ResourcesTypes(ModItems.END_ESSENCE.get(), 0xFFC5BE8B , "item.resourcestrees.end", 5, 0.125f, 0.25f));
+        context.register(NATURE, new ResourcesTypes(ModItems.NATURE_ESSENCE.get(), 0xFF1a6e08 , "item.resourcestrees.nature", 5, 0.125f, 0.25f));
+        context.register(WATER, new ResourcesTypes(ModItems.WATER_ESSENCE.get(), 0xFF1787D4, "item.resourcestrees.water", 5, 0.125f, 0.25f));
+        context.register(ICE, new ResourcesTypes(Items.ICE, 0xFFb9e8ea, "item.resourcestrees.ice", 5, 0.25f, 0.125f));
     }
 
     public static Map<ResourceLocation, Holder<ResourcesTypes>> getAllResourcesTypes(HolderLookup.Provider provider){
@@ -138,14 +165,6 @@ public record ResourcesTypes(Either<ResourceLocation, TagKey<Item>> material, in
             types.put(entry.key().location(), entry);
         });
         return types;
-    }
-
-    public Holder<ResourcesTypes> asHolder(Level level) {
-        return getAllResourcesTypes(level.registryAccess()).values().stream().filter((holder) -> holder.value().equals(this)).findFirst().get();
-    }
-
-    public boolean isEmpty(){
-        return this.equals(EMPTY);
     }
 
     public static boolean isSameItemSameType(ItemStack stack, ItemStack other) {
@@ -167,11 +186,11 @@ public record ResourcesTypes(Either<ResourceLocation, TagKey<Item>> material, in
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         ResourcesTypes that = (ResourcesTypes) o;
-        return color() == that.color() && weight() == that.weight() && Float.compare(saplingChance(), that.saplingChance()) == 0 && Float.compare(secondaryDropChance(), that.secondaryDropChance()) == 0 && Objects.equals(translationKey(), that.translationKey()) && Objects.equals(material(), that.material());
+        return color() == that.color() && weight() == that.weight() && Float.compare(saplingDropChance(), that.saplingDropChance()) == 0 && Float.compare(leafDropChance(), that.leafDropChance()) == 0 && Objects.equals(translationKey(), that.translationKey()) && Objects.equals(material(), that.material());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(material(), color(), translationKey(), weight(), saplingChance(), secondaryDropChance());
+        return Objects.hash(material(), color(), translationKey(), weight(), saplingDropChance(), leafDropChance());
     }
 }
