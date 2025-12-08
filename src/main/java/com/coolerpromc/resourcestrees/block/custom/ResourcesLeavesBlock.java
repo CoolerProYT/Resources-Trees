@@ -11,10 +11,12 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ColorParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -99,6 +101,7 @@ public class ResourcesLeavesBlock extends LeavesBlock implements EntityBlock {
                 drops.getFirst().set(ModDataComponents.TYPE, resourcesTypes.asHolder(builder.getLevel()));
             }
         }
+        System.out.println(drops);
     }
 
     @Override
@@ -136,5 +139,14 @@ public class ResourcesLeavesBlock extends LeavesBlock implements EntityBlock {
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
         return new ResourcesTypesBlockEntity(blockPos, blockState);
+    }
+
+    @Override
+    protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        if (this.decaying(state)) {
+            List<ItemStack> drops = this.getDrops(state, new LootParams.Builder(level).withParameter(LootContextParams.TOOL, ItemStack.EMPTY).withOptionalParameter(LootContextParams.BLOCK_ENTITY, level.getBlockEntity(pos)).withParameter(LootContextParams.ORIGIN, pos.getCenter()));
+            drops.forEach(drop -> level.addFreshEntity(new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), drop)));
+            level.removeBlock(pos, false);
+        }
     }
 }
