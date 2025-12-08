@@ -9,12 +9,14 @@ import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
 import com.coolerpromc.resourcestrees.item.ModCreativeTab;
 import com.coolerpromc.resourcestrees.item.ModItems;
 import com.coolerpromc.resourcestrees.item.custom.LeafFragmentItem;
+import com.coolerpromc.resourcestrees.network.packet.ResourceTypeSyncS2CPacket;
 import com.coolerpromc.resourcestrees.recipe.ModRecipes;
 import com.coolerpromc.resourcestrees.screen.ModMenuTypes;
 import com.mojang.logging.LogUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -34,11 +36,11 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Mod(ResourcesTrees.MODID)
 public class ResourcesTrees {
@@ -74,51 +76,58 @@ public class ResourcesTrees {
         if (!(event.getLevel() instanceof ServerLevel level)) return;
         if (!(entity instanceof ItemEntity itemEntity)) return;
 
-        ItemStack itemStack = itemEntity.getItem();
-        Item item = itemStack.getItem();
-        if (!(item instanceof BlockItem || item instanceof LeafFragmentItem)) return;
+        level.getServer().schedule(new TickTask(5, () -> {
+            ItemStack itemStack = itemEntity.getItem();
+            Item item = itemStack.getItem();
+            if (!(item instanceof BlockItem || item instanceof LeafFragmentItem)) return;
 
-        if (item instanceof BlockItem){
-            Block block = Block.byItem(item);
-            if (!(block instanceof ResourcesSaplingBlock)) return;
-        }
-        if (!itemStack.has(ModDataComponents.TYPE)) return;
-
-        Holder<ResourcesTypes> type = itemStack.get(ModDataComponents.TYPE);
-
-        if (type != null){
-            if (itemEntity.isRemoved()) return;
-
-            BlockPos pos = findNearbyBlock(level, itemEntity.getOnPos(), 5, 50);
-            if (pos.equals(BlockPos.ZERO)) {
-                return;
+            if (item instanceof BlockItem){
+                Block block = Block.byItem(item);
+                if (!(block instanceof ResourcesSaplingBlock)) return;
             }
+            if (!itemStack.has(ModDataComponents.TYPE)) return;
 
-            if (!(level.getBlockState(pos).getBlock() instanceof ResourcesSaplingBlock)) {
-                return;
-            }
+            Holder<ResourcesTypes> type = itemStack.get(ModDataComponents.TYPE);
 
-            if (!level.isLoaded(pos)) {
-                return;
-            }
+            if (type != null){
+                if (itemEntity.isRemoved()) return;
 
-            BlockEntity blockEntity = level.getBlockEntity(pos);
-            if (!(blockEntity instanceof ResourcesTypesBlockEntity be)) {
-                return;
-            }
+                BlockPos pos = findNearbyBlock(level, itemEntity.getOnPos(), 5, 50);
+                if (pos.equals(BlockPos.ZERO)) {
+                    return;
+                }
 
-            be.setResourcesType(type.value());
+                if (!(level.getBlockState(pos).getBlock() instanceof ResourcesSaplingBlock)) {
+                    return;
+                }
 
-            List<BlockPos> nearbyPos = findAllNearbyBlock(level, pos, 1);
-            for (BlockPos blockPos : nearbyPos) {
-                if (blockPos.equals(pos)) continue;
+                if (!level.isLoaded(pos)) {
+                    return;
+                }
 
-                BlockEntity neighbourBe = level.getBlockEntity(blockPos);
-                if (neighbourBe instanceof ResourcesTypesBlockEntity be2) {
-                    be2.setResourcesType(type.value());
+                BlockEntity blockEntity = level.getBlockEntity(pos);
+                if (!(blockEntity instanceof ResourcesTypesBlockEntity be)) {
+                    return;
+                }
+
+                be.setResourcesType(type);
+                be.setChanged();
+                level.sendBlockUpdated(pos, level.getBlockState(pos), level.getBlockState(pos), 3);
+                PacketDistributor.sendToAllPlayers(new ResourceTypeSyncS2CPacket(be.getBlockPos(), type));
+
+                List<BlockPos> nearbyPos = findAllNearbyBlock(level, pos, 1);
+                for (BlockPos blockPos : nearbyPos) {
+                    if (blockPos.equals(pos)) continue;
+
+                    BlockEntity neighbourBe = level.getBlockEntity(blockPos);
+                    if (neighbourBe instanceof ResourcesTypesBlockEntity be2) {
+                        be2.setResourcesType(type);
+                        be2.setChanged();
+                        PacketDistributor.sendToAllPlayers(new ResourceTypeSyncS2CPacket(be2.getBlockPos(), type));
+                    }
                 }
             }
-        }
+        }));
     }
 
     public static BlockPos findNearbyBlock(Level level, BlockPos center, int radiusXZ, int radiusY) {
@@ -128,7 +137,7 @@ public class ResourcesTrees {
                     BlockPos checkPos = center.offset(x, y, z);
                     if (level.getBlockState(checkPos).getBlock() instanceof ResourcesSaplingBlock) {
                         BlockEntity entity = level.getBlockEntity(checkPos);
-                        if (entity instanceof ResourcesTypesBlockEntity be && (be.getResourcesType() == null || Objects.equals(be.getResourcesType(), ResourcesTypes.EMPTY))){
+                        if (entity instanceof ResourcesTypesBlockEntity be && (be.getResourcesType() == null)){
                             return checkPos;
                         }
                     }
