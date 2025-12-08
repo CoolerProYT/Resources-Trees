@@ -9,7 +9,10 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -65,27 +68,31 @@ public class ResourcesLeavesBlock extends LeavesBlock implements EntityBlock {
     }
 
     private void calculateDrops(ResourcesTypesBlockEntity be, LootParams.Builder builder, List<ItemStack> drops){
-        ResourcesTypes resourcesTypes = be.getResourcesType();
+        Holder<ResourcesTypes> resourcesTypes = be.getResourcesType();
 
-        if (drops.isEmpty()){
-            if (builder.getLevel().getRandom().nextFloat() < resourcesTypes.saplingChance()) {
-                ItemStack saplingDrop = sapling.get().asItem().getDefaultInstance();
-                saplingDrop.set(ModDataComponents.TYPE, resourcesTypes.asHolder(builder.getLevel()));
-                drops.add(saplingDrop);
+        if (resourcesTypes != null){
+            if (drops.isEmpty()){
+                if (builder.getLevel().getRandom().nextFloat() < resourcesTypes.value().saplingDropChance() / 2) {
+                    ItemStack saplingDrop = sapling.get().asItem().getDefaultInstance();
+                    saplingDrop.set(ModDataComponents.TYPE, resourcesTypes);
+                    drops.add(saplingDrop);
+                }
+
+                ItemStack fragment = ModItems.LEAF_FRAGMENT.toStack();
+                fragment.set(ModDataComponents.TYPE, resourcesTypes);
+
+                if (builder.getLevel().getRandom().nextFloat() < resourcesTypes.value().leafDropChance()){
+                    drops.add(fragment.copy());
+                }
+
+                if (builder.getLevel().getRandom().nextFloat() < resourcesTypes.value().leafDropChance() / 2){ // Secondary Drop Chance
+                    drops.add(fragment.copy());
+                }
             }
-
-            ItemStack fragment = ModItems.LEAF_FRAGMENT.toStack();
-            fragment.set(ModDataComponents.TYPE, resourcesTypes.asHolder(builder.getLevel()));
-
-            drops.add(fragment.copy());
-
-            if (builder.getLevel().getRandom().nextFloat() < resourcesTypes.secondaryDropChance()){
-                drops.add(fragment.copy());
-            }
-        }
-        else{
-            if (Block.byItem(drops.getFirst().getItem()) instanceof ResourcesLeavesBlock){
-                drops.getFirst().set(ModDataComponents.TYPE, resourcesTypes.asHolder(builder.getLevel()));
+            else{
+                if (Block.byItem(drops.getFirst().getItem()) instanceof ResourcesLeavesBlock){
+                    drops.getFirst().set(ModDataComponents.TYPE, resourcesTypes);
+                }
             }
         }
     }
@@ -96,7 +103,7 @@ public class ResourcesLeavesBlock extends LeavesBlock implements EntityBlock {
         if (blockEntity instanceof ResourcesTypesBlockEntity be && stack.has(ModDataComponents.TYPE.get())){
             Holder<ResourcesTypes> holder = stack.get(ModDataComponents.TYPE.get());
             if (holder != null){
-                be.setResourcesType(holder.value());
+                be.setResourcesType(holder);
             }
         }
     }
@@ -106,7 +113,7 @@ public class ResourcesLeavesBlock extends LeavesBlock implements EntityBlock {
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if (blockEntity instanceof ResourcesTypesBlockEntity be && be.getResourcesType() != null){
             ItemStack stack = super.getCloneItemStack(state, target, level, pos, player);
-            stack.set(ModDataComponents.TYPE, be.getResourcesType().asHolder(player.level()));
+            stack.set(ModDataComponents.TYPE, be.getResourcesType());
             return stack;
         }
         return super.getCloneItemStack(state, target, level, pos, player);
@@ -125,5 +132,14 @@ public class ResourcesLeavesBlock extends LeavesBlock implements EntityBlock {
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
         return new ResourcesTypesBlockEntity(blockPos, blockState);
+    }
+
+    @Override
+    protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        if (this.decaying(state)) {
+            List<ItemStack> drops = this.getDrops(state, new LootParams.Builder(level).withParameter(LootContextParams.TOOL, ItemStack.EMPTY).withOptionalParameter(LootContextParams.BLOCK_ENTITY, level.getBlockEntity(pos)).withParameter(LootContextParams.ORIGIN, pos.getCenter()));
+            drops.forEach(drop -> level.addFreshEntity(new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), drop)));
+            level.removeBlock(pos, false);
+        }
     }
 }
