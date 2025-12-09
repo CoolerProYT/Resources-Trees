@@ -101,7 +101,6 @@ public class ResourcesLeavesBlock extends LeavesBlock implements EntityBlock {
                 drops.getFirst().set(ModDataComponents.TYPE, resourcesTypes.asHolder(builder.getLevel()));
             }
         }
-        System.out.println(drops);
     }
 
     @Override
