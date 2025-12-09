@@ -2,7 +2,7 @@
   "color": -4593430,
   "material": "minecraft:ice",
   "saplingChance": 0.25,
-  "secondaryDropChance": 0.5,
+  "secondaryDropChance": 0.125,
   "translationKey": "item.resourcestrees.ice",
   "weight": 5
 }

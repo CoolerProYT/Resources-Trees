@@ -41,7 +41,6 @@ import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Mod(ResourcesTrees.MODID)
 public class ResourcesTrees {
@@ -111,10 +110,10 @@ public class ResourcesTrees {
                     return;
                 }
 
-                be.setResourcesType(type.value());
+                be.setResourcesType(type);
                 be.setChanged();
                 level.sendBlockUpdated(pos, level.getBlockState(pos), level.getBlockState(pos), 3);
-                PacketDistributor.sendToAllPlayers(new ResourceTypeSyncS2CPacket(be.getBlockPos(), type.value()));
+                PacketDistributor.sendToAllPlayers(new ResourceTypeSyncS2CPacket(be.getBlockPos(), type));
 
                 List<BlockPos> nearbyPos = findAllNearbyBlock(level, pos, 1);
                 for (BlockPos blockPos : nearbyPos) {
@@ -122,9 +121,9 @@ public class ResourcesTrees {
 
                     BlockEntity neighbourBe = level.getBlockEntity(blockPos);
                     if (neighbourBe instanceof ResourcesTypesBlockEntity be2) {
-                        be2.setResourcesType(type.value());
+                        be2.setResourcesType(type);
                         be2.setChanged();
-                        PacketDistributor.sendToAllPlayers(new ResourceTypeSyncS2CPacket(be2.getBlockPos(), type.value()));
+                        PacketDistributor.sendToAllPlayers(new ResourceTypeSyncS2CPacket(be2.getBlockPos(), type));
                     }
                 }
             }
@@ -138,7 +137,7 @@ public class ResourcesTrees {
                     BlockPos checkPos = center.offset(x, y, z);
                     if (level.getBlockState(checkPos).getBlock() instanceof ResourcesSaplingBlock) {
                         BlockEntity entity = level.getBlockEntity(checkPos);
-                        if (entity instanceof ResourcesTypesBlockEntity be && (be.getResourcesType() == null || Objects.equals(be.getResourcesType(), ResourcesTypes.EMPTY))){
+                        if (entity instanceof ResourcesTypesBlockEntity be && (be.getResourcesType() == null)){
                             return checkPos;
                         }
                     }

@@ -4,6 +4,8 @@ import com.coolerpromc.resourcestrees.block.entity.custom.ResourcesTypesBlockEnt
 import com.coolerpromc.resourcestrees.core.ResourcesTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.Identifier;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelSimulatedReader;
@@ -20,9 +22,9 @@ import java.util.List;
 
 public class ResourcesFoliagePlacer extends FoliagePlacer {
     private final FoliagePlacer vanilla;
-    private final ResourcesTypes resourceType;
+    private final Holder<ResourcesTypes> resourceType;
 
-    public ResourcesFoliagePlacer(FoliagePlacer vanilla, ResourcesTypes type) {
+    public ResourcesFoliagePlacer(FoliagePlacer vanilla, Holder<ResourcesTypes> type) {
         super(vanilla.radius, vanilla.offset);
         this.vanilla = vanilla;
         this.resourceType = type;

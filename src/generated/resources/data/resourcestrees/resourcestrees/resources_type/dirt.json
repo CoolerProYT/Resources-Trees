@@ -2,7 +2,7 @@
   "color": -6588845,
   "material": "minecraft:dirt",
   "saplingChance": 0.25,
-  "secondaryDropChance": 0.5,
+  "secondaryDropChance": 0.125,
   "translationKey": "item.resourcestrees.dirt",
   "weight": 5
 }
