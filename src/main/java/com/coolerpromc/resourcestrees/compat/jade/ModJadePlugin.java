@@ -1,4 +1,3 @@
-/*
 package com.coolerpromc.resourcestrees.compat.jade;
 
 import com.coolerpromc.resourcestrees.ResourcesTrees;
@@ -52,5 +51,3 @@ public class ModJadePlugin implements IWailaPlugin {
         });
     }
 }
-*/
-// TODO: wait for jade update
