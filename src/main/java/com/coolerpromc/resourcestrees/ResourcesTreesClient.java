@@ -11,10 +11,12 @@ import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
 import com.coolerpromc.resourcestrees.item.ModItems;
 import com.coolerpromc.resourcestrees.item.custom.EssenceItem;
 import com.coolerpromc.resourcestrees.item.custom.LeafFragmentItem;
+import com.coolerpromc.resourcestrees.network.packet.ResourceTypeSyncS2CPacket;
 import com.coolerpromc.resourcestrees.screen.ModMenuTypes;
 import com.coolerpromc.resourcestrees.screen.custom.TreeSimulatorScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.render.ColorProviderRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
@@ -94,6 +96,8 @@ public class ResourcesTreesClient implements ClientModInitializer {
         HandledScreens.register(ModMenuTypes.TREE_SIMULATOR, TreeSimulatorScreen::new);
 
         BlockEntityRendererFactories.register(ModBlockEntities.TREE_SIMULATOR_BE, TreeSimulatorBlockEntityRenderer::new);
+
+        ClientPlayNetworking.registerGlobalReceiver(ResourceTypeSyncS2CPacket.TYPE, ResourceTypeSyncS2CPacket::handle);
 
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), ModBlocks.RESOURCES_OAK_SAPLING,
                 ModBlocks.RESOURCES_SPRUCE_SAPLING,

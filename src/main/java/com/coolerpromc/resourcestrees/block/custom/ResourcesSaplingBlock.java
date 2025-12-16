@@ -30,6 +30,7 @@ import net.minecraft.world.gen.stateprovider.WeightedBlockStateProvider;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Objects;
 
 public class ResourcesSaplingBlock extends SaplingBlock implements BlockEntityProvider {
     public static final MapCodec<ResourcesSaplingBlock> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
@@ -51,8 +52,8 @@ public class ResourcesSaplingBlock extends SaplingBlock implements BlockEntityPr
         BlockEntity blockEntity = builder.getOptional(LootContextParameters.BLOCK_ENTITY);
 
         if (blockEntity instanceof ResourcesTypesBlockEntity be){
-            if (!drops.isEmpty() && be.getResourcesType() != ResourcesTypes.EMPTY){
-                drops.getFirst().set(ModDataComponents.TYPE, be.getResourcesType().asHolder(builder.getWorld()));
+            if (!drops.isEmpty() && be.getResourcesType() != null){
+                drops.getFirst().set(ModDataComponents.TYPE, be.getResourcesType());
             }
         }
         return drops;
@@ -61,9 +62,9 @@ public class ResourcesSaplingBlock extends SaplingBlock implements BlockEntityPr
     @Override
     public ItemStack getPickStack(WorldView world, BlockPos pos, BlockState state) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
-        if (blockEntity instanceof ResourcesTypesBlockEntity be && be.getResourcesType() != ResourcesTypes.EMPTY){
+        if (blockEntity instanceof ResourcesTypesBlockEntity be && be.getResourcesType() != null){
             ItemStack stack = super.getPickStack(world, pos, state);
-            stack.set(ModDataComponents.TYPE, be.getResourcesType().asHolder((World) world));
+            stack.set(ModDataComponents.TYPE, be.getResourcesType());
             return stack;
         }
         return super.getPickStack(world, pos, state);
@@ -73,15 +74,15 @@ public class ResourcesSaplingBlock extends SaplingBlock implements BlockEntityPr
     public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof ResourcesTypesBlockEntity be && itemStack.contains(ModDataComponents.TYPE)){
-            be.setResourcesType(itemStack.get(ModDataComponents.TYPE).value());
+            be.setResourcesType(itemStack.get(ModDataComponents.TYPE));
         }
     }
 
     @Override
     public void generate(ServerWorld world, BlockPos pos, BlockState state, Random random) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
-        if (state.getBlock() instanceof ResourcesSaplingBlock && blockEntity instanceof ResourcesTypesBlockEntity be && be.getResourcesType() != ResourcesTypes.EMPTY) {
-            ResourcesTypes resourcesTypes = be.getResourcesType();
+        if (state.getBlock() instanceof ResourcesSaplingBlock && blockEntity instanceof ResourcesTypesBlockEntity be && be.getResourcesType() != null) {
+            RegistryEntry<ResourcesTypes> resourcesTypes = be.getResourcesType();
 
             RegistryKey<ConfiguredFeature<?, ?>> resourcekey = generator.getMegaTreeFeature(random);
 
@@ -99,7 +100,7 @@ public class ResourcesSaplingBlock extends SaplingBlock implements BlockEntityPr
                                 world.setBlockState(pos.add(i, 0, j + 1), blockstate, 260);
                                 world.setBlockState(pos.add(i + 1, 0, j + 1), blockstate, 260);
                                 if (feature.config() instanceof TreeFeatureConfig oldConfig){
-                                    TreeFeatureConfig config = createNewTree(resourcesTypes, oldConfig, random, pos, resourcesTypes.weight(), leaves);
+                                    TreeFeatureConfig config = createNewTree(resourcesTypes, oldConfig, random, pos, resourcesTypes.value().weight(), leaves);
                                     if (Feature.TREE.generateIfValid(config, world, world.getChunkManager().getChunkGenerator(), random, pos.add(i, 0, j))) {
                                         return;
                                     }
@@ -126,7 +127,7 @@ public class ResourcesSaplingBlock extends SaplingBlock implements BlockEntityPr
 
                     world.setBlockState(pos, Blocks.AIR.getDefaultState(), 4);
                     if (feature.config() instanceof TreeFeatureConfig oldConfig){
-                        TreeFeatureConfig config = createNewTree(resourcesTypes, oldConfig, random, pos, resourcesTypes.weight(), leaves);
+                        TreeFeatureConfig config = createNewTree(resourcesTypes, oldConfig, random, pos, resourcesTypes.value().weight(), leaves);
                         boolean success = Feature.TREE.generateIfValid(config, world, world.getChunkManager().getChunkGenerator(), random, pos);
 
                         if (!success) {
@@ -142,15 +143,14 @@ public class ResourcesSaplingBlock extends SaplingBlock implements BlockEntityPr
         super.generate(world, pos, state, random);
     }
 
-    public static TreeFeatureConfig createNewTree(ResourcesTypes type, TreeFeatureConfig oldConfig, Random randomSource, BlockPos pos, int weight, Identifier leaves){
+    public static TreeFeatureConfig createNewTree(RegistryEntry<ResourcesTypes> type, TreeFeatureConfig oldConfig, Random randomSource, BlockPos pos, int weight, Identifier leaves){
         Block block = Registries.BLOCK.get(leaves);
 
         return new TreeFeatureConfig.Builder(
                 oldConfig.trunkProvider,
                 oldConfig.trunkPlacer,
                 new WeightedBlockStateProvider(DataPool.<BlockState>builder()
-                        .add(oldConfig.foliageProvider.get(randomSource, pos), 10)
-                        .add(block.getDefaultState(), weight)
+                        .add(block.getDefaultState(), Math.max(weight, 1))
                         .build()),
                 new ResourcesFoliagePlacer(oldConfig.foliagePlacer, type),
                 oldConfig.minimumSize
@@ -166,20 +166,20 @@ public class ResourcesSaplingBlock extends SaplingBlock implements BlockEntityPr
         BlockEntity blockEntity4 = level.getBlockEntity(pos.add(xOffset + 1, 0, yOffset + 1));
 
         if (blockEntity instanceof ResourcesTypesBlockEntity be && blockEntity1 instanceof ResourcesTypesBlockEntity be1 && blockEntity2 instanceof ResourcesTypesBlockEntity be2 && blockEntity3 instanceof ResourcesTypesBlockEntity be3 && blockEntity4 instanceof ResourcesTypesBlockEntity be4){
-            ResourcesTypes type = be.getResourcesType();
-            ResourcesTypes type1 = be1.getResourcesType();
-            ResourcesTypes type2 = be2.getResourcesType();
-            ResourcesTypes type3 = be3.getResourcesType();
-            ResourcesTypes type4 = be4.getResourcesType();
+            RegistryEntry<ResourcesTypes> type = be.getResourcesType();
+            RegistryEntry<ResourcesTypes> type1 = be1.getResourcesType();
+            RegistryEntry<ResourcesTypes> type2 = be2.getResourcesType();
+            RegistryEntry<ResourcesTypes> type3 = be3.getResourcesType();
+            RegistryEntry<ResourcesTypes> type4 = be4.getResourcesType();
 
             BlockState state1 = level.getBlockState(pos.add(xOffset, 0, yOffset));
-            boolean cond1 = state1.isOf(block) && type1.equals(type);
+            boolean cond1 = state1.isOf(block) && Objects.equals(type1, type);
             BlockState state2 = level.getBlockState(pos.add(xOffset + 1, 0, yOffset));
-            boolean cond2 = state2.isOf(block) && type2.equals(type);
+            boolean cond2 = state2.isOf(block) && Objects.equals(type2, type);
             BlockState state3 = level.getBlockState(pos.add(xOffset, 0, yOffset + 1));
-            boolean cond3 = state3.isOf(block) && type3.equals(type);
+            boolean cond3 = state3.isOf(block) && Objects.equals(type3, type);
             BlockState state4 = level.getBlockState(pos.add(xOffset + 1, 0, yOffset + 1));
-            boolean cond4 = state4.isOf(block) && type4.equals(type);
+            boolean cond4 = state4.isOf(block) && Objects.equals(type4, type);
             return cond1 && cond2 && cond3 && cond4;
         }
         return false;

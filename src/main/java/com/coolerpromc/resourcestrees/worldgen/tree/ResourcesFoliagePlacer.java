@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
@@ -19,9 +20,9 @@ import java.util.List;
 
 public class ResourcesFoliagePlacer extends FoliagePlacer {
     private final FoliagePlacer vanilla;
-    private final ResourcesTypes resourceType;
+    private final RegistryEntry<ResourcesTypes> resourceType;
 
-    public ResourcesFoliagePlacer(FoliagePlacer vanilla, ResourcesTypes type) {
+    public ResourcesFoliagePlacer(FoliagePlacer vanilla, RegistryEntry<ResourcesTypes> type) {
         super(vanilla.radius, vanilla.offset);
         this.vanilla = vanilla;
         this.resourceType = type;

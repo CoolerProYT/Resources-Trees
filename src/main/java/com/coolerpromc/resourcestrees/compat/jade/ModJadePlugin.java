@@ -6,6 +6,7 @@ import com.coolerpromc.resourcestrees.block.entity.custom.ResourcesTypesBlockEnt
 import com.coolerpromc.resourcestrees.core.ResourcesTypes;
 import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import snownee.jade.api.*;
@@ -20,11 +21,13 @@ public class ModJadePlugin implements IWailaPlugin {
             @Override
             public void appendTooltip(ITooltip iTooltip, BlockAccessor blockAccessor, IPluginConfig iPluginConfig) {
                 if (blockAccessor.getBlockEntity() instanceof ResourcesTypesBlockEntity blockEntity){
-                    if (blockEntity.getResourcesType() != ResourcesTypes.EMPTY){
-                        ResourcesTypes resourcesTypes = blockEntity.getResourcesType();
-                        ItemStack stack = blockAccessor.getBlock().asItem().getDefaultStack();
-                        stack.set(ModDataComponents.TYPE, blockEntity.getResourcesType().asHolder(blockAccessor.getLevel()));
-                        iTooltip.add(Text.translatable(resourcesTypes.translationKey()));
+                    if (blockEntity.getResourcesType() != null){
+                        RegistryEntry<ResourcesTypes> resourcesTypes = blockEntity.getResourcesType();
+                        if (resourcesTypes != null){
+                            ItemStack stack = blockAccessor.getBlock().asItem().getDefaultStack();
+                            stack.set(ModDataComponents.TYPE, blockEntity.getResourcesType());
+                            iTooltip.add(Text.translatable(resourcesTypes.value().translationKey()));
+                        }
                     }
                 }
             }
@@ -39,8 +42,8 @@ public class ModJadePlugin implements IWailaPlugin {
             if (accessor instanceof BlockAccessor blockAccessor) {
                 if (blockAccessor.getBlockEntity() instanceof ResourcesTypesBlockEntity blockEntity) {
                     ItemStack stack = blockAccessor.getBlock().asItem().getDefaultStack();
-                    if (blockEntity.getResourcesType() == ResourcesTypes.EMPTY) return accessor;
-                    stack.set(ModDataComponents.TYPE, blockEntity.getResourcesType().asHolder(blockAccessor.getLevel()));
+                    if (blockEntity.getResourcesType() == null) return accessor;
+                    stack.set(ModDataComponents.TYPE, blockEntity.getResourcesType());
                     return registration.blockAccessor().from(blockAccessor).fakeBlock(stack).build();
                 }
             }
