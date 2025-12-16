@@ -156,7 +156,7 @@ public class ModRecipeProvider extends RecipeProvider {
                     if (obj instanceof Supplier<?> supplier){
                         if (supplier.get() instanceof ResourcesSaplingBlock resourcesSaplingBlock){
                             ItemStack sapling = resourcesSaplingBlock.asItem().getDefaultInstance();
-                            sapling.getOrCreateTag().putString("type", value.toString());
+                            sapling.getOrCreateTag().putString("type", key.toString());
                             if (value.value().material().left().isPresent()){
                                 ShapedRecipeNBTOutputBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, sapling)
                                         .pattern(" A ")
@@ -187,8 +187,8 @@ public class ModRecipeProvider extends RecipeProvider {
                                     .setTree(sapling)
                                     .addDrops(TreeSimulatorOutput.of(TreeSimulatorBlockEntity.LOG_BY_SAPLINGS.get(resourcesSaplingBlock).getDefaultInstance(), 1, 2, 4))
                                     .addDrops(TreeSimulatorOutput.of(leaf, 1, 1, 1))
-                                    .addDrops(TreeSimulatorOutput.of(leaf, value.value().secondaryDropChance(), 1, 1))
-                                    .addDrops(TreeSimulatorOutput.of(sapling, value.value().saplingChance(), 1, 1))
+                                    .addDrops(TreeSimulatorOutput.of(leaf, value.value().leafDropChance(), 1, 1))
+                                    .addDrops(TreeSimulatorOutput.of(sapling, value.value().saplingDropChance(), 1, 1))
                                     .addDrops(TreeSimulatorOutput.of(Items.STICK.getDefaultInstance(), 0.1f, 1, 2))
                                     .addDrops(TreeSimulatorOutput.of(Items.APPLE.getDefaultInstance(), 0.05f, 1, 1))
                                     .addDrops(TreeSimulatorOutput.of(SAPLINGS_BY_SAPLINGS.get(resourcesSaplingBlock).getDefaultInstance(), 0.1f, 1, 1))
@@ -207,6 +207,7 @@ public class ModRecipeProvider extends RecipeProvider {
         ShapelessRecipeBuilder builder = ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ouputItem, 1);
 
         for (Item item : inputItems){
+            builder.requires(item);
             builder.unlockedBy(getHasName(item), has(item));
         }
 

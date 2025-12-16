@@ -157,8 +157,7 @@ public class ResourcesSaplingBlock extends SaplingBlock implements EntityBlock {
                 oldConfig.trunkProvider,
                 oldConfig.trunkPlacer,
                 new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
-                        .add(oldConfig.foliageProvider.getState(randomSource, pos), 10)
-                        .add(block.defaultBlockState(), weight)
+                        .add(block.defaultBlockState(), Math.max(weight, 1))
                         .build()),
                 new ResourcesFoliagePlacer(oldConfig.foliagePlacer, type),
                 oldConfig.minimumSize

@@ -24,6 +24,14 @@ public class ResourcesTypesBlockEntity extends BlockEntity {
         this.resourcesType = ResourcesTrees.id("empty");
     }
 
+    @Override
+    public void setChanged() {
+        super.setChanged();
+        if (level != null && !level.isClientSide()){
+            level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
+        }
+    }
+
     public void setResourcesType(ResourceLocation resourcesType) {
         this.resourcesType = resourcesType;
         setChanged();

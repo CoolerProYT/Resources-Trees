@@ -21,7 +21,7 @@
       }
     },
     {
-      "chance": 0.3,
+      "chance": 0.15,
       "maxRolls": 1,
       "minRolls": 1,
       "output": {
@@ -31,7 +31,7 @@
       }
     },
     {
-      "chance": 0.15,
+      "chance": 0.075,
       "maxRolls": 1,
       "minRolls": 1,
       "output": {

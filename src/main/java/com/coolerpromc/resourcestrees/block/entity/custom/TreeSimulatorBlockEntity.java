@@ -322,8 +322,8 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
                     List<TreeSimulatorOutput> drops = new ArrayList<>();
                     drops.add(TreeSimulatorOutput.of(TreeSimulatorBlockEntity.LOG_BY_SAPLINGS.get(block).getDefaultInstance(), 1, 2, 4));
                     drops.add(TreeSimulatorOutput.of(leaf, 1, 1, 1));
-                    drops.add(TreeSimulatorOutput.of(leaf, value.value().secondaryDropChance(), 1, 1));
-                    drops.add(TreeSimulatorOutput.of(getSapling(), value.value().saplingChance(), 1, 1));
+                    drops.add(TreeSimulatorOutput.of(leaf, value.value().leafDropChance(), 1, 1));
+                    drops.add(TreeSimulatorOutput.of(getSapling(), value.value().saplingDropChance(), 1, 1));
                     drops.add(TreeSimulatorOutput.of(Items.STICK.getDefaultInstance(), 0.1f, 1, 2));
                     drops.add(TreeSimulatorOutput.of(Items.APPLE.getDefaultInstance(), 0.05f, 1, 1));
                     drops.add(TreeSimulatorOutput.of(ModRecipeProvider.SAPLINGS_BY_SAPLINGS.get(block).getDefaultInstance(), 0.1f, 1, 1));

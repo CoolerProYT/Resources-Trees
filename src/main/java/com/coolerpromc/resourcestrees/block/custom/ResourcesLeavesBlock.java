@@ -7,7 +7,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -56,7 +59,7 @@ public class ResourcesLeavesBlock extends LeavesBlock implements EntityBlock {
         ResourcesTypes resourcesTypes = ResourcesTypes.asHolder(builder.getLevel(), type).value();
 
         if (drops.isEmpty()){
-            if (builder.getLevel().getRandom().nextFloat() < resourcesTypes.saplingChance()) {
+            if (builder.getLevel().getRandom().nextFloat() < resourcesTypes.saplingDropChance()) {
                 ItemStack saplingDrop = sapling.get().asItem().getDefaultInstance();
                 CompoundTag tag = saplingDrop.getOrCreateTag();
                 tag.putString("type", type.toString());
@@ -69,7 +72,11 @@ public class ResourcesLeavesBlock extends LeavesBlock implements EntityBlock {
 
             drops.add(fragment.copy());
 
-            if (builder.getLevel().getRandom().nextFloat() < resourcesTypes.secondaryDropChance()){
+            if (builder.getLevel().getRandom().nextFloat() < resourcesTypes.leafDropChance()){
+                drops.add(fragment.copy());
+            }
+
+            if (builder.getLevel().getRandom().nextFloat() < resourcesTypes.leafDropChance() / 2){ // Secondary Drop Chance
                 drops.add(fragment.copy());
             }
         }
@@ -112,5 +119,14 @@ public class ResourcesLeavesBlock extends LeavesBlock implements EntityBlock {
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
         return new ResourcesTypesBlockEntity(blockPos, blockState);
+    }
+
+    @Override
+    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        if (this.decaying(state)) {
+            List<ItemStack> drops = this.getDrops(state, new LootParams.Builder(level).withParameter(LootContextParams.TOOL, ItemStack.EMPTY).withOptionalParameter(LootContextParams.BLOCK_ENTITY, level.getBlockEntity(pos)).withParameter(LootContextParams.ORIGIN, pos.getCenter()));
+            drops.forEach(drop -> level.addFreshEntity(new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), drop)));
+            level.removeBlock(pos, false);
+        }
     }
 }
