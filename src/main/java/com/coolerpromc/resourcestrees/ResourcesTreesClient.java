@@ -6,11 +6,12 @@ import com.coolerpromc.resourcestrees.block.entity.ModBlockEntities;
 import com.coolerpromc.resourcestrees.block.entity.custom.ResourcesTypesBlockEntity;
 import com.coolerpromc.resourcestrees.block.entity.renderer.TreeSimulatorBlockEntityRenderer;
 import com.coolerpromc.resourcestrees.datagen.model.ResourcesTypeTintSource;
-import com.coolerpromc.resourcestrees.networking.RecipeSyncPayload;
+import com.coolerpromc.resourcestrees.network.packet.ResourceTypeSyncS2CPacket;
 import com.coolerpromc.resourcestrees.screen.ModMenuTypes;
 import com.coolerpromc.resourcestrees.screen.custom.TreeSimulatorScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.recipe.v1.sync.ClientRecipeSynchronizedEvent;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.minecraft.block.entity.BlockEntity;
@@ -64,9 +65,9 @@ public class ResourcesTreesClient implements ClientModInitializer {
 
         BlockEntityRendererFactories.register(ModBlockEntities.TREE_SIMULATOR_BE, TreeSimulatorBlockEntityRenderer::new);
 
-        ClientPlayNetworking.registerGlobalReceiver(RecipeSyncPayload.ID, (recipeSyncPayload, context) -> {
-            ResourcesTreesClient.recipeMap = PreparedRecipes.of(recipeSyncPayload.recipes());
-        });
+        ClientPlayNetworking.registerGlobalReceiver(ResourceTypeSyncS2CPacket.TYPE, ResourceTypeSyncS2CPacket::handle);
+
+        ClientRecipeSynchronizedEvent.EVENT.register((client, recipes) -> recipeMap = PreparedRecipes.of(recipes.recipes()));
 
         BlockRenderLayerMap.putBlocks(BlockRenderLayer.CUTOUT,  ModBlocks.RESOURCES_OAK_SAPLING,
                 ModBlocks.RESOURCES_SPRUCE_SAPLING,

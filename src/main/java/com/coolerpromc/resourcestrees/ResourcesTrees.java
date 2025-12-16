@@ -10,16 +10,16 @@ import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
 import com.coolerpromc.resourcestrees.item.ModCreativeTab;
 import com.coolerpromc.resourcestrees.item.ModItems;
 import com.coolerpromc.resourcestrees.item.custom.LeafFragmentItem;
-import com.coolerpromc.resourcestrees.networking.RecipeSyncPayload;
+import com.coolerpromc.resourcestrees.network.packet.ResourceTypeSyncS2CPacket;
 import com.coolerpromc.resourcestrees.recipe.ModRecipes;
 import com.coolerpromc.resourcestrees.registry.ModRegistries;
 import com.coolerpromc.resourcestrees.screen.ModMenuTypes;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.fabricmc.fabric.api.recipe.v1.sync.RecipeSynchronization;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Block;
@@ -28,8 +28,8 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.server.ServerTask;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -67,13 +67,9 @@ public class ResourcesTrees implements ModInitializer {
 			}
 		}
 
-		PayloadTypeRegistry.playS2C().register(RecipeSyncPayload.ID, RecipeSyncPayload.PACKET_CODEC);
+		PayloadTypeRegistry.playS2C().register(ResourceTypeSyncS2CPacket.TYPE, ResourceTypeSyncS2CPacket.STREAM_CODEC);
 
-		ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register((player, b) -> {
-			List<RecipeEntry<?>> recipeEntry = new ArrayList<>(player.getEntityWorld().getRecipeManager().getAllOfType(ModRecipes.TREE_SIMULATOR_TYPE));
-			RecipeSyncPayload payload = new RecipeSyncPayload(recipeEntry);
-			ServerPlayNetworking.send(player, payload);
-		});
+        RecipeSynchronization.synchronizeRecipeSerializer(ModRecipes.TREE_SIMULATOR_SERIALIZER);
 
 		DynamicRegistries.registerSynced(ModRegistries.RESOURCES_TYPES_KEY, ResourcesTypes.CODEC, ResourcesTypes.CODEC);
 
@@ -81,51 +77,57 @@ public class ResourcesTrees implements ModInitializer {
 			if (!FabricLoader.getInstance().isModLoaded("treeharvester")) return;
 			if (!(entity instanceof ItemEntity itemEntity)) return;
 
-			ItemStack itemStack = itemEntity.getStack();
-			Item item = itemStack.getItem();
-			if (!(item instanceof BlockItem || item instanceof LeafFragmentItem)) return;
+			level.getServer().executeTask(new ServerTask(5, () -> {
+                ItemStack itemStack = itemEntity.getStack();
+                Item item = itemStack.getItem();
+                if (!(item instanceof BlockItem || item instanceof LeafFragmentItem)) return;
 
-			if (item instanceof BlockItem){
-				Block block = Block.getBlockFromItem(item);
-				if (!(block instanceof ResourcesSaplingBlock)) return;
-			}
-			if (!itemStack.contains(ModDataComponents.TYPE)) return;
+                if (item instanceof BlockItem){
+                    Block block = Block.getBlockFromItem(item);
+                    if (!(block instanceof ResourcesSaplingBlock)) return;
+                }
+                if (!itemStack.contains(ModDataComponents.TYPE)) return;
 
-			RegistryEntry<ResourcesTypes> type = itemStack.get(ModDataComponents.TYPE);
+                RegistryEntry<ResourcesTypes> type = itemStack.get(ModDataComponents.TYPE);
 
-			if (type != null){
-				if (itemEntity.isRemoved()) return;
+                if (type != null){
+                    if (itemEntity.isRemoved()) return;
 
-				BlockPos pos = findNearbyBlock(level, itemEntity.getSteppingPos(), 5, 50);
-				if (pos.equals(BlockPos.ZERO)) {
-					return;
-				}
+                    BlockPos pos = findNearbyBlock(level, itemEntity.getSteppingPos(), 5, 50);
+                    if (pos.equals(BlockPos.ZERO)) {
+                        return;
+                    }
 
-				if (!(level.getBlockState(pos).getBlock() instanceof ResourcesSaplingBlock)) {
-					return;
-				}
+                    if (!(level.getBlockState(pos).getBlock() instanceof ResourcesSaplingBlock)) {
+                        return;
+                    }
 
-				if (!level.isPosLoaded(pos)) {
-					return;
-				}
+                    if (!level.isPosLoaded(pos)) {
+                        return;
+                    }
 
-				BlockEntity blockEntity = level.getBlockEntity(pos);
-				if (!(blockEntity instanceof ResourcesTypesBlockEntity be)) {
-					return;
-				}
+                    BlockEntity blockEntity = level.getBlockEntity(pos);
+                    if (!(blockEntity instanceof ResourcesTypesBlockEntity be)) {
+                        return;
+                    }
 
-				be.setResourcesType(type.value());
+                    be.setResourcesType(type);
+                    be.markDirty();
+                    level.getServer().getPlayerManager().getPlayerList().forEach(player -> ServerPlayNetworking.send(player, new ResourceTypeSyncS2CPacket(be.getPos(), type)));
 
-				List<BlockPos> nearbyPos = findAllNearbyBlock(level, pos, 1);
-				for (BlockPos blockPos : nearbyPos) {
-					if (blockPos.equals(pos)) continue;
+                    List<BlockPos> nearbyPos = findAllNearbyBlock(level, pos, 1);
+                    for (BlockPos blockPos : nearbyPos) {
+                        if (blockPos.equals(pos)) continue;
 
-					BlockEntity neighbourBe = level.getBlockEntity(blockPos);
-					if (neighbourBe instanceof ResourcesTypesBlockEntity be2) {
-						be2.setResourcesType(type.value());
-					}
-				}
-			}
+                        BlockEntity neighbourBe = level.getBlockEntity(blockPos);
+                        if (neighbourBe instanceof ResourcesTypesBlockEntity be2) {
+                            be2.setResourcesType(type);
+                            be2.markDirty();
+                            level.getServer().getPlayerManager().getPlayerList().forEach(player -> ServerPlayNetworking.send(player, new ResourceTypeSyncS2CPacket(be.getPos(), type)));
+                        }
+                    }
+                }
+            }));
 		});
 	}
 
@@ -136,7 +138,7 @@ public class ResourcesTrees implements ModInitializer {
 					BlockPos checkPos = center.add(x, y, z);
 					if (level.getBlockState(checkPos).getBlock() instanceof ResourcesSaplingBlock) {
 						BlockEntity entity = level.getBlockEntity(checkPos);
-						if (entity instanceof ResourcesTypesBlockEntity be && Objects.equals(be.getResourcesType(), ResourcesTypes.EMPTY)){
+						if (entity instanceof ResourcesTypesBlockEntity be && be.getResourcesType() == null){
 							return checkPos;
 						}
 					}

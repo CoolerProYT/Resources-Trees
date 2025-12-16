@@ -7,3 +7,4 @@ accessible method net/minecraft/world/gen/foliage/FoliagePlacer isInvalidForLeav
 accessible method net/minecraft/block/SaplingGenerator getSmallTreeFeature (Lnet/minecraft/util/math/random/Random;Z)Lnet/minecraft/registry/RegistryKey;
 accessible method net/minecraft/block/SaplingGenerator areFlowersNearby (Lnet/minecraft/world/WorldAccess;Lnet/minecraft/util/math/BlockPos;)Z
 accessible field net/minecraft/recipe/ShapedRecipe result Lnet/minecraft/item/ItemStack;
+accessible method net/minecraft/server/MinecraftServer executeTask (Lnet/minecraft/server/ServerTask;)V
