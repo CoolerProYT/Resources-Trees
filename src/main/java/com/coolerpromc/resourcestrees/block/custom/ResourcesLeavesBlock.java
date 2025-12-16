@@ -11,6 +11,7 @@ import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.context.LootContextParameters;
@@ -19,6 +20,7 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.particle.ParticleUtil;
 import net.minecraft.particle.TintedParticleEffect;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.dynamic.Codecs;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -73,27 +75,33 @@ public class ResourcesLeavesBlock extends LeavesBlock implements BlockEntityProv
     }
 
     private void calculateDrops(ResourcesTypesBlockEntity be, LootWorldContext.Builder builder, List<ItemStack> drops){
-        ResourcesTypes resourcesTypes = be.getResourcesType();
+        RegistryEntry<ResourcesTypes> resourcesTypes = be.getResourcesType();
 
-        if (drops.isEmpty()){
-            if (builder.getWorld().getRandom().nextFloat() < resourcesTypes.saplingChance()) {
-                ItemStack saplingDrop = sapling.get().asItem().getDefaultStack();
-                saplingDrop.set(ModDataComponents.TYPE, resourcesTypes.asHolder(be.getWorld()));
-                drops.add(saplingDrop);
-            }
+        if (resourcesTypes != null){
+            if (drops.isEmpty()){
+                if (builder.getWorld().getRandom().nextFloat() < resourcesTypes.value().saplingDropChance()) {
+                    ItemStack saplingDrop = sapling.get().asItem().getDefaultStack();
+                    saplingDrop.set(ModDataComponents.TYPE, resourcesTypes);
+                    drops.add(saplingDrop);
+                }
 
-            ItemStack fragment = ModItems.LEAF_FRAGMENT.getDefaultStack();
-            fragment.set(ModDataComponents.TYPE, resourcesTypes.asHolder(be.getWorld()));
+                ItemStack fragment = ModItems.LEAF_FRAGMENT.getDefaultStack();
+                fragment.set(ModDataComponents.TYPE, resourcesTypes);
 
-            drops.add(fragment.copy());
-
-            if (builder.getWorld().getRandom().nextFloat() < resourcesTypes.secondaryDropChance()){
                 drops.add(fragment.copy());
+
+                if (builder.getWorld().getRandom().nextFloat() < resourcesTypes.value().leafDropChance()){
+                    drops.add(fragment.copy());
+                }
+
+                if (builder.getWorld().getRandom().nextFloat() < resourcesTypes.value().leafDropChance() / 2){ // Secondary Drop Chance
+                    drops.add(fragment.copy());
+                }
             }
-        }
-        else{
-            if (Block.getBlockFromItem(drops.getFirst().getItem()) instanceof ResourcesLeavesBlock){
-                drops.getFirst().set(ModDataComponents.TYPE, resourcesTypes.asHolder(be.getWorld()));
+            else{
+                if (Block.getBlockFromItem(drops.getFirst().getItem()) instanceof ResourcesLeavesBlock){
+                    drops.getFirst().set(ModDataComponents.TYPE, resourcesTypes);
+                }
             }
         }
     }
@@ -104,7 +112,7 @@ public class ResourcesLeavesBlock extends LeavesBlock implements BlockEntityProv
         if (blockEntity instanceof ResourcesTypesBlockEntity be && itemStack.contains(ModDataComponents.TYPE)){
             RegistryEntry<ResourcesTypes> holder = itemStack.get(ModDataComponents.TYPE);
             if (holder != null){
-                be.setResourcesType(holder.value());
+                be.setResourcesType(holder);
             }
         }
     }
@@ -112,9 +120,9 @@ public class ResourcesLeavesBlock extends LeavesBlock implements BlockEntityProv
     @Override
     protected ItemStack getPickStack(WorldView world, BlockPos pos, BlockState state, boolean includeData) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
-        if (blockEntity instanceof ResourcesTypesBlockEntity be && be.getResourcesType() != ResourcesTypes.EMPTY){
+        if (blockEntity instanceof ResourcesTypesBlockEntity be && be.getResourcesType() != null){
             ItemStack stack = super.getPickStack(world, pos, state, includeData);
-            stack.set(ModDataComponents.TYPE, be.getResourcesType().asHolder((World) world));
+            stack.set(ModDataComponents.TYPE, be.getResourcesType());
             return stack;
         }
         return super.getPickStack(world, pos, state, includeData);
@@ -123,5 +131,14 @@ public class ResourcesLeavesBlock extends LeavesBlock implements BlockEntityProv
     @Override
     public @Nullable BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
         return new ResourcesTypesBlockEntity(pos, state);
+    }
+
+    @Override
+    protected void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+        if (this.shouldDecay(state)) {
+            List<ItemStack> drops = this.getDroppedStacks(state, new LootWorldContext.Builder(world).add(LootContextParameters.TOOL, ItemStack.EMPTY).add(LootContextParameters.BLOCK_ENTITY, world.getBlockEntity(pos)).add(LootContextParameters.ORIGIN, pos.toCenterPos()));
+            drops.forEach(drop -> world.spawnEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), drop)));
+            world.removeBlock(pos, false);
+        }
     }
 }

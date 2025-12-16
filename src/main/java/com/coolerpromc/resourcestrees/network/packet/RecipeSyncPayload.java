@@ -1,4 +1,4 @@
-package com.coolerpromc.resourcestrees.networking;
+package com.coolerpromc.resourcestrees.network.packet;
 
 import com.coolerpromc.resourcestrees.ResourcesTrees;
 import net.minecraft.network.RegistryByteBuf;

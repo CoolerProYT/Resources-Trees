@@ -6,7 +6,8 @@ import com.coolerpromc.resourcestrees.block.entity.ModBlockEntities;
 import com.coolerpromc.resourcestrees.block.entity.custom.ResourcesTypesBlockEntity;
 import com.coolerpromc.resourcestrees.block.entity.renderer.TreeSimulatorBlockEntityRenderer;
 import com.coolerpromc.resourcestrees.datagen.model.ResourcesTypeTintSource;
-import com.coolerpromc.resourcestrees.networking.RecipeSyncPayload;
+import com.coolerpromc.resourcestrees.network.packet.RecipeSyncPayload;
+import com.coolerpromc.resourcestrees.network.packet.ResourceTypeSyncS2CPacket;
 import com.coolerpromc.resourcestrees.screen.ModMenuTypes;
 import com.coolerpromc.resourcestrees.screen.custom.TreeSimulatorScreen;
 import net.fabricmc.api.ClientModInitializer;
@@ -67,6 +68,7 @@ public class ResourcesTreesClient implements ClientModInitializer {
         ClientPlayNetworking.registerGlobalReceiver(RecipeSyncPayload.ID, (recipeSyncPayload, context) -> {
             ResourcesTreesClient.recipeMap = PreparedRecipes.of(recipeSyncPayload.recipes());
         });
+        ClientPlayNetworking.registerGlobalReceiver(ResourceTypeSyncS2CPacket.TYPE, ResourceTypeSyncS2CPacket::handle);
 
         BlockRenderLayerMap.putBlocks(BlockRenderLayer.CUTOUT,  ModBlocks.RESOURCES_OAK_SAPLING,
                 ModBlocks.RESOURCES_SPRUCE_SAPLING,

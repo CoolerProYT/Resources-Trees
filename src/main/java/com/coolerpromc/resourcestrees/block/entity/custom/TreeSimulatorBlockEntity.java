@@ -343,13 +343,13 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements ExtendedScr
 
                 ItemStack leaf = ModItems.LEAF_FRAGMENT.getDefaultStack();
                 leaf.set(ModDataComponents.TYPE, type);
-                if (type != null && type.value() != ResourcesTypes.EMPTY){
+                if (type != null){
                     ResourcesTypes value = type.value();
                     List<TreeSimulatorOutput> drops = new ArrayList<>();
                     drops.add(TreeSimulatorOutput.of(TreeSimulatorBlockEntity.LOG_BY_SAPLINGS.get(block).getDefaultStack(), 1, 2, 4));
                     drops.add(TreeSimulatorOutput.of(leaf, 1, 1, 1));
-                    drops.add(TreeSimulatorOutput.of(leaf, value.secondaryDropChance(), 1, 1));
-                    drops.add(TreeSimulatorOutput.of(getSapling(), value.saplingChance(), 1, 1));
+                    drops.add(TreeSimulatorOutput.of(leaf, value.leafDropChance(), 1, 1));
+                    drops.add(TreeSimulatorOutput.of(getSapling(), value.saplingDropChance(), 1, 1));
                     drops.add(TreeSimulatorOutput.of(Items.STICK.getDefaultStack(), 0.1f, 1, 2));
                     drops.add(TreeSimulatorOutput.of(Items.APPLE.getDefaultStack(), 0.05f, 1, 1));
                     drops.add(TreeSimulatorOutput.of(ModRecipeProvider.SAPLINGS_BY_SAPLINGS.get(block).getDefaultStack(), 0.1f, 1, 1));
