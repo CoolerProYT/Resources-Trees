@@ -1,4 +1,3 @@
-/*
 package com.coolerpromc.resourcestrees.compat.jei;
 
 import com.coolerpromc.resourcestrees.ResourcesTrees;
@@ -81,4 +80,4 @@ public class ModJEIPlugin implements IModPlugin {
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {
         registration.addRecipeClickArea(TreeSimulatorScreen.class, 59, 35, 22, 16, TreeSimulatorCategory.TREE_SIMULATOR_TYPE);
     }
-}*/
+}

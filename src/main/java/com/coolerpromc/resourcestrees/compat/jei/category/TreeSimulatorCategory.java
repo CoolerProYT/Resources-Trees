@@ -1,4 +1,3 @@
-/*
 package com.coolerpromc.resourcestrees.compat.jei.category;
 
 import com.coolerpromc.resourcestrees.ResourcesTrees;
@@ -71,4 +70,3 @@ public class TreeSimulatorCategory extends AbstractRecipeCategory<RecipeHolder<T
         tooltipBuilder.add(Component.literal(chanceStr).append("%").withColor(ChatFormatting.GRAY.getColor()));
     }
 }
-*/
