@@ -112,6 +112,7 @@ publishMods {
     type = STABLE
     modLoaders.add("fabric")
     changelog = file("changelog.md").text
+    displayName = "resourcestrees-" + mod_version
 
     curseforge {
         projectId = "1354532"

@@ -57,7 +57,7 @@ public class ResourcesTypesBlockEntity extends BlockEntity {
     @Override
     protected void writeData(WriteView view) {
         super.writeData(view);
-        view.put("type", RegistryElementCodec.of(ModRegistries.RESOURCES_TYPES_KEY, ResourcesTypes.CODEC), resourcesType);
+        view.putNullable("type", RegistryElementCodec.of(ModRegistries.RESOURCES_TYPES_KEY, ResourcesTypes.CODEC), resourcesType);
     }
 
     @Override
