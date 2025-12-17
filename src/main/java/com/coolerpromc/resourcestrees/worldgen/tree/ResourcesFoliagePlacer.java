@@ -4,7 +4,7 @@ import com.coolerpromc.resourcestrees.block.entity.custom.ResourcesTypesBlockEnt
 import com.coolerpromc.resourcestrees.core.ResourcesTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelSimulatedReader;

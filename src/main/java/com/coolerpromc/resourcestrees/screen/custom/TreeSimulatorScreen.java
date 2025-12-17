@@ -5,11 +5,11 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 
 public class TreeSimulatorScreen extends AbstractContainerScreen<TreeSimulatorMenu> {
-    public static final ResourceLocation TEXTURE = ResourcesTrees.id("textures/gui/tree_simulator.png");
+    public static final Identifier TEXTURE = ResourcesTrees.id("textures/gui/tree_simulator.png");
 
     public TreeSimulatorScreen(TreeSimulatorMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
@@ -35,7 +35,7 @@ public class TreeSimulatorScreen extends AbstractContainerScreen<TreeSimulatorMe
     }
 
     private void renderProgressArrow(GuiGraphics guiGraphics){
-        ResourceLocation texture = ResourcesTrees.id("textures/gui/progress.png");
+        Identifier texture = ResourcesTrees.id("textures/gui/progress.png");
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, texture, this.leftPos + 59, this.topPos + 35, 0, 0, this.menu.getProgress(), 16, 22, 16);
     }
 }

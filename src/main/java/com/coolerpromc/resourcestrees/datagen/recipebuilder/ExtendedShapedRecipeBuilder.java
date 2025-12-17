@@ -6,7 +6,7 @@ import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementRequirements;
 import net.minecraft.advancements.AdvancementRewards;
 import net.minecraft.advancements.Criterion;
-import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
+import net.minecraft.advancements.criterion.RecipeUnlockedTrigger;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.RecipeCategory;
@@ -132,13 +132,13 @@ public class ExtendedShapedRecipeBuilder implements RecipeBuilder {
                 this.showNotification
         );
         p_298334_.accept(
-                p_366310_, shapedrecipe, advancement$builder.build(p_366310_.location().withPrefix("recipes/" + this.category.getFolderName() + "/"))
+                p_366310_, shapedrecipe, advancement$builder.build(p_366310_.identifier().withPrefix("recipes/" + this.category.getFolderName() + "/"))
         );
     }
 
     private ShapedRecipePattern ensureValid(ResourceKey<Recipe<?>> p_362567_) {
         if (this.criteria.isEmpty()) {
-            throw new IllegalStateException("No way of obtaining recipe " + p_362567_.location());
+            throw new IllegalStateException("No way of obtaining recipe " + p_362567_.identifier());
         } else {
             return ShapedRecipePattern.of(this.key, this.rows);
         }

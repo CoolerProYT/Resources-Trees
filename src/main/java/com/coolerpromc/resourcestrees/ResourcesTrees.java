@@ -22,7 +22,7 @@ import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -44,7 +44,6 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.network.Channel;
 import net.minecraftforge.network.ChannelBuilder;
 import net.minecraftforge.network.PacketDistributor;
@@ -180,8 +179,8 @@ public final class ResourcesTrees {
         return pos;
     }
 
-    public static ResourceLocation id(String path){
-        return ResourceLocation.fromNamespaceAndPath(MODID, path);
+    public static Identifier id(String path){
+        return Identifier.fromNamespaceAndPath(MODID, path);
     }
 
     @Mod.EventBusSubscriber(modid = MODID, value = Dist.CLIENT)
@@ -195,7 +194,7 @@ public final class ResourcesTrees {
 
         @SubscribeEvent
         public static void onRegisterColorHandlers(RegisterColorHandlersEvent.Block event) {
-            ItemTintSources.ID_MAPPER.put(ResourceLocation.fromNamespaceAndPath(MODID, "resources_type_tint"), ResourcesTypeTintSource.MAP_CODEC);
+            ItemTintSources.ID_MAPPER.put(Identifier.fromNamespaceAndPath(MODID, "resources_type_tint"), ResourcesTypeTintSource.MAP_CODEC);
             event.register((blockState, blockAndTintGetter, blockPos, i) -> {
                         if (blockAndTintGetter != null){
                             BlockEntity blockEntity = blockAndTintGetter.getBlockEntity(blockPos);

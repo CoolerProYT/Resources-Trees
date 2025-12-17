@@ -12,12 +12,12 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.event.network.CustomPayloadEvent;
 
 public record ResourceTypeSyncS2CPacket(BlockPos pos, Holder<ResourcesTypes> resourcesTypes) implements CustomPacketPayload {
-    public static final Type<ResourceTypeSyncS2CPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(ResourcesTrees.MODID, "resource_type_sync"));
+    public static final Type<ResourceTypeSyncS2CPacket> TYPE = new Type<>(Identifier.fromNamespaceAndPath(ResourcesTrees.MODID, "resource_type_sync"));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, ResourceTypeSyncS2CPacket> STREAM_CODEC = StreamCodec.composite(
             BlockPos.STREAM_CODEC,

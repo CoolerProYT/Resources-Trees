@@ -94,8 +94,8 @@ dependencies {
     annotationProcessor 'net.minecraftforge:eventbus-validator:7.0-beta.10'
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
-    implementation "curse.maven:collective-342584:7105756"
-    implementation "curse.maven:tree-harvester-367178:7079088"
+    implementation "curse.maven:collective-342584:7317667"
+    implementation "curse.maven:tree-harvester-367178:7317982"
 }
 
 mixin {

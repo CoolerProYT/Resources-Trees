@@ -16,7 +16,7 @@ import net.minecraft.client.renderer.item.BlockModelWrapper;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.random.WeightedList;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -66,28 +66,28 @@ public class ModModelProvider extends ModelProvider {
             }
 
             private void generateResourcesLeaves(Block block, int defaultColor){
-                ResourceLocation blockModel = TexturedModel.LEAVES.create(block, this.modelOutput);
+                Identifier blockModel = TexturedModel.LEAVES.create(block, this.modelOutput);
 
                 this.blockStateOutput.accept(createSimpleBlock(block, plainVariant(blockModel)));
                 this.itemModelOutput.accept(block.asItem(), ItemModelUtils.tintedModel(blockModel, new ResourcesTypeTintSource(defaultColor)));
             }
 
             private void generateResourcesSapling(Block block, int defaultColor){
-                ResourceLocation cross = getModelLocation(block, "");
-                ResourceLocation crossTinted = getModelLocation(block, "_layer1");
+                Identifier cross = getModelLocation(block, "");
+                Identifier crossTinted = getModelLocation(block, "_layer1");
 
                 TextureMapping textureMapping = new TextureMapping()
                         .put(TextureSlot.CROSS, cross)
                         .put(CROSS_TINTED_SLOT, crossTinted);
 
-                ResourceLocation blockModel = CROSS_TINTED.create(block, textureMapping, this.modelOutput);
-                ResourceLocation itemModel = generateLayeredItem(block.asItem(), cross, crossTinted);
+                Identifier blockModel = CROSS_TINTED.create(block, textureMapping, this.modelOutput);
+                Identifier itemModel = generateLayeredItem(block.asItem(), cross, crossTinted);
 
                 this.blockStateOutput.accept(MultiVariantGenerator.dispatch(block, new MultiVariant(WeightedList.of(new Variant(blockModel)))));
                 this.itemModelOutput.accept(block.asItem(), ItemModelUtils.tintedModel(itemModel, ItemModelUtils.constantTint(-1), new ResourcesTypeTintSource(defaultColor)));
             }
 
-            private ResourceLocation generateLayeredItem(Item p_378743_, ResourceLocation p_377953_, ResourceLocation p_378692_) {
+            private Identifier generateLayeredItem(Item p_378743_, Identifier p_377953_, Identifier p_378692_) {
                 return ModelTemplates.TWO_LAYERED_ITEM.create(p_378743_, TextureMapping.layered(p_377953_, p_378692_), this.modelOutput);
             }
 
@@ -111,12 +111,12 @@ public class ModModelProvider extends ModelProvider {
             }
 
             private void generateTintedEssenceItem(Item item, ItemTintSource tintSource){
-                ResourceLocation itemModel = ModelTemplates.FLAT_ITEM.create(item, TextureMapping.layer0(ResourcesTrees.id("item/essence")), this.modelOutput);
+                Identifier itemModel = ModelTemplates.FLAT_ITEM.create(item, TextureMapping.layer0(ResourcesTrees.id("item/essence")), this.modelOutput);
                 this.itemModelOutput.accept(item, ItemModelUtils.tintedModel(itemModel, tintSource));
             }
 
             private void generateFlatTintedItem(Item item, ItemTintSource tintSource){
-                ResourceLocation itemModel = this.createFlatItemModel(item, ModelTemplates.FLAT_ITEM);
+                Identifier itemModel = this.createFlatItemModel(item, ModelTemplates.FLAT_ITEM);
                 this.itemModelOutput.accept(item, ItemModelUtils.tintedModel(itemModel, tintSource));
             }
         };
@@ -124,15 +124,15 @@ public class ModModelProvider extends ModelProvider {
 
     @Override
     protected Stream<Item> getKnownItems() {
-        return BuiltInRegistries.ITEM.listElements().filter(itemReference -> Optional.of(BuiltInRegistries.ITEM.getKey(itemReference.value())).filter(resourceLocation -> resourceLocation.getNamespace().equals(ResourcesTrees.MODID)).isPresent()).map(Holder.Reference::value);
+        return BuiltInRegistries.ITEM.listElements().filter(itemReference -> Optional.of(BuiltInRegistries.ITEM.getKey(itemReference.value())).filter(Identifier -> Identifier.getNamespace().equals(ResourcesTrees.MODID)).isPresent()).map(Holder.Reference::value);
     }
 
     @Override
     protected Stream<Block> getKnownBlocks() {
-        return BuiltInRegistries.BLOCK.listElements().filter(itemReference -> Optional.of(BuiltInRegistries.BLOCK.getKey(itemReference.value())).filter(resourceLocation -> resourceLocation.getNamespace().equals(ResourcesTrees.MODID)).isPresent()).map(Holder.Reference::value);
+        return BuiltInRegistries.BLOCK.listElements().filter(itemReference -> Optional.of(BuiltInRegistries.BLOCK.getKey(itemReference.value())).filter(Identifier -> Identifier.getNamespace().equals(ResourcesTrees.MODID)).isPresent()).map(Holder.Reference::value);
     }
 
-    private ResourceLocation getModelLocation(Block block, String suffix) {
+    private Identifier getModelLocation(Block block, String suffix) {
         return ResourcesTrees.id("block/" + BuiltInRegistries.BLOCK.getKey(block).getPath() + suffix);
     }
 }

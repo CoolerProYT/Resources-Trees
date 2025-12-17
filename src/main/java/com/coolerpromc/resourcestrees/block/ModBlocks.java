@@ -8,7 +8,7 @@ import com.coolerpromc.resourcestrees.item.ModItems;
 import com.coolerpromc.resourcestrees.item.custom.ModBlockItem;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -66,7 +66,7 @@ public class ModBlocks {
             registerBlock("resources_pale_oak_leaves", properties -> new ResourcesLeavesBlock(0.01f, properties, RESOURCES_PALE_OAK_SAPLING), BlockBehaviour.Properties.ofFullCopy(Blocks.PALE_OAK_LEAVES));
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Function<BlockBehaviour.Properties, ? extends T> func, BlockBehaviour.Properties properties){
-        RegistryObject<T> block = BLOCKS.register(name, () -> func.apply(properties.setId(ResourceKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(ResourcesTrees.MODID, name)))));
+        RegistryObject<T> block = BLOCKS.register(name, () -> func.apply(properties.setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(ResourcesTrees.MODID, name)))));
         registerBlockItem(name, block);
         return block;
     }
