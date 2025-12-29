@@ -1,6 +1,7 @@
 package com.coolerpromc.resourcestrees.recipe;
 
 import com.coolerpromc.resourcestrees.ResourcesTrees;
+import com.coolerpromc.resourcestrees.recipe.custom.StrictShapedRecipe;
 import com.coolerpromc.resourcestrees.recipe.custom.TreeSimulatorRecipe;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.crafting.Recipe;
@@ -10,12 +11,16 @@ import net.minecraftforge.eventbus.api.bus.BusGroup;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.function.Supplier;
+
 public class ModRecipes {
     public static final DeferredRegister<RecipeSerializer<?>> SERIALIZERS = DeferredRegister.create(Registries.RECIPE_SERIALIZER, ResourcesTrees.MODID);
     public static final DeferredRegister<RecipeType<?>> TYPES = DeferredRegister.create(Registries.RECIPE_TYPE, ResourcesTrees.MODID);
 
     public static final RegistryObject<RecipeType<TreeSimulatorRecipe>> TREE_SIMULATOR_TYPE = registerType("tree_simulator");
     public static final RegistryObject<RecipeSerializer<TreeSimulatorRecipe>> TREE_SIMULATOR_SERIALIZER = registerSerializer("tree_simulator", TreeSimulatorRecipe.Serializer.INSTANCE);
+
+    public static final Supplier<RecipeSerializer<StrictShapedRecipe>> STRICT_SHAPED = registerSerializer("strict_shaped", StrictShapedRecipe.Serializer.INSTANCE);
 
     public static <T extends Recipe<?>> RegistryObject<RecipeType<T>> registerType(String name){
         return TYPES.register(name, () -> RecipeType.simple(ResourcesTrees.id(name)));
