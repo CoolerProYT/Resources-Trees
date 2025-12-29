@@ -20,6 +20,12 @@ import java.util.List;
 
 @Mixin(InputSlotFiller.class)
 public abstract class ServerPlaceRecipeMixin<R extends Recipe<?>> {
+    @Shadow
+    @Final
+    private boolean craftAll;
+    @Shadow
+    @Final
+    private InputSlotFiller.Handler<R> handler;
     @Final
     @Shadow
     private PlayerInventory inventory;
@@ -103,8 +109,6 @@ public abstract class ServerPlaceRecipeMixin<R extends Recipe<?>> {
         List<Ingredient> ingredients = placementInfo.getIngredients();
         IntList slotsToIngredientIndex = placementInfo.getPlacementSlots();
 
-        int[] takenCounts = new int[inventory.size()];
-
         int recipeWidth, recipeHeight;
         if (recipeValue instanceof ShapedRecipe shapedRecipe) {
             recipeWidth = shapedRecipe.getWidth();
@@ -116,6 +120,43 @@ public abstract class ServerPlaceRecipeMixin<R extends Recipe<?>> {
 
         int offsetX = (this.width - recipeWidth) / 2;
         int offsetY = (this.height - recipeHeight) / 2;
+
+        int amountPerSlot = 1;
+
+        if (this.craftAll) {
+            boolean recipeMatches = this.handler.matches(recipe);
+
+            if (recipeMatches) {
+                int minCount = Integer.MAX_VALUE;
+                for (int i = 0; i < slotsToIngredientIndex.size(); i++) {
+                    int ingredientIndex = slotsToIngredientIndex.getInt(i);
+                    if (ingredientIndex >= 0 && ingredientIndex < ingredients.size()) {
+                        Ingredient ingredient = ingredients.get(ingredientIndex);
+                        if (!ingredient.isEmpty()) {
+                            int recipeX = i % recipeWidth;
+                            int recipeY = i / recipeWidth;
+                            int gridX = offsetX + recipeX;
+                            int gridY = offsetY + recipeY;
+                            int gridSlot = gridY * this.width + gridX;
+
+                            if (gridSlot >= 0 && gridSlot < inputSlots.size()) {
+                                ItemStack stack = inputSlots.get(gridSlot).getStack();
+                                if (!stack.isEmpty()) {
+                                    minCount = Math.min(minCount, stack.getCount());
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (minCount < 64) {
+                    amountPerSlot = minCount + 1;
+                }
+            } else {
+                amountPerSlot = resourcesTrees$calculateMaxCraftsFromSlots(ingredients, slotsToIngredientIndex);
+            }
+        }
+
 
         for (int i = 0; i < slotsToIngredientIndex.size(); i++) {
             int ingredientIndex = slotsToIngredientIndex.getInt(i);
@@ -134,14 +175,31 @@ public abstract class ServerPlaceRecipeMixin<R extends Recipe<?>> {
                     if (gridSlot >= 0 && gridSlot < inputSlots.size()) {
                         Slot targetSlot = inputSlots.get(gridSlot);
 
-                        int invSlot = resourcesTrees$findSlotMatchingIngredient(ingredient, takenCounts);
+                        int placed = 0;
+                        while (placed < amountPerSlot) {
+                            int invSlot = resourcesTrees$findSlotMatchingIngredient(ingredient);
 
-                        if (invSlot != -1) {
+                            if (invSlot == -1) {
+                                break;
+                            }
+
                             ItemStack sourceStack = inventory.getStack(invSlot);
-                            ItemStack toPlace = sourceStack.split(1);
+                            int available = sourceStack.getCount();
+                            int toTake = Math.min(amountPerSlot - placed, available);
 
-                            targetSlot.setStack(toPlace);
-                            takenCounts[invSlot]++;
+                            if (toTake <= 0) {
+                                break;
+                            }
+
+                            ItemStack taken = sourceStack.split(toTake);
+
+                            if (targetSlot.getStack().isEmpty()) {
+                                targetSlot.setStack(taken);
+                            } else {
+                                targetSlot.getStack().increment(toTake);
+                            }
+
+                            placed += toTake;
                         }
                     }
                 }
@@ -152,16 +210,53 @@ public abstract class ServerPlaceRecipeMixin<R extends Recipe<?>> {
     }
 
     @Unique
-    private int resourcesTrees$findSlotMatchingIngredient(Ingredient ingredient, int[] takenCounts) {
+    private int resourcesTrees$calculateMaxCraftsFromSlots(List<Ingredient> ingredients, IntList slotsToIngredientIndex) {
+        int totalSlotsNeeded = 0;
+        for (int i = 0; i < slotsToIngredientIndex.size(); i++) {
+            int ingredientIndex = slotsToIngredientIndex.getInt(i);
+            if (ingredientIndex >= 0 && ingredientIndex < ingredients.size()) {
+                Ingredient ingredient = ingredients.get(ingredientIndex);
+                if (!ingredient.isEmpty()) {
+                    totalSlotsNeeded++;
+                }
+            }
+        }
+
+        if (totalSlotsNeeded == 0) {
+            return 1;
+        }
+
+        int totalAvailable = 0;
+        boolean[] countedSlots = new boolean[inventory.size()];
+
+        for (int invSlot = 0; invSlot < inventory.size(); invSlot++) {
+            ItemStack stack = inventory.getStack(invSlot);
+            if (stack.isEmpty()) continue;
+
+            for (Ingredient ingredient : ingredients) {
+                if (!ingredient.isEmpty() && ingredient.test(stack)) {
+                    if (!countedSlots[invSlot]) {
+                        totalAvailable += stack.getCount();
+                        countedSlots[invSlot] = true;
+                    }
+                    break;
+                }
+            }
+        }
+
+        int maxCrafts = totalAvailable / totalSlotsNeeded;
+
+        return Math.max(1, Math.min(maxCrafts, 64));
+    }
+
+
+    @Unique
+    private int resourcesTrees$findSlotMatchingIngredient(Ingredient ingredient) {
         for (int i = 0; i < inventory.size(); i++) {
             ItemStack stack = inventory.getStack(i);
 
             if (!stack.isEmpty() && ingredient.test(stack)) {
-                int available = stack.getCount() - takenCounts[i];
-
-                if (available > 0) {
-                    return i;
-                }
+                return i;
             }
         }
 
