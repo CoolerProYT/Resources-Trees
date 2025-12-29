@@ -38,11 +38,20 @@ public abstract class ServerPlaceRecipeMixin<R extends Recipe<?>> {
     @Shadow
     private int gridHeight;
 
+    @Final
+    @Shadow
+    private boolean useMaxItems;
+
+    @Final
+    @Shadow
+    private ServerPlaceRecipe.CraftingMenuAccess<R> menu;
+
     @Inject(method = "tryPlaceRecipe", at = @At("HEAD"), cancellable = true)
     private void onTryPlaceRecipe(RecipeHolder<@NotNull R> recipe, StackedItemContents stackedItemContents, CallbackInfoReturnable<RecipeBookMenu.PostPlaceAction> cir) {
         Recipe<?> recipeValue = recipe.value();
         if (recipeValue instanceof CraftingRecipe craftingRecipe) {
-            boolean hasDataComponentIngredient = craftingRecipe.placementInfo().ingredients().stream().anyMatch(ing -> ing.isCustom() && ing.getCustomIngredient() instanceof DataComponentIngredient);
+            boolean hasDataComponentIngredient = craftingRecipe.placementInfo().ingredients().stream()
+                    .anyMatch(ing -> ing.isCustom() && ing.getCustomIngredient() instanceof DataComponentIngredient);
 
             if (hasDataComponentIngredient) {
                 if (resourcesTrees$canCraftWithDataComponents(craftingRecipe)) {
@@ -105,8 +114,6 @@ public abstract class ServerPlaceRecipeMixin<R extends Recipe<?>> {
         List<Ingredient> ingredients = placementInfo.ingredients();
         IntList slotsToIngredientIndex = placementInfo.slotsToIngredientIndex();
 
-        int[] takenCounts = new int[inventory.getContainerSize()];
-
         int recipeWidth, recipeHeight;
         if (recipeValue instanceof ShapedRecipe shapedRecipe) {
             recipeWidth = shapedRecipe.getWidth();
@@ -118,6 +125,42 @@ public abstract class ServerPlaceRecipeMixin<R extends Recipe<?>> {
 
         int offsetX = (this.gridWidth - recipeWidth) / 2;
         int offsetY = (this.gridHeight - recipeHeight) / 2;
+
+        int amountPerSlot = 1;
+
+        if (this.useMaxItems) {
+            boolean recipeMatches = this.menu.recipeMatches(recipe);
+
+            if (recipeMatches) {
+                int minCount = Integer.MAX_VALUE;
+                for (int i = 0; i < slotsToIngredientIndex.size(); i++) {
+                    int ingredientIndex = slotsToIngredientIndex.getInt(i);
+                    if (ingredientIndex >= 0 && ingredientIndex < ingredients.size()) {
+                        Ingredient ingredient = ingredients.get(ingredientIndex);
+                        if (!ingredient.isEmpty()) {
+                            int recipeX = i % recipeWidth;
+                            int recipeY = i / recipeWidth;
+                            int gridX = offsetX + recipeX;
+                            int gridY = offsetY + recipeY;
+                            int gridSlot = gridY * this.gridWidth + gridX;
+
+                            if (gridSlot >= 0 && gridSlot < inputGridSlots.size()) {
+                                ItemStack stack = inputGridSlots.get(gridSlot).getItem();
+                                if (!stack.isEmpty()) {
+                                    minCount = Math.min(minCount, stack.getCount());
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (minCount < 64) {
+                    amountPerSlot = minCount + 1;
+                }
+            } else {
+                amountPerSlot = resourcesTrees$calculateMaxCraftsFromSlots(ingredients, slotsToIngredientIndex);
+            }
+        }
 
         for (int i = 0; i < slotsToIngredientIndex.size(); i++) {
             int ingredientIndex = slotsToIngredientIndex.getInt(i);
@@ -136,14 +179,31 @@ public abstract class ServerPlaceRecipeMixin<R extends Recipe<?>> {
                     if (gridSlot >= 0 && gridSlot < inputGridSlots.size()) {
                         Slot targetSlot = inputGridSlots.get(gridSlot);
 
-                        int invSlot = resourcesTrees$findSlotMatchingIngredient(ingredient, takenCounts);
+                        int placed = 0;
+                        while (placed < amountPerSlot) {
+                            int invSlot = resourcesTrees$findSlotMatchingIngredient(ingredient);
 
-                        if (invSlot != -1) {
+                            if (invSlot == -1) {
+                                break;
+                            }
+
                             ItemStack sourceStack = inventory.getItem(invSlot);
-                            ItemStack toPlace = sourceStack.split(1);
+                            int available = sourceStack.getCount();
+                            int toTake = Math.min(amountPerSlot - placed, available);
 
-                            targetSlot.set(toPlace);
-                            takenCounts[invSlot]++;
+                            if (toTake <= 0) {
+                                break;
+                            }
+
+                            ItemStack taken = sourceStack.split(toTake);
+
+                            if (targetSlot.getItem().isEmpty()) {
+                                targetSlot.set(taken);
+                            } else {
+                                targetSlot.getItem().grow(toTake);
+                            }
+
+                            placed += toTake;
                         }
                     }
                 }
@@ -154,16 +214,52 @@ public abstract class ServerPlaceRecipeMixin<R extends Recipe<?>> {
     }
 
     @Unique
-    private int resourcesTrees$findSlotMatchingIngredient(Ingredient ingredient, int[] takenCounts) {
+    private int resourcesTrees$calculateMaxCraftsFromSlots(List<Ingredient> ingredients, IntList slotsToIngredientIndex) {
+        int totalSlotsNeeded = 0;
+        for (int i = 0; i < slotsToIngredientIndex.size(); i++) {
+            int ingredientIndex = slotsToIngredientIndex.getInt(i);
+            if (ingredientIndex >= 0 && ingredientIndex < ingredients.size()) {
+                Ingredient ingredient = ingredients.get(ingredientIndex);
+                if (!ingredient.isEmpty()) {
+                    totalSlotsNeeded++;
+                }
+            }
+        }
+
+        if (totalSlotsNeeded == 0) {
+            return 1;
+        }
+
+        int totalAvailable = 0;
+        boolean[] countedSlots = new boolean[inventory.getContainerSize()];
+
+        for (int invSlot = 0; invSlot < inventory.getContainerSize(); invSlot++) {
+            ItemStack stack = inventory.getItem(invSlot);
+            if (stack.isEmpty()) continue;
+
+            for (Ingredient ingredient : ingredients) {
+                if (!ingredient.isEmpty() && ingredient.test(stack)) {
+                    if (!countedSlots[invSlot]) {
+                        totalAvailable += stack.getCount();
+                        countedSlots[invSlot] = true;
+                    }
+                    break;
+                }
+            }
+        }
+
+        int maxCrafts = totalAvailable / totalSlotsNeeded;
+
+        return Math.max(1, Math.min(maxCrafts, 64));
+    }
+
+    @Unique
+    private int resourcesTrees$findSlotMatchingIngredient(Ingredient ingredient) {
         for (int i = 0; i < inventory.getContainerSize(); i++) {
             ItemStack stack = inventory.getItem(i);
 
             if (!stack.isEmpty() && ingredient.test(stack)) {
-                int available = stack.getCount() - takenCounts[i];
-
-                if (available > 0) {
-                    return i;
-                }
+                return i;
             }
         }
 
