@@ -78,6 +78,8 @@ configurations {
 }
 
 dependencies {
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+
     modImplementation("curse.maven:jade-324717:6855440")
 
     modCompileOnly("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
@@ -90,6 +92,17 @@ dependencies {
 
     modImplementation("curse.maven:collective-342584:7120358")
     modImplementation("curse.maven:tree-harvester-367178:6184914")
+}
+
+mixin {
+    add sourceSets.main, 'resourcestrees.mixins.refmap.json'
+    config 'resourcestrees.mixins.json'
+}
+
+jar {
+    manifest.attributes([
+            "MixinConfigs": "resourcestrees.mixins.json"
+    ])
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
@@ -117,12 +130,18 @@ sourceSets.main.resources.srcDir generateModMetadata
 publishing {
     publications {
         register('mavenJava', MavenPublication) {
+            artifactId = mod_id
             from components.java
         }
     }
     repositories {
+        mavenLocal()
         maven {
-            url "file://${project.projectDir}/repo"
+            url = findProperty("repsy_url")
+            credentials {
+                username = findProperty("repsy_username")
+                password = findProperty("repsy_password")
+            }
         }
     }
 }

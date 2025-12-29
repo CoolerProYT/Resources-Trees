@@ -1,4 +1,3 @@
-- Fixed missing recipe for essences
-- Fixed no drops when leaves decay
-- Fixed client side not rendering auto placed sapling correctly
-- All the leaves will become Resources Leaves instead of only a few, but lowered leaf drop chance (This is to prevent high amount/no leaf drop then harvesting with Tree Harvester mod)
+- Fixed recipe book not working for fragment
+- Fixed recipe book not checking fragment correctly
+- Fixed wrong log output provided caused by vanilla Shaped Recipe checking logic (Implemented custom recipe serializer)

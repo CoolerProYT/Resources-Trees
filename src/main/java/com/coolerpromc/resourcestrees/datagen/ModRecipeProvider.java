@@ -5,6 +5,7 @@ import com.coolerpromc.resourcestrees.block.custom.ResourcesSaplingBlock;
 import com.coolerpromc.resourcestrees.block.entity.custom.TreeSimulatorBlockEntity;
 import com.coolerpromc.resourcestrees.core.ResourcesTypes;
 import com.coolerpromc.resourcestrees.datagen.recipebuilder.ShapedRecipeNBTOutputBuilder;
+import com.coolerpromc.resourcestrees.datagen.recipebuilder.StrictShapedRecipeBuilder;
 import com.coolerpromc.resourcestrees.datagen.recipebuilder.TreeSimulatorRecipeBuilder;
 import com.coolerpromc.resourcestrees.item.ModItems;
 import com.coolerpromc.resourcestrees.recipe.output.TreeSimulatorOutput;
@@ -218,7 +219,7 @@ public class ModRecipeProvider extends RecipeProvider {
         CompoundTag compoundTag = new CompoundTag();
         compoundTag.putString("type", types.getOrThrow(resourceType).key().location().toString());
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, count)
+        StrictShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, count)
                 .pattern("AAA")
                 .pattern("A A")
                 .pattern("AAA")
@@ -231,7 +232,7 @@ public class ModRecipeProvider extends RecipeProvider {
         CompoundTag compoundTag = new CompoundTag();
         compoundTag.putString("type", types.getOrThrow(resourceType).key().location().toString());
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, count)
+        StrictShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, count)
                 .pattern("AAA")
                 .pattern("ABA")
                 .pattern("AAA")
@@ -249,7 +250,7 @@ public class ModRecipeProvider extends RecipeProvider {
         CompoundTag compoundTag2 = new CompoundTag();
         compoundTag2.putString("type", types.getOrThrow(middleResourceType).key().location().toString());
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, count)
+        StrictShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, count)
                 .pattern("AAA")
                 .pattern("ABA")
                 .pattern("AAA")
@@ -267,7 +268,7 @@ public class ModRecipeProvider extends RecipeProvider {
         CompoundTag compoundTag2 = new CompoundTag();
         compoundTag2.putString("type", types.getOrThrow(middleResourceType).key().location().toString());
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, count)
+        StrictShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, count)
                 .pattern("BA ")
                 .pattern("AB ")
                 .pattern("   ")
@@ -282,7 +283,7 @@ public class ModRecipeProvider extends RecipeProvider {
         CompoundTag compoundTag = new CompoundTag();
         compoundTag.putString("type", types.getOrThrow(resourceType).key().location().toString());
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, count)
+        StrictShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, count)
                 .pattern("AAA")
                 .pattern("AAA")
                 .pattern("AAA")
@@ -295,7 +296,7 @@ public class ModRecipeProvider extends RecipeProvider {
         CompoundTag compoundTag = new CompoundTag();
         compoundTag.putString("type", types.getOrThrow(resourceType).key().location().toString());
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, count)
+        StrictShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, count)
                 .pattern("   ")
                 .pattern("AAA")
                 .pattern("   ")
@@ -307,8 +308,8 @@ public class ModRecipeProvider extends RecipeProvider {
     private void customShape(Item outputItem, int count, ResourceKey<ResourcesTypes> resourceType, String line1, String line2, String line3, Consumer<FinishedRecipe> output){
         CompoundTag compoundTag = new CompoundTag();
         compoundTag.putString("type", types.getOrThrow(resourceType).key().location().toString());
-        
-        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, count)
+
+        StrictShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, count)
                 .pattern(line1)
                 .pattern(line2)
                 .pattern(line3)
@@ -324,7 +325,7 @@ public class ModRecipeProvider extends RecipeProvider {
         CompoundTag compoundTag2 = new CompoundTag();
         compoundTag2.putString("type", types.getOrThrow(resourceType2).key().location().toString());
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, count)
+        StrictShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, count)
                 .pattern(line1)
                 .pattern(line2)
                 .pattern(line3)
