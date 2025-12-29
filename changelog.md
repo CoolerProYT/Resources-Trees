@@ -1,0 +1,2 @@
+- Fixed recipe book shift+click for fragment crafting not working
+- Fixed wrong log output provided caused by vanilla Shaped Recipe checking logic (Implemented custom recipe serializer)
