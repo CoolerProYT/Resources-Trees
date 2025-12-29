@@ -8,3 +8,4 @@ accessible method net/minecraft/block/SaplingGenerator getSmallTreeFeature (Lnet
 accessible method net/minecraft/block/SaplingGenerator areFlowersNearby (Lnet/minecraft/world/WorldAccess;Lnet/minecraft/util/math/BlockPos;)Z
 accessible field net/minecraft/recipe/ShapedRecipe result Lnet/minecraft/item/ItemStack;
 accessible method net/minecraft/server/MinecraftServer executeTask (Lnet/minecraft/server/ServerTask;)V
+accessible field net/minecraft/recipe/ShapedRecipe raw Lnet/minecraft/recipe/RawShapedRecipe;
