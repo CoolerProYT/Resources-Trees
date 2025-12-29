@@ -1,8 +1,8 @@
 {
   "color": -11463403,
+  "leafDropChance": 0.25,
   "material": "minecraft:netherrack",
-  "saplingChance": 0.125,
-  "secondaryDropChance": 0.25,
+  "saplingDropChance": 0.125,
   "translationKey": "item.resourcestrees.nether",
   "weight": 5
 }
