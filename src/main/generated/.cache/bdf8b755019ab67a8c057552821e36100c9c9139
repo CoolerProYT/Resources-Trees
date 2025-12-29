@@ -1,10 +1,10 @@
-// 1.21.1	2025-10-21T17:22:12.4269392	ResourcesTrees/Block Loot Tables
+// 1.21.1	2025-12-29T18:07:00.7895527	ResourcesTrees/Block Loot Tables
 ec3b60fed473c1aa0ad12a0103ee700d7ca8019a data\resourcestrees\loot_table\blocks\resources_oak_leaves.json
 932e17bd6ed39d4d62e1281d7ee2f2af9a248989 data\resourcestrees\loot_table\blocks\resources_acacia_sapling.json
 9ff2f903da54b8328416fcf5c5f07869dd146cc7 data\resourcestrees\loot_table\blocks\resources_spruce_leaves.json
 d9e7faefbc062d9bf8c97755e58da231f52c8295 data\resourcestrees\loot_table\blocks\resources_dark_oak_leaves.json
-977a082447c63de23c359990d378199ce3926534 data\resourcestrees\loot_table\blocks\resources_dark_oak_sapling.json
 1ea1f8923bdc5a25205d3c63a4ef938f7dde993e data\resourcestrees\loot_table\blocks\resources_cherry_sapling.json
+977a082447c63de23c359990d378199ce3926534 data\resourcestrees\loot_table\blocks\resources_dark_oak_sapling.json
 fb7964481b1b8985cac5f3e08541b5d3941d81a3 data\resourcestrees\loot_table\blocks\resources_birch_leaves.json
 b26d2df2c97671232df3859590c8f6a06e52353a data\resourcestrees\loot_table\blocks\resources_jungle_sapling.json
 db75da45323002e44750de097f7b1447df06cb2f data\resourcestrees\loot_table\blocks\tree_simulator.json
