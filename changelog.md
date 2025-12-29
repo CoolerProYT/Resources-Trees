@@ -1,5 +1,2 @@
-- Resources Saplings and Leaves now store Holder of ResourcesType instead of directly saving ResourcesType
-- All the leaves will become Resources Leaves instead of only a few, but lowered leaf drop chance (This is to prevent high amount/no leaf drop then harvesting with Tree Harvester mod)
-- Fixed client side sometimes not rendering auto placed sapling color
-- Fixed no drops when leaves decay
-- Make vanilla recipe book able to identify DataComponentIngredient to prevent it use wrong leaf when crafting
+- Fixed recipe book shift+click for fragment crafting not working
+- Fixed wrong log output provided caused by vanilla Shaped Recipe checking logic (Implemented custom recipe serializer)
