@@ -6,6 +6,7 @@ import com.coolerpromc.resourcestrees.block.entity.custom.TreeSimulatorBlockEnti
 import com.coolerpromc.resourcestrees.core.ResourcesTypes;
 import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
 import com.coolerpromc.resourcestrees.datagen.recipebuilder.ExtendedShapedRecipeBuilder;
+import com.coolerpromc.resourcestrees.datagen.recipebuilder.StrictShapedRecipeJsonBuilder;
 import com.coolerpromc.resourcestrees.datagen.recipebuilder.TreeSimulatorRecipeBuilder;
 import com.coolerpromc.resourcestrees.item.ModItems;
 import com.coolerpromc.resourcestrees.recipe.output.TreeSimulatorOutput;
@@ -237,7 +238,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
     }
 
     private void circleShape(Item outputItem, int count, RegistryKey<ResourcesTypes> resourceType){
-        ShapedRecipeJsonBuilder.create(items, RecipeCategory.BUILDING_BLOCKS, outputItem, count)
+        StrictShapedRecipeJsonBuilder.create(items, RecipeCategory.BUILDING_BLOCKS, outputItem, count)
                 .pattern("AAA")
                 .pattern("A A")
                 .pattern("AAA")
@@ -247,7 +248,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
     }
 
     private void circleSurroundedShapeWithItem(Item outputItem, int count, RegistryKey<ResourcesTypes> resourceType, Item item){
-        ShapedRecipeJsonBuilder.create(items, RecipeCategory.BUILDING_BLOCKS, outputItem, count)
+        StrictShapedRecipeJsonBuilder.create(items, RecipeCategory.BUILDING_BLOCKS, outputItem, count)
                 .pattern("AAA")
                 .pattern("ABA")
                 .pattern("AAA")
@@ -259,7 +260,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
     }
 
     private void circleSurroundedShape(Item outputItem, int count, RegistryKey<ResourcesTypes> resourceType, RegistryKey<ResourcesTypes> middleResourceType){
-        ShapedRecipeJsonBuilder.create(items, RecipeCategory.BUILDING_BLOCKS, outputItem, count)
+        StrictShapedRecipeJsonBuilder.create(items, RecipeCategory.BUILDING_BLOCKS, outputItem, count)
                 .pattern("AAA")
                 .pattern("ABA")
                 .pattern("AAA")
@@ -271,7 +272,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
     }
 
     private void twoByTwoShape(Item outputItem, int count, RegistryKey<ResourcesTypes> resourceType, RegistryKey<ResourcesTypes> middleResourceType){
-        ShapedRecipeJsonBuilder.create(items, RecipeCategory.BUILDING_BLOCKS, outputItem, count)
+        StrictShapedRecipeJsonBuilder.create(items, RecipeCategory.BUILDING_BLOCKS, outputItem, count)
                 .pattern("BA ")
                 .pattern("AB ")
                 .pattern("   ")
@@ -283,7 +284,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
     }
 
     private void cubeShape(Item outputItem, int count, RegistryKey<ResourcesTypes> resourceType){
-        ShapedRecipeJsonBuilder.create(items, RecipeCategory.BUILDING_BLOCKS, outputItem, count)
+        StrictShapedRecipeJsonBuilder.create(items, RecipeCategory.BUILDING_BLOCKS, outputItem, count)
                 .pattern("AAA")
                 .pattern("AAA")
                 .pattern("AAA")
@@ -293,7 +294,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
     }
 
     private void lineShape(Item outputItem, int count, RegistryKey<ResourcesTypes> resourceType){
-        ShapedRecipeJsonBuilder.create(items, RecipeCategory.BUILDING_BLOCKS, outputItem, count)
+        StrictShapedRecipeJsonBuilder.create(items, RecipeCategory.BUILDING_BLOCKS, outputItem, count)
                 .pattern("   ")
                 .pattern("AAA")
                 .pattern("   ")
@@ -303,7 +304,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
     }
 
     private void customShape(Item outputItem, int count, RegistryKey<ResourcesTypes> resourceType, String line1, String line2, String line3){
-        ShapedRecipeJsonBuilder.create(items, RecipeCategory.BUILDING_BLOCKS, outputItem, count)
+        StrictShapedRecipeJsonBuilder.create(items, RecipeCategory.BUILDING_BLOCKS, outputItem, count)
                 .pattern(line1)
                 .pattern(line2)
                 .pattern(line3)
@@ -313,7 +314,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
     }
 
     private void twoItemCustomShape(Item outputItem, int count, RegistryKey<ResourcesTypes> resourceType, RegistryKey<ResourcesTypes> resourceType2, String line1, String line2, String line3){
-        ShapedRecipeJsonBuilder.create(items, RecipeCategory.BUILDING_BLOCKS, outputItem, count)
+        StrictShapedRecipeJsonBuilder.create(items, RecipeCategory.BUILDING_BLOCKS, outputItem, count)
                 .pattern(line1)
                 .pattern(line2)
                 .pattern(line3)
