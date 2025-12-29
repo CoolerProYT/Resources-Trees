@@ -124,12 +124,18 @@ neoForge.ideSyncTask generateModMetadata
 publishing {
     publications {
         register('mavenJava', MavenPublication) {
+            artifactId = mod_id
             from components.java
         }
     }
     repositories {
+        mavenLocal()
         maven {
-            url "file://${project.projectDir}/repo"
+            url = findProperty("repsy_url")
+            credentials {
+                username = findProperty("repsy_username")
+                password = findProperty("repsy_password")
+            }
         }
     }
 }
