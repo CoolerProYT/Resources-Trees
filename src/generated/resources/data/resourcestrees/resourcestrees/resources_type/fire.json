@@ -1,8 +1,8 @@
 {
   "color": -1813725,
+  "leafDropChance": 0.25,
   "material": "resourcestrees:fire_essence",
-  "saplingChance": 0.125,
-  "secondaryDropChance": 0.25,
+  "saplingDropChance": 0.125,
   "translationKey": "item.resourcestrees.fire",
   "weight": 5
 }
