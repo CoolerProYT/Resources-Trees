@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:mutton",
+    "minecraft:mutton",
+    "minecraft:white_wool",
+    "minecraft:white_wool"
+  ],
+  "result": {
+    "count": 1,
+    "id": "resourcestrees:sheep_essence"
+  }
+}

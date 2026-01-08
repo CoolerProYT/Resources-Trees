@@ -8,15 +8,22 @@
       "components": {
         "resourcestrees:resources_type": "resourcestrees:nature"
       }
+    },
+    "B": {
+      "fabric:type": "fabric:components",
+      "base": "resourcestrees:leaf_fragment",
+      "components": {
+        "resourcestrees:resources_type": "resourcestrees:fire"
+      }
     }
   },
   "pattern": [
-    "  A",
-    " A ",
-    "A  "
+    "BA ",
+    "AB ",
+    "   "
   ],
   "result": {
-    "count": 12,
+    "count": 8,
     "id": "minecraft:sweet_berries"
   }
 }

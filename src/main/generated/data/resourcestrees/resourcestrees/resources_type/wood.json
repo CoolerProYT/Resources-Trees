@@ -3,6 +3,6 @@
   "leafDropChance": 0.25,
   "material": "#minecraft:logs",
   "saplingDropChance": 0.125,
-  "translationKey": "item.resourcestrees.wood",
+  "treeSimulatorTicks": 800,
   "weight": 5
 }

@@ -1,0 +1,76 @@
+{
+  "type": "resourcestrees:tree_simulator",
+  "drops": [
+    {
+      "chance": 0.5,
+      "maxRolls": 4,
+      "minRolls": 1,
+      "output": {
+        "count": 1,
+        "id": "minecraft:birch_log"
+      }
+    },
+    {
+      "chance": 1.0,
+      "maxRolls": 1,
+      "minRolls": 1,
+      "output": {
+        "components": {
+          "resourcestrees:resources_type": "resourcestrees:dye"
+        },
+        "count": 1,
+        "id": "resourcestrees:leaf_fragment"
+      }
+    },
+    {
+      "chance": 0.25,
+      "maxRolls": 4,
+      "minRolls": 1,
+      "output": {
+        "components": {
+          "resourcestrees:resources_type": "resourcestrees:dye"
+        },
+        "count": 1,
+        "id": "resourcestrees:leaf_fragment"
+      }
+    },
+    {
+      "chance": 0.125,
+      "maxRolls": 1,
+      "minRolls": 1,
+      "output": {
+        "components": {
+          "resourcestrees:resources_type": "resourcestrees:dye"
+        },
+        "count": 1,
+        "id": "resourcestrees:resources_birch_sapling"
+      }
+    },
+    {
+      "chance": 0.1,
+      "maxRolls": 2,
+      "minRolls": 1,
+      "output": {
+        "count": 1,
+        "id": "minecraft:stick"
+      }
+    },
+    {
+      "chance": 0.05,
+      "maxRolls": 1,
+      "minRolls": 1,
+      "output": {
+        "count": 1,
+        "id": "minecraft:apple"
+      }
+    }
+  ],
+  "ticksToGrow": 800,
+  "tree": {
+    "components": {
+      "resourcestrees:resources_type": "resourcestrees:dye"
+    },
+    "count": 1,
+    "id": "resourcestrees:resources_birch_sapling"
+  }
+}

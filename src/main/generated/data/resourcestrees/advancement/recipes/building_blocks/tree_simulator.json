@@ -11,11 +11,11 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_grass_block": {
+    "has_dirt": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:grass_block"
+            "items": "minecraft:dirt"
           }
         ]
       },
@@ -31,7 +31,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_grass_block",
+      "has_dirt",
       "has_cyan_terracotta"
     ]
   ],

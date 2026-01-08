@@ -1,0 +1,12 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "resourcestrees:item/spider_essence",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": -15070176
+      }
+    ]
+  }
+}
