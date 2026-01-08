@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:ghast_tear",
+    "minecraft:ghast_tear",
+    "minecraft:ghast_tear",
+    "minecraft:ghast_tear"
+  ],
+  "result": {
+    "count": 1,
+    "id": "resourcestrees:ghast_essence"
+  }
+}

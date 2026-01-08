@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": "resourcestrees:skeleton_essence",
+    "B": "minecraft:oak_sapling"
+  },
+  "pattern": [
+    " A ",
+    "ABA",
+    " A "
+  ],
+  "result": {
+    "components": {
+      "resourcestrees:resources_type": "resourcestrees:skeleton"
+    },
+    "count": 1,
+    "id": "resourcestrees:resources_oak_sapling"
+  }
+}

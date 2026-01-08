@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "resourcestrees:turtle_essence"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_turtle_egg": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:turtle_egg"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_turtle_scute": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:turtle_scute"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_turtle_egg",
+      "has_turtle_scute"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "resourcestrees:turtle_essence"
+    ]
+  }
+}

@@ -33,7 +33,10 @@
 		],
 		"jade": [
 			"com.coolerpromc.resourcestrees.compat.jade.ModJadePlugin"
-		]
+		],
+        "jei_mod_plugin": [
+            "com.coolerpromc.resourcestrees.compat.jei.ModJEIPlugin"
+        ]
 	},
 	"mixins": [
 		"resourcestrees.mixins.json"

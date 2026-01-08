@@ -1,0 +1,12 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "resourcestrees:item/squid_essence",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": -14533811
+      }
+    ]
+  }
+}

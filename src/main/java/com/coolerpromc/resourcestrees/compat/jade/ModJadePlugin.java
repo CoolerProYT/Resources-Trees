@@ -26,7 +26,7 @@ public class ModJadePlugin implements IWailaPlugin {
                         if (resourcesTypes != null){
                             ItemStack stack = blockAccessor.getBlock().asItem().getDefaultStack();
                             stack.set(ModDataComponents.TYPE, blockEntity.getResourcesType());
-                            iTooltip.add(Text.translatable(resourcesTypes.value().translationKey()));
+                            iTooltip.add(Text.translatable("type.resourcestrees." + resourcesTypes.getKey().get().getValue().getPath()));
                         }
                     }
                 }

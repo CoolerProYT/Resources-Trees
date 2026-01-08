@@ -27,6 +27,23 @@ public class ModCreativeTab {
                         pOutput.add(ModItems.WATER_ESSENCE);
                         pOutput.add(ModItems.NATURE_ESSENCE);
                         pOutput.add(ModItems.END_ESSENCE);
+                        pOutput.add(ModItems.BEE_ESSENCE);
+                        pOutput.add(ModItems.SCULK_ESSENCE);
+                        pOutput.add(ModItems.SKELETON_ESSENCE);
+                        pOutput.add(ModItems.SPIDER_ESSENCE);
+                        pOutput.add(ModItems.CHICKEN_ESSENCE);
+                        pOutput.add(ModItems.COW_ESSENCE);
+                        pOutput.add(ModItems.RABBIT_ESSENCE);
+                        pOutput.add(ModItems.SQUID_ESSENCE);
+                        pOutput.add(ModItems.TURTLE_ESSENCE);
+                        pOutput.add(ModItems.BLAZE_ESSENCE);
+                        pOutput.add(ModItems.BREEZE_ESSENCE);
+                        pOutput.add(ModItems.DYE_ESSENCE);
+                        pOutput.add(ModItems.GHAST_ESSENCE);
+                        pOutput.add(ModItems.PIG_ESSENCE);
+                        pOutput.add(ModItems.SHEEP_ESSENCE);
+                        pOutput.add(ModItems.FISH_ESSENCE);
+                        pOutput.add(ModItems.ZOMBIE_ESSENCE);
 
                         ResourcesTypes.getAllResourcesTypes(pParameters.lookup()).forEach((key, value) -> {
                             Field[] fields = ModBlocks.class.getDeclaredFields();

@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:honey_block",
+    "minecraft:honeycomb_block",
+    "minecraft:honey_block",
+    "minecraft:honeycomb_block"
+  ],
+  "result": {
+    "count": 1,
+    "id": "resourcestrees:bee_essence"
+  }
+}

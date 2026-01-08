@@ -65,6 +65,23 @@ public class ModModelProvider extends FabricModelProvider {
         this.generateTintedEssenceItem(itemModels, ModItems.WATER_ESSENCE, ItemModels.constantTintSource(0xFF1787D4));
         this.generateTintedEssenceItem(itemModels, ModItems.NATURE_ESSENCE, ItemModels.constantTintSource(0xFF1a6e08));
         this.generateTintedEssenceItem(itemModels, ModItems.END_ESSENCE, ItemModels.constantTintSource(0xFFC5BE8B));
+        this.generateTintedEssenceItem(itemModels, ModItems.BEE_ESSENCE, ItemModels.constantTintSource(0xFFEDC343));
+        this.generateTintedEssenceItem(itemModels, ModItems.SCULK_ESSENCE, ItemModels.constantTintSource(0xFF041820));
+        this.generateTintedEssenceItem(itemModels, ModItems.SKELETON_ESSENCE, ItemModels.constantTintSource(0xFFeeeeee));
+        this.generateTintedEssenceItem(itemModels, ModItems.SPIDER_ESSENCE, ItemModels.constantTintSource(0xFF1a0c20));
+        this.generateTintedEssenceItem(itemModels, ModItems.CHICKEN_ESSENCE, ItemModels.constantTintSource(0xFFA1A1A1));
+        this.generateTintedEssenceItem(itemModels, ModItems.COW_ESSENCE, ItemModels.constantTintSource(0xFF543936));
+        this.generateTintedEssenceItem(itemModels, ModItems.RABBIT_ESSENCE, ItemModels.constantTintSource(0xFF8B5A2B));
+        this.generateTintedEssenceItem(itemModels, ModItems.SQUID_ESSENCE, ItemModels.constantTintSource(0xFF223B4D));
+        this.generateTintedEssenceItem(itemModels, ModItems.TURTLE_ESSENCE, ItemModels.constantTintSource(0xFF315410));
+        this.generateTintedEssenceItem(itemModels, ModItems.BLAZE_ESSENCE, ItemModels.constantTintSource(0xFFd4ae37));
+        this.generateTintedEssenceItem(itemModels, ModItems.BREEZE_ESSENCE, ItemModels.constantTintSource(0xFFd5d6ff));
+        this.generateTintedEssenceItem(itemModels, ModItems.DYE_ESSENCE, ItemModels.constantTintSource(0xFF72d4b3));
+        this.generateTintedEssenceItem(itemModels, ModItems.GHAST_ESSENCE, ItemModels.constantTintSource(0xFFF9F9F9));
+        this.generateTintedEssenceItem(itemModels, ModItems.PIG_ESSENCE, ItemModels.constantTintSource(0xFFF9A195));
+        this.generateTintedEssenceItem(itemModels, ModItems.SHEEP_ESSENCE, ItemModels.constantTintSource(0xFFFFFFFF));
+        this.generateTintedEssenceItem(itemModels, ModItems.FISH_ESSENCE, ItemModels.constantTintSource(0xFFC1A76A));
+        this.generateTintedEssenceItem(itemModels, ModItems.ZOMBIE_ESSENCE, ItemModels.constantTintSource(0xFF3e692d));
     }
 
     public static final TextureKey CROSS_TINTED_SLOT = TextureKey.of("cross_tinted");

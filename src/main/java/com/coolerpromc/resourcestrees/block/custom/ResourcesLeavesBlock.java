@@ -88,8 +88,6 @@ public class ResourcesLeavesBlock extends LeavesBlock implements BlockEntityProv
                 ItemStack fragment = ModItems.LEAF_FRAGMENT.getDefaultStack();
                 fragment.set(ModDataComponents.TYPE, resourcesTypes);
 
-                drops.add(fragment.copy());
-
                 if (builder.getWorld().getRandom().nextFloat() < resourcesTypes.value().leafDropChance()){
                     drops.add(fragment.copy());
                 }

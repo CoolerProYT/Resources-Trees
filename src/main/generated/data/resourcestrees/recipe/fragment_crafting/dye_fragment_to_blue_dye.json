@@ -1,0 +1,22 @@
+{
+  "type": "resourcestrees:strict_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "fabric:type": "fabric:components",
+      "base": "resourcestrees:leaf_fragment",
+      "components": {
+        "resourcestrees:resources_type": "resourcestrees:dye"
+      }
+    }
+  },
+  "pattern": [
+    "  A",
+    "   ",
+    "AA "
+  ],
+  "result": {
+    "count": 8,
+    "id": "minecraft:blue_dye"
+  }
+}

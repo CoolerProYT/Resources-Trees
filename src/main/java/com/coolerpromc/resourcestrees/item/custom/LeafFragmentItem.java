@@ -17,7 +17,7 @@ public class LeafFragmentItem extends Item {
     public Text getName(ItemStack stack) {
         RegistryEntry<ResourcesTypes> resourcesTypes = stack.get(ModDataComponents.TYPE);
         if (resourcesTypes != null){
-            return Text.translatable(resourcesTypes.value().translationKey()).append(" ").append(super.getName(stack));
+            return Text.translatable("type.resourcestrees." + resourcesTypes.getKey().get().getValue().getPath()).append(" ").append(super.getName(stack));
         }
         return super.getName(stack);
     }

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:ink_sac",
+    "minecraft:ink_sac",
+    "minecraft:ink_sac",
+    "minecraft:glow_ink_sac",
+    "minecraft:glow_ink_sac",
+    "minecraft:glow_ink_sac"
+  ],
+  "result": {
+    "count": 1,
+    "id": "resourcestrees:squid_essence"
+  }
+}

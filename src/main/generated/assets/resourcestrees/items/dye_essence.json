@@ -1,0 +1,12 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "resourcestrees:item/dye_essence",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": -9251661
+      }
+    ]
+  }
+}

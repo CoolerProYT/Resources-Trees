@@ -6,7 +6,6 @@ import com.coolerpromc.resourcestrees.block.custom.ResourcesSaplingBlock;
 import com.coolerpromc.resourcestrees.block.entity.ModBlockEntities;
 import com.coolerpromc.resourcestrees.core.ResourcesTypes;
 import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
-import com.coolerpromc.resourcestrees.datagen.ModRecipeProvider;
 import com.coolerpromc.resourcestrees.item.ModItems;
 import com.coolerpromc.resourcestrees.recipe.ModRecipes;
 import com.coolerpromc.resourcestrees.recipe.custom.TreeSimulatorRecipe;
@@ -76,19 +75,17 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements ExtendedScr
         @Override
         public void setStack(int slot, ItemStack stack) {
             super.setStack(slot, stack);
-            Optional<RecipeEntry<TreeSimulatorRecipe>> recipeHolder = getCurrentRecipe();
-            if (recipeHolder.isPresent()){
-                TreeSimulatorRecipe recipe = recipeHolder.get().value();
-                setMaxGrowTicks(recipe.ticksToGrow());
-            }
-            else{
-                setMaxGrowTicks(0);
-            }
+            setGrowTick();
         }
 
         @Override
         public boolean canExtract(int slot, ItemStack stack, Direction dir) {
             return false;
+        }
+
+        @Override
+        public int getMaxCountPerStack() {
+            return 1;
         }
     };
 
@@ -100,6 +97,12 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements ExtendedScr
     };
 
     private final ExtendedSimpleInventory axeHandler = new ExtendedSimpleInventory(1){
+        @Override
+        public void setStack(int slot, ItemStack stack) {
+            super.setStack(slot, stack);
+            setGrowTick();
+        }
+
         @Override
         public boolean isValid(int slot, ItemStack stack) {
             return stack.getItem() instanceof AxeItem;
@@ -186,10 +189,7 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements ExtendedScr
 
     @Override
     public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registries) {
-        NbtCompound tag = super.toInitialChunkDataNbt(registries);
-        tag.putInt("growTicks", growTicks);
-        tag.putInt("maxGrowTicks", maxGrowTicks);
-        return tag;
+        return createComponentlessNbt(registries);
     }
 
     public void tick(World level, BlockPos pos, BlockState state){
@@ -197,7 +197,6 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements ExtendedScr
 
         if (hasRecipe() && isAxeValid()){
             increaseGrowTicks();
-            markDirty(level, pos, state);
 
             if (treeGrown()){
                 harvest(level);
@@ -207,9 +206,6 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements ExtendedScr
         else {
             resetGrowTicks();
         }
-
-        markDirty();
-        level.updateListeners(pos, getCachedState(), getCachedState(), Block.NOTIFY_LISTENERS);
     }
 
     private void harvest(World level){
@@ -242,6 +238,8 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements ExtendedScr
                     ResourcesTrees.LOGGER.warn("No suitable output slot found for item: {} at {}", result, getPos());
                 }
             }
+
+            markDirty();
         }
     }
 
@@ -251,14 +249,17 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements ExtendedScr
 
     private void increaseGrowTicks(){
         this.growTicks++;
+        markDirty();
+        world.updateListeners(pos, getCachedState(), getCachedState(), 3);
     }
 
     private void resetGrowTicks(){
         this.growTicks = 0;
+        markDirty();
     }
 
     private void setMaxGrowTicks(int tick){
-        this.data.set(1, tick);
+        this.maxGrowTicks = tick;
     }
 
     private int findSuitableOutputSlot(ItemStack result) {
@@ -346,14 +347,13 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements ExtendedScr
                 if (type != null){
                     ResourcesTypes value = type.value();
                     List<TreeSimulatorOutput> drops = new ArrayList<>();
-                    drops.add(TreeSimulatorOutput.of(TreeSimulatorBlockEntity.LOG_BY_SAPLINGS.get(block).getDefaultStack(), 1, 2, 4));
+                    drops.add(TreeSimulatorOutput.of(TreeSimulatorBlockEntity.LOG_BY_SAPLINGS.get(block).getDefaultStack(), 0.5f, 1, 4));
                     drops.add(TreeSimulatorOutput.of(leaf, 1, 1, 1));
-                    drops.add(TreeSimulatorOutput.of(leaf, value.leafDropChance(), 1, 1));
+                    drops.add(TreeSimulatorOutput.of(leaf, value.leafDropChance(), 1, 4));
                     drops.add(TreeSimulatorOutput.of(getSapling(), value.saplingDropChance(), 1, 1));
                     drops.add(TreeSimulatorOutput.of(Items.STICK.getDefaultStack(), 0.1f, 1, 2));
                     drops.add(TreeSimulatorOutput.of(Items.APPLE.getDefaultStack(), 0.05f, 1, 1));
-                    drops.add(TreeSimulatorOutput.of(ModRecipeProvider.SAPLINGS_BY_SAPLINGS.get(block).getDefaultStack(), 0.1f, 1, 1));
-                    TreeSimulatorRecipe newRecipe = new TreeSimulatorRecipe(getSapling(), drops, 1200);
+                    TreeSimulatorRecipe newRecipe = new TreeSimulatorRecipe(getSapling(), drops, type.value().treeSimulatorTicks());
                     RegistryKey<Recipe<?>> key = RegistryKey.of(RegistryKeys.RECIPE, type.getKey().get().getValue().withSuffixedPath(Registries.BLOCK.getId(block).getPath().substring(9)).withPrefixedPath("tree_simulator/"));
                     return Optional.of(new RecipeEntry<>(key, newRecipe));
                 }
@@ -401,6 +401,22 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements ExtendedScr
             return damage < maxDamage || isAxeUnbreakable();
         }
         return isAxeUnbreakable();
+    }
+
+    private void setGrowTick(){
+        Optional<RecipeEntry<TreeSimulatorRecipe>> recipeHolder = getCurrentRecipe();
+        if (recipeHolder.isPresent() && isAxeValid()){
+            TreeSimulatorRecipe recipe = recipeHolder.get().value();
+            int tick = recipe.ticksToGrow();
+            double GROW_TICK_BY_AXE = ResourcesTrees.CONFIG.get(getAxe().getRegistryEntry().getKey().get().getValue().toString());
+            if (GROW_TICK_BY_AXE != 0.0){
+                tick = (int) (recipe.ticksToGrow() / GROW_TICK_BY_AXE);
+            }
+            setMaxGrowTicks(tick);
+        }
+        else{
+            setMaxGrowTicks(0);
+        }
     }
 
     @Override

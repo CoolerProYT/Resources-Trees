@@ -1,0 +1,12 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "resourcestrees:item/ghast_essence",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": -394759
+      }
+    ]
+  }
+}
