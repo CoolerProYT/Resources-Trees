@@ -3,6 +3,6 @@
   "leafDropChance": 0.25,
   "material": "minecraft:amethyst_block",
   "saplingDropChance": 0.125,
-  "translationKey": "item.resourcestrees.amethyst",
+  "treeSimulatorTicks": 800,
   "weight": 5
 }

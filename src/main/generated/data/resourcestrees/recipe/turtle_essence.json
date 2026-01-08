@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:turtle_egg"
+    },
+    {
+      "item": "minecraft:turtle_egg"
+    },
+    {
+      "item": "minecraft:turtle_egg"
+    },
+    {
+      "item": "minecraft:turtle_scute"
+    },
+    {
+      "item": "minecraft:turtle_scute"
+    },
+    {
+      "item": "minecraft:turtle_scute"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "resourcestrees:turtle_essence"
+  }
+}

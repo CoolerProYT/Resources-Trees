@@ -1,0 +1,24 @@
+{
+  "type": "resourcestrees:strict_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "fabric:type": "fabric:components",
+      "base": {
+        "item": "resourcestrees:leaf_fragment"
+      },
+      "components": {
+        "resourcestrees:resources_type": "resourcestrees:rabbit"
+      }
+    }
+  },
+  "pattern": [
+    " A ",
+    " A ",
+    " A "
+  ],
+  "result": {
+    "count": 8,
+    "id": "minecraft:rabbit_hide"
+  }
+}

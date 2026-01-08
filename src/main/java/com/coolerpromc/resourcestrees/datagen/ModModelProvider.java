@@ -55,6 +55,23 @@ public class ModModelProvider extends FabricModelProvider {
         this.generateTintedEssenceItem(itemModels, ModItems.WATER_ESSENCE);
         this.generateTintedEssenceItem(itemModels, ModItems.NATURE_ESSENCE);
         this.generateTintedEssenceItem(itemModels, ModItems.END_ESSENCE);
+        this.generateTintedEssenceItem(itemModels, ModItems.BEE_ESSENCE);
+        this.generateTintedEssenceItem(itemModels, ModItems.SCULK_ESSENCE);
+        this.generateTintedEssenceItem(itemModels, ModItems.SKELETON_ESSENCE);
+        this.generateTintedEssenceItem(itemModels, ModItems.SPIDER_ESSENCE);
+        this.generateTintedEssenceItem(itemModels, ModItems.CHICKEN_ESSENCE);
+        this.generateTintedEssenceItem(itemModels, ModItems.COW_ESSENCE);
+        this.generateTintedEssenceItem(itemModels, ModItems.RABBIT_ESSENCE);
+        this.generateTintedEssenceItem(itemModels, ModItems.SQUID_ESSENCE);
+        this.generateTintedEssenceItem(itemModels, ModItems.TURTLE_ESSENCE);
+        this.generateTintedEssenceItem(itemModels, ModItems.BLAZE_ESSENCE);
+        this.generateTintedEssenceItem(itemModels, ModItems.BREEZE_ESSENCE);
+        this.generateTintedEssenceItem(itemModels, ModItems.DYE_ESSENCE);
+        this.generateTintedEssenceItem(itemModels, ModItems.GHAST_ESSENCE);
+        this.generateTintedEssenceItem(itemModels, ModItems.PIG_ESSENCE);
+        this.generateTintedEssenceItem(itemModels, ModItems.SHEEP_ESSENCE);
+        this.generateTintedEssenceItem(itemModels, ModItems.FISH_ESSENCE);
+        this.generateTintedEssenceItem(itemModels, ModItems.ZOMBIE_ESSENCE);
     }
 
     public static final TextureKey CROSS_TINTED_SLOT = TextureKey.of("cross_tinted");

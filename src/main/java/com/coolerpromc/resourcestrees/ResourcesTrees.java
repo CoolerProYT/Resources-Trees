@@ -5,6 +5,7 @@ import com.coolerpromc.resourcestrees.block.custom.ResourcesLeavesBlock;
 import com.coolerpromc.resourcestrees.block.custom.ResourcesSaplingBlock;
 import com.coolerpromc.resourcestrees.block.entity.ModBlockEntities;
 import com.coolerpromc.resourcestrees.block.entity.custom.ResourcesTypesBlockEntity;
+import com.coolerpromc.resourcestrees.config.ModConfig;
 import com.coolerpromc.resourcestrees.core.ResourcesTypes;
 import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
 import com.coolerpromc.resourcestrees.item.ModCreativeTab;
@@ -42,6 +43,7 @@ import java.util.List;
 public class ResourcesTrees implements ModInitializer {
 	public static final String MODID = "resourcestrees";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
+    public static ModConfig CONFIG = new ModConfig();
 
 	@Override
 	public void onInitialize() {
@@ -52,6 +54,8 @@ public class ResourcesTrees implements ModInitializer {
 		ModRecipes.register();
 		ModCreativeTab.register();
 		ModMenuTypes.register();
+
+        CONFIG.load();
 
 		Field[] fields = ModBlocks.class.getDeclaredFields();
 		for (Field field : fields){

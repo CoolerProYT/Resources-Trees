@@ -1,0 +1,33 @@
+{
+  "type": "resourcestrees:strict_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "fabric:type": "fabric:components",
+      "base": {
+        "item": "resourcestrees:leaf_fragment"
+      },
+      "components": {
+        "resourcestrees:resources_type": "resourcestrees:ice"
+      }
+    },
+    "B": {
+      "fabric:type": "fabric:components",
+      "base": {
+        "item": "resourcestrees:leaf_fragment"
+      },
+      "components": {
+        "resourcestrees:resources_type": "resourcestrees:water"
+      }
+    }
+  },
+  "pattern": [
+    "AAA",
+    "ABA",
+    "AAA"
+  ],
+  "result": {
+    "count": 12,
+    "id": "minecraft:snowball"
+  }
+}

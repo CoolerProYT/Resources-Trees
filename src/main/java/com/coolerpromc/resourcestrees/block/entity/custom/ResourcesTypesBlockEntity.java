@@ -7,13 +7,13 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.entry.RegistryElementCodec;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
 
@@ -57,7 +57,9 @@ public class ResourcesTypesBlockEntity extends BlockEntity {
     protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
         super.writeNbt(nbt, registryLookup);
         if (resourcesType != null){
-            nbt.put("type", RegistryElementCodec.of(ModRegistries.RESOURCES_TYPES_KEY, ResourcesTypes.CODEC).encodeStart(NbtOps.INSTANCE, resourcesType).getOrThrow());
+            resourcesType.getKey().ifPresent(key -> {
+                nbt.putString("type", key.getValue().toString());
+            });
         }
     }
 
@@ -65,7 +67,11 @@ public class ResourcesTypesBlockEntity extends BlockEntity {
     protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
         super.readNbt(nbt, registryLookup);
         if (nbt.contains("type")){
-            this.setResourcesType(RegistryElementCodec.of(ModRegistries.RESOURCES_TYPES_KEY, ResourcesTypes.CODEC).parse(NbtOps.INSTANCE, nbt.get("type")).getOrThrow());
+            Identifier id = Identifier.tryParse(nbt.getString("type"));
+            if (id != null) {
+                RegistryKey<ResourcesTypes> key = RegistryKey.of(ModRegistries.RESOURCES_TYPES_KEY, id);
+                registryLookup.getWrapperOrThrow(ModRegistries.RESOURCES_TYPES_KEY).getOptional(key).ifPresent(this::setResourcesType);
+            }
         }
     }
 
