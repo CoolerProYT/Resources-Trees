@@ -1,0 +1,12 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "resourcestrees:item/blaze_essence",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": -2838985
+      }
+    ]
+  }
+}

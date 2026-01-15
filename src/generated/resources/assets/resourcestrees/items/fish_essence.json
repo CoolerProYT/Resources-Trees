@@ -1,0 +1,12 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "resourcestrees:item/fish_essence",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": -4085910
+      }
+    ]
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "resourcestrees:item/rabbit_essence",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": -7644629
+      }
+    ]
+  }
+}
