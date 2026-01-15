@@ -5,7 +5,7 @@ import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
 import com.coolerpromc.resourcestrees.item.ModItems;
 import com.coolerpromc.resourcestrees.registry.ModRegistries;
 import com.mojang.datafixers.util.Either;
-import com.mojang.serialization.*;
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
@@ -22,22 +22,14 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ItemLike;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-public record ResourcesTypes(Either<ResourceLocation, TagKey<Item>> material, int color, String translationKey, int weight, float saplingDropChance, float leafDropChance){
-    public ResourcesTypes(Item material, int color, String translationKey, int weight, float saplingDropChance, float leafDropChance) {
-        this(Either.left(BuiltInRegistries.ITEM.getKey(material)), color, translationKey, weight, saplingDropChance, leafDropChance);
-    }
-
-    public ResourcesTypes(TagKey<Item> material, int color, String translationKey, int weight, float saplingChance, float leafDropChance) {
-        this(Either.right(material), color, translationKey, weight, saplingChance, leafDropChance);
-    }
-
+public record ResourcesTypes(Either<ResourceLocation, TagKey<Item>> material, int color, int weight, float saplingDropChance, float leafDropChance, int treeSimulatorTicks) {
     public static final Codec<Either<ResourceLocation, TagKey<Item>>> MATERIAL_CODEC = Codec.either(
             ResourceLocation.CODEC,
             TagKey.hashedCodec(Registries.ITEM)
@@ -46,57 +38,25 @@ public record ResourcesTypes(Either<ResourceLocation, TagKey<Item>> material, in
     public static final Codec<ResourcesTypes> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             MATERIAL_CODEC.fieldOf("material").forGetter(ResourcesTypes::material),
             Codec.INT.fieldOf("color").forGetter(ResourcesTypes::color),
-            Codec.STRING.fieldOf("translationKey").forGetter(ResourcesTypes::translationKey),
             Codec.INT.fieldOf("weight").forGetter(ResourcesTypes::weight),
-            floatFieldWithLegacy("saplingDropChance", "saplingChance").forGetter(ResourcesTypes::saplingDropChance),
-            floatFieldWithLegacy("leafDropChance", "secondaryDropChance").forGetter(ResourcesTypes::leafDropChance)
+            Codec.FLOAT.fieldOf("saplingDropChance").forGetter(ResourcesTypes::saplingDropChance),
+            Codec.FLOAT.fieldOf("leafDropChance").forGetter(ResourcesTypes::leafDropChance),
+            Codec.INT.fieldOf("treeSimulatorTicks").forGetter(ResourcesTypes::treeSimulatorTicks)
     ).apply(instance, ResourcesTypes::new));
-
-    private static MapCodec<Float> floatFieldWithLegacy(String newName, String oldName) {
-        return new MapCodec<Float>() {
-            @Override
-            public <T> Stream<T> keys(DynamicOps<T> ops) {
-                return Stream.of(ops.createString(newName));
-            }
-
-            @Override
-            public <T> DataResult<Float> decode(DynamicOps<T> ops, MapLike<T> input) {
-                // Try new field name first
-                T newValue = input.get(newName);
-                if (newValue != null) {
-                    return ops.getNumberValue(newValue).map(Number::floatValue);
-                }
-
-                // Fallback to old field name
-                T oldValue = input.get(oldName);
-                if (oldValue != null) {
-                    return ops.getNumberValue(oldValue).map(Number::floatValue);
-                }
-
-                // Return error if neither exists
-                return DataResult.error(() -> "Missing field: " + newName + " or " + oldName);
-            }
-
-            @Override
-            public <T> RecordBuilder<T> encode(Float input, DynamicOps<T> ops, RecordBuilder<T> prefix) {
-                return prefix.add(newName, ops.createFloat(input));
-            }
-        };
-    }
 
     public static final StreamCodec<RegistryFriendlyByteBuf, ResourcesTypes> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.either(ResourceLocation.STREAM_CODEC, TagKey.streamCodec(Registries.ITEM)),
             ResourcesTypes::material,
             ByteBufCodecs.INT,
             ResourcesTypes::color,
-            ByteBufCodecs.STRING_UTF8,
-            ResourcesTypes::translationKey,
             ByteBufCodecs.INT,
             ResourcesTypes::weight,
             ByteBufCodecs.FLOAT,
             ResourcesTypes::saplingDropChance,
             ByteBufCodecs.FLOAT,
             ResourcesTypes::leafDropChance,
+            ByteBufCodecs.INT,
+            ResourcesTypes::treeSimulatorTicks,
             ResourcesTypes::new
     );
 
@@ -124,36 +84,80 @@ public record ResourcesTypes(Either<ResourceLocation, TagKey<Item>> material, in
     public static final ResourceKey<ResourcesTypes> NATURE = register("nature");
     public static final ResourceKey<ResourcesTypes> WATER = register("water");
     public static final ResourceKey<ResourcesTypes> ICE = register("ice");
+    public static final ResourceKey<ResourcesTypes> BEE = register("bee");
+    public static final ResourceKey<ResourcesTypes> SLIME = register("slime");
+    public static final ResourceKey<ResourcesTypes> SCULK = register("sculk");
+    public static final ResourceKey<ResourcesTypes> SKELETON = register("skeleton");
+    public static final ResourceKey<ResourcesTypes> SPIDER = register("spider");
+    public static final ResourceKey<ResourcesTypes> CHICKEN = register("chicken");
+    public static final ResourceKey<ResourcesTypes> COW = register("cow");
+    public static final ResourceKey<ResourcesTypes> RABBIT = register("rabbit");
+    public static final ResourceKey<ResourcesTypes> SQUID = register("squid");
+    public static final ResourceKey<ResourcesTypes> TURTLE = register("turtle");
+    public static final ResourceKey<ResourcesTypes> BLAZE = register("blaze");
+    public static final ResourceKey<ResourcesTypes> BREEZE = register("breeze");
+    public static final ResourceKey<ResourcesTypes> NETHER_STAR = register("nether_star");
+    public static final ResourceKey<ResourcesTypes> ENDER_PEARL = register("ender_pearl");
+    public static final ResourceKey<ResourcesTypes> SHULKER = register("shulker");
+    public static final ResourceKey<ResourcesTypes> DYE = register("dye");
+    public static final ResourceKey<ResourcesTypes> GUNPOWDER = register("gunpowder");
+    public static final ResourceKey<ResourcesTypes> GHAST = register("ghast");
+    public static final ResourceKey<ResourcesTypes> PIG = register("pig");
+    public static final ResourceKey<ResourcesTypes> SHEEP = register("sheep");
+    public static final ResourceKey<ResourcesTypes> FISH = register("fish");
+    public static final ResourceKey<ResourcesTypes> ZOMBIE = register("zombie");
 
     private static ResourceKey<ResourcesTypes> register(String name){
         return ResourceKey.create(ModRegistries.RESOURCES_TYPES_KEY, ResourceLocation.fromNamespaceAndPath(ResourcesTrees.MODID, name));
     }
 
-    public static void bootstrap(BootstrapContext<ResourcesTypes> context){
-        context.register(STONE, new ResourcesTypes(Items.COBBLESTONE, 0xFF4D4B49, "item.resourcestrees.stone", 5, 0.125f, 0.25f));
-        context.register(COAL, new ResourcesTypes(Items.COAL_BLOCK, 0xFF000000, "item.resourcestrees.coal", 5, 0.125f, 0.25f));
-        context.register(IRON, new ResourcesTypes(Items.IRON_BLOCK, 0xFFB0BEC5, "item.resourcestrees.iron", 5, 0.125f, 0.25f));
-        context.register(COPPER, new ResourcesTypes(Items.COPPER_BLOCK, 0xFFD46D44, "item.resourcestrees.copper", 5, 0.125f, 0.25f));
-        context.register(GOLD, new ResourcesTypes(Items.GOLD_BLOCK, 0xFFFFD600, "item.resourcestrees.gold", 5, 0.125f, 0.25f));
-        context.register(LAPIS, new ResourcesTypes(Items.LAPIS_BLOCK, 0xFF3F51B5, "item.resourcestrees.lapis", 5, 0.125f, 0.25f));
-        context.register(EMERALD, new ResourcesTypes(Items.EMERALD_BLOCK, 0xFF00C853, "item.resourcestrees.emerald", 5, 0.125f, 0.25f));
-        context.register(DIAMOND, new ResourcesTypes(Items.DIAMOND_BLOCK, 0xFF40C4FF, "item.resourcestrees.diamond", 3, 0.10f, 0.2f));
-        context.register(OBSIDIAN, new ResourcesTypes(Items.OBSIDIAN, 0xFF2E1A47, "item.resourcestrees.obsidian", 4, 0.125f, 0.25f));
-        context.register(AMETHYST, new ResourcesTypes(Items.AMETHYST_BLOCK, 0xFF9C27B0, "item.resourcestrees.amethyst", 5, 0.125f, 0.25f));
-        context.register(NETHERITE, new ResourcesTypes(Items.NETHERITE_BLOCK, 0xFF3E3E3E, "item.resourcestrees.netherite", 2, 0.075f, 0.15f));
-        context.register(WOOD, new ResourcesTypes(ItemTags.LOGS, 0xFF8D6E63, "item.resourcestrees.wood", 5, 0.125f, 0.25f));
-        context.register(QUARTZ, new ResourcesTypes(Items.QUARTZ_BLOCK, 0xFFF5F5F5, "item.resourcestrees.quartz", 5, 0.125f, 0.25f));
-        context.register(PRISMARINE, new ResourcesTypes(Items.PRISMARINE, 0xFF5EC8C8, "item.resourcestrees.prismarine", 5, 0.125f, 0.25f));
-        context.register(GLOWSTONE, new ResourcesTypes(Items.GLOWSTONE, 0xFFFFF176, "item.resourcestrees.glowstone", 5, 0.125f, 0.25f));
-        context.register(REDSTONE, new ResourcesTypes(Items.REDSTONE_BLOCK, 0xFFFF1744, "item.resourcestrees.redstone", 5, 0.125f, 0.25f));
-        context.register(DEEPSLATE, new ResourcesTypes(Items.DEEPSLATE, 0xFF2B2B24, "item.resourcestrees.deepslate", 5, 0.125f, 0.25f));
-        context.register(DIRT, new ResourcesTypes(Items.DIRT, 0xFF9B7653, "item.resourcestrees.dirt", 5, 0.25f, 0.125f));
-        context.register(FIRE, new ResourcesTypes(ModItems.FIRE_ESSENCE.get(), 0xFFE45323 , "item.resourcestrees.fire", 5, 0.125f, 0.25f));
-        context.register(NETHER, new ResourcesTypes(Items.NETHERRACK, 0xFF511515 , "item.resourcestrees.nether", 5, 0.125f, 0.25f));
-        context.register(END, new ResourcesTypes(ModItems.END_ESSENCE.get(), 0xFFC5BE8B , "item.resourcestrees.end", 5, 0.125f, 0.25f));
-        context.register(NATURE, new ResourcesTypes(ModItems.NATURE_ESSENCE.get(), 0xFF1a6e08 , "item.resourcestrees.nature", 5, 0.125f, 0.25f));
-        context.register(WATER, new ResourcesTypes(ModItems.WATER_ESSENCE.get(), 0xFF1787D4, "item.resourcestrees.water", 5, 0.125f, 0.25f));
-        context.register(ICE, new ResourcesTypes(Items.ICE, 0xFFb9e8ea, "item.resourcestrees.ice", 5, 0.25f, 0.125f));
+    public static void bootstrap(BootstrapContext<ResourcesTypes> context) {
+        context.register(STONE, new Builder(Items.COBBLESTONE, 0xFF4D4B49).treeSimulatorTicks(800).build());
+        context.register(COAL, new Builder(Items.COAL_BLOCK, 0xFF000000).treeSimulatorTicks(1000).build());
+        context.register(IRON, new Builder(Items.IRON_BLOCK, 0xFFB0BEC5).build());
+        context.register(COPPER, new Builder(Items.COPPER_BLOCK, 0xFFD46D44).build());
+        context.register(GOLD, new Builder(Items.GOLD_BLOCK, 0xFFFFD600).build());
+        context.register(LAPIS, new Builder(Items.LAPIS_BLOCK, 0xFF3F51B5).build());
+        context.register(EMERALD, new Builder(Items.EMERALD_BLOCK, 0xFF00C853).treeSimulatorTicks(1400).build());
+        context.register(DIAMOND, new Builder(Items.DIAMOND_BLOCK, 0xFF40C4FF).weight(3).saplingDropChance(0.1f).leafDropChance(0.2f).treeSimulatorTicks(1600).build());
+        context.register(OBSIDIAN, new Builder(Items.OBSIDIAN, 0xFF2E1A47).weight(4).build());
+        context.register(AMETHYST, new Builder(Items.AMETHYST_BLOCK, 0xFF9C27B0).treeSimulatorTicks(800).build());
+        context.register(NETHERITE, new Builder(Items.NETHERITE_BLOCK, 0xFF3E3E3E).weight(2).saplingDropChance(0.075f).leafDropChance(0.15f).treeSimulatorTicks(1800).build());
+        context.register(WOOD, new Builder(ItemTags.LOGS, 0xFF8D6E63).treeSimulatorTicks(800).build());
+        context.register(QUARTZ, new Builder(Items.QUARTZ_BLOCK, 0xFFF5F5F5).treeSimulatorTicks(800).build());
+        context.register(PRISMARINE, new Builder(Items.PRISMARINE, 0xFF5EC8C8).treeSimulatorTicks(800).build());
+        context.register(GLOWSTONE, new Builder(Items.GLOWSTONE, 0xFFFFF176).treeSimulatorTicks(800).build());
+        context.register(REDSTONE, new Builder(Items.REDSTONE_BLOCK, 0xFFFF1744).treeSimulatorTicks(1000).build());
+        context.register(DEEPSLATE, new Builder(Items.DEEPSLATE, 0xFF2B2B24).treeSimulatorTicks(800).build());
+        context.register(DIRT, new Builder(Items.DIRT, 0xFF9B7653).treeSimulatorTicks(800).build());
+        context.register(FIRE, new Builder(ModItems.FIRE_ESSENCE, 0xFFE45323).treeSimulatorTicks(800).build());
+        context.register(NETHER, new Builder(Items.NETHERRACK, 0xFF511515).treeSimulatorTicks(800).build());
+        context.register(END, new Builder(ModItems.END_ESSENCE, 0xFFC5BE8B).treeSimulatorTicks(800).build());
+        context.register(NATURE, new Builder(ModItems.NATURE_ESSENCE, 0xFF1a6e08).treeSimulatorTicks(800).build());
+        context.register(WATER, new Builder(ModItems.WATER_ESSENCE, 0xFF1787D4).treeSimulatorTicks(800).build());
+        context.register(ICE, new Builder(Items.ICE, 0xFFb9e8ea).treeSimulatorTicks(800).build());
+        context.register(BEE, new Builder(ModItems.BEE_ESSENCE, 0xFFEDC343).build());
+        context.register(SLIME, new Builder(Items.SLIME_BLOCK, 0xFF6aa84f).build());
+        context.register(SCULK, new Builder(ModItems.SCULK_ESSENCE, 0xFF041820).treeSimulatorTicks(1400).build());
+        context.register(SKELETON, new Builder(ModItems.SKELETON_ESSENCE, 0xFFeeeeee).build());
+        context.register(SPIDER, new Builder(ModItems.SPIDER_ESSENCE, 0xFF1a0c20).build());
+        context.register(CHICKEN, new Builder(ModItems.CHICKEN_ESSENCE, 0xFFA1A1A1).build());
+        context.register(COW, new Builder(ModItems.COW_ESSENCE, 0xFF543936).build());
+        context.register(RABBIT, new Builder(ModItems.RABBIT_ESSENCE, 0xFF8B5A2B).build());
+        context.register(SQUID, new Builder(ModItems.SQUID_ESSENCE, 0xFF223B4D).build());
+        context.register(TURTLE, new Builder(ModItems.TURTLE_ESSENCE, 0xFF315410).build());
+        context.register(BLAZE, new Builder(ModItems.BLAZE_ESSENCE, 0xFFd4ae37).build());
+        context.register(BREEZE, new Builder(ModItems.BREEZE_ESSENCE, 0xFFd5d6ff).build());
+        context.register(NETHER_STAR, new Builder(Items.NETHER_STAR, 0xFF211f1f).treeSimulatorTicks(2000).build());
+        context.register(ENDER_PEARL, new Builder(Items.ENDER_PEARL, 0xFF032620).treeSimulatorTicks(1400).build());
+        context.register(SHULKER, new Builder(Items.SHULKER_SHELL, 0xFFcfc2d6).treeSimulatorTicks(1400).build());
+        context.register(DYE, new Builder(ModItems.DYE_ESSENCE, 0xFF72d4b3).treeSimulatorTicks(800).build());
+        context.register(GUNPOWDER, new Builder(Items.GUNPOWDER, 0xFF414257).build());
+        context.register(GHAST, new Builder(ModItems.GHAST_ESSENCE, 0xFFF9F9F9).build());
+        context.register(PIG, new Builder(ModItems.PIG_ESSENCE, 0xFFF9A195).build());
+        context.register(SHEEP, new Builder(ModItems.SHEEP_ESSENCE, 0xFFFFFFFF).build());
+        context.register(FISH, new Builder(ModItems.FISH_ESSENCE, 0xFFC1A76A).build());
+        context.register(ZOMBIE, new Builder(ModItems.ZOMBIE_ESSENCE, 0xFF3e692d).build());
     }
 
     public static Map<ResourceLocation, Holder<ResourcesTypes>> getAllResourcesTypes(HolderLookup.Provider provider){
@@ -187,11 +191,62 @@ public record ResourcesTypes(Either<ResourceLocation, TagKey<Item>> material, in
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         ResourcesTypes that = (ResourcesTypes) o;
-        return color() == that.color() && weight() == that.weight() && Float.compare(saplingDropChance(), that.saplingDropChance()) == 0 && Float.compare(leafDropChance(), that.leafDropChance()) == 0 && Objects.equals(translationKey(), that.translationKey()) && Objects.equals(material(), that.material());
+        return color() == that.color() && weight() == that.weight() && Float.compare(saplingDropChance(), that.saplingDropChance()) == 0 && Float.compare(leafDropChance(), that.leafDropChance()) == 0 && Objects.equals(treeSimulatorTicks(), that.treeSimulatorTicks()) && Objects.equals(material(), that.material());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(material(), color(), translationKey(), weight(), saplingDropChance(), leafDropChance());
+        return Objects.hash(material(), color(), treeSimulatorTicks(), weight(), saplingDropChance(), leafDropChance());
+    }
+
+    public static class Builder {
+        private final Either<ResourceLocation, TagKey<Item>> material;
+        private final int color;
+        private int weight;
+        private float saplingDropChance;
+        private float leafDropChance;
+        private int treeSimulatorTicks;
+
+        public Builder(ItemLike material, int color) {
+            this.material = Either.left(BuiltInRegistries.ITEM.getKey(material.asItem()));
+            this.color = color;
+            this.weight = 5;
+            this.saplingDropChance = 0.125f;
+            this.leafDropChance = 0.25f;
+            this.treeSimulatorTicks = 1200;
+        }
+
+        public Builder(TagKey<Item> material, int color) {
+            this.material = Either.right(material);
+            this.color = color;
+            this.weight = 5;
+            this.saplingDropChance = 0.125f;
+            this.leafDropChance = 0.25f;
+            this.treeSimulatorTicks = 1200;
+        }
+
+        public Builder weight(int weight) {
+            this.weight = weight;
+            return this;
+        }
+
+        public Builder saplingDropChance(float saplingDropChance) {
+            this.saplingDropChance = saplingDropChance;
+            return this;
+        }
+
+        public Builder leafDropChance(float leafDropChance) {
+            this.leafDropChance = leafDropChance;
+            return this;
+        }
+
+        public Builder treeSimulatorTicks(int treeSimulatorTicks) {
+            this.treeSimulatorTicks = treeSimulatorTicks;
+            return this;
+        }
+
+        public ResourcesTypes build() {
+            return new ResourcesTypes(material, color, weight, saplingDropChance, leafDropChance, treeSimulatorTicks);
+        }
     }
 }

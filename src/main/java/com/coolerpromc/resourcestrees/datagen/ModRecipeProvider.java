@@ -61,22 +61,7 @@ public class ModRecipeProvider extends RecipeProvider {
     @Override
     protected void buildRecipes() {
         // Leaf Fragment to resources recipes
-        circleShape(Items.COBBLESTONE, 12, ResourcesTypes.STONE);
-        circleSurroundedShape(Items.STONE, 12, ResourcesTypes.STONE, ResourcesTypes.COAL);
-        circleShape(Items.COAL, 12, ResourcesTypes.COAL);
-        circleShape(Items.IRON_INGOT, 6, ResourcesTypes.IRON);
-        circleShape(Items.COPPER_INGOT, 8, ResourcesTypes.COPPER);
-        circleShape(Items.GOLD_INGOT, 6, ResourcesTypes.GOLD);
-        circleShape(Items.LAPIS_LAZULI, 12, ResourcesTypes.LAPIS);
-        cubeShape(Items.EMERALD, 4, ResourcesTypes.EMERALD);
-        cubeShape(Items.DIAMOND, 4, ResourcesTypes.DIAMOND);
-        circleShape(Items.OBSIDIAN, 6, ResourcesTypes.OBSIDIAN);
-        lineShape(Items.AMETHYST_SHARD, 6, ResourcesTypes.AMETHYST);
-        cubeShape(Items.NETHERITE_INGOT, 1, ResourcesTypes.NETHERITE);
-        lineShape(Items.QUARTZ, 8, ResourcesTypes.QUARTZ);
-        lineShape(Items.PRISMARINE_SHARD, 8, ResourcesTypes.PRISMARINE);
-        lineShape(Items.GLOWSTONE_DUST, 8, ResourcesTypes.GLOWSTONE);
-        circleShape(Items.REDSTONE, 12, ResourcesTypes.REDSTONE);
+        // Logs
         customShape(Items.OAK_LOG, 8, ResourcesTypes.WOOD, " A ", " A ", " A ");
         lineShape(Items.BIRCH_LOG, 8, ResourcesTypes.WOOD);
         customShape(Items.JUNGLE_LOG, 8, ResourcesTypes.WOOD, "A  ", " A ", "  A");
@@ -84,33 +69,60 @@ public class ModRecipeProvider extends RecipeProvider {
         customShape(Items.ACACIA_LOG, 8, ResourcesTypes.WOOD, "  A", " A ", " A ");
         customShape(Items.DARK_OAK_LOG, 8, ResourcesTypes.WOOD, "A  ", " A ", " A ");
         customShape(Items.CHERRY_LOG, 8, ResourcesTypes.WOOD, " A ", " A ", "A  ");
-        customShape(Items.PALE_OAK_LOG, 8, ResourcesTypes.WOOD, " A ", " A ", "  A");
         customShape(Items.BAMBOO_BLOCK, 8, ResourcesTypes.WOOD, "   ", "AA ", "  A");
         customShape(Items.CRIMSON_STEM, 8, ResourcesTypes.WOOD, "A  ", " AA", "   ");
         customShape(Items.WARPED_STEM, 8, ResourcesTypes.WOOD, "   ", " AA", "A  ");
-        circleShape(Items.COBBLED_DEEPSLATE, 12, ResourcesTypes.DEEPSLATE);
+
+        // Stones
+        circleSurroundedShape(Items.STONE, 12, ResourcesTypes.STONE, ResourcesTypes.COAL);
+        circleShape(Items.COBBLESTONE, 12, ResourcesTypes.STONE);
         circleSurroundedShape(Items.DEEPSLATE, 12, ResourcesTypes.DEEPSLATE, ResourcesTypes.COAL);
+        circleShape(Items.COBBLED_DEEPSLATE, 12, ResourcesTypes.DEEPSLATE);
         circleSurroundedShape(Items.TUFF, 12, ResourcesTypes.STONE, ResourcesTypes.DEEPSLATE);
-        circleShape(Items.DIRT, 12, ResourcesTypes.DIRT);
-        twoByTwoShape(Items.SAND, 8, ResourcesTypes.DIRT, ResourcesTypes.FIRE);
-        circleSurroundedShapeWithItem(Items.RED_SAND, 8, ResourcesTypes.FIRE, Items.SAND);
         circleShape(Items.NETHERRACK, 12, ResourcesTypes.NETHER);
         circleSurroundedShape(Items.BASALT, 12, ResourcesTypes.NETHER, ResourcesTypes.STONE);
         circleSurroundedShape(Items.END_STONE, 12, ResourcesTypes.END, ResourcesTypes.STONE);
+
+        // Natural Blocks
         circleSurroundedShape(Items.GRASS_BLOCK, 12, ResourcesTypes.DIRT, ResourcesTypes.NATURE);
         twoItemCustomShape(Items.PODZOL, 12, ResourcesTypes.DIRT, ResourcesTypes.WOOD, "AAA", "ABA", "AAA");
         circleSurroundedShapeWithItem(Items.MYCELIUM, 12, ResourcesTypes.DIRT, Items.BROWN_MUSHROOM_BLOCK);
-        twoByTwoShape(Items.CLAY, 8, ResourcesTypes.DIRT, ResourcesTypes.WATER);
+        circleShape(Items.DIRT, 12, ResourcesTypes.DIRT);
         circleSurroundedShapeWithItem(Items.MUD, 12, ResourcesTypes.WATER, Items.CLAY_BALL);
+        twoByTwoShape(Items.CLAY_BALL, 12, ResourcesTypes.DIRT, ResourcesTypes.WATER);
         circleSurroundedShapeWithItem(Items.GRAVEL, 12, ResourcesTypes.STONE, Items.SAND);
+        twoByTwoShape(Items.SAND, 8, ResourcesTypes.DIRT, ResourcesTypes.FIRE);
+        circleSurroundedShapeWithItem(Items.RED_SAND, 8, ResourcesTypes.FIRE, Items.SAND);
         circleShape(Items.ICE, 12, ResourcesTypes.ICE);
-        circleSurroundedShape(Items.SNOW, 12, ResourcesTypes.ICE, ResourcesTypes.WATER);
+        circleSurroundedShape(Items.SNOWBALL, 12, ResourcesTypes.ICE, ResourcesTypes.WATER);
         circleSurroundedShape(Items.MOSS_BLOCK, 12, ResourcesTypes.NATURE, ResourcesTypes.DIRT);
+        twoByTwoShape(Items.DRIPSTONE_BLOCK, 8, ResourcesTypes.WATER, ResourcesTypes.STONE);
+        twoItemCustomShape(Items.POINTED_DRIPSTONE, 12, ResourcesTypes.WATER, ResourcesTypes.STONE, "B B", "B B", " A ");
         circleSurroundedShape(Items.MAGMA_BLOCK, 12, ResourcesTypes.NETHER, ResourcesTypes.FIRE);
+        circleShape(Items.OBSIDIAN, 6, ResourcesTypes.OBSIDIAN);
+        circleSurroundedShape(Items.CRYING_OBSIDIAN, 8, ResourcesTypes.OBSIDIAN, ResourcesTypes.NETHER);
         twoItemCustomShape(Items.CRIMSON_NYLIUM, 12, ResourcesTypes.NETHER, ResourcesTypes.NATURE, "BBB", "ABA", "AAA");
         twoItemCustomShape(Items.WARPED_NYLIUM, 12, ResourcesTypes.NETHER, ResourcesTypes.NATURE, "BBB", "BAB", "AAA");
         circleSurroundedShapeWithItem(Items.SOUL_SAND, 12, ResourcesTypes.NETHER, Items.SAND);
         circleSurroundedShape(Items.SOUL_SOIL, 12, ResourcesTypes.NETHER, ResourcesTypes.DIRT);
+
+        // Minerals
+        circleShape(Items.COAL, 12, ResourcesTypes.COAL);
+        circleShape(Items.IRON_INGOT, 6, ResourcesTypes.IRON);
+        circleShape(Items.COPPER_INGOT, 8, ResourcesTypes.COPPER);
+        circleShape(Items.GOLD_INGOT, 6, ResourcesTypes.GOLD);
+        circleShape(Items.LAPIS_LAZULI, 12, ResourcesTypes.LAPIS);
+        cubeShape(Items.EMERALD, 4, ResourcesTypes.EMERALD);
+        cubeShape(Items.DIAMOND, 4, ResourcesTypes.DIAMOND);
+        lineShape(Items.AMETHYST_SHARD, 6, ResourcesTypes.AMETHYST);
+        cubeShape(Items.NETHERITE_INGOT, 1, ResourcesTypes.NETHERITE);
+        lineShape(Items.QUARTZ, 8, ResourcesTypes.QUARTZ);
+        lineShape(Items.PRISMARINE_SHARD, 8, ResourcesTypes.PRISMARINE);
+        lineShape(Items.GLOWSTONE_DUST, 8, ResourcesTypes.GLOWSTONE);
+        circleShape(Items.REDSTONE, 12, ResourcesTypes.REDSTONE);
+        twoByTwoShape(Items.FLINT, 8, ResourcesTypes.STONE, ResourcesTypes.DIRT);
+
+        // Saplings
         twoItemCustomShape(Items.OAK_SAPLING, 6, ResourcesTypes.WOOD, ResourcesTypes.NATURE, "   ", "ABA", "   ");
         twoItemCustomShape(Items.SPRUCE_SAPLING, 6, ResourcesTypes.WOOD, ResourcesTypes.NATURE, " A ", " B ", " A ");
         twoItemCustomShape(Items.BIRCH_SAPLING, 6, ResourcesTypes.WOOD, ResourcesTypes.NATURE, "A  ", " B ", "  A");
@@ -119,24 +131,94 @@ public class ModRecipeProvider extends RecipeProvider {
         twoItemCustomShape(Items.DARK_OAK_SAPLING, 6, ResourcesTypes.WOOD, ResourcesTypes.NATURE, "A  ", " B ", " A ");
         twoItemCustomShape(Items.MANGROVE_PROPAGULE, 6, ResourcesTypes.WOOD, ResourcesTypes.NATURE, " A ", " B ", "  A");
         twoItemCustomShape(Items.CHERRY_SAPLING, 6, ResourcesTypes.WOOD, ResourcesTypes.NATURE, " A ", " B ", "A  ");
-        twoItemCustomShape(Items.PALE_OAK_SAPLING, 6, ResourcesTypes.WOOD, ResourcesTypes.NATURE, "   ", " BA", "A  ");
+        twoItemCustomShape(Items.AZALEA, 6, ResourcesTypes.WOOD, ResourcesTypes.NATURE, " B ", " B ", "A  ");
+        twoItemCustomShape(Items.FLOWERING_AZALEA, 6, ResourcesTypes.WOOD, ResourcesTypes.NATURE, " A ", " B ", "B  ");
         twoItemCustomShape(Items.BROWN_MUSHROOM, 6, ResourcesTypes.NATURE, ResourcesTypes.DIRT, " A ", " B ", "A  ");
         twoItemCustomShape(Items.RED_MUSHROOM, 6, ResourcesTypes.NATURE, ResourcesTypes.DIRT, "ABA", "   ", "   ");
         twoItemCustomShape(Items.CRIMSON_FUNGUS, 6, ResourcesTypes.NATURE, ResourcesTypes.NETHER, "ABA", "   ", "   ");
         twoItemCustomShape(Items.WARPED_FUNGUS, 6, ResourcesTypes.NATURE, ResourcesTypes.NETHER, " A ", " B ", " A ");
+
+        // Plants
+        twoItemCustomShape(Items.BAMBOO, 12, ResourcesTypes.NATURE, ResourcesTypes.WOOD, " A ", " B ", " A ");
         customShape(Items.SUGAR_CANE, 12, ResourcesTypes.NATURE, "A A", "A A", "A A");
         customShape(Items.CACTUS, 12, ResourcesTypes.NATURE, "AA ", "AA ", "   ");
+        twoItemCustomShape(Items.WEEPING_VINES, 12, ResourcesTypes.NATURE, ResourcesTypes.NETHER, "A A", "B B", "A A");
+        twoItemCustomShape(Items.TWISTING_VINES, 6, ResourcesTypes.NATURE, ResourcesTypes.NETHER, "A  ", " B ", "  A");
+        customShape(Items.VINE, 6, ResourcesTypes.NATURE, "A A", "AAA", "A A");
         twoByTwoShape(Items.CHORUS_PLANT, 8, ResourcesTypes.END, ResourcesTypes.NATURE);
+        circleSurroundedShape(Items.CHORUS_FLOWER, 6, ResourcesTypes.END, ResourcesTypes.NATURE);
+        twoByTwoShape(Items.GLOW_BERRIES, 8, ResourcesTypes.NATURE, ResourcesTypes.GLOWSTONE);
+        twoByTwoShape(Items.SWEET_BERRIES, 8, ResourcesTypes.NATURE, ResourcesTypes.FIRE);
+        twoByTwoShape(Items.NETHER_WART, 8, ResourcesTypes.NETHER, ResourcesTypes.NATURE);
         lineShape(Items.LILY_PAD, 12, ResourcesTypes.NATURE);
         twoItemCustomShape(Items.KELP, 12, ResourcesTypes.NATURE, ResourcesTypes.WATER, "  A", " B ", "A  ");
-        customShape(Items.PUMPKIN, 12, ResourcesTypes.NATURE, "AAA", "AAA", "   ");
-        customShape(Items.APPLE, 12, ResourcesTypes.NATURE, "AAA", "A A", "AAA");
         customShape(Items.MELON_SLICE, 12, ResourcesTypes.NATURE, "A  ", " A ", "  A");
-        customShape(Items.SWEET_BERRIES, 12, ResourcesTypes.NATURE, "  A", " A ", "A  ");
+        customShape(Items.PUMPKIN, 12, ResourcesTypes.NATURE, "AAA", "AAA", "   ");
+        customShape(Items.WHEAT, 12, ResourcesTypes.NATURE, "  A", "AA ", "   ");
+        lineShape(Items.HONEYCOMB, 8, ResourcesTypes.BEE);
+        circleShape(Items.HONEY_BLOCK, 8, ResourcesTypes.BEE);
+        lineShape(Items.SLIME_BALL, 8, ResourcesTypes.SLIME);
+        circleShape(Items.SCULK, 4, ResourcesTypes.SCULK);
+        circleSurroundedShape(Items.SCULK_CATALYST, 4, ResourcesTypes.SCULK, ResourcesTypes.STONE);
+        twoItemCustomShape(Items.SCULK_SHRIEKER, 2, ResourcesTypes.SCULK, ResourcesTypes.STONE, "B B", "B B", "AAA");
+        customShape(Items.SCULK_SENSOR, 2, ResourcesTypes.SCULK, "   ", " A ", "AAA");
+        straightShape(Items.ECHO_SHARD, 4, ResourcesTypes.SCULK);
+
+        // Mob Drops
+        lineShape(Items.BONE, 8, ResourcesTypes.SKELETON);
+        lineShape(Items.STRING, 8, ResourcesTypes.SPIDER);
+        circleShape(Items.SPIDER_EYE, 8, ResourcesTypes.SPIDER);
+        lineShape(Items.EGG, 8, ResourcesTypes.CHICKEN);
+        straightShape(Items.FEATHER, 8, ResourcesTypes.CHICKEN);
+        customShape(Items.CHICKEN, 8, ResourcesTypes.CHICKEN, "A  ", " A ", "  A");
+        lineShape(Items.LEATHER, 8, ResourcesTypes.COW);
+        straightShape(Items.BEEF, 8, ResourcesTypes.COW);
+        lineShape(Items.RABBIT, 8, ResourcesTypes.RABBIT);
+        straightShape(Items.RABBIT_HIDE, 8, ResourcesTypes.RABBIT);
+        customShape(Items.RABBIT_FOOT, 8, ResourcesTypes.RABBIT, "  A", " A ", "A  ");
+        lineShape(Items.INK_SAC, 8, ResourcesTypes.SQUID);
+        twoItemCustomShape(Items.GLOW_INK_SAC, 8, ResourcesTypes.SQUID, ResourcesTypes.GLOWSTONE, "   ", "ABA", "   ");
+        lineShape(Items.TURTLE_SCUTE, 8, ResourcesTypes.TURTLE);
+        straightShape(Items.TURTLE_EGG, 8, ResourcesTypes.TURTLE);
+        straightShape(Items.PRISMARINE_CRYSTALS, 8, ResourcesTypes.PRISMARINE);
+        straightShape(Items.BLAZE_ROD, 8, ResourcesTypes.BLAZE);
+        straightShape(Items.BREEZE_ROD, 8, ResourcesTypes.BREEZE);
+        lineShape(Items.ENDER_PEARL, 8, ResourcesTypes.ENDER_PEARL);
+        customShape(Items.SHULKER_SHELL, 4, ResourcesTypes.SHULKER, "AAA", "A A", "   ");
+        lineShape(Items.GUNPOWDER, 8, ResourcesTypes.GUNPOWDER);
+        lineShape(Items.GHAST_TEAR, 6, ResourcesTypes.GHAST);
+        lineShape(Items.PORKCHOP, 8, ResourcesTypes.PIG);
+        lineShape(Items.MUTTON, 8, ResourcesTypes.SHEEP);
+        customShape(Items.WHITE_WOOL, 8, ResourcesTypes.SHEEP, "AA ", "AA ", "   ");
+        lineShape(Items.COD, 8, ResourcesTypes.FISH);
+        straightShape(Items.SALMON, 8, ResourcesTypes.FISH);
+        customShape(Items.TROPICAL_FISH, 8, ResourcesTypes.FISH, "A  ", " A ", "  A");
+        customShape(Items.PUFFERFISH, 8, ResourcesTypes.FISH, "  A", " A ", "A  ");
+        lineShape(Items.ROTTEN_FLESH, 8, ResourcesTypes.ZOMBIE);
+
+        // Dyes
+        lineShape(Items.WHITE_DYE, 8, ResourcesTypes.DYE);
+        straightShape(Items.LIGHT_GRAY_DYE, 8, ResourcesTypes.DYE);
+        customShape(Items.GRAY_DYE, 8, ResourcesTypes.DYE, "A  ", " A ", "  A");
+        customShape(Items.BLACK_DYE, 8, ResourcesTypes.DYE, "  A", " A ", "A  ");
+        customShape(Items.BROWN_DYE, 8, ResourcesTypes.DYE, " A ", " A ", "A  ");
+        customShape(Items.RED_DYE, 8, ResourcesTypes.DYE, " A ", " A ", "  A");
+        customShape(Items.ORANGE_DYE, 8, ResourcesTypes.DYE, "   ", "AA ", "  A");
+        customShape(Items.YELLOW_DYE, 8, ResourcesTypes.DYE, "   ", " AA", "A  ");
+        customShape(Items.LIME_DYE, 8, ResourcesTypes.DYE, "AA ", "A  ", "   ");
+        customShape(Items.GREEN_DYE, 8, ResourcesTypes.DYE, " AA", "  A", "   ");
+        customShape(Items.CYAN_DYE, 8, ResourcesTypes.DYE, "   ", "  A", " AA");
+        customShape(Items.LIGHT_BLUE_DYE, 8, ResourcesTypes.DYE, "   ", "A  ", "AA ");
+        customShape(Items.BLUE_DYE, 8, ResourcesTypes.DYE, "  A", "   ", "AA ");
+        customShape(Items.PURPLE_DYE, 8, ResourcesTypes.DYE, "A  ", "   ", " AA");
+        customShape(Items.MAGENTA_DYE, 8, ResourcesTypes.DYE, "A  ", "  A", "  A");
+        customShape(Items.PINK_DYE, 8, ResourcesTypes.DYE, "  A", "A  ", "A  ");
+
+        // Foods
+        customShape(Items.APPLE, 12, ResourcesTypes.NATURE, "AAA", "A A", "AAA");
         customShape(Items.CARROT, 12, ResourcesTypes.NATURE, " A ", " A ", " A ");
         customShape(Items.POTATO, 12, ResourcesTypes.NATURE, "   ", " AA", "A  ");
         customShape(Items.BEETROOT, 12, ResourcesTypes.NATURE, "  A", " AA", "A  ");
-        customShape(Items.WHEAT, 12, ResourcesTypes.NATURE, "  A", "AA ", "   ");
 
         // Block Recipe
         ShapedRecipeBuilder.shaped(items, RecipeCategory.BUILDING_BLOCKS, ModBlocks.TREE_SIMULATOR, 1)
@@ -144,16 +226,33 @@ public class ModRecipeProvider extends RecipeProvider {
                 .pattern("ABA")
                 .pattern("AAA")
                 .define('A', Items.CYAN_TERRACOTTA)
-                .define('B', Items.GRASS_BLOCK)
-                .unlockedBy(getHasName(Items.GRASS_BLOCK), has(Items.GRASS_BLOCK))
+                .define('B', Items.DIRT)
+                .unlockedBy(getHasName(Items.DIRT), has(Items.DIRT))
                 .unlockedBy(getHasName(Items.CYAN_TERRACOTTA), has(Items.CYAN_TERRACOTTA))
                 .save(output);
 
         // Item Recipe
-        essenceItem(ModItems.FIRE_ESSENCE.get(), Items.FIRE_CHARGE, Items.MAGMA_BLOCK, Items.LAVA_BUCKET);
-        essenceItem(ModItems.NATURE_ESSENCE.get(), Items.GRASS_BLOCK, Items.MOSS_BLOCK, Items.PUMPKIN, Items.MELON, Items.SUGAR_CANE, Items.CACTUS, Items.WHEAT, Items.CARROT, Items.POTATO);
-        essenceItem(ModItems.END_ESSENCE.get(), Items.END_STONE, Items.CHORUS_FRUIT, Items.CHORUS_PLANT, Items.PURPUR_BLOCK);
-        essenceItem(ModItems.WATER_ESSENCE.get(), Items.WATER_BUCKET, Items.KELP, Items.SEAGRASS, Items.CLAY_BALL);
+        essenceItem(ModItems.FIRE_ESSENCE, Items.FIRE_CHARGE, Items.MAGMA_BLOCK, Items.LAVA_BUCKET);
+        essenceItem(ModItems.NATURE_ESSENCE, Items.MOSS_BLOCK, Items.SUGAR_CANE, Items.CACTUS, Items.WHEAT, Items.CARROT, Items.POTATO);
+        essenceItem(ModItems.END_ESSENCE, Items.END_STONE, Items.CHORUS_FRUIT, Items.CHORUS_PLANT, Items.PURPUR_BLOCK);
+        essenceItem(ModItems.WATER_ESSENCE, Items.WATER_BUCKET, Items.KELP, Items.SEAGRASS, Items.CLAY_BALL);
+        essenceItem(ModItems.BEE_ESSENCE, Items.HONEY_BLOCK, Items.HONEYCOMB_BLOCK, Items.HONEY_BLOCK, Items.HONEYCOMB_BLOCK);
+        essenceItem(ModItems.SCULK_ESSENCE, Items.SCULK, Items.SCULK_CATALYST, Items.SCULK_SENSOR, Items.SCULK_SHRIEKER, Items.ECHO_SHARD, Items.ECHO_SHARD);
+        essenceItem(ModItems.SKELETON_ESSENCE, Items.BONE, Items.BONE, Items.BONE, Items.BONE);
+        essenceItem(ModItems.SPIDER_ESSENCE, Items.SPIDER_EYE, Items.SPIDER_EYE, Items.STRING, Items.STRING, Items.SPIDER_EYE, Items.SPIDER_EYE, Items.STRING, Items.STRING);
+        essenceItem(ModItems.CHICKEN_ESSENCE, Items.CHICKEN, Items.CHICKEN, Items.FEATHER, Items.FEATHER, Items.EGG, Items.EGG);
+        essenceItem(ModItems.COW_ESSENCE, Items.LEATHER, Items.LEATHER, Items.LEATHER, Items.BEEF, Items.BEEF, Items.BEEF);
+        essenceItem(ModItems.RABBIT_ESSENCE, Items.RABBIT_HIDE, Items.RABBIT_HIDE, Items.RABBIT, Items.RABBIT, Items.RABBIT_FOOT, Items.RABBIT_FOOT);
+        essenceItem(ModItems.SQUID_ESSENCE, Items.INK_SAC, Items.INK_SAC, Items.INK_SAC, Items.GLOW_INK_SAC, Items.GLOW_INK_SAC, Items.GLOW_INK_SAC);
+        essenceItem(ModItems.TURTLE_ESSENCE, Items.TURTLE_EGG, Items.TURTLE_EGG, Items.TURTLE_EGG, Items.TURTLE_SCUTE, Items.TURTLE_SCUTE, Items.TURTLE_SCUTE);
+        essenceItem(ModItems.BLAZE_ESSENCE, Items.BLAZE_ROD, Items.BLAZE_ROD, Items.BLAZE_ROD, Items.BLAZE_ROD);
+        essenceItem(ModItems.BREEZE_ESSENCE, Items.BREEZE_ROD, Items.BREEZE_ROD, Items.BREEZE_ROD, Items.BREEZE_ROD);
+        essenceItem(ModItems.DYE_ESSENCE, Items.LIME_DYE, Items.LIGHT_BLUE_DYE, Items.CYAN_DYE, Items.PURPLE_DYE);
+        essenceItem(ModItems.GHAST_ESSENCE, Items.GHAST_TEAR, Items.GHAST_TEAR, Items.GHAST_TEAR, Items.GHAST_TEAR);
+        essenceItem(ModItems.PIG_ESSENCE, Items.PORKCHOP, Items.PORKCHOP, Items.PORKCHOP, Items.PORKCHOP);
+        essenceItem(ModItems.SHEEP_ESSENCE, Items.MUTTON, Items.MUTTON, Items.WHITE_WOOL, Items.WHITE_WOOL);
+        essenceItem(ModItems.FISH_ESSENCE, Items.COD, Items.SALMON, Items.TROPICAL_FISH, Items.PUFFERFISH);
+        essenceItem(ModItems.ZOMBIE_ESSENCE, Items.ROTTEN_FLESH, Items.ROTTEN_FLESH, Items.ROTTEN_FLESH, Items.ROTTEN_FLESH);
 
         // Saplings & Tree Simulator recipes
         ResourcesTypes.getAllResourcesTypes(lookupProvider).forEach((key, value) -> {
@@ -194,14 +293,13 @@ public class ModRecipeProvider extends RecipeProvider {
 
                             TreeSimulatorRecipeBuilder.builder()
                                     .setTree(sapling)
-                                    .addDrops(TreeSimulatorOutput.of(TreeSimulatorBlockEntity.LOG_BY_SAPLINGS.get(resourcesSaplingBlock).getDefaultInstance(), 1, 2, 4))
+                                    .addDrops(TreeSimulatorOutput.of(TreeSimulatorBlockEntity.LOG_BY_SAPLINGS.get(resourcesSaplingBlock).getDefaultInstance(), 0.5f, 1, 4))
                                     .addDrops(TreeSimulatorOutput.of(leaf, 1, 1, 1))
-                                    .addDrops(TreeSimulatorOutput.of(leaf, value.value().leafDropChance(), 1, 1))
+                                    .addDrops(TreeSimulatorOutput.of(leaf, value.value().leafDropChance(), 1, 4))
                                     .addDrops(TreeSimulatorOutput.of(sapling, value.value().saplingDropChance(), 1, 1))
                                     .addDrops(TreeSimulatorOutput.of(Items.STICK.getDefaultInstance(), 0.1f, 1, 2))
                                     .addDrops(TreeSimulatorOutput.of(Items.APPLE.getDefaultInstance(), 0.05f, 1, 1))
-                                    .addDrops(TreeSimulatorOutput.of(SAPLINGS_BY_SAPLINGS.get(resourcesSaplingBlock).getDefaultInstance(), 0.1f, 1, 1))
-                                    .setTicksToGrow(1200)
+                                    .setTicksToGrow(value.value().treeSimulatorTicks())
                                     .save(output, ResourceKey.create(Registries.RECIPE, key.withSuffix(BuiltInRegistries.BLOCK.getKey(resourcesSaplingBlock).getPath().substring(9)).withPrefix("tree_simulator/")));
                         }
                     }
@@ -212,8 +310,8 @@ public class ModRecipeProvider extends RecipeProvider {
         });
     }
 
-    private void essenceItem(Item ouputItem, Item... inputItems){
-        ShapelessRecipeBuilder builder = ShapelessRecipeBuilder.shapeless(items, RecipeCategory.MISC, ouputItem, 1);
+    private void essenceItem(ItemLike outputItem, Item... inputItems){
+        ShapelessRecipeBuilder builder = ShapelessRecipeBuilder.shapeless(items, RecipeCategory.MISC, outputItem, 1);
 
         for (Item item : inputItems){
             builder.requires(item);
@@ -284,6 +382,16 @@ public class ModRecipeProvider extends RecipeProvider {
                 .pattern("   ")
                 .pattern("AAA")
                 .pattern("   ")
+                .define('A', DataComponentIngredient.of(true, ModDataComponents.TYPE.get(), types.getOrThrow(resourceType), ModItems.LEAF_FRAGMENT))
+                .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType).key().location()), has(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType)))
+                .save(output, ResourceKey.create(Registries.RECIPE, resourceType.location().withSuffix("_fragment_to_" + getItemName(outputItem)).withPrefix("fragment_crafting/")));
+    }
+
+    private void straightShape(Item outputItem, int count, ResourceKey<ResourcesTypes> resourceType){
+        StrictShapedRecipeBuilder.shaped(items, RecipeCategory.BUILDING_BLOCKS, outputItem, count)
+                .pattern(" A ")
+                .pattern(" A ")
+                .pattern(" A ")
                 .define('A', DataComponentIngredient.of(true, ModDataComponents.TYPE.get(), types.getOrThrow(resourceType), ModItems.LEAF_FRAGMENT))
                 .unlockedBy(getHasName(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType).key().location()), has(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType)))
                 .save(output, ResourceKey.create(Registries.RECIPE, resourceType.location().withSuffix("_fragment_to_" + getItemName(outputItem)).withPrefix("fragment_crafting/")));
