@@ -1,0 +1,8 @@
+{
+  "color": -12500393,
+  "leafDropChance": 0.25,
+  "material": "minecraft:gunpowder",
+  "saplingDropChance": 0.125,
+  "treeSimulatorTicks": 1200,
+  "weight": 5
+}

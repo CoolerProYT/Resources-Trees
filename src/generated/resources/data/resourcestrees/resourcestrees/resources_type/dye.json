@@ -1,0 +1,8 @@
+{
+  "color": -9251661,
+  "leafDropChance": 0.25,
+  "material": "resourcestrees:dye_essence",
+  "saplingDropChance": 0.125,
+  "treeSimulatorTicks": 800,
+  "weight": 5
+}

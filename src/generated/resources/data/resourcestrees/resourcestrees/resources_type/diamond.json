@@ -3,6 +3,6 @@
   "leafDropChance": 0.2,
   "material": "minecraft:diamond_block",
   "saplingDropChance": 0.1,
-  "translationKey": "item.resourcestrees.diamond",
+  "treeSimulatorTicks": 1600,
   "weight": 3
 }
