@@ -108,6 +108,23 @@ public class ModModelProvider extends ModelProvider {
                 this.generateTintedEssenceItem(ModItems.WATER_ESSENCE.get(), ItemModelUtils.constantTint(0xFF1787D4));
                 this.generateTintedEssenceItem(ModItems.NATURE_ESSENCE.get(), ItemModelUtils.constantTint(0xFF1a6e08));
                 this.generateTintedEssenceItem(ModItems.END_ESSENCE.get(), ItemModelUtils.constantTint(0xFFC5BE8B));
+                this.generateTintedEssenceItem(ModItems.BEE_ESSENCE.get(), ItemModelUtils.constantTint(0xFFEDC343));
+                this.generateTintedEssenceItem(ModItems.SCULK_ESSENCE.get(), ItemModelUtils.constantTint(0xFF041820));
+                this.generateTintedEssenceItem(ModItems.SKELETON_ESSENCE.get(), ItemModelUtils.constantTint(0xFFeeeeee));
+                this.generateTintedEssenceItem(ModItems.SPIDER_ESSENCE.get(), ItemModelUtils.constantTint(0xFF1a0c20));
+                this.generateTintedEssenceItem(ModItems.CHICKEN_ESSENCE.get(), ItemModelUtils.constantTint(0xFFA1A1A1));
+                this.generateTintedEssenceItem(ModItems.COW_ESSENCE.get(), ItemModelUtils.constantTint(0xFF543936));
+                this.generateTintedEssenceItem(ModItems.RABBIT_ESSENCE.get(), ItemModelUtils.constantTint(0xFF8B5A2B));
+                this.generateTintedEssenceItem(ModItems.SQUID_ESSENCE.get(), ItemModelUtils.constantTint(0xFF223B4D));
+                this.generateTintedEssenceItem(ModItems.TURTLE_ESSENCE.get(), ItemModelUtils.constantTint(0xFF315410));
+                this.generateTintedEssenceItem(ModItems.BLAZE_ESSENCE.get(), ItemModelUtils.constantTint(0xFFd4ae37));
+                this.generateTintedEssenceItem(ModItems.BREEZE_ESSENCE.get(), ItemModelUtils.constantTint(0xFFd5d6ff));
+                this.generateTintedEssenceItem(ModItems.DYE_ESSENCE.get(), ItemModelUtils.constantTint(0xFF72d4b3));
+                this.generateTintedEssenceItem(ModItems.GHAST_ESSENCE.get(), ItemModelUtils.constantTint(0xFFF9F9F9));
+                this.generateTintedEssenceItem(ModItems.PIG_ESSENCE.get(), ItemModelUtils.constantTint(0xFFF9A195));
+                this.generateTintedEssenceItem(ModItems.SHEEP_ESSENCE.get(), ItemModelUtils.constantTint(0xFFFFFFFF));
+                this.generateTintedEssenceItem(ModItems.FISH_ESSENCE.get(), ItemModelUtils.constantTint(0xFFC1A76A));
+                this.generateTintedEssenceItem(ModItems.ZOMBIE_ESSENCE.get(), ItemModelUtils.constantTint(0xFF3e692d));
             }
 
             private void generateTintedEssenceItem(Item item, ItemTintSource tintSource){

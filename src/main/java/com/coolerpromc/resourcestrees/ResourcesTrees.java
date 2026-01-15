@@ -5,6 +5,7 @@ import com.coolerpromc.resourcestrees.block.custom.ResourcesSaplingBlock;
 import com.coolerpromc.resourcestrees.block.entity.ModBlockEntities;
 import com.coolerpromc.resourcestrees.block.entity.custom.ResourcesTypesBlockEntity;
 import com.coolerpromc.resourcestrees.block.entity.renderer.TreeSimulatorBlockEntityRenderer;
+import com.coolerpromc.resourcestrees.config.ModConfig;
 import com.coolerpromc.resourcestrees.core.ResourcesTypes;
 import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
 import com.coolerpromc.resourcestrees.datagen.model.ResourcesTypeTintSource;
@@ -43,8 +44,8 @@ import net.minecraftforge.eventbus.api.listener.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.network.Channel;
 import net.minecraftforge.network.ChannelBuilder;
 import net.minecraftforge.network.PacketDistributor;
@@ -68,6 +69,7 @@ public final class ResourcesTrees {
             .clientbound()
             .addMain(ResourceTypeSyncS2CPacket.TYPE, ResourceTypeSyncS2CPacket.STREAM_CODEC, ResourceTypeSyncS2CPacket::handle)
             .build();
+    public static ModConfig CONFIG = new ModConfig();
 
     public static final DeferredRegister<IIngredientSerializer<?>> INGREDIENT_SERIALIZERS = DeferredRegister.create(ForgeRegistries.INGREDIENT_SERIALIZERS, MODID);
     public static final RegistryObject<IIngredientSerializer<DataComponentIngredient>> DATA_COMPONENT_INGREDIENT = INGREDIENT_SERIALIZERS.register("data_component", DataComponentIngredient.Serializer::new);
@@ -75,6 +77,7 @@ public final class ResourcesTrees {
     public ResourcesTrees(FMLJavaModLoadingContext context) {
         var modBusGroup = context.getModBusGroup();
         EntityJoinLevelEvent.BUS.addListener(ResourcesTrees::onEntityJoinLevel);
+        FMLCommonSetupEvent.getBus(modBusGroup).addListener(this::commonSetup);
 
         ModItems.register(modBusGroup);
         ModBlocks.register(modBusGroup);
@@ -84,6 +87,10 @@ public final class ResourcesTrees {
         ModMenuTypes.register(modBusGroup);
         ModRecipes.register(modBusGroup);
         INGREDIENT_SERIALIZERS.register(modBusGroup);
+    }
+
+    private void commonSetup(FMLCommonSetupEvent event) {
+        event.enqueueWork(() -> CONFIG.load());
     }
 
     @SubscribeEvent(priority = Priority.LOWEST)
