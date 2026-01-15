@@ -1,0 +1,50 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_dirt_leaf_fragment": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "resourcestrees:leaf_fragment"
+            ],
+            "nbt": "{type:\"resourcestrees:dirt\"}"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_stone_leaf_fragment": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "resourcestrees:leaf_fragment"
+            ],
+            "nbt": "{type:\"resourcestrees:stone\"}"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "resourcestrees:fragment_crafting/stone_fragment_to_flint"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_stone_leaf_fragment",
+      "has_dirt_leaf_fragment",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "resourcestrees:fragment_crafting/stone_fragment_to_flint"
+    ]
+  },
+  "sends_telemetry_event": false
+}

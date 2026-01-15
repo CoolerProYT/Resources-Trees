@@ -1,0 +1,50 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_glowstone_leaf_fragment": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "resourcestrees:leaf_fragment"
+            ],
+            "nbt": "{type:\"resourcestrees:glowstone\"}"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_nature_leaf_fragment": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "resourcestrees:leaf_fragment"
+            ],
+            "nbt": "{type:\"resourcestrees:nature\"}"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "resourcestrees:fragment_crafting/nature_fragment_to_glow_berries"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_nature_leaf_fragment",
+      "has_glowstone_leaf_fragment",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "resourcestrees:fragment_crafting/nature_fragment_to_glow_berries"
+    ]
+  },
+  "sends_telemetry_event": false
+}

@@ -1,0 +1,26 @@
+{
+  "type": "resourcestrees:strict_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "type": "forge:partial_nbt",
+      "item": "resourcestrees:leaf_fragment",
+      "nbt": "{type:\"resourcestrees:nature\"}"
+    },
+    "B": {
+      "type": "forge:partial_nbt",
+      "item": "resourcestrees:leaf_fragment",
+      "nbt": "{type:\"resourcestrees:nether\"}"
+    }
+  },
+  "pattern": [
+    "A A",
+    "B B",
+    "A A"
+  ],
+  "result": {
+    "count": 12,
+    "item": "minecraft:weeping_vines"
+  },
+  "show_notification": true
+}

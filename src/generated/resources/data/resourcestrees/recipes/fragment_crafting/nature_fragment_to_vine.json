@@ -1,0 +1,21 @@
+{
+  "type": "resourcestrees:strict_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "type": "forge:partial_nbt",
+      "item": "resourcestrees:leaf_fragment",
+      "nbt": "{type:\"resourcestrees:nature\"}"
+    }
+  },
+  "pattern": [
+    "A A",
+    "AAA",
+    "A A"
+  ],
+  "result": {
+    "count": 6,
+    "item": "minecraft:vine"
+  },
+  "show_notification": true
+}

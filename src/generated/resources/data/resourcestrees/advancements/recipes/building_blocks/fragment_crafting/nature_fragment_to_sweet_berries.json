@@ -1,6 +1,19 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
+    "has_fire_leaf_fragment": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "resourcestrees:leaf_fragment"
+            ],
+            "nbt": "{type:\"resourcestrees:fire\"}"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
     "has_nature_leaf_fragment": {
       "conditions": {
         "items": [
@@ -24,6 +37,7 @@
   "requirements": [
     [
       "has_nature_leaf_fragment",
+      "has_fire_leaf_fragment",
       "has_the_recipe"
     ]
   ],

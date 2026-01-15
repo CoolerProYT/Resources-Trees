@@ -1,0 +1,26 @@
+{
+  "type": "resourcestrees:strict_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "type": "forge:partial_nbt",
+      "item": "resourcestrees:leaf_fragment",
+      "nbt": "{type:\"resourcestrees:dirt\"}"
+    },
+    "B": {
+      "type": "forge:partial_nbt",
+      "item": "resourcestrees:leaf_fragment",
+      "nbt": "{type:\"resourcestrees:water\"}"
+    }
+  },
+  "pattern": [
+    "BA ",
+    "AB ",
+    "   "
+  ],
+  "result": {
+    "count": 12,
+    "item": "minecraft:clay_ball"
+  },
+  "show_notification": true
+}

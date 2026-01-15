@@ -3,6 +3,6 @@
   "leafDropChance": 0.25,
   "material": "minecraft:obsidian",
   "saplingDropChance": 0.125,
-  "translationKey": "item.resourcestrees.obsidian",
+  "treeSimulatorTicks": 1200,
   "weight": 4
 }

@@ -1,0 +1,26 @@
+{
+  "type": "resourcestrees:strict_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "type": "forge:partial_nbt",
+      "item": "resourcestrees:leaf_fragment",
+      "nbt": "{type:\"resourcestrees:water\"}"
+    },
+    "B": {
+      "type": "forge:partial_nbt",
+      "item": "resourcestrees:leaf_fragment",
+      "nbt": "{type:\"resourcestrees:stone\"}"
+    }
+  },
+  "pattern": [
+    "B B",
+    "B B",
+    " A "
+  ],
+  "result": {
+    "count": 12,
+    "item": "minecraft:pointed_dripstone"
+  },
+  "show_notification": true
+}

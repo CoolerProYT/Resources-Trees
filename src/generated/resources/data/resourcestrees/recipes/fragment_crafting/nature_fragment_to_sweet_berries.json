@@ -6,15 +6,20 @@
       "type": "forge:partial_nbt",
       "item": "resourcestrees:leaf_fragment",
       "nbt": "{type:\"resourcestrees:nature\"}"
+    },
+    "B": {
+      "type": "forge:partial_nbt",
+      "item": "resourcestrees:leaf_fragment",
+      "nbt": "{type:\"resourcestrees:fire\"}"
     }
   },
   "pattern": [
-    "  A",
-    " A ",
-    "A  "
+    "BA ",
+    "AB ",
+    "   "
   ],
   "result": {
-    "count": 12,
+    "count": 8,
     "item": "minecraft:sweet_berries"
   },
   "show_notification": true

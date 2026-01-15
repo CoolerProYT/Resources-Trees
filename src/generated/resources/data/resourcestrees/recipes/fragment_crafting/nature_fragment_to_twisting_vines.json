@@ -1,0 +1,26 @@
+{
+  "type": "resourcestrees:strict_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "type": "forge:partial_nbt",
+      "item": "resourcestrees:leaf_fragment",
+      "nbt": "{type:\"resourcestrees:nature\"}"
+    },
+    "B": {
+      "type": "forge:partial_nbt",
+      "item": "resourcestrees:leaf_fragment",
+      "nbt": "{type:\"resourcestrees:nether\"}"
+    }
+  },
+  "pattern": [
+    "A  ",
+    " B ",
+    "  A"
+  ],
+  "result": {
+    "count": 6,
+    "item": "minecraft:twisting_vines"
+  },
+  "show_notification": true
+}

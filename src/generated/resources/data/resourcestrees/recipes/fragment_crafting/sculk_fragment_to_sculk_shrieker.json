@@ -1,0 +1,26 @@
+{
+  "type": "resourcestrees:strict_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "type": "forge:partial_nbt",
+      "item": "resourcestrees:leaf_fragment",
+      "nbt": "{type:\"resourcestrees:sculk\"}"
+    },
+    "B": {
+      "type": "forge:partial_nbt",
+      "item": "resourcestrees:leaf_fragment",
+      "nbt": "{type:\"resourcestrees:stone\"}"
+    }
+  },
+  "pattern": [
+    "B B",
+    "B B",
+    "AAA"
+  ],
+  "result": {
+    "count": 2,
+    "item": "minecraft:sculk_shrieker"
+  },
+  "show_notification": true
+}

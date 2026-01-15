@@ -1,0 +1,68 @@
+{
+  "type": "resourcestrees:tree_simulator",
+  "drops": [
+    {
+      "chance": 0.5,
+      "maxRolls": 4,
+      "minRolls": 1,
+      "output": {
+        "count": 1,
+        "item": "minecraft:oak_log"
+      }
+    },
+    {
+      "chance": 1.0,
+      "maxRolls": 1,
+      "minRolls": 1,
+      "output": {
+        "count": 1,
+        "item": "resourcestrees:leaf_fragment",
+        "nbt": "{type:\"resourcestrees:shulker\"}"
+      }
+    },
+    {
+      "chance": 0.25,
+      "maxRolls": 4,
+      "minRolls": 1,
+      "output": {
+        "count": 1,
+        "item": "resourcestrees:leaf_fragment",
+        "nbt": "{type:\"resourcestrees:shulker\"}"
+      }
+    },
+    {
+      "chance": 0.125,
+      "maxRolls": 1,
+      "minRolls": 1,
+      "output": {
+        "count": 1,
+        "item": "resourcestrees:resources_oak_sapling",
+        "nbt": "{type:\"resourcestrees:shulker\"}"
+      }
+    },
+    {
+      "chance": 0.1,
+      "maxRolls": 2,
+      "minRolls": 1,
+      "output": {
+        "count": 1,
+        "item": "minecraft:stick"
+      }
+    },
+    {
+      "chance": 0.05,
+      "maxRolls": 1,
+      "minRolls": 1,
+      "output": {
+        "count": 1,
+        "item": "minecraft:apple"
+      }
+    }
+  ],
+  "ticksToGrow": 1400,
+  "tree": {
+    "count": 1,
+    "item": "resourcestrees:resources_oak_sapling",
+    "nbt": "{type:\"resourcestrees:shulker\"}"
+  }
+}

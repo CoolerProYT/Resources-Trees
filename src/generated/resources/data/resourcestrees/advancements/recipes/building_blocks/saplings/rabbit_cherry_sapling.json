@@ -1,0 +1,48 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_cherry_sapling": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:cherry_sapling"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_rabbit_essence": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "resourcestrees:rabbit_essence"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "resourcestrees:saplings/rabbit_cherry_sapling"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_rabbit_essence",
+      "has_cherry_sapling",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "resourcestrees:saplings/rabbit_cherry_sapling"
+    ]
+  },
+  "sends_telemetry_event": false
+}
