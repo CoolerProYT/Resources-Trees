@@ -1,0 +1,8 @@
+{
+  "color": -9787313,
+  "leafDropChance": 0.25,
+  "material": "minecraft:slime_block",
+  "saplingDropChance": 0.125,
+  "treeSimulatorTicks": 1200,
+  "weight": 5
+}

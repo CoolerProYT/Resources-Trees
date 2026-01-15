@@ -1,0 +1,12 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "resourcestrees:item/chicken_essence",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": -6184543
+      }
+    ]
+  }
+}

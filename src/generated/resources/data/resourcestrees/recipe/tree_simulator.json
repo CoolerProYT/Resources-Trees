@@ -3,7 +3,7 @@
   "category": "building",
   "key": {
     "A": "minecraft:cyan_terracotta",
-    "B": "minecraft:grass_block"
+    "B": "minecraft:dirt"
   },
   "pattern": [
     "   ",

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:spider_eye",
+    "minecraft:spider_eye",
+    "minecraft:string",
+    "minecraft:string",
+    "minecraft:spider_eye",
+    "minecraft:spider_eye",
+    "minecraft:string",
+    "minecraft:string"
+  ],
+  "result": {
+    "count": 1,
+    "id": "resourcestrees:spider_essence"
+  }
+}
