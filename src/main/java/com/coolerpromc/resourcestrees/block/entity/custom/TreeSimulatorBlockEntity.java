@@ -6,7 +6,6 @@ import com.coolerpromc.resourcestrees.block.custom.ResourcesSaplingBlock;
 import com.coolerpromc.resourcestrees.block.entity.ModBlockEntities;
 import com.coolerpromc.resourcestrees.core.ResourcesTypes;
 import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
-import com.coolerpromc.resourcestrees.datagen.ModRecipeProvider;
 import com.coolerpromc.resourcestrees.item.ModItems;
 import com.coolerpromc.resourcestrees.recipe.ModRecipes;
 import com.coolerpromc.resourcestrees.recipe.custom.TreeSimulatorRecipe;
@@ -69,14 +68,12 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
     private final ItemStackHandler inputHandler = new ItemStackHandler(1){
         @Override
         protected void onContentsChanged(int slot) {
-            Optional<RecipeHolder<TreeSimulatorRecipe>> recipeHolder = getCurrentRecipe();
-            if (recipeHolder.isPresent()){
-                TreeSimulatorRecipe recipe = recipeHolder.get().value();
-                setMaxGrowTicks(recipe.ticksToGrow());
-            }
-            else{
-                setMaxGrowTicks(0);
-            }
+            setGrowTick();
+        }
+
+        @Override
+        public int getSlotLimit(int slot) {
+            return 1;
         }
     };
 
@@ -86,6 +83,10 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
         @Override
         public boolean isItemValid(int slot, ItemStack stack) {
             return stack.getItem() instanceof AxeItem;
+        }
+
+        protected void onContentsChanged(int index) {
+            setGrowTick();
         }
     };
 
@@ -160,10 +161,7 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
 
     @Override
     public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
-        CompoundTag tag = saveWithoutMetadata(registries);
-        tag.putInt("growTicks", growTicks);
-        tag.putInt("maxGrowTicks", maxGrowTicks);
-        return tag;
+        return saveWithoutMetadata(registries);
     }
 
     @Override
@@ -177,7 +175,6 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
 
         if (hasRecipe() && isAxeValid()){
             increaseGrowTicks();
-            setChanged(level, pos, state);
 
             if (treeGrown()){
                 harvest(level);
@@ -187,9 +184,6 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
         else {
             resetGrowTicks();
         }
-
-        setChanged();
-        level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
     }
 
     private void harvest(Level level){
@@ -222,6 +216,7 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
                     ResourcesTrees.LOGGER.warn("No suitable output slot found for item: {} at {}", result, getBlockPos());
                 }
             }
+            setChanged();
         }
     }
 
@@ -231,14 +226,17 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
 
     private void increaseGrowTicks(){
         this.growTicks++;
+        setChanged();
+        level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
     }
 
     private void resetGrowTicks(){
         this.growTicks = 0;
+        setChanged();
     }
 
     private void setMaxGrowTicks(int tick){
-        this.data.set(1, tick);
+        this.maxGrowTicks = tick;
     }
 
     private int findSuitableOutputSlot(ItemStack result) {
@@ -325,14 +323,13 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
                 if (type != null){
                     ResourcesTypes value = type.value();
                     List<TreeSimulatorOutput> drops = new ArrayList<>();
-                    drops.add(TreeSimulatorOutput.of(TreeSimulatorBlockEntity.LOG_BY_SAPLINGS.get(block).getDefaultInstance(), 1, 2, 4));
+                    drops.add(TreeSimulatorOutput.of(TreeSimulatorBlockEntity.LOG_BY_SAPLINGS.get(block).getDefaultInstance(), 0.5f, 1, 4));
                     drops.add(TreeSimulatorOutput.of(leaf, 1, 1, 1));
-                    drops.add(TreeSimulatorOutput.of(leaf, value.leafDropChance(), 1, 1));
+                    drops.add(TreeSimulatorOutput.of(leaf, value.leafDropChance(), 1, 4));
                     drops.add(TreeSimulatorOutput.of(getSapling(), value.saplingDropChance(), 1, 1));
                     drops.add(TreeSimulatorOutput.of(Items.STICK.getDefaultInstance(), 0.1f, 1, 2));
                     drops.add(TreeSimulatorOutput.of(Items.APPLE.getDefaultInstance(), 0.05f, 1, 1));
-                    drops.add(TreeSimulatorOutput.of(ModRecipeProvider.SAPLINGS_BY_SAPLINGS.get(block).getDefaultInstance(), 0.1f, 1, 1));
-                    TreeSimulatorRecipe newRecipe = new TreeSimulatorRecipe(getSapling(), drops, 1200);
+                    TreeSimulatorRecipe newRecipe = new TreeSimulatorRecipe(getSapling(), drops, type.value().treeSimulatorTicks());
                     ResourceKey<Recipe<?>> key = ResourceKey.create(Registries.RECIPE, type.getKey().location().withSuffix(BuiltInRegistries.BLOCK.getKey(block).getPath().substring(9)).withPrefix("tree_simulator/"));
                     return Optional.of(new RecipeHolder<>(key.location(), newRecipe));
                 }
@@ -387,5 +384,21 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
             return damage < maxDamage || isAxeUnbreakable();
         }
         return isAxeUnbreakable();
+    }
+
+    private void setGrowTick(){
+        Optional<RecipeHolder<TreeSimulatorRecipe>> recipeHolder = getCurrentRecipe();
+        if (recipeHolder.isPresent() && isAxeValid()){
+            TreeSimulatorRecipe recipe = recipeHolder.get().value();
+            int tick = recipe.ticksToGrow();
+            double GROW_TICK_BY_AXE = ResourcesTrees.CONFIG.get(getAxe().getItemHolder().getKey().location().toString());
+            if (GROW_TICK_BY_AXE != 0.0){
+                tick = (int) (recipe.ticksToGrow() / GROW_TICK_BY_AXE);
+            }
+            setMaxGrowTicks(tick);
+        }
+        else{
+            setMaxGrowTicks(0);
+        }
     }
 }

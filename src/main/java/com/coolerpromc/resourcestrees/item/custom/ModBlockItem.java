@@ -19,7 +19,7 @@ public class ModBlockItem extends BlockItem {
     public Component getName(ItemStack stack) {
         Holder<ResourcesTypes> type = stack.get(ModDataComponents.TYPE);
         if (type != null && (Block.byItem(stack.getItem()) instanceof ResourcesSaplingBlock || Block.byItem(stack.getItem()) instanceof ResourcesLeavesBlock)){
-            return Component.translatable(type.value().translationKey()).append(" ").append(super.getName(stack));
+            return Component.translatable("type.resourcestrees." + type.getKey().location().getPath()).append(" ").append(super.getName(stack));
         }
         return super.getName(stack);
     }

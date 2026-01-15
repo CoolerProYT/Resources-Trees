@@ -4,6 +4,7 @@ import com.coolerpromc.resourcestrees.block.ModBlocks;
 import com.coolerpromc.resourcestrees.block.custom.ResourcesSaplingBlock;
 import com.coolerpromc.resourcestrees.block.entity.ModBlockEntities;
 import com.coolerpromc.resourcestrees.block.entity.custom.ResourcesTypesBlockEntity;
+import com.coolerpromc.resourcestrees.config.ModConfig;
 import com.coolerpromc.resourcestrees.core.ResourcesTypes;
 import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
 import com.coolerpromc.resourcestrees.item.ModCreativeTab;
@@ -45,6 +46,7 @@ import java.util.List;
 public class ResourcesTrees {
     public static final String MODID = "resourcestrees";
     public static final Logger LOGGER = LogUtils.getLogger();
+    public static ModConfig CONFIG = new ModConfig();
 
     public ResourcesTrees(IEventBus modEventBus, ModContainer modContainer) {
         ModItems.register(modEventBus);
@@ -60,7 +62,7 @@ public class ResourcesTrees {
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
-
+        event.enqueueWork(() -> CONFIG.load());
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)

@@ -17,7 +17,7 @@ public class LeafFragmentItem extends Item {
     public Component getName(ItemStack stack) {
         Holder<ResourcesTypes> resourcesTypes = stack.get(ModDataComponents.TYPE);
         if (resourcesTypes != null){
-            return Component.translatable(resourcesTypes.value().translationKey()).append(" ").append(super.getName(stack));
+            return Component.translatable("type.resourcestrees." + resourcesTypes.getKey().location().getPath()).append(" ").append(super.getName(stack));
         }
         return super.getName(stack);
     }

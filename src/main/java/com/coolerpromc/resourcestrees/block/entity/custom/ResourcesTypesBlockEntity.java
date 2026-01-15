@@ -7,13 +7,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.resources.RegistryFileCodec;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -59,19 +58,19 @@ public class ResourcesTypesBlockEntity extends BlockEntity {
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         super.saveAdditional(tag, provider);
         if (resourcesType != null){
-            tag.put("type", RegistryFileCodec.create(ModRegistries.RESOURCES_TYPES_KEY, ResourcesTypes.CODEC).encodeStart(NbtOps.INSTANCE, resourcesType).getOrThrow());
+            tag.putString("type", resourcesType.getKey().location().toString());
         }
     }
 
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         super.loadAdditional(tag, provider);
-        if (tag.contains("type", Tag.TAG_COMPOUND)) {
-            RegistryFileCodec
-                    .create(ModRegistries.RESOURCES_TYPES_KEY, ResourcesTypes.CODEC)
-                    .parse(NbtOps.INSTANCE, tag.getCompound("type"))
-                    .result()
-                    .ifPresent(this::setResourcesType);
+        if (tag.contains("type")) {
+            ResourceLocation id = ResourceLocation.tryParse(tag.getString("type"));
+            if (id != null) {
+                ResourceKey<ResourcesTypes> key = ResourceKey.create(ModRegistries.RESOURCES_TYPES_KEY, id);
+                provider.lookupOrThrow(ModRegistries.RESOURCES_TYPES_KEY).get(key).ifPresent(this::setResourcesType);
+            }
         } else {
             this.resourcesType = null;
         }

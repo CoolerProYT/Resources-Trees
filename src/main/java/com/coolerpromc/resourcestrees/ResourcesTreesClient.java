@@ -100,7 +100,24 @@ public class ResourcesTreesClient {
                 ModItems.FIRE_ESSENCE.get(),
                 ModItems.WATER_ESSENCE.get(),
                 ModItems.NATURE_ESSENCE.get(),
-                ModItems.END_ESSENCE.get()
+                ModItems.END_ESSENCE.get(),
+                ModItems.BEE_ESSENCE,
+                ModItems.SCULK_ESSENCE,
+                ModItems.SKELETON_ESSENCE,
+                ModItems.SPIDER_ESSENCE,
+                ModItems.CHICKEN_ESSENCE,
+                ModItems.COW_ESSENCE,
+                ModItems.RABBIT_ESSENCE,
+                ModItems.SQUID_ESSENCE,
+                ModItems.TURTLE_ESSENCE,
+                ModItems.BLAZE_ESSENCE,
+                ModItems.BREEZE_ESSENCE,
+                ModItems.DYE_ESSENCE,
+                ModItems.GHAST_ESSENCE,
+                ModItems.PIG_ESSENCE,
+                ModItems.SHEEP_ESSENCE,
+                ModItems.FISH_ESSENCE,
+                ModItems.ZOMBIE_ESSENCE
         );
     }
 

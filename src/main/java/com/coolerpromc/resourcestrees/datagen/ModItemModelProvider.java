@@ -21,6 +21,23 @@ public class ModItemModelProvider extends ItemModelProvider {
         this.generateTintedEssenceItem(ModItems.WATER_ESSENCE);
         this.generateTintedEssenceItem(ModItems.NATURE_ESSENCE);
         this.generateTintedEssenceItem(ModItems.END_ESSENCE);
+        this.generateTintedEssenceItem(ModItems.BEE_ESSENCE);
+        this.generateTintedEssenceItem(ModItems.SCULK_ESSENCE);
+        this.generateTintedEssenceItem(ModItems.SKELETON_ESSENCE);
+        this.generateTintedEssenceItem(ModItems.SPIDER_ESSENCE);
+        this.generateTintedEssenceItem(ModItems.CHICKEN_ESSENCE);
+        this.generateTintedEssenceItem(ModItems.COW_ESSENCE);
+        this.generateTintedEssenceItem(ModItems.RABBIT_ESSENCE);
+        this.generateTintedEssenceItem(ModItems.SQUID_ESSENCE);
+        this.generateTintedEssenceItem(ModItems.TURTLE_ESSENCE);
+        this.generateTintedEssenceItem(ModItems.BLAZE_ESSENCE);
+        this.generateTintedEssenceItem(ModItems.BREEZE_ESSENCE);
+        this.generateTintedEssenceItem(ModItems.DYE_ESSENCE);
+        this.generateTintedEssenceItem(ModItems.GHAST_ESSENCE);
+        this.generateTintedEssenceItem(ModItems.PIG_ESSENCE);
+        this.generateTintedEssenceItem(ModItems.SHEEP_ESSENCE);
+        this.generateTintedEssenceItem(ModItems.FISH_ESSENCE);
+        this.generateTintedEssenceItem(ModItems.ZOMBIE_ESSENCE);
     }
 
     private ItemModelBuilder generateTintedEssenceItem(DeferredItem<Item> item){

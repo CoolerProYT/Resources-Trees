@@ -54,7 +54,7 @@ public class RecipeViewerFiller {
                                 drops.add(TreeSimulatorOutput.of(Items.STICK.getDefaultInstance(), 0.1f, 1, 2));
                                 drops.add(TreeSimulatorOutput.of(Items.APPLE.getDefaultInstance(), 0.05f, 1, 1));
                                 drops.add(TreeSimulatorOutput.of(ModRecipeProvider.SAPLINGS_BY_SAPLINGS.get(block).getDefaultInstance(), 0.1f, 1, 1));
-                                TreeSimulatorRecipe newRecipe = new TreeSimulatorRecipe(sapling, drops, 1200);
+                                TreeSimulatorRecipe newRecipe = new TreeSimulatorRecipe(sapling, drops, value.value().treeSimulatorTicks());
                                 ResourceKey<Recipe<?>> key = ResourceKey.create(Registries.RECIPE, type.withSuffix(BuiltInRegistries.BLOCK.getKey(block).getPath().substring(9)).withPrefix("tree_simulator/"));
                                 if (!keys.contains(key)){
                                     treeSimulatorRecipe.add(new RecipeHolder<>(key.location(), newRecipe));
