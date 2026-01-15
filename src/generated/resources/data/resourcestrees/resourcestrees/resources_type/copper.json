@@ -3,6 +3,6 @@
   "leafDropChance": 0.25,
   "material": "minecraft:copper_block",
   "saplingDropChance": 0.125,
-  "translationKey": "item.resourcestrees.copper",
+  "treeSimulatorTicks": 1200,
   "weight": 5
 }

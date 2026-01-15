@@ -21,26 +21,6 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_grass_block": {
-      "conditions": {
-        "items": [
-          {
-            "items": "minecraft:grass_block"
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
-    "has_melon": {
-      "conditions": {
-        "items": [
-          {
-            "items": "minecraft:melon"
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
     "has_moss_block": {
       "conditions": {
         "items": [
@@ -56,16 +36,6 @@
         "items": [
           {
             "items": "minecraft:potato"
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
-    "has_pumpkin": {
-      "conditions": {
-        "items": [
-          {
-            "items": "minecraft:pumpkin"
           }
         ]
       },
@@ -101,10 +71,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_grass_block",
       "has_moss_block",
-      "has_pumpkin",
-      "has_melon",
       "has_sugar_cane",
       "has_cactus",
       "has_wheat",

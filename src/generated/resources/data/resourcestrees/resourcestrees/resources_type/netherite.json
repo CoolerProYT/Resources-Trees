@@ -3,6 +3,6 @@
   "leafDropChance": 0.15,
   "material": "minecraft:netherite_block",
   "saplingDropChance": 0.075,
-  "translationKey": "item.resourcestrees.netherite",
+  "treeSimulatorTicks": 1800,
   "weight": 2
 }

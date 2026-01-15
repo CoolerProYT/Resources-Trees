@@ -1,0 +1,8 @@
+{
+  "color": -16508896,
+  "leafDropChance": 0.25,
+  "material": "resourcestrees:sculk_essence",
+  "saplingDropChance": 0.125,
+  "treeSimulatorTicks": 1400,
+  "weight": 5
+}

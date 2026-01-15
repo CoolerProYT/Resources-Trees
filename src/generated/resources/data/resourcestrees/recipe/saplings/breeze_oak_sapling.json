@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "item": "resourcestrees:breeze_essence"
+    },
+    "B": {
+      "item": "minecraft:oak_sapling"
+    }
+  },
+  "pattern": [
+    " A ",
+    "ABA",
+    " A "
+  ],
+  "result": {
+    "components": {
+      "resourcestrees:resources_type": "resourcestrees:breeze"
+    },
+    "count": 1,
+    "id": "resourcestrees:resources_oak_sapling"
+  }
+}

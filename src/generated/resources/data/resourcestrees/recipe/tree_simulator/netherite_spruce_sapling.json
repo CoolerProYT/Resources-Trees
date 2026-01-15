@@ -2,9 +2,9 @@
   "type": "resourcestrees:tree_simulator",
   "drops": [
     {
-      "chance": 1.0,
+      "chance": 0.5,
       "maxRolls": 4,
-      "minRolls": 2,
+      "minRolls": 1,
       "output": {
         "count": 1,
         "id": "minecraft:spruce_log"
@@ -24,7 +24,7 @@
     },
     {
       "chance": 0.15,
-      "maxRolls": 1,
+      "maxRolls": 4,
       "minRolls": 1,
       "output": {
         "components": {
@@ -63,18 +63,9 @@
         "count": 1,
         "id": "minecraft:apple"
       }
-    },
-    {
-      "chance": 0.1,
-      "maxRolls": 1,
-      "minRolls": 1,
-      "output": {
-        "count": 1,
-        "id": "minecraft:spruce_sapling"
-      }
     }
   ],
-  "ticksToGrow": 1200,
+  "ticksToGrow": 1800,
   "tree": {
     "components": {
       "resourcestrees:resources_type": "resourcestrees:netherite"

@@ -1,0 +1,8 @@
+{
+  "color": -3161386,
+  "leafDropChance": 0.25,
+  "material": "minecraft:shulker_shell",
+  "saplingDropChance": 0.125,
+  "treeSimulatorTicks": 1400,
+  "weight": 5
+}

@@ -3,6 +3,6 @@
   "leafDropChance": 0.25,
   "material": "resourcestrees:end_essence",
   "saplingDropChance": 0.125,
-  "translationKey": "item.resourcestrees.end",
+  "treeSimulatorTicks": 800,
   "weight": 5
 }

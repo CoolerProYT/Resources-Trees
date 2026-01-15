@@ -3,6 +3,6 @@
   "leafDropChance": 0.25,
   "material": "minecraft:gold_block",
   "saplingDropChance": 0.125,
-  "translationKey": "item.resourcestrees.gold",
+  "treeSimulatorTicks": 1200,
   "weight": 5
 }
