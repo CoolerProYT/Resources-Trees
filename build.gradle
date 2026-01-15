@@ -158,7 +158,7 @@ idea {
 }
 
 publishMods {
-    file.set(jar.archiveFile)
+    file.set(reobfJar.archiveFile)
     type = STABLE
     modLoaders.add("forge")
     changelog = file("changelog.md").text

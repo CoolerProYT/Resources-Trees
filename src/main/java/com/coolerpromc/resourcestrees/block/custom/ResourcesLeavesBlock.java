@@ -70,8 +70,6 @@ public class ResourcesLeavesBlock extends LeavesBlock implements EntityBlock {
             CompoundTag tag = fragment.getOrCreateTag();
             tag.putString("type", type.toString());
 
-            drops.add(fragment.copy());
-
             if (builder.getLevel().getRandom().nextFloat() < resourcesTypes.leafDropChance()){
                 drops.add(fragment.copy());
             }

@@ -28,7 +28,7 @@ public class ModJadePlugin implements IWailaPlugin {
                         List<Component> list = new ArrayList<>();
                         for (int i = 0;i < iTooltip.size(); i++){
                             if(i == 0){
-                                list.add(Component.translatable(resourcesTypes.value().translationKey()).append(" " + iTooltip.get(i, IElement.Align.LEFT).get(0).getMessage()).withStyle(ChatFormatting.WHITE));
+                                list.add(Component.translatable("type.resourcestrees." + resourcesTypes.unwrapKey().get().location().getPath()).append(" " + iTooltip.get(i, IElement.Align.LEFT).get(0).getMessage()).withStyle(ChatFormatting.WHITE));
                             }
                             else{
                                 list.add(Component.literal(Objects.requireNonNull(iTooltip.get(i, IElement.Align.LEFT).get(0).getMessage())));

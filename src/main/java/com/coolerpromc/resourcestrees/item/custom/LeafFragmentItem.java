@@ -27,7 +27,7 @@ public class LeafFragmentItem extends Item {
         ResourceLocation type = new ResourceLocation(stack.getOrCreateTag().getString("type"));
         Holder<ResourcesTypes> resourcesTypes = ResourcesTypes.asHolder(level, type);
         if (resourcesTypes != null){
-            components.set(0, Component.translatable(resourcesTypes.value().translationKey()).append(" ").append(super.getName(stack)));
+            components.set(0, Component.translatable("type.resourcestrees." + resourcesTypes.unwrapKey().get().location().getPath()).append(" ").append(super.getName(stack)));
         }
     }
 }
