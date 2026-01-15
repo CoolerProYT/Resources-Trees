@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": "resourcestrees:zombie_essence",
+    "B": "minecraft:birch_sapling"
+  },
+  "pattern": [
+    " A ",
+    "ABA",
+    " A "
+  ],
+  "result": {
+    "components": {
+      "resourcestrees:resources_type": "resourcestrees:zombie"
+    },
+    "count": 1,
+    "id": "resourcestrees:resources_birch_sapling"
+  }
+}

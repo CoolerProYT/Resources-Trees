@@ -1,8 +1,8 @@
 {
   "color": -6588845,
-  "leafDropChance": 0.125,
+  "leafDropChance": 0.25,
   "material": "minecraft:dirt",
-  "saplingDropChance": 0.25,
-  "translationKey": "item.resourcestrees.dirt",
+  "saplingDropChance": 0.125,
+  "treeSimulatorTicks": 800,
   "weight": 5
 }

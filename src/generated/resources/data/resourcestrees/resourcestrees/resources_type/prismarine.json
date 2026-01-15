@@ -3,6 +3,6 @@
   "leafDropChance": 0.25,
   "material": "minecraft:prismarine",
   "saplingDropChance": 0.125,
-  "translationKey": "item.resourcestrees.prismarine",
+  "treeSimulatorTicks": 800,
   "weight": 5
 }

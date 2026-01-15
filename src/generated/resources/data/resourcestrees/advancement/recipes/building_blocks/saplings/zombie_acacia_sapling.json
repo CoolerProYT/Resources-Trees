@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_acacia_sapling": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:acacia_sapling"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "resourcestrees:saplings/zombie_acacia_sapling"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_zombie_essence": {
+      "conditions": {
+        "items": [
+          {
+            "items": "resourcestrees:zombie_essence"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_zombie_essence",
+      "has_acacia_sapling"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "resourcestrees:saplings/zombie_acacia_sapling"
+    ]
+  }
+}

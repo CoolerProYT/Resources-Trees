@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:blaze_rod",
+    "minecraft:blaze_rod",
+    "minecraft:blaze_rod",
+    "minecraft:blaze_rod"
+  ],
+  "result": {
+    "count": 1,
+    "id": "resourcestrees:blaze_essence"
+  }
+}

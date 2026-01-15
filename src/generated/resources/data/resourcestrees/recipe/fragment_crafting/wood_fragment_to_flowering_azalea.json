@@ -1,0 +1,31 @@
+{
+  "type": "resourcestrees:strict_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "neoforge:ingredient_type": "neoforge:components",
+      "components": {
+        "resourcestrees:resources_type": "resourcestrees:wood"
+      },
+      "items": "resourcestrees:leaf_fragment",
+      "strict": true
+    },
+    "B": {
+      "neoforge:ingredient_type": "neoforge:components",
+      "components": {
+        "resourcestrees:resources_type": "resourcestrees:nature"
+      },
+      "items": "resourcestrees:leaf_fragment",
+      "strict": true
+    }
+  },
+  "pattern": [
+    " A ",
+    " B ",
+    "B  "
+  ],
+  "result": {
+    "count": 6,
+    "id": "minecraft:flowering_azalea"
+  }
+}

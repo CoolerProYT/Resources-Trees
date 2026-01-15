@@ -1,8 +1,8 @@
 {
   "color": -4593430,
-  "leafDropChance": 0.125,
+  "leafDropChance": 0.25,
   "material": "minecraft:ice",
-  "saplingDropChance": 0.25,
-  "translationKey": "item.resourcestrees.ice",
+  "saplingDropChance": 0.125,
+  "treeSimulatorTicks": 800,
   "weight": 5
 }

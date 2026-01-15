@@ -1,0 +1,23 @@
+{
+  "type": "resourcestrees:strict_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "neoforge:ingredient_type": "neoforge:components",
+      "components": {
+        "resourcestrees:resources_type": "resourcestrees:cow"
+      },
+      "items": "resourcestrees:leaf_fragment",
+      "strict": true
+    }
+  },
+  "pattern": [
+    " A ",
+    " A ",
+    " A "
+  ],
+  "result": {
+    "count": 8,
+    "id": "minecraft:beef"
+  }
+}

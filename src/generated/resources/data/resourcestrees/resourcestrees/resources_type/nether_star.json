@@ -1,0 +1,8 @@
+{
+  "color": -14606561,
+  "leafDropChance": 0.25,
+  "material": "minecraft:nether_star",
+  "saplingDropChance": 0.125,
+  "treeSimulatorTicks": 2000,
+  "weight": 5
+}
