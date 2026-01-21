@@ -95,7 +95,7 @@ dependencies {
 }
 
 mixin {
-    add sourceSets.main, 'resourcestrees.mixins.refmap.json'
+    add sourceSets.main, 'resourcestrees.refmap.json'
     config 'resourcestrees.mixins.json'
 }
 

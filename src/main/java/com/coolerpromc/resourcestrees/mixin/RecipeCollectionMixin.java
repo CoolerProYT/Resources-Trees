@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.List;
 import java.util.Set;
 
-@Mixin(RecipeCollection.class)
+@Mixin(value = RecipeCollection.class)
 public class RecipeCollectionMixin {
 
     @Shadow
