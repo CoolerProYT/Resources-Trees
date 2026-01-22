@@ -1,7 +1,7 @@
 package com.coolerpromc.resourcestrees.mixin;
 
+import com.coolerpromc.resourcestrees.recipe.ingredient.ResourcesTypeIngredient;
 import it.unimi.dsi.fastutil.ints.IntList;
-import net.fabricmc.fabric.impl.recipe.ingredient.builtin.ComponentsIngredient;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.*;
@@ -46,7 +46,7 @@ public abstract class ServerPlaceRecipeMixin<R extends Recipe<?>> {
     private void onTryPlaceRecipe(RecipeEntry<@NotNull R> recipe, RecipeFinder stackedItemContents, CallbackInfoReturnable<AbstractRecipeScreenHandler.PostFillAction> cir) {
         Recipe<?> recipeValue = recipe.value();
         if (recipeValue instanceof CraftingRecipe craftingRecipe) {
-            boolean hasDataComponentIngredient = craftingRecipe.getIngredientPlacement().getIngredients().stream().anyMatch(ing -> ing.getCustomIngredient() != null && ing.getCustomIngredient() instanceof ComponentsIngredient);
+            boolean hasDataComponentIngredient = craftingRecipe.getIngredientPlacement().getIngredients().stream().anyMatch(ing -> ing.getCustomIngredient() != null && ing.getCustomIngredient() instanceof ResourcesTypeIngredient);
 
             if (hasDataComponentIngredient) {
                 if (resourcesTrees$canCraftWithDataComponents(craftingRecipe)) {

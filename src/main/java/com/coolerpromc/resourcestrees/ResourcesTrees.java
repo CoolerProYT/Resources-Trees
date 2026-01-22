@@ -14,6 +14,7 @@ import com.coolerpromc.resourcestrees.item.custom.LeafFragmentItem;
 import com.coolerpromc.resourcestrees.network.packet.RecipeSyncPayload;
 import com.coolerpromc.resourcestrees.network.packet.ResourceTypeSyncS2CPacket;
 import com.coolerpromc.resourcestrees.recipe.ModRecipes;
+import com.coolerpromc.resourcestrees.recipe.ingredient.ResourcesTypeIngredient;
 import com.coolerpromc.resourcestrees.registry.ModRegistries;
 import com.coolerpromc.resourcestrees.screen.ModMenuTypes;
 import net.fabricmc.api.ModInitializer;
@@ -22,6 +23,8 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.fabricmc.fabric.api.recipe.v1.ingredient.CustomIngredientSerializer;
+import net.fabricmc.fabric.api.recipe.v1.sync.RecipeSynchronization;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Block;
@@ -60,6 +63,8 @@ public class ResourcesTrees implements ModInitializer {
 
         CONFIG.load();
 
+        CustomIngredientSerializer.register(ResourcesTypeIngredient.SERIALIZER);
+
 		Field[] fields = ModBlocks.class.getDeclaredFields();
 		for (Field field : fields){
 			try {
@@ -80,6 +85,7 @@ public class ResourcesTrees implements ModInitializer {
             RecipeSyncPayload payload = new RecipeSyncPayload(recipeEntry);
             ServerPlayNetworking.send(player, payload);
         });
+        RecipeSynchronization.synchronizeRecipeSerializer(ModRecipes.STRICT_SHAPED);
 
 		DynamicRegistries.registerSynced(ModRegistries.RESOURCES_TYPES_KEY, ResourcesTypes.CODEC, ResourcesTypes.CODEC);
 
