@@ -1,6 +1,7 @@
 package com.coolerpromc.resourcestrees.mixin;
 
-import net.fabricmc.fabric.impl.recipe.ingredient.builtin.ComponentsIngredient;
+import com.coolerpromc.resourcestrees.recipe.ingredient.ResourcesTypeIngredient;
+import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.s2c.play.CraftFailedResponseS2CPacket;
@@ -44,7 +45,7 @@ public abstract class ServerPlaceRecipeMixin<I extends RecipeInput, R extends Re
             DefaultedList<Ingredient> ingredients = craftingRecipe.getIngredients();
 
             boolean hasDataComponentIngredient = ingredients.stream()
-                    .anyMatch(ing -> ing.getCustomIngredient() != null && ing.getCustomIngredient() instanceof ComponentsIngredient);
+                    .anyMatch(ing -> ing.getCustomIngredient() != null && ing.getCustomIngredient() instanceof ResourcesTypeIngredient);
 
             if (hasDataComponentIngredient) {
                 if (resourcesTrees$canCraftWithDataComponents(ingredients)) {

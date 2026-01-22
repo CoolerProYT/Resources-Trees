@@ -1,7 +1,7 @@
 package com.coolerpromc.resourcestrees.mixin;
 
 import it.unimi.dsi.fastutil.ints.IntList;
-import net.fabricmc.fabric.impl.recipe.ingredient.builtin.ComponentsIngredient;
+import com.coolerpromc.resourcestrees.recipe.ingredient.ResourcesTypeIngredient;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.recipebook.RecipeResultCollection;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -45,7 +45,7 @@ public class RecipeDisplayEntryMixin {
                 List<Ingredient> ingredients = craftingRecipe.getIngredients();
 
                 boolean hasDataComponentIngredient = ingredients.stream()
-                        .anyMatch(ing -> ing.getCustomIngredient() != null && ing.getCustomIngredient() instanceof ComponentsIngredient);
+                        .anyMatch(ing -> ing.getCustomIngredient() != null && ing.getCustomIngredient() instanceof ResourcesTypeIngredient);
 
                 if (hasDataComponentIngredient) {
                     hasDataComponentRecipe = true;
@@ -74,7 +74,7 @@ public class RecipeDisplayEntryMixin {
                     List<Ingredient> ingredients = craftingRecipe.getIngredients();
 
                     boolean hasDataComponentIngredient = ingredients.stream()
-                            .anyMatch(ing -> ing.getCustomIngredient() != null && ing.getCustomIngredient() instanceof ComponentsIngredient);
+                            .anyMatch(ing -> ing.getCustomIngredient() != null && ing.getCustomIngredient() instanceof ResourcesTypeIngredient);
 
                     if (hasDataComponentIngredient) {
                         canCraft = canCraftWithDataComponents(ingredients);
