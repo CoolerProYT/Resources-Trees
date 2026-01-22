@@ -3,7 +3,7 @@
   "category": "building",
   "key": {
     "A": {
-      "fabric:type": "fabric:components",
+      "fabric:type": "resourcestrees:resources_type",
       "base": "resourcestrees:leaf_fragment",
       "components": {
         "resourcestrees:resources_type": "resourcestrees:coal"
