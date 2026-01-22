@@ -9,11 +9,11 @@ import com.coolerpromc.resourcestrees.datagen.recipebuilder.ExtendedShapedRecipe
 import com.coolerpromc.resourcestrees.datagen.recipebuilder.StrictShapedRecipeJsonBuilder;
 import com.coolerpromc.resourcestrees.datagen.recipebuilder.TreeSimulatorRecipeBuilder;
 import com.coolerpromc.resourcestrees.item.ModItems;
+import com.coolerpromc.resourcestrees.recipe.ingredient.ResourcesTypeIngredient;
 import com.coolerpromc.resourcestrees.recipe.output.TreeSimulatorOutput;
 import com.coolerpromc.resourcestrees.registry.ModRegistries;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
-import net.fabricmc.fabric.impl.recipe.ingredient.builtin.ComponentsIngredient;
 import net.minecraft.advancement.AdvancementCriterion;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.advancement.criterion.InventoryChangedCriterion;
@@ -341,7 +341,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .pattern("AAA")
                 .pattern("A A")
                 .pattern("AAA")
-                .input('A', new ComponentsIngredient(Ingredient.ofItem(ModItems.LEAF_FRAGMENT), ComponentChanges.builder().add(ModDataComponents.TYPE, types.getOrThrow(resourceType)).build()).toVanilla())
+                .input('A', new ResourcesTypeIngredient(Ingredient.ofItem(ModItems.LEAF_FRAGMENT), ComponentChanges.builder().add(ModDataComponents.TYPE, types.getOrThrow(resourceType)).build()).toVanilla())
                 .criterion(hasItem(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType).registryKey().getValue()), has(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType)))
                 .offerTo(output, RegistryKey.of(RegistryKeys.RECIPE, resourceType.getValue().withSuffixedPath("_fragment_to_" + getItemPath(outputItem)).withPrefixedPath("fragment_crafting/")));
     }
@@ -351,7 +351,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .pattern("AAA")
                 .pattern("ABA")
                 .pattern("AAA")
-                .input('B', new ComponentsIngredient(Ingredient.ofItem(ModItems.LEAF_FRAGMENT), ComponentChanges.builder().add(ModDataComponents.TYPE, types.getOrThrow(resourceType)).build()).toVanilla())
+                .input('B', new ResourcesTypeIngredient(Ingredient.ofItem(ModItems.LEAF_FRAGMENT), ComponentChanges.builder().add(ModDataComponents.TYPE, types.getOrThrow(resourceType)).build()).toVanilla())
                 .input('A', item)
                 .criterion(hasItem(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType).registryKey().getValue()), has(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType)))
                 .criterion(hasItem(item), has(item))
@@ -363,8 +363,8 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .pattern("AAA")
                 .pattern("ABA")
                 .pattern("AAA")
-                .input('A', new ComponentsIngredient(Ingredient.ofItem(ModItems.LEAF_FRAGMENT), ComponentChanges.builder().add(ModDataComponents.TYPE, types.getOrThrow(resourceType)).build()).toVanilla())
-                .input('B', new ComponentsIngredient(Ingredient.ofItem(ModItems.LEAF_FRAGMENT), ComponentChanges.builder().add(ModDataComponents.TYPE, types.getOrThrow(middleResourceType)).build()).toVanilla())
+                .input('A', new ResourcesTypeIngredient(Ingredient.ofItem(ModItems.LEAF_FRAGMENT), ComponentChanges.builder().add(ModDataComponents.TYPE, types.getOrThrow(resourceType)).build()).toVanilla())
+                .input('B', new ResourcesTypeIngredient(Ingredient.ofItem(ModItems.LEAF_FRAGMENT), ComponentChanges.builder().add(ModDataComponents.TYPE, types.getOrThrow(middleResourceType)).build()).toVanilla())
                 .criterion(hasItem(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType).registryKey().getValue()), has(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType)))
                 .criterion(hasItem(ModItems.LEAF_FRAGMENT, types.getOrThrow(middleResourceType).registryKey().getValue()), has(ModItems.LEAF_FRAGMENT, types.getOrThrow(middleResourceType)))
                 .offerTo(output, RegistryKey.of(RegistryKeys.RECIPE, resourceType.getValue().withSuffixedPath("_fragment_to_" + getItemPath(outputItem)).withPrefixedPath("fragment_crafting/")));
@@ -375,8 +375,8 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .pattern("BA ")
                 .pattern("AB ")
                 .pattern("   ")
-                .input('A', new ComponentsIngredient(Ingredient.ofItem(ModItems.LEAF_FRAGMENT), ComponentChanges.builder().add(ModDataComponents.TYPE, types.getOrThrow(resourceType)).build()).toVanilla())
-                .input('B', new ComponentsIngredient(Ingredient.ofItem(ModItems.LEAF_FRAGMENT), ComponentChanges.builder().add(ModDataComponents.TYPE, types.getOrThrow(middleResourceType)).build()).toVanilla())
+                .input('A', new ResourcesTypeIngredient(Ingredient.ofItem(ModItems.LEAF_FRAGMENT), ComponentChanges.builder().add(ModDataComponents.TYPE, types.getOrThrow(resourceType)).build()).toVanilla())
+                .input('B', new ResourcesTypeIngredient(Ingredient.ofItem(ModItems.LEAF_FRAGMENT), ComponentChanges.builder().add(ModDataComponents.TYPE, types.getOrThrow(middleResourceType)).build()).toVanilla())
                 .criterion(hasItem(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType).registryKey().getValue()), has(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType)))
                 .criterion(hasItem(ModItems.LEAF_FRAGMENT, types.getOrThrow(middleResourceType).registryKey().getValue()), has(ModItems.LEAF_FRAGMENT, types.getOrThrow(middleResourceType)))
                 .offerTo(output, RegistryKey.of(RegistryKeys.RECIPE, resourceType.getValue().withSuffixedPath("_fragment_to_" + getItemPath(outputItem)).withPrefixedPath("fragment_crafting/")));
@@ -387,7 +387,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .pattern("AAA")
                 .pattern("AAA")
                 .pattern("AAA")
-                .input('A', new ComponentsIngredient(Ingredient.ofItem(ModItems.LEAF_FRAGMENT), ComponentChanges.builder().add(ModDataComponents.TYPE, types.getOrThrow(resourceType)).build()).toVanilla())
+                .input('A', new ResourcesTypeIngredient(Ingredient.ofItem(ModItems.LEAF_FRAGMENT), ComponentChanges.builder().add(ModDataComponents.TYPE, types.getOrThrow(resourceType)).build()).toVanilla())
                 .criterion(hasItem(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType).registryKey().getValue()), has(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType)))
                 .offerTo(output, RegistryKey.of(RegistryKeys.RECIPE, resourceType.getValue().withSuffixedPath("_fragment_to_" + getItemPath(outputItem)).withPrefixedPath("fragment_crafting/")));
     }
@@ -397,7 +397,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .pattern("   ")
                 .pattern("AAA")
                 .pattern("   ")
-                .input('A', new ComponentsIngredient(Ingredient.ofItem(ModItems.LEAF_FRAGMENT), ComponentChanges.builder().add(ModDataComponents.TYPE, types.getOrThrow(resourceType)).build()).toVanilla())
+                .input('A', new ResourcesTypeIngredient(Ingredient.ofItem(ModItems.LEAF_FRAGMENT), ComponentChanges.builder().add(ModDataComponents.TYPE, types.getOrThrow(resourceType)).build()).toVanilla())
                 .criterion(hasItem(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType).registryKey().getValue()), has(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType)))
                 .offerTo(output, RegistryKey.of(RegistryKeys.RECIPE, resourceType.getValue().withSuffixedPath("_fragment_to_" + getItemPath(outputItem)).withPrefixedPath("fragment_crafting/")));
     }
@@ -407,7 +407,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .pattern(" A ")
                 .pattern(" A ")
                 .pattern(" A ")
-                .input('A', new ComponentsIngredient(Ingredient.ofItem(ModItems.LEAF_FRAGMENT), ComponentChanges.builder().add(ModDataComponents.TYPE, types.getOrThrow(resourceType)).build()).toVanilla())
+                .input('A', new ResourcesTypeIngredient(Ingredient.ofItem(ModItems.LEAF_FRAGMENT), ComponentChanges.builder().add(ModDataComponents.TYPE, types.getOrThrow(resourceType)).build()).toVanilla())
                 .criterion(hasItem(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType).registryKey().getValue()), has(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType)))
                 .offerTo(output, RegistryKey.of(RegistryKeys.RECIPE, resourceType.getValue().withSuffixedPath("_fragment_to_" + getItemPath(outputItem)).withPrefixedPath("fragment_crafting/")));
     }
@@ -417,7 +417,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .pattern(line1)
                 .pattern(line2)
                 .pattern(line3)
-                .input('A', new ComponentsIngredient(Ingredient.ofItem(ModItems.LEAF_FRAGMENT), ComponentChanges.builder().add(ModDataComponents.TYPE, types.getOrThrow(resourceType)).build()).toVanilla())
+                .input('A', new ResourcesTypeIngredient(Ingredient.ofItem(ModItems.LEAF_FRAGMENT), ComponentChanges.builder().add(ModDataComponents.TYPE, types.getOrThrow(resourceType)).build()).toVanilla())
                 .criterion(hasItem(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType).registryKey().getValue()), has(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType)))
                 .offerTo(output, RegistryKey.of(RegistryKeys.RECIPE, resourceType.getValue().withSuffixedPath("_fragment_to_" + getItemPath(outputItem)).withPrefixedPath("fragment_crafting/")));
     }
@@ -427,8 +427,8 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .pattern(line1)
                 .pattern(line2)
                 .pattern(line3)
-                .input('A', new ComponentsIngredient(Ingredient.ofItem(ModItems.LEAF_FRAGMENT), ComponentChanges.builder().add(ModDataComponents.TYPE, types.getOrThrow(resourceType)).build()).toVanilla())
-                .input('B', new ComponentsIngredient(Ingredient.ofItem(ModItems.LEAF_FRAGMENT), ComponentChanges.builder().add(ModDataComponents.TYPE, types.getOrThrow(resourceType2)).build()).toVanilla())
+                .input('A', new ResourcesTypeIngredient(Ingredient.ofItem(ModItems.LEAF_FRAGMENT), ComponentChanges.builder().add(ModDataComponents.TYPE, types.getOrThrow(resourceType)).build()).toVanilla())
+                .input('B', new ResourcesTypeIngredient(Ingredient.ofItem(ModItems.LEAF_FRAGMENT), ComponentChanges.builder().add(ModDataComponents.TYPE, types.getOrThrow(resourceType2)).build()).toVanilla())
                 .criterion(hasItem(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType).registryKey().getValue()), has(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType)))
                 .criterion(hasItem(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType2).registryKey().getValue()), has(ModItems.LEAF_FRAGMENT, types.getOrThrow(resourceType2)))
                 .offerTo(output, RegistryKey.of(RegistryKeys.RECIPE, resourceType.getValue().withSuffixedPath("_fragment_to_" + getItemPath(outputItem)).withPrefixedPath("fragment_crafting/")));

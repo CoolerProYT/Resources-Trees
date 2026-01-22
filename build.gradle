@@ -51,8 +51,8 @@ dependencies {
     modImplementation "curse.maven:collective-342584:7317667"
     modImplementation "curse.maven:tree-harvester-367178:7317982"
 
-    modCompileOnly("mezz.jei:jei-1.21.10-fabric-api:${jei_version}")
-//    modRuntimeOnly("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}")
+    modCompileOnly("mezz.jei:jei-${minecraft_version}-fabric-api:${jei_version}")
+    modRuntimeOnly("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}")
 }
 
 processResources {
