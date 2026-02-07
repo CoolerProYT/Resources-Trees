@@ -4,12 +4,11 @@
   "key": {
     "A": "minecraft:clay_ball",
     "B": {
-      "neoforge:ingredient_type": "neoforge:components",
+      "neoforge:ingredient_type": "resourcestrees:resources_type",
+      "base": "resourcestrees:leaf_fragment",
       "components": {
         "resourcestrees:resources_type": "resourcestrees:water"
-      },
-      "items": "resourcestrees:leaf_fragment",
-      "strict": true
+      }
     }
   },
   "pattern": [
