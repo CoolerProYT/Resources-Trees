@@ -1,4 +1,4 @@
-// 1.20.1	2026-01-15T21:23:43.4210314	Registries
+// 1.20.1	2026-02-07T15:03:53.4969866	Registries
 7816c27ae7250d8af3918df97ca6fa604c775dd9 data/resourcestrees/resourcestrees/resources_type/amethyst.json
 df5043b400319e03dbaad114bddcf38ce9bce69f data/resourcestrees/resourcestrees/resources_type/bee.json
 5313e012fcb79deb0dab73064ebded86a3816eba data/resourcestrees/resourcestrees/resources_type/blaze.json
@@ -25,7 +25,7 @@ da1aa5b13c0f2a8428291cfba1f745e00375ee9c data/resourcestrees/resourcestrees/reso
 8eaa4e89a2ed92a524ef55da86cf4fc4b8f24f99 data/resourcestrees/resourcestrees/resources_type/nature.json
 5668089c5faffdca916ec0a3178daccdd4351633 data/resourcestrees/resourcestrees/resources_type/nether.json
 6d15aed14b787b0488b4305bda66ca5ee78fa392 data/resourcestrees/resourcestrees/resources_type/netherite.json
-2eba08ebf4e387862f4deca9e339d06c602dc077 data/resourcestrees/resourcestrees/resources_type/nether_star.json
+53523d7109d2de20ececb5417f029b8f70e697e1 data/resourcestrees/resourcestrees/resources_type/nether_star.json
 e9c845df3e5c50dc4da36653aabbb5308a4c8f68 data/resourcestrees/resourcestrees/resources_type/obsidian.json
 e6fc9d39c41ead91b6ebc7065ffe9f9203353660 data/resourcestrees/resourcestrees/resources_type/pig.json
 4c69c484f21fee07830ef5be9e4e7c8e7a45dec9 data/resourcestrees/resourcestrees/resources_type/prismarine.json

@@ -1,0 +1,21 @@
+{
+  "type": "resourcestrees:strict_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "type": "forge:partial_nbt",
+      "item": "resourcestrees:leaf_fragment",
+      "nbt": "{type:\"resourcestrees:nether_star\"}"
+    }
+  },
+  "pattern": [
+    " A ",
+    "AAA",
+    " A "
+  ],
+  "result": {
+    "count": 2,
+    "item": "minecraft:nether_star"
+  },
+  "show_notification": true
+}
