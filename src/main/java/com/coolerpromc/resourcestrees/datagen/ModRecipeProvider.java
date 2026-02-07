@@ -188,6 +188,7 @@ public class ModRecipeProvider extends RecipeProvider {
         straightShape(Items.SALMON, 8, ResourcesTypes.FISH, output);
         customShape(Items.TROPICAL_FISH, 8, ResourcesTypes.FISH, "A  ", " A ", "  A", output);
         customShape(Items.PUFFERFISH, 8, ResourcesTypes.FISH, "  A", " A ", "A  ", output);
+        customShape(Items.NETHER_STAR, 2, ResourcesTypes.NETHER_STAR, " A ", "AAA", " A ", output);
         lineShape(Items.ROTTEN_FLESH, 8, ResourcesTypes.ZOMBIE, output);
 
         // Dyes

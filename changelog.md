@@ -1,1 +1,2 @@
-- Fixed mixin error caused game crash when joining world
+- Fixed missing recipe for `Nether Star`
+- Changed color for nether star
