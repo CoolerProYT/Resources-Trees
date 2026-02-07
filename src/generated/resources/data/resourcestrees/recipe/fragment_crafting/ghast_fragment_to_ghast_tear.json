@@ -3,7 +3,7 @@
   "category": "building",
   "key": {
     "A": {
-      "type": "resourcestrees:data_component",
+      "type": "resourcestrees:resources_type",
       "components": {
         "resourcestrees:resources_type": "resourcestrees:ghast"
       },

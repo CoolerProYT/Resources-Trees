@@ -5,19 +5,19 @@
     "A": {
       "type": "resourcestrees:resources_type",
       "components": {
-        "resourcestrees:resources_type": "resourcestrees:cow"
+        "resourcestrees:resources_type": "resourcestrees:nether_star"
       },
       "items": "resourcestrees:leaf_fragment",
       "strict": true
     }
   },
   "pattern": [
-    "   ",
+    " A ",
     "AAA",
-    "   "
+    " A "
   ],
   "result": {
-    "count": 8,
-    "id": "minecraft:leather"
+    "count": 2,
+    "id": "minecraft:nether_star"
   }
 }

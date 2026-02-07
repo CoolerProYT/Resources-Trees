@@ -4,7 +4,7 @@
   "key": {
     "A": "minecraft:sand",
     "B": {
-      "type": "resourcestrees:data_component",
+      "type": "resourcestrees:resources_type",
       "components": {
         "resourcestrees:resources_type": "resourcestrees:fire"
       },
