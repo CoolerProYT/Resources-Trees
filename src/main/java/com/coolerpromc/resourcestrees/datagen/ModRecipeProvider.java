@@ -209,6 +209,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 straightShape(Items.SALMON, 8, ResourcesTypes.FISH);
                 customShape(Items.TROPICAL_FISH, 8, ResourcesTypes.FISH, "A  ", " A ", "  A");
                 customShape(Items.PUFFERFISH, 8, ResourcesTypes.FISH, "  A", " A ", "A  ");
+                customShape(Items.NETHER_STAR, 2, ResourcesTypes.NETHER_STAR, " A ", "AAA", " A ");
                 lineShape(Items.ROTTEN_FLESH, 8, ResourcesTypes.ZOMBIE);
 
                 // Dyes
