@@ -3,20 +3,18 @@
   "category": "building",
   "key": {
     "A": {
-      "neoforge:ingredient_type": "neoforge:components",
+      "neoforge:ingredient_type": "resourcestrees:resources_type",
+      "base": "resourcestrees:leaf_fragment",
       "components": {
         "resourcestrees:resources_type": "resourcestrees:stone"
-      },
-      "items": "resourcestrees:leaf_fragment",
-      "strict": true
+      }
     },
     "B": {
-      "neoforge:ingredient_type": "neoforge:components",
+      "neoforge:ingredient_type": "resourcestrees:resources_type",
+      "base": "resourcestrees:leaf_fragment",
       "components": {
         "resourcestrees:resources_type": "resourcestrees:dirt"
-      },
-      "items": "resourcestrees:leaf_fragment",
-      "strict": true
+      }
     }
   },
   "pattern": [
