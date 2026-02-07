@@ -14,6 +14,7 @@ import com.coolerpromc.resourcestrees.item.ModItems;
 import com.coolerpromc.resourcestrees.item.custom.LeafFragmentItem;
 import com.coolerpromc.resourcestrees.network.packet.ResourceTypeSyncS2CPacket;
 import com.coolerpromc.resourcestrees.recipe.ModRecipes;
+import com.coolerpromc.resourcestrees.recipe.ingredient.ResourcesTypeIngredient;
 import com.coolerpromc.resourcestrees.screen.ModMenuTypes;
 import com.coolerpromc.resourcestrees.screen.custom.TreeSimulatorScreen;
 import com.coolerpromc.resourcestrees.util.DataComponentIngredient;
@@ -56,6 +57,7 @@ import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 @Mod(ResourcesTrees.MODID)
 public final class ResourcesTrees {
@@ -73,6 +75,7 @@ public final class ResourcesTrees {
 
     public static final DeferredRegister<IIngredientSerializer<?>> INGREDIENT_SERIALIZERS = DeferredRegister.create(ForgeRegistries.INGREDIENT_SERIALIZERS, MODID);
     public static final RegistryObject<IIngredientSerializer<DataComponentIngredient>> DATA_COMPONENT_INGREDIENT = INGREDIENT_SERIALIZERS.register("data_component", DataComponentIngredient.Serializer::new);
+    public static final RegistryObject<IIngredientSerializer<ResourcesTypeIngredient>> RESOURCES_TYPE_INGREDIENT = INGREDIENT_SERIALIZERS.register("resources_type", ResourcesTypeIngredient.Serializer::new);
 
     public ResourcesTrees(FMLJavaModLoadingContext context) {
         var modBusGroup = context.getModBusGroup();

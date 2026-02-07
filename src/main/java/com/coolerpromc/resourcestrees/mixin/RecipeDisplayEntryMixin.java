@@ -1,6 +1,6 @@
 package com.coolerpromc.resourcestrees.mixin;
 
-import com.coolerpromc.resourcestrees.util.DataComponentIngredient;
+import com.coolerpromc.resourcestrees.recipe.ingredient.ResourcesTypeIngredient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.player.StackedItemContents;
@@ -28,7 +28,7 @@ public abstract class RecipeDisplayEntryMixin {
 
         List<Ingredient> ingredients = craftingReqs.get();
 
-        boolean hasDataComponentIngredient = ingredients.stream().anyMatch(ing -> !ing.isSimple() && ing instanceof DataComponentIngredient);
+        boolean hasDataComponentIngredient = ingredients.stream().anyMatch(ing -> !ing.isSimple() && ing instanceof ResourcesTypeIngredient);
 
         if (hasDataComponentIngredient) {
             boolean craftable = canCraftWithDataComponents(ingredients);
