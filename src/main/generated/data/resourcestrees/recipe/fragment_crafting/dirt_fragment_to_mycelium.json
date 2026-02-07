@@ -6,7 +6,7 @@
       "item": "minecraft:brown_mushroom_block"
     },
     "B": {
-      "fabric:type": "fabric:components",
+      "fabric:type": "resourcestrees:resources_type",
       "base": {
         "item": "resourcestrees:leaf_fragment"
       },
