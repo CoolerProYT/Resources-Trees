@@ -1,12 +1,12 @@
 package com.coolerpromc.resourcestrees.mixin;
 
+import com.coolerpromc.resourcestrees.recipe.ingredient.ResourcesTypeIngredient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.player.StackedItemContents;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.display.RecipeDisplayEntry;
-import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -28,7 +28,7 @@ public abstract class RecipeDisplayEntryMixin {
 
         List<Ingredient> ingredients = craftingReqs.get();
 
-        boolean hasDataComponentIngredient = ingredients.stream().anyMatch(ing -> ing.isCustom() && ing.getCustomIngredient() instanceof DataComponentIngredient);
+        boolean hasDataComponentIngredient = ingredients.stream().anyMatch(ing -> ing.isCustom() && ing.getCustomIngredient() instanceof ResourcesTypeIngredient);
 
         if (hasDataComponentIngredient) {
             boolean craftable = canCraftWithDataComponents(ingredients);

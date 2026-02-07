@@ -12,6 +12,7 @@ import com.coolerpromc.resourcestrees.item.ModItems;
 import com.coolerpromc.resourcestrees.item.custom.LeafFragmentItem;
 import com.coolerpromc.resourcestrees.network.packet.ResourceTypeSyncS2CPacket;
 import com.coolerpromc.resourcestrees.recipe.ModRecipes;
+import com.coolerpromc.resourcestrees.recipe.ingredient.ResourcesTypeIngredient;
 import com.coolerpromc.resourcestrees.screen.ModMenuTypes;
 import com.mojang.logging.LogUtils;
 import net.minecraft.core.BlockPos;
@@ -35,19 +36,27 @@ import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.common.crafting.ICustomIngredient;
+import net.neoforged.neoforge.common.crafting.IngredientType;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 @Mod(ResourcesTrees.MODID)
 public class ResourcesTrees {
     public static final String MODID = "resourcestrees";
     public static final Logger LOGGER = LogUtils.getLogger();
     public static ModConfig CONFIG = new ModConfig();
+
+    public static final DeferredRegister<IngredientType<?>> INGREDIENT_TYPES = DeferredRegister.create(NeoForgeRegistries.INGREDIENT_TYPES, MODID);
+    public static final Supplier<IngredientType<ResourcesTypeIngredient>> RESOURCES_TYPE_INGREDIENT = INGREDIENT_TYPES.register("resources_type", () -> new IngredientType<>(ResourcesTypeIngredient.CODEC));
 
     public ResourcesTrees(IEventBus modEventBus, ModContainer modContainer) {
         ModItems.register(modEventBus);
@@ -57,6 +66,7 @@ public class ResourcesTrees {
         ModDataComponents.register(modEventBus);
         ModMenuTypes.register(modEventBus);
         ModRecipes.register(modEventBus);
+        INGREDIENT_TYPES.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
         NeoForge.EVENT_BUS.register(this);

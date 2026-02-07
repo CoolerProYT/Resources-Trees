@@ -1,5 +1,6 @@
 package com.coolerpromc.resourcestrees.mixin;
 
+import com.coolerpromc.resourcestrees.recipe.ingredient.ResourcesTypeIngredient;
 import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.recipebook.ServerPlaceRecipe;
 import net.minecraft.world.entity.player.Inventory;
@@ -8,7 +9,6 @@ import net.minecraft.world.inventory.RecipeBookMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
-import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -51,7 +51,7 @@ public abstract class ServerPlaceRecipeMixin<R extends Recipe<?>> {
         Recipe<?> recipeValue = recipe.value();
         if (recipeValue instanceof CraftingRecipe craftingRecipe) {
             boolean hasDataComponentIngredient = craftingRecipe.placementInfo().ingredients().stream()
-                    .anyMatch(ing -> ing.isCustom() && ing.getCustomIngredient() instanceof DataComponentIngredient);
+                    .anyMatch(ing -> ing.isCustom() && ing.getCustomIngredient() instanceof ResourcesTypeIngredient);
 
             if (hasDataComponentIngredient) {
                 if (resourcesTrees$canCraftWithDataComponents(craftingRecipe)) {
