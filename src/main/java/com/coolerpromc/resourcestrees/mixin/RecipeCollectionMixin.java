@@ -1,5 +1,6 @@
 package com.coolerpromc.resourcestrees.mixin;
 
+import com.coolerpromc.resourcestrees.recipe.ingredient.ResourcesTypeIngredient;
 import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.recipebook.RecipeCollection;
@@ -10,7 +11,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -45,7 +45,7 @@ public class RecipeCollectionMixin {
                 List<Ingredient> ingredients = craftingRecipe.getIngredients();
 
                 boolean hasDataComponentIngredient = ingredients.stream()
-                        .anyMatch(ing -> ing.isCustom() && ing.getCustomIngredient() instanceof DataComponentIngredient);
+                        .anyMatch(ing -> ing.isCustom() && ing.getCustomIngredient() instanceof ResourcesTypeIngredient);
 
                 if (hasDataComponentIngredient) {
                     hasDataComponentRecipe = true;
@@ -74,7 +74,7 @@ public class RecipeCollectionMixin {
                     List<Ingredient> ingredients = craftingRecipe.getIngredients();
 
                     boolean hasDataComponentIngredient = ingredients.stream()
-                            .anyMatch(ing -> ing.isCustom() && ing.getCustomIngredient() instanceof DataComponentIngredient);
+                            .anyMatch(ing -> ing.isCustom() && ing.getCustomIngredient() instanceof ResourcesTypeIngredient);
 
                     if (hasDataComponentIngredient) {
                         canCraft = canCraftWithDataComponents(ingredients);

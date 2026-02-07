@@ -154,7 +154,7 @@ public record ResourcesTypes(Either<ResourceLocation, TagKey<Item>> material, in
         context.register(TURTLE, new Builder(ModItems.TURTLE_ESSENCE, 0xFF315410).build());
         context.register(BLAZE, new Builder(ModItems.BLAZE_ESSENCE, 0xFFd4ae37).build());
         context.register(BREEZE, new Builder(ModItems.BREEZE_ESSENCE, 0xFFd5d6ff).build());
-        context.register(NETHER_STAR, new Builder(Items.NETHER_STAR, 0xFF211f1f).treeSimulatorTicks(2000).build());
+        context.register(NETHER_STAR, new Builder(Items.NETHER_STAR, 0xFFD8E0D4).treeSimulatorTicks(2000).build());
         context.register(ENDER_PEARL, new Builder(Items.ENDER_PEARL, 0xFF032620).treeSimulatorTicks(1400).build());
         context.register(SHULKER, new Builder(Items.SHULKER_SHELL, 0xFFcfc2d6).treeSimulatorTicks(1400).build());
         context.register(DYE, new Builder(ModItems.DYE_ESSENCE, 0xFF72d4b3).treeSimulatorTicks(800).build());
