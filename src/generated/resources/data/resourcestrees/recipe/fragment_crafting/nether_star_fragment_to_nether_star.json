@@ -6,17 +6,17 @@
       "type": "resourcestrees:resources_type",
       "base": "resourcestrees:leaf_fragment",
       "components": {
-        "resourcestrees:resources_type": "resourcestrees:spider"
+        "resourcestrees:resources_type": "resourcestrees:nether_star"
       }
     }
   },
   "pattern": [
+    " A ",
     "AAA",
-    "A A",
-    "AAA"
+    " A "
   ],
   "result": {
-    "count": 8,
-    "id": "minecraft:spider_eye"
+    "count": 2,
+    "id": "minecraft:nether_star"
   }
 }

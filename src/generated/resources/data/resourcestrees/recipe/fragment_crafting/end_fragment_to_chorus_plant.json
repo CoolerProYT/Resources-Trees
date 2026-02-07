@@ -3,20 +3,18 @@
   "category": "building",
   "key": {
     "A": {
-      "type": "neoforge:components",
+      "type": "resourcestrees:resources_type",
+      "base": "resourcestrees:leaf_fragment",
       "components": {
         "resourcestrees:resources_type": "resourcestrees:end"
-      },
-      "items": "resourcestrees:leaf_fragment",
-      "strict": true
+      }
     },
     "B": {
-      "type": "neoforge:components",
+      "type": "resourcestrees:resources_type",
+      "base": "resourcestrees:leaf_fragment",
       "components": {
         "resourcestrees:resources_type": "resourcestrees:nature"
-      },
-      "items": "resourcestrees:leaf_fragment",
-      "strict": true
+      }
     }
   },
   "pattern": [

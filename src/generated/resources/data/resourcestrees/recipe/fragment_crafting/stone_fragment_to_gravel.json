@@ -6,12 +6,11 @@
       "item": "minecraft:sand"
     },
     "B": {
-      "type": "neoforge:components",
+      "type": "resourcestrees:resources_type",
+      "base": "resourcestrees:leaf_fragment",
       "components": {
         "resourcestrees:resources_type": "resourcestrees:stone"
-      },
-      "items": "resourcestrees:leaf_fragment",
-      "strict": true
+      }
     }
   },
   "pattern": [
