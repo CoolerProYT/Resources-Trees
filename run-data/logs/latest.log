@@ -1,31 +1,31 @@
-[07Feb2026 15:30:14.773] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher running: args [--launchTarget, forge_userdev_data, --assetIndex, 27, --assetsDir, C:\Users\User\.gradle\caches\forge_gradle\assets, --gameDir, ., --mod, resourcestrees, --all, --output, D:\minecraft_mod\Resources Trees\src\generated\resources, --existing, D:\minecraft_mod\Resources Trees\src\main\resources, --mixin.config, resourcestrees.mixins.json]
-[07Feb2026 15:30:14.775] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: JVM identified as Oracle Corporation Java HotSpot(TM) 64-Bit Server VM 21.0.2+13-LTS-58
-[07Feb2026 15:30:14.776] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher 10.2.4 starting: java version 21.0.2 by Oracle Corporation; OS Windows 11 arch amd64 version 10.0
-[07Feb2026 15:30:14.856] [main/INFO] [net.minecraftforge.fml.loading.ImmediateWindowHandler/]: ImmediateWindowProvider not loading because launch target is forge_userdev_data
-[07Feb2026 15:30:14.947] [main/INFO] [mixin/]: SpongePowered MIXIN Subsystem Version=0.8.7 Source=jar:file:///C:/Users/User/.gradle/caches/modules-2/files-2.1/org.spongepowered/mixin/0.8.7/8ab114ac385e6dbdad5efafe28aba4df8120915f/mixin-0.8.7.jar!/ Service=ModLauncher Env=UNKNOWN
-[07Feb2026 15:30:15.915] [main/INFO] [net.minecraftforge.fml.loading.moddiscovery.JarInJarDependencyLocator/]: No dependencies to load found. Skipping!
-[07Feb2026 15:30:16.189] [main/INFO] [mixin/]: Compatibility level set to JAVA_21
-[07Feb2026 15:30:16.190] [main/ERROR] [mixin/]: Mixin config resourcestrees.mixins.json does not specify "minVersion" or "requiredFeatures" property
-[07Feb2026 15:30:16.201] [main/INFO] [cpw.mods.modlauncher.LaunchServiceHandler/MODLAUNCHER]: Launching target 'forge_userdev_data' with arguments [--gameDir, ., --assetsDir, C:\Users\User\.gradle\caches\forge_gradle\assets, --assetIndex, 27, --mod, resourcestrees, --all, --output, D:\minecraft_mod\Resources Trees\src\generated\resources, --existing, D:\minecraft_mod\Resources Trees\src\main\resources]
-[07Feb2026 15:30:16.263] [main/WARN] [mixin/]: Mixin environment was unable to detect the current side, sided mixins will not be applied
-[07Feb2026 15:30:16.273] [main/WARN] [mixin/]: Mixin environment was unable to detect the current side, sided mixins will not be applied
-[07Feb2026 15:30:16.273] [main/WARN] [mixin/]: Mixin environment was unable to detect the current side, sided mixins will not be applied
-[07Feb2026 15:30:20.930] [modloading-worker-0/INFO] [Collective/]: Loading Collective version 8.9.
-[07Feb2026 15:30:20.946] [modloading-worker-0/INFO] [net.minecraftforge.common.ForgeMod/FORGEMOD]: Forge mod loading, version 60.0.0, for MC 1.21.10 with MCP 20251007.101210
-[07Feb2026 15:30:20.948] [modloading-worker-0/INFO] [net.minecraftforge.common.MinecraftForge/FORGE]: MinecraftForge v60.0.0 Initialized
-[07Feb2026 15:30:20.965] [modloading-worker-0/INFO] [net.minecraftforge.common.ForgeMod/FORGEMOD]: Opening jdk.naming.dns/com.sun.jndi.dns to java.naming
-[07Feb2026 15:30:21.193] [main/INFO] [net.minecraftforge.data.loading.DatagenModLoader/]: Initializing Data Gatherer for mods [resourcestrees]
-[07Feb2026 15:30:21.259] [main/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/D:/minecraft_mod/Resources%20Trees/build/fg_cache/net/minecraftforge/forge/1.21.10-60.0.0_mapped_official_1.21.10/forge-1.21.10-60.0.0_mapped_official_1.21.10-recomp.jar%230!/assets/.mcassetsroot' uses unexpected schema
-[07Feb2026 15:30:21.260] [main/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/D:/minecraft_mod/Resources%20Trees/build/fg_cache/net/minecraftforge/forge/1.21.10-60.0.0_mapped_official_1.21.10/forge-1.21.10-60.0.0_mapped_official_1.21.10-recomp.jar%230!/data/.mcassetsroot' uses unexpected schema
-[07Feb2026 15:30:21.400] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Model Definitions
-[07Feb2026 15:30:21.493] [main/INFO] [net.minecraft.data.DataGenerator/]: Model Definitions finished after 92 ms
-[07Feb2026 15:30:21.493] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Registries
-[07Feb2026 15:30:21.635] [main/INFO] [net.minecraft.data.DataGenerator/]: Registries finished after 141 ms
-[07Feb2026 15:30:21.635] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Tags for minecraft:block mod id resourcestrees
-[07Feb2026 15:30:21.643] [main/INFO] [net.minecraft.data.DataGenerator/]: Tags for minecraft:block mod id resourcestrees finished after 7 ms
-[07Feb2026 15:30:21.644] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Resources Trees recipes
-[07Feb2026 15:30:21.990] [main/INFO] [net.minecraft.data.DataGenerator/]: Resources Trees recipes finished after 346 ms
-[07Feb2026 15:30:21.990] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Loot Tables
-[07Feb2026 15:30:22.013] [main/INFO] [net.minecraft.data.DataGenerator/]: Loot Tables finished after 22 ms
-[07Feb2026 15:30:22.013] [main/INFO] [net.minecraft.data.DataGenerator/]: All providers took: 613 ms
-[07Feb2026 15:30:22.044] [main/INFO] [net.minecraft.data.HashCache/]: Caching: total files: 1967, old count: 1965, new count: 1968, removed stale: 0, written: 144
+[05Apr2026 12:08:01.420] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher running: args [--launchTarget, forge_userdev_data, --assetIndex, 29, --assetsDir, D:\.gradle\caches\forge_gradle\assets, --gameDir, ., --mod, resourcestrees, --all, --output, D:\minecraft_mod\Resources Trees\src\generated\resources, --existing, D:\minecraft_mod\Resources Trees\src\main\resources, --mixin.config, resourcestrees.mixins.json]
+[05Apr2026 12:08:01.422] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: JVM identified as Oracle Corporation Java HotSpot(TM) 64-Bit Server VM 21.0.2+13-LTS-58
+[05Apr2026 12:08:01.422] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher 10.2.4 starting: java version 21.0.2 by Oracle Corporation; OS Windows 11 arch amd64 version 10.0
+[05Apr2026 12:08:01.519] [main/INFO] [net.minecraftforge.fml.loading.ImmediateWindowHandler/]: ImmediateWindowProvider not loading because launch target is forge_userdev_data
+[05Apr2026 12:08:01.634] [main/INFO] [mixin/]: SpongePowered MIXIN Subsystem Version=0.8.7 Source=jar:file:///D:/.gradle/caches/modules-2/files-2.1/org.spongepowered/mixin/0.8.7/8ab114ac385e6dbdad5efafe28aba4df8120915f/mixin-0.8.7.jar!/ Service=ModLauncher Env=UNKNOWN
+[05Apr2026 12:08:02.688] [main/INFO] [net.minecraftforge.fml.loading.moddiscovery.JarInJarDependencyLocator/]: No dependencies to load found. Skipping!
+[05Apr2026 12:08:03.025] [main/INFO] [mixin/]: Compatibility level set to JAVA_21
+[05Apr2026 12:08:03.026] [main/ERROR] [mixin/]: Mixin config resourcestrees.mixins.json does not specify "minVersion" or "requiredFeatures" property
+[05Apr2026 12:08:03.036] [main/INFO] [cpw.mods.modlauncher.LaunchServiceHandler/MODLAUNCHER]: Launching target 'forge_userdev_data' with arguments [--gameDir, ., --assetsDir, D:\.gradle\caches\forge_gradle\assets, --assetIndex, 29, --mod, resourcestrees, --all, --output, D:\minecraft_mod\Resources Trees\src\generated\resources, --existing, D:\minecraft_mod\Resources Trees\src\main\resources]
+[05Apr2026 12:08:03.168] [main/WARN] [mixin/]: Mixin environment was unable to detect the current side, sided mixins will not be applied
+[05Apr2026 12:08:03.178] [main/WARN] [mixin/]: Mixin environment was unable to detect the current side, sided mixins will not be applied
+[05Apr2026 12:08:03.178] [main/WARN] [mixin/]: Mixin environment was unable to detect the current side, sided mixins will not be applied
+[05Apr2026 12:08:08.823] [modloading-worker-0/INFO] [Collective/]: Loading Collective version 8.9.
+[05Apr2026 12:08:08.862] [modloading-worker-0/INFO] [net.minecraftforge.common.ForgeMod/FORGEMOD]: Forge mod loading, version 60.0.0, for MC 1.21.10 with MCP 20251007.101210
+[05Apr2026 12:08:08.866] [modloading-worker-0/INFO] [net.minecraftforge.common.MinecraftForge/FORGE]: MinecraftForge v60.0.0 Initialized
+[05Apr2026 12:08:08.893] [modloading-worker-0/INFO] [net.minecraftforge.common.ForgeMod/FORGEMOD]: Opening jdk.naming.dns/com.sun.jndi.dns to java.naming
+[05Apr2026 12:08:09.228] [main/INFO] [net.minecraftforge.data.loading.DatagenModLoader/]: Initializing Data Gatherer for mods [resourcestrees]
+[05Apr2026 12:08:09.327] [main/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/D:/minecraft_mod/Resources%20Trees/build/fg_cache/net/minecraftforge/forge/1.21.10-60.0.0_mapped_official_1.21.10/forge-1.21.10-60.0.0_mapped_official_1.21.10-recomp.jar%230!/assets/.mcassetsroot' uses unexpected schema
+[05Apr2026 12:08:09.328] [main/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/D:/minecraft_mod/Resources%20Trees/build/fg_cache/net/minecraftforge/forge/1.21.10-60.0.0_mapped_official_1.21.10/forge-1.21.10-60.0.0_mapped_official_1.21.10-recomp.jar%230!/data/.mcassetsroot' uses unexpected schema
+[05Apr2026 12:08:09.537] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Model Definitions
+[05Apr2026 12:08:09.662] [main/INFO] [net.minecraft.data.DataGenerator/]: Model Definitions finished after 124 ms
+[05Apr2026 12:08:09.662] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Registries
+[05Apr2026 12:08:09.853] [main/INFO] [net.minecraft.data.DataGenerator/]: Registries finished after 190 ms
+[05Apr2026 12:08:09.853] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Tags for minecraft:block mod id resourcestrees
+[05Apr2026 12:08:09.873] [main/INFO] [net.minecraft.data.DataGenerator/]: Tags for minecraft:block mod id resourcestrees finished after 20 ms
+[05Apr2026 12:08:09.873] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Resources Trees recipes
+[05Apr2026 12:08:10.156] [main/INFO] [net.minecraft.data.DataGenerator/]: Resources Trees recipes finished after 282 ms
+[05Apr2026 12:08:10.156] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Loot Tables
+[05Apr2026 12:08:10.188] [main/INFO] [net.minecraft.data.DataGenerator/]: Loot Tables finished after 32 ms
+[05Apr2026 12:08:10.188] [main/INFO] [net.minecraft.data.DataGenerator/]: All providers took: 652 ms
+[05Apr2026 12:08:10.211] [main/INFO] [net.minecraft.data.HashCache/]: Caching: total files: 1967, old count: 1967, new count: 1968, removed stale: 0, written: 2
