@@ -230,7 +230,7 @@ public class ModRecipeProvider extends RecipeProvider {
         // Item Recipe
         essenceItem(ModItems.FIRE_ESSENCE.get(), output, Items.FIRE_CHARGE, Items.MAGMA_BLOCK, Items.LAVA_BUCKET);
         essenceItem(ModItems.NATURE_ESSENCE.get(), output, Items.MOSS_BLOCK, Items.SUGAR_CANE, Items.CACTUS, Items.WHEAT, Items.CARROT, Items.POTATO);
-        essenceItem(ModItems.END_ESSENCE.get(), output, Items.END_STONE, Items.CHORUS_FRUIT, Items.CHORUS_PLANT, Items.PURPUR_BLOCK);
+        essenceItem(ModItems.END_ESSENCE.get(), output, Items.END_STONE, Items.CHORUS_FRUIT, Items.CHORUS_FLOWER, Items.PURPUR_BLOCK);
         essenceItem(ModItems.WATER_ESSENCE.get(), output, Items.WATER_BUCKET, Items.KELP, Items.SEAGRASS, Items.CLAY_BALL);
         essenceItem(ModItems.BEE_ESSENCE.get(), output, Items.HONEY_BLOCK, Items.HONEYCOMB_BLOCK, Items.HONEY_BLOCK, Items.HONEYCOMB_BLOCK);
         essenceItem(ModItems.SCULK_ESSENCE.get(), output, Items.SCULK, Items.SCULK_CATALYST, Items.SCULK_SENSOR, Items.SCULK_SHRIEKER, Items.ECHO_SHARD, Items.ECHO_SHARD);
