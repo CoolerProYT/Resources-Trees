@@ -1,2 +1,1 @@
-- Fixed missing recipe for `Nether Star`
-- Changed color for nether star
+- Changed End Essence recipe to use Chorus Flower instead of Chorus Plant
