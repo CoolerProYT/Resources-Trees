@@ -1,21 +1,21 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_chorus_fruit": {
+    "has_chorus_flower": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:chorus_fruit"
+            "items": "minecraft:chorus_flower"
           }
         ]
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_chorus_plant": {
+    "has_chorus_fruit": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:chorus_plant"
+            "items": "minecraft:chorus_fruit"
           }
         ]
       },
@@ -53,7 +53,7 @@
       "has_the_recipe",
       "has_end_stone",
       "has_chorus_fruit",
-      "has_chorus_plant",
+      "has_chorus_flower",
       "has_purpur_block"
     ]
   ],
