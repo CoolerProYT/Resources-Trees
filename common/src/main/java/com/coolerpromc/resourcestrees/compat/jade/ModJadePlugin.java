@@ -1,6 +1,6 @@
 package com.coolerpromc.resourcestrees.compat.jade;
 
-import com.coolerpromc.resourcestrees.ResourcesTrees;
+import com.coolerpromc.resourcestrees.Constants;
 import com.coolerpromc.resourcestrees.block.custom.ResourcesLeavesBlock;
 import com.coolerpromc.resourcestrees.block.entity.custom.ResourcesTypesBlockEntity;
 import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
@@ -26,7 +26,7 @@ public class ModJadePlugin implements IWailaPlugin {
                         if (resourcesTypes != null){
                             ItemStack stack = blockAccessor.getBlock().asItem().getDefaultInstance();
                             stack.set(ModDataComponents.TYPE.get(), blockEntity.getResourcesType());
-                            iTooltip.add(Component.translatable("type.resourcestrees." + resourcesTypes.getKey().identifier().getPath()));
+                            iTooltip.add(Component.translatable("type.resourcestrees." + resourcesTypes.unwrapKey().orElseThrow().identifier().getPath()));
                         }
                     }
                 }
@@ -34,7 +34,7 @@ public class ModJadePlugin implements IWailaPlugin {
 
             @Override
             public Identifier getUid() {
-                return ResourcesTrees.id("resources_leaves");
+                return Constants.id("resources_leaves");
             }
         }, ResourcesLeavesBlock.class);
 

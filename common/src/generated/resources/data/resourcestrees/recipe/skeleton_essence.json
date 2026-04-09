@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:bone",
+    "minecraft:bone",
+    "minecraft:bone",
+    "minecraft:bone"
+  ],
+  "result": {
+    "id": "resourcestrees:skeleton_essence"
+  }
+}

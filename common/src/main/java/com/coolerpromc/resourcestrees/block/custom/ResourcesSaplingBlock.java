@@ -60,21 +60,21 @@ public class ResourcesSaplingBlock extends SaplingBlock implements EntityBlock {
 
         if (blockEntity instanceof ResourcesTypesBlockEntity be){
             if (!drops.isEmpty() && be.getResourcesType() != null){
-                drops.getFirst().set(ModDataComponents.TYPE, be.getResourcesType());
+                drops.getFirst().set(ModDataComponents.TYPE.get(), be.getResourcesType());
             }
         }
         return drops;
     }
 
     @Override
-    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData, Player player) {
+    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if (blockEntity instanceof ResourcesTypesBlockEntity be && be.getResourcesType() != null){
-            ItemStack stack = super.getCloneItemStack(level, pos, state, includeData, player);
-            stack.set(ModDataComponents.TYPE, be.getResourcesType());
+            ItemStack stack = super.getCloneItemStack(level, pos, state, includeData);
+            stack.set(ModDataComponents.TYPE.get(), be.getResourcesType());
             return stack;
         }
-        return super.getCloneItemStack(level, pos, state, includeData, player);
+        return super.getCloneItemStack(level, pos, state, includeData);
     }
 
     @Override

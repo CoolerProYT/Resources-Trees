@@ -1,0 +1,8 @@
+{
+  "color": -1118482,
+  "leafDropChance": 0.25,
+  "material": "resourcestrees:skeleton_essence",
+  "saplingDropChance": 0.125,
+  "treeSimulatorTicks": 1200,
+  "weight": 5
+}

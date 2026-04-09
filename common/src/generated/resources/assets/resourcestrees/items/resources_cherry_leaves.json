@@ -1,0 +1,12 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "resourcestrees:block/resources_cherry_leaves",
+    "tints": [
+      {
+        "type": "resourcestrees:resources_type_tint",
+        "default": -209945
+      }
+    ]
+  }
+}

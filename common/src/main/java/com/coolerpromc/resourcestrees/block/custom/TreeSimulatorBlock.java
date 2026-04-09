@@ -2,8 +2,10 @@ package com.coolerpromc.resourcestrees.block.custom;
 
 import com.coolerpromc.resourcestrees.block.entity.ModBlockEntities;
 import com.coolerpromc.resourcestrees.block.entity.custom.TreeSimulatorBlockEntity;
+import com.coolerpromc.resourcestrees.platform.Services;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
@@ -47,10 +49,10 @@ public class TreeSimulatorBlock extends BaseEntityBlock {
 
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        if (!level.isClientSide()){
+        if (!level.isClientSide() && player instanceof ServerPlayer serverPlayer){
             BlockEntity entity = level.getBlockEntity(pos);
             if (entity instanceof MenuProvider provider) {
-                player.openMenu(provider, pos);
+                Services.PLATFORM.openMenu(serverPlayer, provider, pos);
             } else {
                 throw new IllegalStateException("Our Container provider is missing!");
             }

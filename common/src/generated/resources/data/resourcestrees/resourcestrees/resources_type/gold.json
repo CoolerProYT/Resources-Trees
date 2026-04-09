@@ -1,0 +1,8 @@
+{
+  "color": -10752,
+  "leafDropChance": 0.25,
+  "material": "minecraft:gold_block",
+  "saplingDropChance": 0.125,
+  "treeSimulatorTicks": 1200,
+  "weight": 5
+}

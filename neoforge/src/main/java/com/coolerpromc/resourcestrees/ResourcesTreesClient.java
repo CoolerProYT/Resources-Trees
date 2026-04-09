@@ -4,7 +4,8 @@ import com.coolerpromc.resourcestrees.block.ModBlocks;
 import com.coolerpromc.resourcestrees.block.entity.ModBlockEntities;
 import com.coolerpromc.resourcestrees.block.entity.renderer.TreeSimulatorBlockEntityRenderer;
 import com.coolerpromc.resourcestrees.client.tint.ResourcesTypesTintSource;
-import com.coolerpromc.resourcestrees.datagen.model.ResourcesTypeTintSource;
+import com.coolerpromc.resourcestrees.client.tint.ResourcesTypeTintSource;
+import com.coolerpromc.resourcestrees.event.ModRecipeReceived;
 import com.coolerpromc.resourcestrees.screen.ModMenuTypes;
 import com.coolerpromc.resourcestrees.screen.custom.TreeSimulatorScreen;
 import net.minecraft.client.color.block.BlockTintSources;
@@ -16,22 +17,18 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RecipesReceivedEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 
 import java.util.List;
 
-import static com.coolerpromc.resourcestrees.ResourcesTrees.MODID;
+import static com.coolerpromc.resourcestrees.Constants.MODID;
 
 @Mod(value = MODID, dist = Dist.CLIENT)
 @EventBusSubscriber(modid = MODID, value = Dist.CLIENT)
 public class ResourcesTreesClient {
     public ResourcesTreesClient(ModContainer container) {
-
-    }
-
-    @SubscribeEvent
-    static void onClientSetup(FMLClientSetupEvent event) {
 
     }
 
@@ -72,5 +69,10 @@ public class ResourcesTreesClient {
     @SubscribeEvent
     public static void onEntityRenderersRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(ModBlockEntities.TREE_SIMULATOR_BE.get(), TreeSimulatorBlockEntityRenderer::new);
+    }
+
+    @SubscribeEvent
+    public static void onRecipesReceived(RecipesReceivedEvent event) {
+        ModRecipeReceived.recipeMap = event.getRecipeMap();
     }
 }

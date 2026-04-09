@@ -1,12 +1,12 @@
 package com.coolerpromc.resourcestrees.config;
 
+import com.coolerpromc.resourcestrees.platform.Services;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.Item;
-import net.neoforged.fml.loading.FMLPaths;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class ModConfig {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-    private static final Path CONFIG_PATH = FMLPaths.CONFIGDIR.get().resolve("resourcestrees/axe.json");
+    private static final Path CONFIG_PATH = Services.PLATFORM.getConfigDir().resolve("resourcestrees/axe.json");
 
     private Map<String, Double> values = new HashMap<>();
 

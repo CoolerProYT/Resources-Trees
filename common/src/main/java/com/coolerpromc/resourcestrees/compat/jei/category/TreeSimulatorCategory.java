@@ -1,6 +1,6 @@
 package com.coolerpromc.resourcestrees.compat.jei.category;
 
-import com.coolerpromc.resourcestrees.ResourcesTrees;
+import com.coolerpromc.resourcestrees.Constants;
 import com.coolerpromc.resourcestrees.block.ModBlocks;
 import com.coolerpromc.resourcestrees.recipe.ModRecipes;
 import com.coolerpromc.resourcestrees.recipe.custom.TreeSimulatorRecipe;
@@ -27,8 +27,8 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import java.util.List;
 
 public class TreeSimulatorCategory extends AbstractRecipeCategory<RecipeHolder<TreeSimulatorRecipe>> {
-    public static final Identifier UID = ResourcesTrees.id("dna_extracting");
-    public static final Identifier TEXTURE = ResourcesTrees.id("textures/gui/tree_simulator.png");
+    public static final Identifier UID = Constants.id("dna_extracting");
+    public static final Identifier TEXTURE = Constants.id("textures/gui/tree_simulator.png");
     public static final IRecipeHolderType<TreeSimulatorRecipe> TREE_SIMULATOR_TYPE = IRecipeHolderType.create(ModRecipes.TREE_SIMULATOR_TYPE.get());
     private int tickCount = 0;
 
@@ -43,7 +43,7 @@ public class TreeSimulatorCategory extends AbstractRecipeCategory<RecipeHolder<T
         tickCount++;
         int arrowWidth = (tickCount % 600) * 23 / 600;
 
-        Identifier texture = ResourcesTrees.id("textures/gui/progress.png");
+        Identifier texture = Constants.id("textures/gui/progress.png");
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, texture, 54, 30, 0, 0, arrowWidth, 16, 22, 16);
 
         guiGraphics.fill(56, 53, 75, 72, 0xFFC6C6C6);

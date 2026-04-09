@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_acacia_sapling": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:acacia_sapling"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_deepslate": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:deepslate"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "resourcestrees:saplings/deepslate_acacia_sapling"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_deepslate",
+      "has_acacia_sapling"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "resourcestrees:saplings/deepslate_acacia_sapling"
+    ]
+  }
+}

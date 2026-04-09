@@ -1,0 +1,16 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "resourcestrees:item/resources_jungle_sapling",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": -1
+      },
+      {
+        "type": "resourcestrees:resources_type_tint",
+        "default": -12012264
+      }
+    ]
+  }
+}

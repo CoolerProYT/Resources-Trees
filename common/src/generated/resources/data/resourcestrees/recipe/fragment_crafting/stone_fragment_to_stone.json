@@ -1,0 +1,29 @@
+{
+  "type": "resourcestrees:strict_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "neoforge:ingredient_type": "resourcestrees:resources_type",
+      "base": "resourcestrees:leaf_fragment",
+      "components": {
+        "resourcestrees:resources_type": "resourcestrees:stone"
+      }
+    },
+    "B": {
+      "neoforge:ingredient_type": "resourcestrees:resources_type",
+      "base": "resourcestrees:leaf_fragment",
+      "components": {
+        "resourcestrees:resources_type": "resourcestrees:coal"
+      }
+    }
+  },
+  "pattern": [
+    "AAA",
+    "ABA",
+    "AAA"
+  ],
+  "result": {
+    "count": 12,
+    "id": "minecraft:stone"
+  }
+}

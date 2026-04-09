@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:breeze_rod",
+    "minecraft:breeze_rod",
+    "minecraft:breeze_rod",
+    "minecraft:breeze_rod"
+  ],
+  "result": {
+    "id": "resourcestrees:breeze_essence"
+  }
+}

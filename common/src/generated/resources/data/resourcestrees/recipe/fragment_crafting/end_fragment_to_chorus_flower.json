@@ -1,0 +1,29 @@
+{
+  "type": "resourcestrees:strict_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "neoforge:ingredient_type": "resourcestrees:resources_type",
+      "base": "resourcestrees:leaf_fragment",
+      "components": {
+        "resourcestrees:resources_type": "resourcestrees:end"
+      }
+    },
+    "B": {
+      "neoforge:ingredient_type": "resourcestrees:resources_type",
+      "base": "resourcestrees:leaf_fragment",
+      "components": {
+        "resourcestrees:resources_type": "resourcestrees:nature"
+      }
+    }
+  },
+  "pattern": [
+    "AAA",
+    "ABA",
+    "AAA"
+  ],
+  "result": {
+    "count": 6,
+    "id": "minecraft:chorus_flower"
+  }
+}

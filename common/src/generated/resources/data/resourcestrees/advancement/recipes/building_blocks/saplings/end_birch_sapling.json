@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_birch_sapling": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:birch_sapling"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_end_essence": {
+      "conditions": {
+        "items": [
+          {
+            "items": "resourcestrees:end_essence"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "resourcestrees:saplings/end_birch_sapling"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_end_essence",
+      "has_birch_sapling"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "resourcestrees:saplings/end_birch_sapling"
+    ]
+  }
+}

@@ -1,9 +1,10 @@
 package com.coolerpromc.resourcestrees.block.entity.custom;
 
-import com.coolerpromc.resourcestrees.ResourcesTrees;
+import com.coolerpromc.resourcestrees.Constants;
 import com.coolerpromc.resourcestrees.block.ModBlocks;
 import com.coolerpromc.resourcestrees.block.custom.ResourcesSaplingBlock;
 import com.coolerpromc.resourcestrees.block.entity.ModBlockEntities;
+import com.coolerpromc.resourcestrees.config.ModConfig;
 import com.coolerpromc.resourcestrees.core.ResourcesTypes;
 import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
 import com.coolerpromc.resourcestrees.item.ModItems;
@@ -13,7 +14,6 @@ import com.coolerpromc.resourcestrees.recipe.input.TreeSimulatorRecipeInput;
 import com.coolerpromc.resourcestrees.recipe.output.TreeSimulatorOutput;
 import com.coolerpromc.resourcestrees.screen.custom.TreeSimulatorMenu;
 import com.coolerpromc.resourcestrees.util.ExtendedSimpleInventory;
-import net.fabricmc.fabric.api.menu.v1.ExtendedMenuProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
@@ -29,9 +29,9 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -54,16 +54,18 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
-public class TreeSimulatorBlockEntity extends BlockEntity implements ExtendedMenuProvider<BlockPos>, WorldlyContainer {
+public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvider, WorldlyContainer {
+    public static final ModConfig CONFIG = new ModConfig();
+
     public static final Map<ResourcesSaplingBlock, Item> LOG_BY_SAPLINGS = Map.of(
-            ModBlocks.RESOURCES_OAK_SAPLING, Items.OAK_LOG,
-            ModBlocks.RESOURCES_SPRUCE_SAPLING, Items.SPRUCE_LOG,
-            ModBlocks.RESOURCES_BIRCH_SAPLING, Items.BIRCH_LOG,
-            ModBlocks.RESOURCES_JUNGLE_SAPLING, Items.JUNGLE_LOG,
-            ModBlocks.RESOURCES_ACACIA_SAPLING, Items.ACACIA_LOG,
-            ModBlocks.RESOURCES_DARK_OAK_SAPLING, Items.DARK_OAK_LOG,
-            ModBlocks.RESOURCES_CHERRY_SAPLING, Items.CHERRY_LOG,
-            ModBlocks.RESOURCES_PALE_OAK_SAPLING,  Items.PALE_OAK_LOG
+            ModBlocks.RESOURCES_OAK_SAPLING.get(), Items.OAK_LOG,
+            ModBlocks.RESOURCES_SPRUCE_SAPLING.get(), Items.SPRUCE_LOG,
+            ModBlocks.RESOURCES_BIRCH_SAPLING.get(), Items.BIRCH_LOG,
+            ModBlocks.RESOURCES_JUNGLE_SAPLING.get(), Items.JUNGLE_LOG,
+            ModBlocks.RESOURCES_ACACIA_SAPLING.get(), Items.ACACIA_LOG,
+            ModBlocks.RESOURCES_DARK_OAK_SAPLING.get(), Items.DARK_OAK_LOG,
+            ModBlocks.RESOURCES_CHERRY_SAPLING.get(), Items.CHERRY_LOG,
+            ModBlocks.RESOURCES_PALE_OAK_SAPLING.get(), Items.PALE_OAK_LOG
     );
 
     public int growTicks = 0;
@@ -107,11 +109,6 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements ExtendedMen
         }
 
         @Override
-        public boolean canPlaceItemThroughFace(int slot, ItemStack stack, @Nullable Direction dir) {
-            return false;
-        }
-
-        @Override
         public boolean canTakeItemThroughFace(int slot, ItemStack stack, Direction dir) {
             return false;
         }
@@ -142,7 +139,7 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements ExtendedMen
     };
 
     public TreeSimulatorBlockEntity(BlockPos pos, BlockState blockState) {
-        super(ModBlockEntities.TREE_SIMULATOR_BE, pos, blockState);
+        super(ModBlockEntities.TREE_SIMULATOR_BE.get(), pos, blockState);
     }
 
     @Override
@@ -153,11 +150,6 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements ExtendedMen
     @Override
     public @Nullable AbstractContainerMenu createMenu(int syncId, Inventory playerInventory, Player player) {
         return new TreeSimulatorMenu(syncId, playerInventory, this, this.data);
-    }
-
-    @Override
-    public BlockPos getScreenOpeningData(ServerPlayer serverPlayerEntity) {
-        return this.worldPosition;
     }
 
     @Override
@@ -233,7 +225,7 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements ExtendedMen
                 if (outputSlot != -1) {
                     this.outputHandler.insertItem(outputSlot, result, false);
                 } else {
-                    ResourcesTrees.LOGGER.warn("No suitable output slot found for item: {} at {}", result, getBlockPos());
+                    Constants.LOG.warn("No suitable output slot found for item: {} at {}", result, getBlockPos());
                 }
             }
 
@@ -333,15 +325,15 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements ExtendedMen
 
     private Optional<RecipeHolder<TreeSimulatorRecipe>> getCurrentRecipe(){
         if (level instanceof ServerLevel serverLevel){
-            Optional<RecipeHolder<TreeSimulatorRecipe>> recipe = serverLevel.recipeAccess().getRecipeFor(ModRecipes.TREE_SIMULATOR_TYPE, new TreeSimulatorRecipeInput(getSapling()), serverLevel);
+            Optional<RecipeHolder<TreeSimulatorRecipe>> recipe = serverLevel.recipeAccess().getRecipeFor(ModRecipes.TREE_SIMULATOR_TYPE.get(), new TreeSimulatorRecipeInput(getSapling()), serverLevel);
             if (recipe.isPresent()){
                 return recipe;
             }
             else if (Block.byItem(getSapling().getItem()) instanceof ResourcesSaplingBlock block){
-                Holder<ResourcesTypes> type = getSapling().get(ModDataComponents.TYPE);
+                Holder<ResourcesTypes> type = getSapling().get(ModDataComponents.TYPE.get());
 
                 if (type != null){
-                    ItemStackTemplate leaf = new ItemStackTemplate(ModItems.LEAF_FRAGMENT, DataComponentPatch.builder().set(ModDataComponents.TYPE, type).build());
+                    ItemStackTemplate leaf = new ItemStackTemplate(ModItems.LEAF_FRAGMENT.get(), DataComponentPatch.builder().set(ModDataComponents.TYPE.get(), type).build());
                     ResourcesTypes value = type.value();
                     List<TreeSimulatorOutput> drops = new ArrayList<>();
                     drops.add(TreeSimulatorOutput.of(TreeSimulatorBlockEntity.LOG_BY_SAPLINGS.get(block), 0.5f, 1, 4));
@@ -405,7 +397,7 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements ExtendedMen
         if (recipeHolder.isPresent() && isAxeValid()){
             TreeSimulatorRecipe recipe = recipeHolder.get().value();
             int tick = recipe.ticksToGrow();
-            double GROW_TICK_BY_AXE = ResourcesTrees.CONFIG.get(getAxe().typeHolder().getRegisteredName());
+            double GROW_TICK_BY_AXE = CONFIG.get(getAxe().typeHolder().getRegisteredName());
             if (GROW_TICK_BY_AXE != 0.0){
                 tick = (int) (recipe.ticksToGrow() / GROW_TICK_BY_AXE);
             }

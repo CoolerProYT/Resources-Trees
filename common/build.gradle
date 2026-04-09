@@ -19,6 +19,7 @@ dependencies {
     annotationProcessor group: 'io.github.llamalad7', name: 'mixinextras-common', version: '0.3.5'
 
     compileOnly "mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"
+    compileOnly "maven.modrinth:jade:${jade_version}"
 }
 
 configurations {

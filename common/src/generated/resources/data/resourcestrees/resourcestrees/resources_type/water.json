@@ -1,0 +1,8 @@
+{
+  "color": -15235116,
+  "leafDropChance": 0.25,
+  "material": "resourcestrees:water_essence",
+  "saplingDropChance": 0.125,
+  "treeSimulatorTicks": 800,
+  "weight": 5
+}

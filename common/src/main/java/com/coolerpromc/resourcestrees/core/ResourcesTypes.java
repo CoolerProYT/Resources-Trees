@@ -1,6 +1,6 @@
 package com.coolerpromc.resourcestrees.core;
 
-import com.coolerpromc.resourcestrees.ResourcesTrees;
+import com.coolerpromc.resourcestrees.Constants;
 import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
 import com.coolerpromc.resourcestrees.item.ModItems;
 import com.coolerpromc.resourcestrees.registry.ModRegistries;
@@ -108,7 +108,7 @@ public record ResourcesTypes(Either<Identifier, TagKey<Item>> material, int colo
     public static final ResourceKey<ResourcesTypes> ZOMBIE = register("zombie");
 
     private static ResourceKey<ResourcesTypes> register(String name) {
-        return ResourceKey.create(ModRegistries.RESOURCES_TYPES_KEY, Identifier.fromNamespaceAndPath(ResourcesTrees.MODID, name));
+        return ResourceKey.create(ModRegistries.RESOURCES_TYPES_KEY, Identifier.fromNamespaceAndPath(Constants.MODID, name));
     }
 
     public static void bootstrap(BootstrapContext<ResourcesTypes> context) {
@@ -130,34 +130,34 @@ public record ResourcesTypes(Either<Identifier, TagKey<Item>> material, int colo
         context.register(REDSTONE, new Builder(Items.REDSTONE_BLOCK, 0xFFFF1744).treeSimulatorTicks(1000).build());
         context.register(DEEPSLATE, new Builder(Items.DEEPSLATE, 0xFF2B2B24).treeSimulatorTicks(800).build());
         context.register(DIRT, new Builder(Items.DIRT, 0xFF9B7653).treeSimulatorTicks(800).build());
-        context.register(FIRE, new Builder(ModItems.FIRE_ESSENCE, 0xFFE45323).treeSimulatorTicks(800).build());
+        context.register(FIRE, new Builder(ModItems.FIRE_ESSENCE.get(), 0xFFE45323).treeSimulatorTicks(800).build());
         context.register(NETHER, new Builder(Items.NETHERRACK, 0xFF511515).treeSimulatorTicks(800).build());
-        context.register(END, new Builder(ModItems.END_ESSENCE, 0xFFC5BE8B).treeSimulatorTicks(800).build());
-        context.register(NATURE, new Builder(ModItems.NATURE_ESSENCE, 0xFF1a6e08).treeSimulatorTicks(800).build());
-        context.register(WATER, new Builder(ModItems.WATER_ESSENCE, 0xFF1787D4).treeSimulatorTicks(800).build());
+        context.register(END, new Builder(ModItems.END_ESSENCE.get(), 0xFFC5BE8B).treeSimulatorTicks(800).build());
+        context.register(NATURE, new Builder(ModItems.NATURE_ESSENCE.get(), 0xFF1a6e08).treeSimulatorTicks(800).build());
+        context.register(WATER, new Builder(ModItems.WATER_ESSENCE.get(), 0xFF1787D4).treeSimulatorTicks(800).build());
         context.register(ICE, new Builder(Items.ICE, 0xFFb9e8ea).treeSimulatorTicks(800).build());
-        context.register(BEE, new Builder(ModItems.BEE_ESSENCE, 0xFFEDC343).build());
+        context.register(BEE, new Builder(ModItems.BEE_ESSENCE.get(), 0xFFEDC343).build());
         context.register(SLIME, new Builder(Items.SLIME_BLOCK, 0xFF6aa84f).build());
-        context.register(SCULK, new Builder(ModItems.SCULK_ESSENCE, 0xFF041820).treeSimulatorTicks(1400).build());
-        context.register(SKELETON, new Builder(ModItems.SKELETON_ESSENCE, 0xFFeeeeee).build());
-        context.register(SPIDER, new Builder(ModItems.SPIDER_ESSENCE, 0xFF1a0c20).build());
-        context.register(CHICKEN, new Builder(ModItems.CHICKEN_ESSENCE, 0xFFA1A1A1).build());
-        context.register(COW, new Builder(ModItems.COW_ESSENCE, 0xFF543936).build());
-        context.register(RABBIT, new Builder(ModItems.RABBIT_ESSENCE, 0xFF8B5A2B).build());
-        context.register(SQUID, new Builder(ModItems.SQUID_ESSENCE, 0xFF223B4D).build());
-        context.register(TURTLE, new Builder(ModItems.TURTLE_ESSENCE, 0xFF315410).build());
-        context.register(BLAZE, new Builder(ModItems.BLAZE_ESSENCE, 0xFFd4ae37).build());
-        context.register(BREEZE, new Builder(ModItems.BREEZE_ESSENCE, 0xFFd5d6ff).build());
+        context.register(SCULK, new Builder(ModItems.SCULK_ESSENCE.get(), 0xFF041820).treeSimulatorTicks(1400).build());
+        context.register(SKELETON, new Builder(ModItems.SKELETON_ESSENCE.get(), 0xFFeeeeee).build());
+        context.register(SPIDER, new Builder(ModItems.SPIDER_ESSENCE.get(), 0xFF1a0c20).build());
+        context.register(CHICKEN, new Builder(ModItems.CHICKEN_ESSENCE.get(), 0xFFA1A1A1).build());
+        context.register(COW, new Builder(ModItems.COW_ESSENCE.get(), 0xFF543936).build());
+        context.register(RABBIT, new Builder(ModItems.RABBIT_ESSENCE.get(), 0xFF8B5A2B).build());
+        context.register(SQUID, new Builder(ModItems.SQUID_ESSENCE.get(), 0xFF223B4D).build());
+        context.register(TURTLE, new Builder(ModItems.TURTLE_ESSENCE.get(), 0xFF315410).build());
+        context.register(BLAZE, new Builder(ModItems.BLAZE_ESSENCE.get(), 0xFFd4ae37).build());
+        context.register(BREEZE, new Builder(ModItems.BREEZE_ESSENCE.get(), 0xFFd5d6ff).build());
         context.register(NETHER_STAR, new Builder(Items.NETHER_STAR, 0xFFD8E0D4).treeSimulatorTicks(2000).build());
         context.register(ENDER_PEARL, new Builder(Items.ENDER_PEARL, 0xFF032620).treeSimulatorTicks(1400).build());
         context.register(SHULKER, new Builder(Items.SHULKER_SHELL, 0xFFcfc2d6).treeSimulatorTicks(1400).build());
-        context.register(DYE, new Builder(ModItems.DYE_ESSENCE, 0xFF72d4b3).treeSimulatorTicks(800).build());
+        context.register(DYE, new Builder(ModItems.DYE_ESSENCE.get(), 0xFF72d4b3).treeSimulatorTicks(800).build());
         context.register(GUNPOWDER, new Builder(Items.GUNPOWDER, 0xFF414257).build());
-        context.register(GHAST, new Builder(ModItems.GHAST_ESSENCE, 0xFFF9F9F9).build());
-        context.register(PIG, new Builder(ModItems.PIG_ESSENCE, 0xFFF9A195).build());
-        context.register(SHEEP, new Builder(ModItems.SHEEP_ESSENCE, 0xFFFFFFFF).build());
-        context.register(FISH, new Builder(ModItems.FISH_ESSENCE, 0xFFC1A76A).build());
-        context.register(ZOMBIE, new Builder(ModItems.ZOMBIE_ESSENCE, 0xFF3e692d).build());
+        context.register(GHAST, new Builder(ModItems.GHAST_ESSENCE.get(), 0xFFF9F9F9).build());
+        context.register(PIG, new Builder(ModItems.PIG_ESSENCE.get(), 0xFFF9A195).build());
+        context.register(SHEEP, new Builder(ModItems.SHEEP_ESSENCE.get(), 0xFFFFFFFF).build());
+        context.register(FISH, new Builder(ModItems.FISH_ESSENCE.get(), 0xFFC1A76A).build());
+        context.register(ZOMBIE, new Builder(ModItems.ZOMBIE_ESSENCE.get(), 0xFF3e692d).build());
     }
 
     public static Map<Identifier, Holder<ResourcesTypes>> getAllResourcesTypes(HolderLookup.Provider provider) {
@@ -177,11 +177,11 @@ public record ResourcesTypes(Either<Identifier, TagKey<Item>> material, int colo
             return false;
         }
 
-        boolean hasType1 = stack.has(ModDataComponents.TYPE);
-        boolean hasType2 = other.has(ModDataComponents.TYPE);
+        boolean hasType1 = stack.has(ModDataComponents.TYPE.get());
+        boolean hasType2 = other.has(ModDataComponents.TYPE.get());
 
         if (hasType1 && hasType2) {
-            return Objects.equals(stack.get(ModDataComponents.TYPE), other.get(ModDataComponents.TYPE));
+            return Objects.equals(stack.get(ModDataComponents.TYPE.get()), other.get(ModDataComponents.TYPE.get()));
         }
 
         return !hasType1 && !hasType2;

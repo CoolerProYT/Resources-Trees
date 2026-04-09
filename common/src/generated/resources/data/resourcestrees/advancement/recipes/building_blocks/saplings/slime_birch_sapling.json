@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_birch_sapling": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:birch_sapling"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_slime_block": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:slime_block"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "resourcestrees:saplings/slime_birch_sapling"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_slime_block",
+      "has_birch_sapling"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "resourcestrees:saplings/slime_birch_sapling"
+    ]
+  }
+}

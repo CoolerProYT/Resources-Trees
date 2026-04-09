@@ -7,7 +7,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -75,21 +74,7 @@ public class ResourcesTypesBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void handleUpdateTag(ValueInput input) {
-        super.handleUpdateTag(input);
-        loadAdditional(input);
-    }
-
-    @Override
     public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
         return saveWithoutMetadata(registries);
-    }
-
-    @Override
-    public void onDataPacket(Connection net, ValueInput valueInput) {
-        handleUpdateTag(valueInput);
-        if (level != null && level.isClientSide()){
-            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_ALL);
-        }
     }
 }

@@ -3,7 +3,7 @@ package com.coolerpromc.resourcestrees.screen.custom;
 import com.coolerpromc.resourcestrees.block.entity.custom.TreeSimulatorBlockEntity;
 import com.coolerpromc.resourcestrees.screen.ModMenuTypes;
 import com.coolerpromc.resourcestrees.screen.container.OutputSlot;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -11,8 +11,6 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
-import net.neoforged.neoforge.transfer.item.ResourceHandlerSlot;
 import org.jetbrains.annotations.NotNull;
 
 public class TreeSimulatorMenu extends AbstractContainerMenu {
@@ -27,8 +25,8 @@ public class TreeSimulatorMenu extends AbstractContainerMenu {
 
     protected final ContainerData data;
 
-    public TreeSimulatorMenu(int containerId, Inventory playerInventory, RegistryFriendlyByteBuf byteBuf) {
-        this(containerId, playerInventory, (TreeSimulatorBlockEntity) playerInventory.player.level().getBlockEntity(byteBuf.readBlockPos()), new SimpleContainerData(2));
+    public TreeSimulatorMenu(int containerId, Inventory playerInventory, BlockPos pos) {
+        this(containerId, playerInventory, (TreeSimulatorBlockEntity) playerInventory.player.level().getBlockEntity(pos), new SimpleContainerData(2));
     }
 
     public TreeSimulatorMenu(int containerId, Inventory playerInventory, TreeSimulatorBlockEntity blockEntity, ContainerData data){
@@ -39,28 +37,28 @@ public class TreeSimulatorMenu extends AbstractContainerMenu {
         addPlayerHotbar(playerInventory);
         addDataSlots(this.data);
 
-        ItemStacksResourceHandler inputHandler = blockEntity.getInputHandler();
-        this.addSlot(new ResourceHandlerSlot(inputHandler, inputHandler::set, 0, 26, 35));
+        // Input slot (slot 0 in blockEntity)
+        this.addSlot(new Slot(blockEntity, 0, 26, 35));
 
-        ItemStacksResourceHandler outputHandler = blockEntity.getOutputHandler();
-        for (int i = 0; i < blockEntity.getOutputHandler().size(); i ++){
-            this.addSlot(new OutputSlot(outputHandler, i, 98 + 18 * (i % 3), 17 + (i / 3) * 18, itemStack -> false));
+        // Output slots (slots 1-9 in blockEntity, starting after input)
+        for (int i = 0; i < blockEntity.getOutputHandler().getContainerSize(); i++){
+            this.addSlot(new OutputSlot(blockEntity, 1 + i, 98 + 18 * (i % 3), 17 + (i / 3) * 18));
         }
 
-        ItemStacksResourceHandler axeHandler = blockEntity.getAxeHandler();
-        this.addSlot(new ResourceHandlerSlot(axeHandler, axeHandler::set, 0, 62, 59));
+        // Axe slot (slot 10 in blockEntity, after input + output)
+        this.addSlot(new Slot(blockEntity, 1 + blockEntity.getOutputHandler().getContainerSize(), 62, 59));
     }
 
     @Override
     public @NotNull ItemStack quickMoveStack(@NotNull Player pPlayer, int pIndex) {
         Slot sourceSlot = slots.get(pIndex);
-        if (!sourceSlot.hasItem()) return ItemStack.EMPTY;  //EMPTY_ITEM
+        if (!sourceSlot.hasItem()) return ItemStack.EMPTY;
         ItemStack sourceStack = sourceSlot.getItem();
         ItemStack copyOfSourceStack = sourceStack.copy();
 
         if (pIndex < VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT) {
             if (!moveItemStackTo(sourceStack, TE_INVENTORY_FIRST_SLOT_INDEX, TE_INVENTORY_FIRST_SLOT_INDEX + TE_INVENTORY_SLOT_COUNT, false)) {
-                return ItemStack.EMPTY;  // EMPTY_ITEM
+                return ItemStack.EMPTY;
             }
         } else if (pIndex < TE_INVENTORY_FIRST_SLOT_INDEX + TE_INVENTORY_SLOT_COUNT) {
             if (!moveItemStackTo(sourceStack, VANILLA_FIRST_SLOT_INDEX, VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT, false)) {

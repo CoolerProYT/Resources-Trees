@@ -1,0 +1,54 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_rabbit": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:rabbit"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_rabbit_foot": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:rabbit_foot"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_rabbit_hide": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:rabbit_hide"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "resourcestrees:rabbit_essence"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_rabbit_hide",
+      "has_rabbit",
+      "has_rabbit_foot"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "resourcestrees:rabbit_essence"
+    ]
+  }
+}

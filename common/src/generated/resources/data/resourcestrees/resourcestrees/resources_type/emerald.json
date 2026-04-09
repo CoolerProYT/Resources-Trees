@@ -1,0 +1,8 @@
+{
+  "color": -16725933,
+  "leafDropChance": 0.25,
+  "material": "minecraft:emerald_block",
+  "saplingDropChance": 0.125,
+  "treeSimulatorTicks": 1400,
+  "weight": 5
+}

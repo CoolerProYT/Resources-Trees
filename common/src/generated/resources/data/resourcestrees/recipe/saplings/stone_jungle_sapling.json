@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": "minecraft:cobblestone",
+    "B": "minecraft:jungle_sapling"
+  },
+  "pattern": [
+    " A ",
+    "ABA",
+    " A "
+  ],
+  "result": {
+    "components": {
+      "resourcestrees:resources_type": "resourcestrees:stone"
+    },
+    "id": "resourcestrees:resources_jungle_sapling"
+  }
+}

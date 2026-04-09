@@ -1,12 +1,13 @@
 package com.coolerpromc.resourcestrees.compat.jei;
 
-import com.coolerpromc.resourcestrees.ResourcesTrees;
+import com.coolerpromc.resourcestrees.Constants;
 import com.coolerpromc.resourcestrees.block.ModBlocks;
 import com.coolerpromc.resourcestrees.compat.jei.category.TreeSimulatorCategory;
 import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
 import com.coolerpromc.resourcestrees.event.ModRecipeReceived;
 import com.coolerpromc.resourcestrees.item.ModItems;
 import com.coolerpromc.resourcestrees.recipe.ModRecipes;
+import com.coolerpromc.resourcestrees.recipe.custom.StrictShapedRecipe;
 import com.coolerpromc.resourcestrees.recipe.custom.TreeSimulatorRecipe;
 import com.coolerpromc.resourcestrees.screen.custom.TreeSimulatorScreen;
 import com.coolerpromc.resourcestrees.util.RecipeViewerFiller;
@@ -14,12 +15,16 @@ import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.helpers.IJeiHelpers;
+import mezz.jei.api.recipe.category.extensions.vanilla.crafting.ICraftingCategoryExtension;
 import mezz.jei.api.registration.*;
-import mezz.jei.common.util.RegistryUtil;
+import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.display.RecipeDisplay;
+import net.minecraft.world.item.crafting.display.ShapedCraftingRecipeDisplay;
+import net.minecraft.world.item.crafting.display.SlotDisplay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +33,7 @@ import java.util.List;
 public class ModJEIPlugin implements IModPlugin {
     @Override
     public Identifier getPluginUid() {
-        return Identifier.fromNamespaceAndPath(ResourcesTrees.MODID, "jei_plugin");
+        return Identifier.fromNamespaceAndPath(Constants.MODID, "jei_plugin");
     }
 
     @Override
@@ -49,7 +54,7 @@ public class ModJEIPlugin implements IModPlugin {
         List<RecipeHolder<TreeSimulatorRecipe>> treeSimulatorRecipe = new ArrayList<>(ModRecipeReceived.recipeMap.byType(ModRecipes.TREE_SIMULATOR_TYPE.get()));
         List<ResourceKey<Recipe<?>>> keys = treeSimulatorRecipe.stream().map(RecipeHolder::id).toList();
 
-        treeSimulatorRecipe.addAll(RecipeViewerFiller.addUndefinedRecipes(RegistryUtil.getRegistryAccess(), keys));
+        treeSimulatorRecipe.addAll(RecipeViewerFiller.addUndefinedRecipes(Minecraft.getInstance().getConnection().registryAccess(), keys));
         registration.addRecipes(TreeSimulatorCategory.TREE_SIMULATOR_TYPE, treeSimulatorRecipe.stream().toList());
     }
 
@@ -74,6 +79,30 @@ public class ModJEIPlugin implements IModPlugin {
         registration.registerFromDataComponentTypes(ModBlocks.RESOURCES_PALE_OAK_LEAVES.asItem(), ModDataComponents.TYPE.get());
 
         registration.registerFromDataComponentTypes(ModItems.LEAF_FRAGMENT.get(), ModDataComponents.TYPE.get());
+    }
+
+    @Override
+    public void registerVanillaCategoryExtensions(IVanillaCategoryExtensionRegistration registration) {
+        registration.getCraftingCategory().addExtension(StrictShapedRecipe.class, new ICraftingCategoryExtension<>() {
+            @Override
+            public int getWidth(RecipeHolder<StrictShapedRecipe> recipeHolder) {
+                return recipeHolder.value().getWidth();
+            }
+
+            @Override
+            public int getHeight(RecipeHolder<StrictShapedRecipe> recipeHolder) {
+                return recipeHolder.value().getHeight();
+            }
+
+            @Override
+            public List<SlotDisplay> getIngredients(RecipeHolder<StrictShapedRecipe> recipeHolder) {
+                List<RecipeDisplay> displays = recipeHolder.value().display();
+                if (!displays.isEmpty() && displays.getFirst() instanceof ShapedCraftingRecipeDisplay shaped) {
+                    return shaped.ingredients();
+                }
+                return List.of();
+            }
+        });
     }
 
     @Override

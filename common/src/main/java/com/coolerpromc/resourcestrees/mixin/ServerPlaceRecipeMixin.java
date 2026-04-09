@@ -1,7 +1,7 @@
 package com.coolerpromc.resourcestrees.mixin;
 
+import com.coolerpromc.resourcestrees.platform.Services;
 import com.coolerpromc.resourcestrees.recipe.custom.StrictShapedRecipe;
-import com.coolerpromc.resourcestrees.recipe.ingredient.ResourcesTypeIngredient;
 import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.recipebook.ServerPlaceRecipe;
 import net.minecraft.world.entity.player.Inventory;
@@ -52,7 +52,7 @@ public abstract class ServerPlaceRecipeMixin<R extends Recipe<?>> {
         Recipe<?> recipeValue = recipe.value();
         if (recipeValue instanceof CraftingRecipe craftingRecipe) {
             boolean hasDataComponentIngredient = craftingRecipe.placementInfo().ingredients().stream()
-                    .anyMatch(ing -> ing.isCustom() && ing.getCustomIngredient() instanceof ResourcesTypeIngredient);
+                    .anyMatch(Services.REGISTRY::isResourcesTypeIngredient);
 
             if (hasDataComponentIngredient) {
                 if (resourcesTrees$canCraftWithDataComponents(craftingRecipe)) {

@@ -1,0 +1,8 @@
+{
+  "color": -2838985,
+  "leafDropChance": 0.25,
+  "material": "resourcestrees:blaze_essence",
+  "saplingDropChance": 0.125,
+  "treeSimulatorTicks": 1200,
+  "weight": 5
+}

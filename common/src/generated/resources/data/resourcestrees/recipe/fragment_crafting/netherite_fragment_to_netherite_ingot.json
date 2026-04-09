@@ -1,0 +1,21 @@
+{
+  "type": "resourcestrees:strict_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "neoforge:ingredient_type": "resourcestrees:resources_type",
+      "base": "resourcestrees:leaf_fragment",
+      "components": {
+        "resourcestrees:resources_type": "resourcestrees:netherite"
+      }
+    }
+  },
+  "pattern": [
+    "AAA",
+    "AAA",
+    "AAA"
+  ],
+  "result": {
+    "id": "minecraft:netherite_ingot"
+  }
+}

@@ -1,5 +1,13 @@
 package com.coolerpromc.resourcestrees.platform.services;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.MenuProvider;
+
+import java.nio.file.Path;
+
 public interface IPlatformHelper {
 
     /**
@@ -33,4 +41,21 @@ public interface IPlatformHelper {
 
         return isDevelopmentEnvironment() ? "development" : "production";
     }
+
+    /**
+     * Gets the config directory for the current platform.
+     *
+     * @return The path to the config directory.
+     */
+    Path getConfigDir();
+
+    /**
+     * Opens a menu with extra data (BlockPos) sent to the client.
+     */
+    void openMenu(ServerPlayer player, MenuProvider provider, BlockPos pos);
+
+    /**
+     * Sends a custom packet payload to all connected players.
+     */
+    void sendToAllPlayers(CustomPacketPayload packet, ServerLevel level);
 }

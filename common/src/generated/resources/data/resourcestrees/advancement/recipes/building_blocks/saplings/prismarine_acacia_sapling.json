@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_acacia_sapling": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:acacia_sapling"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_prismarine": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:prismarine"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "resourcestrees:saplings/prismarine_acacia_sapling"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_prismarine",
+      "has_acacia_sapling"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "resourcestrees:saplings/prismarine_acacia_sapling"
+    ]
+  }
+}

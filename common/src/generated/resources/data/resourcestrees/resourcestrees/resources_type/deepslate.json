@@ -1,0 +1,8 @@
+{
+  "color": -13948124,
+  "leafDropChance": 0.25,
+  "material": "minecraft:deepslate",
+  "saplingDropChance": 0.125,
+  "treeSimulatorTicks": 800,
+  "weight": 5
+}

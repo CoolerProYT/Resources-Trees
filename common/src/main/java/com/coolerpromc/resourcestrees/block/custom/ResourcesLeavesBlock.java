@@ -84,12 +84,12 @@ public class ResourcesLeavesBlock extends LeavesBlock implements EntityBlock {
             if (drops.isEmpty()){
                 if (builder.getLevel().getRandom().nextFloat() < resourcesTypes.value().saplingDropChance() / 2) {
                     ItemStack saplingDrop = sapling.get().asItem().getDefaultInstance();
-                    saplingDrop.set(ModDataComponents.TYPE, resourcesTypes);
+                    saplingDrop.set(ModDataComponents.TYPE.get(), resourcesTypes);
                     drops.add(saplingDrop);
                 }
 
                 ItemStack fragment = ModItems.LEAF_FRAGMENT.toStack();
-                fragment.set(ModDataComponents.TYPE, resourcesTypes);
+                fragment.set(ModDataComponents.TYPE.get(), resourcesTypes);
 
                 if (builder.getLevel().getRandom().nextFloat() < resourcesTypes.value().leafDropChance()){
                     drops.add(fragment.copy());
@@ -101,7 +101,7 @@ public class ResourcesLeavesBlock extends LeavesBlock implements EntityBlock {
             }
             else{
                 if (Block.byItem(drops.getFirst().getItem()) instanceof ResourcesLeavesBlock){
-                    drops.getFirst().set(ModDataComponents.TYPE, resourcesTypes);
+                    drops.getFirst().set(ModDataComponents.TYPE.get(), resourcesTypes);
                 }
             }
         }
@@ -119,22 +119,20 @@ public class ResourcesLeavesBlock extends LeavesBlock implements EntityBlock {
     }
 
     @Override
-    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData, Player player) {
+    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if (blockEntity instanceof ResourcesTypesBlockEntity be && be.getResourcesType() != null){
-            ItemStack stack = super.getCloneItemStack(level, pos, state, includeData, player);
-            stack.set(ModDataComponents.TYPE, be.getResourcesType());
+            ItemStack stack = super.getCloneItemStack(level, pos, state, includeData);
+            stack.set(ModDataComponents.TYPE.get(), be.getResourcesType());
             return stack;
         }
-        return super.getCloneItemStack(level, pos, state, includeData, player);
+        return super.getCloneItemStack(level, pos, state, includeData);
     }
 
-    @Override
     public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
         return 60;
     }
 
-    @Override
     public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
         return 30;
     }

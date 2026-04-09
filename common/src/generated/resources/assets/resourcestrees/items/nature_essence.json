@@ -1,0 +1,12 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "resourcestrees:item/nature_essence",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": -15045112
+      }
+    ]
+  }
+}

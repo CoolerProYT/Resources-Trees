@@ -1,0 +1,29 @@
+{
+  "type": "resourcestrees:strict_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "neoforge:ingredient_type": "resourcestrees:resources_type",
+      "base": "resourcestrees:leaf_fragment",
+      "components": {
+        "resourcestrees:resources_type": "resourcestrees:wood"
+      }
+    },
+    "B": {
+      "neoforge:ingredient_type": "resourcestrees:resources_type",
+      "base": "resourcestrees:leaf_fragment",
+      "components": {
+        "resourcestrees:resources_type": "resourcestrees:nature"
+      }
+    }
+  },
+  "pattern": [
+    " A ",
+    " B ",
+    "  A"
+  ],
+  "result": {
+    "count": 6,
+    "id": "minecraft:mangrove_propagule"
+  }
+}

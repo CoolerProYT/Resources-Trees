@@ -1,0 +1,46 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_fire_leaf_fragment": {
+      "conditions": {
+        "items": [
+          {
+            "components": {
+              "resourcestrees:resources_type": "resourcestrees:fire"
+            },
+            "items": "resourcestrees:leaf_fragment"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_sand": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:sand"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "resourcestrees:fragment_crafting/fire_fragment_to_red_sand"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_fire_leaf_fragment",
+      "has_sand"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "resourcestrees:fragment_crafting/fire_fragment_to_red_sand"
+    ]
+  }
+}

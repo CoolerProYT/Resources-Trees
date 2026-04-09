@@ -1,6 +1,7 @@
 plugins {
     id 'multiloader-loader'
     id 'net.fabricmc.fabric-loom'
+    id "me.modmuss50.mod-publish-plugin"
 }
 dependencies {
     minecraft "com.mojang:minecraft:${minecraft_version}"
@@ -9,6 +10,7 @@ dependencies {
 
     compileOnly "mezz.jei:jei-${minecraft_version}-fabric-api:${jei_version}"
     runtimeOnly "mezz.jei:jei-${minecraft_version}-fabric:${jei_version}"
+    compileOnly("maven.modrinth:jade:${jade_version}")
 }
 
 loom {
@@ -34,6 +36,16 @@ loom {
 
 sourceSets.main.resources { srcDir rootProject.project(':common').file('src/generated/resources/').getAbsolutePath() }
 
+// Replace NeoForge custom ingredient type key with Fabric's key in recipe JSONs at build time.
+// Datagen runs on NeoForge and produces "neoforge:ingredient_type", but Fabric expects "fabric:type".
+processResources {
+    filesMatching('data/**/recipe/**/*.json') {
+        filter { line ->
+            line.replace('"neoforge:ingredient_type"', '"fabric:type"')
+        }
+    }
+}
+
 // Implement mcgradleconventions loader attribute
 def loaderAttribute = Attribute.of('io.github.mcgradleconventions.loader', String)
 ['apiElements', 'runtimeElements', 'sourcesElements', 'javadocElements', 'includeInternal', 'modCompileClasspath'].each { variant ->
@@ -49,6 +61,32 @@ sourceSets.configureEach {
             attributes {
                 attribute(loaderAttribute, 'fabric')
             }
+        }
+    }
+}
+
+publishMods {
+    file.set(jar.archiveFile)
+    type = BETA
+    modLoaders.add("fabric")
+    changelog = rootProject.file("changelog.md").text
+    displayName = mod_id + "-" + project.version + "+" + minecraft_version + "-fabric"
+
+    curseforge {
+        projectId = "1354532"
+        accessToken = findProperty("CF_TOKEN")
+        minecraftVersionRange {
+            start = "26.1"
+            end = "26.1.2"
+        }
+    }
+
+    modrinth {
+        projectId = 'K5BPYFo9'
+        accessToken = findProperty("MODRINTH_TOKEN")
+        minecraftVersionRange {
+            start = "26.1"
+            end = "26.1.2"
         }
     }
 }

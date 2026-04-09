@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:porkchop",
+    "minecraft:porkchop",
+    "minecraft:porkchop",
+    "minecraft:porkchop"
+  ],
+  "result": {
+    "id": "resourcestrees:pig_essence"
+  }
+}

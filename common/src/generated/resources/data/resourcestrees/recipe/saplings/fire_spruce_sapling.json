@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": "resourcestrees:fire_essence",
+    "B": "minecraft:spruce_sapling"
+  },
+  "pattern": [
+    " A ",
+    "ABA",
+    " A "
+  ],
+  "result": {
+    "components": {
+      "resourcestrees:resources_type": "resourcestrees:fire"
+    },
+    "id": "resourcestrees:resources_spruce_sapling"
+  }
+}

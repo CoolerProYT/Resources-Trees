@@ -1,0 +1,8 @@
+{
+  "color": -12698050,
+  "leafDropChance": 0.15,
+  "material": "minecraft:netherite_block",
+  "saplingDropChance": 0.075,
+  "treeSimulatorTicks": 1800,
+  "weight": 2
+}

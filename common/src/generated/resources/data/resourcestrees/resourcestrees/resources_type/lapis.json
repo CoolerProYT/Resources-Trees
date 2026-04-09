@@ -1,0 +1,8 @@
+{
+  "color": -12627531,
+  "leafDropChance": 0.25,
+  "material": "minecraft:lapis_block",
+  "saplingDropChance": 0.125,
+  "treeSimulatorTicks": 1200,
+  "weight": 5
+}

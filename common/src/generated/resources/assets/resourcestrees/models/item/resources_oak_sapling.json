@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "resourcestrees:block/resources_oak_sapling",
+    "layer1": "resourcestrees:block/resources_oak_sapling_layer1"
+  }
+}

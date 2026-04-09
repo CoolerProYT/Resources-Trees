@@ -1,0 +1,8 @@
+{
+  "color": -2855612,
+  "leafDropChance": 0.25,
+  "material": "minecraft:copper_block",
+  "saplingDropChance": 0.125,
+  "treeSimulatorTicks": 1200,
+  "weight": 5
+}

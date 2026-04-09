@@ -1,0 +1,8 @@
+{
+  "color": -16777216,
+  "leafDropChance": 0.25,
+  "material": "minecraft:coal_block",
+  "saplingDropChance": 0.125,
+  "treeSimulatorTicks": 1000,
+  "weight": 5
+}

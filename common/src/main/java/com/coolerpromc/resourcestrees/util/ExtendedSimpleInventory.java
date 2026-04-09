@@ -18,7 +18,7 @@ public class ExtendedSimpleInventory extends SimpleContainer implements WorldlyC
             return stack;
         } else {
             this.validateSlotIndex(slot);
-            ItemStack existing = this.items.get(slot);
+            ItemStack existing = this.getItems().get(slot);
             int limit = existing.getMaxStackSize();
             if (!existing.isEmpty()) {
                 if (!ItemStack.isSameItemSameComponents(stack, existing)) {
@@ -34,7 +34,7 @@ public class ExtendedSimpleInventory extends SimpleContainer implements WorldlyC
                 boolean reachedLimit = stack.getCount() > limit;
                 if (!simulate) {
                     if (existing.isEmpty()) {
-                        this.items.set(slot, reachedLimit ? stack.copyWithCount(limit) : stack);
+                        this.getItems().set(slot, reachedLimit ? stack.copyWithCount(limit) : stack);
                     } else {
                         existing.grow(reachedLimit ? limit : stack.getCount());
                     }
@@ -46,8 +46,8 @@ public class ExtendedSimpleInventory extends SimpleContainer implements WorldlyC
     }
 
     protected void validateSlotIndex(int slot) {
-        if (slot < 0 || slot >= this.items.size()) {
-            throw new RuntimeException("Slot " + slot + " not in valid range - [0," + this.items.size() + ")");
+        if (slot < 0 || slot >= this.getItems().size()) {
+            throw new RuntimeException("Slot " + slot + " not in valid range - [0," + this.getItems().size() + ")");
         }
     }
 
@@ -72,6 +72,6 @@ public class ExtendedSimpleInventory extends SimpleContainer implements WorldlyC
     }
 
     public int getSlots() {
-        return this.items.size();
+        return this.getItems().size();
     }
 }

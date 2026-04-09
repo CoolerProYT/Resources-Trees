@@ -1,0 +1,8 @@
+{
+  "color": -13755833,
+  "leafDropChance": 0.25,
+  "material": "minecraft:obsidian",
+  "saplingDropChance": 0.125,
+  "treeSimulatorTicks": 1200,
+  "weight": 4
+}

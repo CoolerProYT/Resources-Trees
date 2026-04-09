@@ -5,7 +5,6 @@ import com.coolerpromc.resourcestrees.block.custom.ResourcesSaplingBlock;
 import com.coolerpromc.resourcestrees.block.entity.custom.TreeSimulatorBlockEntity;
 import com.coolerpromc.resourcestrees.core.ResourcesTypes;
 import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
-import com.coolerpromc.resourcestrees.datagen.ModRecipeProvider;
 import com.coolerpromc.resourcestrees.event.ModRecipeReceived;
 import com.coolerpromc.resourcestrees.item.ModItems;
 import com.coolerpromc.resourcestrees.recipe.ModRecipes;
@@ -41,8 +40,8 @@ public class RecipeViewerFiller {
                     Object obj = field.get(null);
                     if (obj instanceof Supplier<?> supplier){
                         if (supplier.get() instanceof ResourcesSaplingBlock block){
-                            ItemStackTemplate leaf = new ItemStackTemplate(ModItems.LEAF_FRAGMENT.get(), 1, DataComponentPatch.builder().set(ModDataComponents.TYPE.get(), value).build());
-                            ItemStackTemplate sapling = new ItemStackTemplate(block.asItem(), 1, DataComponentPatch.builder().set(ModDataComponents.TYPE.get(), value).build());
+                            ItemStackTemplate leaf = new ItemStackTemplate(ModItems.LEAF_FRAGMENT.get().builtInRegistryHolder(), 1, DataComponentPatch.builder().set(ModDataComponents.TYPE.get(), value).build());
+                            ItemStackTemplate sapling = new ItemStackTemplate(block.asItem().builtInRegistryHolder(), 1, DataComponentPatch.builder().set(ModDataComponents.TYPE.get(), value).build());
                             Optional<RecipeHolder<TreeSimulatorRecipe>> exisingRecipe = ModRecipeReceived.recipeMap.getRecipesFor(ModRecipes.TREE_SIMULATOR_TYPE.get(), new TreeSimulatorRecipeInput(sapling.create()), null).findFirst();
                             if (exisingRecipe.isEmpty()){
                                 List<TreeSimulatorOutput> drops = new ArrayList<>();
