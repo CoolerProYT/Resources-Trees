@@ -1,1 +1,2 @@
-- Changed End Essence recipe to use Chorus Flower instead of Chorus Plant
+- Resources Saplings and Resources Leaves are now compostable
+- Resources Saplings and Resources Leaves are now furnace fuel
