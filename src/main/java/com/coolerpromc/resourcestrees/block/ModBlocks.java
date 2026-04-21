@@ -16,9 +16,14 @@ import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 
 public class ModBlocks {
+    public static final List<ResourcesSaplingBlock> SAPLINGS = new ArrayList<>();
+    public static final List<ResourcesLeavesBlock> LEAVES = new ArrayList<>();
+
     public static final TreeSimulatorBlock TREE_SIMULATOR = registerBlock("tree_simulator", TreeSimulatorBlock::new, AbstractBlock.Settings.create());
 
     public static final ResourcesSaplingBlock RESOURCES_OAK_SAPLING =
@@ -59,6 +64,12 @@ public class ModBlocks {
     private static <T extends Block> T registerBlock(String name, Function<AbstractBlock.Settings, ? extends T> func, AbstractBlock.Settings properties){
         T block = Registry.register(Registries.BLOCK, ResourcesTrees.id(name), func.apply(properties));
         registerBlockItem(name, block);
+        if (block instanceof ResourcesSaplingBlock saplingBlock){
+            SAPLINGS.add(saplingBlock);
+        }
+        if (block instanceof ResourcesLeavesBlock leavesBlock){
+            LEAVES.add(leavesBlock);
+        }
         return block;
     }
 

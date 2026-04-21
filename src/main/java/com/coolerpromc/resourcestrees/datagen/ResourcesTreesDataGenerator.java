@@ -14,13 +14,13 @@ public class ResourcesTreesDataGenerator implements DataGeneratorEntrypoint {
 	@Override
 	public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
 		FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
-		CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture = fabricDataGenerator.getRegistries();
 
 		pack.addProvider(ModDatapackProvider::new);
 		pack.addProvider(ModModelProvider::new);
 		pack.addProvider(ModBlockTagGenerator::new);
 		pack.addProvider(ModRecipeProvider::new);
 		pack.addProvider(ModBlockLootTables::new);
+		pack.addProvider(ModItemTagProvider::new);
 	}
 
 	@Override

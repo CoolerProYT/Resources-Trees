@@ -22,6 +22,7 @@ import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.recipe.v1.ingredient.CustomIngredientSerializer;
+import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Block;
@@ -60,6 +61,14 @@ public class ResourcesTrees implements ModInitializer {
         CONFIG.load();
 
         CustomIngredientSerializer.register(ResourcesTypeIngredient.SERIALIZER);
+
+		for (ResourcesSaplingBlock block : ModBlocks.SAPLINGS){
+			CompostingChanceRegistry.INSTANCE.add(block, 0.3F);
+		}
+
+		for (ResourcesLeavesBlock block : ModBlocks.LEAVES){
+			CompostingChanceRegistry.INSTANCE.add(block, 0.3F);
+		}
 
 		Field[] fields = ModBlocks.class.getDeclaredFields();
 		for (Field field : fields){
