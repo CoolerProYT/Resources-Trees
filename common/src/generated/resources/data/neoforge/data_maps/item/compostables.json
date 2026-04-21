@@ -1,0 +1,68 @@
+{
+  "values": {
+    "resourcestrees:resources_acacia_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:resources_acacia_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:resources_birch_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:resources_birch_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:resources_cherry_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:resources_cherry_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:resources_dark_oak_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:resources_dark_oak_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:resources_jungle_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:resources_jungle_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:resources_oak_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:resources_oak_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:resources_pale_oak_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:resources_pale_oak_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:resources_spruce_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:resources_spruce_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    }
+  }
+}

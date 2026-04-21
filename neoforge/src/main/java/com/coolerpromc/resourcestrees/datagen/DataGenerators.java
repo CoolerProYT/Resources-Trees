@@ -28,6 +28,8 @@ public class DataGenerators {
         event.addProvider(new ModBlockTagGenerator(packOutput, lookupProvider));
         event.addProvider(new ModRecipeProvider.Runner(packOutput, datapackProvider.getRegistryProvider()));
         event.addProvider(new ModLootTableProvider(packOutput, lookupProvider));
+        event.addProvider(new ModDataMapProvider(packOutput, lookupProvider));
+        event.createProvider(ModItemTagProvider::new);
     }
 
     @SubscribeEvent

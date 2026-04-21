@@ -44,6 +44,8 @@ processResources {
             line.replace('"neoforge:ingredient_type"', '"fabric:type"')
         }
     }
+
+    exclude 'data/**/data_maps/**'
 }
 
 // Implement mcgradleconventions loader attribute

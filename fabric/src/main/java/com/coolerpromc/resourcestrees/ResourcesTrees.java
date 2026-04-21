@@ -8,6 +8,7 @@ import com.coolerpromc.resourcestrees.core.ResourcesTypes;
 import com.coolerpromc.resourcestrees.network.packet.ResourceTypeSyncS2CPacket;
 import com.coolerpromc.resourcestrees.platform.FabricRegistryHelper;
 import com.coolerpromc.resourcestrees.platform.Services;
+import com.coolerpromc.resourcestrees.platform.util.BlockRegistryHandler;
 import com.coolerpromc.resourcestrees.recipe.ModRecipes;
 import com.coolerpromc.resourcestrees.registry.ModRegistries;
 import net.fabricmc.api.ModInitializer;
@@ -16,10 +17,12 @@ import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.recipe.v1.ingredient.CustomIngredientSerializer;
 import net.fabricmc.fabric.api.recipe.v1.sync.RecipeSynchronization;
+import net.fabricmc.fabric.api.registry.CompostableRegistry;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.TickTask;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.level.block.Block;
 
 import java.lang.reflect.Field;
 import java.util.function.Supplier;
@@ -59,6 +62,14 @@ public class ResourcesTrees implements ModInitializer {
 
             level.getServer().doRunTask(new TickTask(5, () -> TreeHarvesterCompat.handleItemEntitySpawn(itemEntity, level)));
         });
+
+        for (BlockRegistryHandler<? extends Block> block : ModBlocks.SAPLINGS){
+            CompostableRegistry.INSTANCE.add(block, 0.3F);
+        }
+
+        for (BlockRegistryHandler<? extends Block> block : ModBlocks.LEAVES){
+            CompostableRegistry.INSTANCE.add(block, 0.3F);
+        }
     }
 
     public static Identifier id(String path){
