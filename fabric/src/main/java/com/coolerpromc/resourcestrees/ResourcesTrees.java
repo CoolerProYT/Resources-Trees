@@ -53,6 +53,7 @@ public class ResourcesTrees implements ModInitializer {
 
         RecipeSynchronization.synchronizeRecipeSerializer(ModRecipes.TREE_SIMULATOR_SERIALIZER.get());
         RecipeSynchronization.synchronizeRecipeSerializer(ModRecipes.STRICT_SHAPED.get());
+        RecipeSynchronization.synchronizeRecipeSerializer(ModRecipes.RESOURCES_SAPLING.get());
 
         DynamicRegistries.registerSynced(ModRegistries.RESOURCES_TYPES_KEY, ResourcesTypes.CODEC, ResourcesTypes.CODEC);
 

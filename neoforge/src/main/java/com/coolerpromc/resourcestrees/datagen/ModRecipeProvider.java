@@ -1,5 +1,6 @@
 package com.coolerpromc.resourcestrees.datagen;
 
+import com.coolerpromc.resourcestrees.Constants;
 import com.coolerpromc.resourcestrees.block.ModBlocks;
 import com.coolerpromc.resourcestrees.block.custom.ResourcesSaplingBlock;
 import com.coolerpromc.resourcestrees.block.entity.custom.TreeSimulatorBlockEntity;
@@ -8,6 +9,7 @@ import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
 import com.coolerpromc.resourcestrees.datagen.recipebuilder.StrictShapedRecipeBuilder;
 import com.coolerpromc.resourcestrees.datagen.recipebuilder.TreeSimulatorRecipeBuilder;
 import com.coolerpromc.resourcestrees.item.ModItems;
+import com.coolerpromc.resourcestrees.recipe.custom.ResourcesSaplingRecipe;
 import com.coolerpromc.resourcestrees.recipe.ingredient.ResourcesTypeIngredient;
 import com.coolerpromc.resourcestrees.recipe.output.TreeSimulatorOutput;
 import com.coolerpromc.resourcestrees.registry.ModRegistries;
@@ -29,6 +31,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.ItemLike;
 
 import java.lang.reflect.Field;
@@ -61,6 +64,16 @@ public class ModRecipeProvider extends RecipeProvider {
 
     @Override
     protected void buildRecipes() {
+        // Sapling recipes
+        SpecialRecipeBuilder.special(() -> new ResourcesSaplingRecipe(new ItemStackTemplate(Items.OAK_SAPLING), new ItemStackTemplate(ModBlocks.RESOURCES_OAK_SAPLING.asItem()))).save(output, key("saplings/resources_oak_sapling"));
+        SpecialRecipeBuilder.special(() -> new ResourcesSaplingRecipe(new ItemStackTemplate(Items.SPRUCE_SAPLING), new ItemStackTemplate(ModBlocks.RESOURCES_SPRUCE_SAPLING.asItem()))).save(output, key("saplings/resources_spruce_sapling"));
+        SpecialRecipeBuilder.special(() -> new ResourcesSaplingRecipe(new ItemStackTemplate(Items.BIRCH_SAPLING), new ItemStackTemplate(ModBlocks.RESOURCES_BIRCH_SAPLING.asItem()))).save(output, key("saplings/resources_birch_sapling"));
+        SpecialRecipeBuilder.special(() -> new ResourcesSaplingRecipe(new ItemStackTemplate(Items.JUNGLE_SAPLING), new ItemStackTemplate(ModBlocks.RESOURCES_JUNGLE_SAPLING.asItem()))).save(output, key("saplings/resources_jungle_sapling"));
+        SpecialRecipeBuilder.special(() -> new ResourcesSaplingRecipe(new ItemStackTemplate(Items.ACACIA_SAPLING), new ItemStackTemplate(ModBlocks.RESOURCES_ACACIA_SAPLING.asItem()))).save(output, key("saplings/resources_acacia_sapling"));
+        SpecialRecipeBuilder.special(() -> new ResourcesSaplingRecipe(new ItemStackTemplate(Items.DARK_OAK_SAPLING), new ItemStackTemplate(ModBlocks.RESOURCES_DARK_OAK_SAPLING.asItem()))).save(output, key("saplings/resources_dark_oak_sapling"));
+        SpecialRecipeBuilder.special(() -> new ResourcesSaplingRecipe(new ItemStackTemplate(Items.CHERRY_SAPLING), new ItemStackTemplate(ModBlocks.RESOURCES_CHERRY_SAPLING.asItem()))).save(output, key("saplings/resources_cherry_sapling"));
+        SpecialRecipeBuilder.special(() -> new ResourcesSaplingRecipe(new ItemStackTemplate(Items.PALE_OAK_SAPLING), new ItemStackTemplate(ModBlocks.RESOURCES_PALE_OAK_SAPLING.asItem()))).save(output, key("saplings/resources_pale_oak_sapling"));
+
         // Leaf Fragment to resources recipes
         // Logs
         customShape(Items.OAK_LOG, 8, ResourcesTypes.WOOD, " A ", " A ", " A ");
@@ -256,7 +269,7 @@ public class ModRecipeProvider extends RecipeProvider {
         essenceItem(ModItems.FISH_ESSENCE.get(), Items.COD, Items.SALMON, Items.TROPICAL_FISH, Items.PUFFERFISH);
         essenceItem(ModItems.ZOMBIE_ESSENCE.get(), Items.ROTTEN_FLESH, Items.ROTTEN_FLESH, Items.ROTTEN_FLESH, Items.ROTTEN_FLESH);
 
-        // Saplings & Tree Simulator recipes
+        // Tree Simulator recipes
         ResourcesTypes.getAllResourcesTypes(lookupProvider).forEach((key, value) -> {
             Field[] fields = ModBlocks.class.getDeclaredFields();
 
@@ -266,29 +279,6 @@ public class ModRecipeProvider extends RecipeProvider {
                     if (obj instanceof Supplier<?> supplier){
                         if (supplier.get() instanceof ResourcesSaplingBlock resourcesSaplingBlock){
                             ItemStackTemplate sapling = new ItemStackTemplate(resourcesSaplingBlock.asItem(), 1, DataComponentPatch.builder().set(ModDataComponents.TYPE.get(), value).build());
-                            if (value.value().material().left().isPresent()){
-                                ShapedRecipeBuilder.shaped(items, RecipeCategory.BUILDING_BLOCKS, sapling)
-                                        .pattern(" A ")
-                                        .pattern("ABA")
-                                        .pattern(" A ")
-                                        .define('A', BuiltInRegistries.ITEM.getValue(value.value().material().left().get()))
-                                        .define('B', SAPLINGS_BY_SAPLINGS.get(resourcesSaplingBlock))
-                                        .unlockedBy(getHasName(BuiltInRegistries.ITEM.getValue(value.value().material().left().get())), has(BuiltInRegistries.ITEM.getValue(value.value().material().left().get())))
-                                        .unlockedBy(getHasName(SAPLINGS_BY_SAPLINGS.get(resourcesSaplingBlock)), has(SAPLINGS_BY_SAPLINGS.get(resourcesSaplingBlock)))
-                                        .save(output, ResourceKey.create(Registries.RECIPE, key.withSuffix(BuiltInRegistries.BLOCK.getKey(resourcesSaplingBlock).getPath().substring(9)).withPrefix("saplings/")));
-                            }
-                            else if (value.value().material().right().isPresent()){
-                                ShapedRecipeBuilder.shaped(items, RecipeCategory.BUILDING_BLOCKS, sapling)
-                                        .pattern(" A ")
-                                        .pattern("ABA")
-                                        .pattern(" A ")
-                                        .define('A', (value.value().material().right().get()))
-                                        .define('B', SAPLINGS_BY_SAPLINGS.get(resourcesSaplingBlock))
-                                        .unlockedBy("has_" + value.value().material().right().get().location().getPath() + "_tags", has(value.value().material().right().get()))
-                                        .unlockedBy(getHasName(SAPLINGS_BY_SAPLINGS.get(resourcesSaplingBlock)), has(SAPLINGS_BY_SAPLINGS.get(resourcesSaplingBlock)))
-                                        .save(output, ResourceKey.create(Registries.RECIPE, key.withSuffix(BuiltInRegistries.BLOCK.getKey(resourcesSaplingBlock).getPath().substring(9)).withPrefix("saplings/")));
-                            }
-
                             ItemStackTemplate leaf = new ItemStackTemplate(ModItems.LEAF_FRAGMENT.get(), 1, DataComponentPatch.builder().set(ModDataComponents.TYPE.get(), value).build());
 
                             TreeSimulatorRecipeBuilder.builder()
@@ -421,6 +411,10 @@ public class ModRecipeProvider extends RecipeProvider {
 
     protected Criterion<InventoryChangeTrigger.TriggerInstance> has(ItemLike itemLike, Holder<ResourcesTypes> key) {
         return inventoryTrigger(ItemPredicate.Builder.item().of(this.items, itemLike).withComponents(DataComponentMatchers.Builder.components().exact(DataComponentExactPredicate.builder().expect(ModDataComponents.TYPE.get(), key).build()).build()));
+    }
+
+    private ResourceKey<Recipe<?>> key(String name){
+        return ResourceKey.create(Registries.RECIPE, Constants.id(name));
     }
 
     protected static String getHasName(ItemLike itemLike, Identifier key) {

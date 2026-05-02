@@ -1,5 +1,6 @@
 package com.coolerpromc.resourcestrees;
 
+import com.coolerpromc.resourcestrees.block.entity.ModBlockEntities;
 import com.coolerpromc.resourcestrees.block.entity.custom.TreeSimulatorBlockEntity;
 import com.coolerpromc.resourcestrees.compat.treeharvester.TreeHarvesterCompat;
 import com.coolerpromc.resourcestrees.network.packet.ResourceTypeSyncS2CPacket;
@@ -23,6 +24,8 @@ import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
+import java.util.HashSet;
+
 @Mod(Constants.MODID)
 public class ResourcesTrees {
     public ResourcesTrees(IEventBus modEventBus, ModContainer modContainer) {
@@ -35,7 +38,14 @@ public class ResourcesTrees {
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
-        event.enqueueWork(TreeSimulatorBlockEntity.CONFIG::load);
+        event.enqueueWork(() -> {
+            TreeSimulatorBlockEntity.CONFIG.load();
+            // Add custom Resources Leaves and Sapling to Resources Type BE if added via KubeJS
+            if (!CommonClass.blocks().isEmpty()){
+                ModBlockEntities.RESOURCES_TYPE_BE.get().validBlocks = new HashSet<>(ModBlockEntities.RESOURCES_TYPE_BE.get().validBlocks);
+                ModBlockEntities.RESOURCES_TYPE_BE.get().validBlocks.addAll(CommonClass.blocks());
+            }
+        });
     }
 
     private void onRegisterPayloadHandlers(RegisterPayloadHandlersEvent event) {

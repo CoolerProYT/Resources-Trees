@@ -4,6 +4,19 @@ plugins {
     id "me.modmuss50.mod-publish-plugin"
 }
 
+repositories {
+    flatDir {
+        dir 'libs'
+    }
+    maven {
+        url "https://maven.latvian.dev/releases"
+        content {
+            includeGroup "dev.latvian.mods"
+            includeGroup "dev.latvian.apps"
+        }
+    }
+}
+
 neoForge {
     version = neoforge_version
     // Automatically enable neoforge AccessTransformers if the file exists
@@ -41,6 +54,13 @@ neoForge {
 }
 
 dependencies {
+//    implementation 'com.github.glitchfiend:GlitchCore-neoforge:26.1.2-26.1.2.0.0'
+//    implementation 'com.github.glitchfiend:TerraBlender-neoforge:26.1.2-26.1.2.0.1'
+    compileOnly 'com.github.glitchfiend:BiomesOPlenty-neoforge:26.1.2-26.1.2.0.5'
+
+    implementation "dev.latvian.mods:rhino:2101.2.7-build.81"
+    implementation "local.libs:kubejs-neoforge-26.1.2-8.0.0-SNAPSHOT"
+
     compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
     runtimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
     compileOnly "maven.modrinth:jade:${jade_version}"
@@ -77,18 +97,12 @@ publishMods {
     curseforge {
         projectId = "1354532"
         accessToken = findProperty("CF_TOKEN")
-        minecraftVersionRange {
-            start = "26.1"
-            end = "26.1.2"
-        }
+        minecraftVersions.add(minecraft_version)
     }
 
     modrinth {
         projectId = 'K5BPYFo9'
         accessToken = findProperty("MODRINTH_TOKEN")
-        minecraftVersionRange {
-            start = "26.1"
-            end = "26.1.2"
-        }
+        minecraftVersions.add(minecraft_version)
     }
 }

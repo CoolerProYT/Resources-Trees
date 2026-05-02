@@ -1,0 +1,9 @@
+{
+  "type": "resourcestrees:resources_sapling",
+  "baseSapling": {
+    "id": "minecraft:jungle_sapling"
+  },
+  "resourcesSapling": {
+    "id": "resourcestrees:resources_jungle_sapling"
+  }
+}

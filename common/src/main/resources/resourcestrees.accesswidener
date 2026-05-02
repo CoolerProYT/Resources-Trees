@@ -9,3 +9,5 @@ accessible method net/minecraft/world/level/block/grower/TreeGrower hasFlowers (
 accessible field net/minecraft/world/item/crafting/ShapedRecipe result Lnet/minecraft/world/item/ItemStackTemplate;
 accessible method net/minecraft/server/MinecraftServer doRunTask (Lnet/minecraft/server/TickTask;)V
 accessible field net/minecraft/world/item/crafting/ShapedRecipe pattern Lnet/minecraft/world/item/crafting/ShapedRecipePattern;
+accessible field net/minecraft/world/level/block/grower/TreeGrower GROWERS Ljava/util/Map;
+accessible field net/minecraft/world/level/block/entity/BlockEntityType validBlocks Ljava/util/Set;

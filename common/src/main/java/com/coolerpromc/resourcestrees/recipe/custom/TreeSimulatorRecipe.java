@@ -2,6 +2,7 @@ package com.coolerpromc.resourcestrees.recipe.custom;
 
 import com.coolerpromc.resourcestrees.core.ResourcesTypes;
 import com.coolerpromc.resourcestrees.recipe.ModRecipes;
+import com.coolerpromc.resourcestrees.recipe.ingredient.ResourcesTypeIngredient;
 import com.coolerpromc.resourcestrees.recipe.input.TreeSimulatorRecipeInput;
 import com.coolerpromc.resourcestrees.recipe.output.TreeSimulatorOutput;
 import com.mojang.serialization.Codec;
@@ -68,7 +69,7 @@ public record TreeSimulatorRecipe(ItemStackTemplate tree, List<TreeSimulatorOutp
 
     @Override
     public PlacementInfo placementInfo() {
-        return PlacementInfo.NOT_PLACEABLE;
+        return PlacementInfo.create(ResourcesTypeIngredient.of(true, tree.create()));
     }
 
     @Override

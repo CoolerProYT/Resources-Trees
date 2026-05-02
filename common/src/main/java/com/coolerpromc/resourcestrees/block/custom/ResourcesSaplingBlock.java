@@ -1,8 +1,10 @@
 package com.coolerpromc.resourcestrees.block.custom;
 
 import com.coolerpromc.resourcestrees.block.entity.custom.ResourcesTypesBlockEntity;
-import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
+import com.coolerpromc.resourcestrees.compat.bop.BOPCompat;
 import com.coolerpromc.resourcestrees.core.ResourcesTypes;
+import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
+import com.coolerpromc.resourcestrees.platform.Services;
 import com.coolerpromc.resourcestrees.worldgen.tree.ResourcesFoliagePlacer;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -10,13 +12,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
-import net.minecraft.util.random.WeightedList;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -31,7 +31,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
-import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
+import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import org.jetbrains.annotations.Nullable;
@@ -86,6 +86,11 @@ public class ResourcesSaplingBlock extends SaplingBlock implements EntityBlock {
     }
 
     @Override
+    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
+        return true;
+    }
+
+    @Override
     public void advanceTree(ServerLevel level, BlockPos pos, BlockState state, RandomSource random) {
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if (state.getBlock() instanceof ResourcesSaplingBlock && blockEntity instanceof ResourcesTypesBlockEntity be && be.getResourcesType() != null) {
@@ -108,7 +113,9 @@ public class ResourcesSaplingBlock extends SaplingBlock implements EntityBlock {
                                 level.setBlock(pos.offset(i + 1, 0, j + 1), blockstate, 260);
                                 if (feature.config() instanceof TreeConfiguration oldConfig){
                                     TreeConfiguration config = createNewTree(resourcesTypes, oldConfig, random, pos, resourcesTypes.value().weight(), leaves);
-                                    if (Feature.TREE.place(config, level, level.getChunkSource().getGenerator(), random, pos.offset(i, 0, j))) {
+                                    boolean success = Services.PLATFORM.isModLoaded("biomesoplenty") && BOPCompat.isBOPTreeConfig(config) ? BOPCompat.doPlace(feature, config, level, level.getChunkSource().getGenerator(), random, pos.offset(i, 0, j), resourcesTypes) : Feature.TREE.place(config, level, level.getChunkSource().getGenerator(), random, pos.offset(i, 0, j));
+
+                                    if (success) {
                                         return;
                                     }
                                 }
@@ -135,7 +142,7 @@ public class ResourcesSaplingBlock extends SaplingBlock implements EntityBlock {
                     level.setBlock(pos, Blocks.AIR.defaultBlockState(), 4);
                     if (feature.config() instanceof TreeConfiguration oldConfig){
                         TreeConfiguration config = createNewTree(resourcesTypes, oldConfig, random, pos, resourcesTypes.value().weight(), leaves);
-                        boolean success = Feature.TREE.place(config, level, level.getChunkSource().getGenerator(), random, pos);
+                        boolean success = Services.PLATFORM.isModLoaded("biomesoplenty") && BOPCompat.isBOPTreeConfig(config) ? BOPCompat.doPlace(feature, config, level, level.getChunkSource().getGenerator(), random, pos, resourcesTypes) : Feature.TREE.place(config, level, level.getChunkSource().getGenerator(), random, pos);
 
                         if (!success) {
                             level.setBlock(pos, state, 3);
@@ -153,12 +160,14 @@ public class ResourcesSaplingBlock extends SaplingBlock implements EntityBlock {
     public static TreeConfiguration createNewTree(Holder<ResourcesTypes> type, TreeConfiguration oldConfig, RandomSource randomSource, BlockPos pos, int weight, Identifier leaves){
         Block block = BuiltInRegistries.BLOCK.getValue(leaves);
 
+        if (Services.PLATFORM.isModLoaded("biomesoplenty") && BOPCompat.isBOPTreeConfig(oldConfig)){
+            return BOPCompat.getNewTreeConfiguration(oldConfig, BuiltInRegistries.BLOCK.getValue(leaves));
+        }
+
         return new TreeConfiguration.TreeConfigurationBuilder(
                 oldConfig.trunkProvider,
                 oldConfig.trunkPlacer,
-                new WeightedStateProvider(WeightedList.<BlockState>builder()
-                        .add(block.defaultBlockState(), Math.max(weight, 1))
-                        .build()),
+                BlockStateProvider.simple(block),
                 new ResourcesFoliagePlacer(oldConfig.foliagePlacer, type),
                 oldConfig.minimumSize
         ).build();

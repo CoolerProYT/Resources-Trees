@@ -1,5 +1,6 @@
 package com.coolerpromc.resourcestrees.item;
 
+import com.coolerpromc.resourcestrees.CommonClass;
 import com.coolerpromc.resourcestrees.block.ModBlocks;
 import com.coolerpromc.resourcestrees.block.custom.ResourcesLeavesBlock;
 import com.coolerpromc.resourcestrees.block.custom.ResourcesSaplingBlock;
@@ -7,9 +8,11 @@ import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
 import com.coolerpromc.resourcestrees.core.ResourcesTypes;
 import com.coolerpromc.resourcestrees.platform.Services;
 import com.coolerpromc.resourcestrees.platform.util.RegistryHandler;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
 import java.lang.reflect.Field;
@@ -50,37 +53,21 @@ public class ModCreativeTab {
                 items.add(new ItemStack(ModItems.ZOMBIE_ESSENCE.get()));
 
                 ResourcesTypes.getAllResourcesTypes(pParameters.holders()).forEach((key, value) -> {
-                    Field[] fields = ModBlocks.class.getDeclaredFields();
-                    for (Field field : fields) {
-                        try {
-                            Object obj = field.get(null);
-                            if (obj instanceof Supplier<?> supplier) {
-                                if (supplier.get() instanceof ResourcesSaplingBlock resourcesSaplingBlock) {
-                                    ItemStack sapling = resourcesSaplingBlock.asItem().getDefaultInstance();
-                                    sapling.set(ModDataComponents.TYPE.get(), value);
-                                    items.add(sapling);
-                                }
-                            }
-                        } catch (IllegalAccessException e) {
-                            throw new RuntimeException(e);
+                    for (Block block : CommonClass.saplingBlock()){
+                        if (block instanceof ResourcesSaplingBlock resourcesSaplingBlock){
+                            ItemStack sapling = resourcesSaplingBlock.asItem().getDefaultInstance();
+                            sapling.set(ModDataComponents.TYPE.get(), value);
+                            items.add(sapling);
                         }
                     }
                 });
 
                 ResourcesTypes.getAllResourcesTypes(pParameters.holders()).forEach((key, value) -> {
-                    Field[] fields = ModBlocks.class.getDeclaredFields();
-                    for (Field field : fields) {
-                        try {
-                            Object obj = field.get(null);
-                            if (obj instanceof Supplier<?> supplier) {
-                                if (supplier.get() instanceof ResourcesLeavesBlock resourcesLeavesBlock) {
-                                    ItemStack leaves = resourcesLeavesBlock.asItem().getDefaultInstance();
-                                    leaves.set(ModDataComponents.TYPE.get(), value);
-                                    items.add(leaves);
-                                }
-                            }
-                        } catch (IllegalAccessException e) {
-                            throw new RuntimeException(e);
+                    for (Block block : CommonClass.leavesBlock()){
+                        if (block instanceof ResourcesLeavesBlock resourcesLeavesBlock){
+                            ItemStack sapling = resourcesLeavesBlock.asItem().getDefaultInstance();
+                            sapling.set(ModDataComponents.TYPE.get(), value);
+                            items.add(sapling);
                         }
                     }
                 });

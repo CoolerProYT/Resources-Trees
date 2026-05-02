@@ -22,6 +22,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 
 import java.util.HashMap;
@@ -197,6 +198,27 @@ public record ResourcesTypes(Either<Identifier, TagKey<Item>> material, int colo
     @Override
     public int hashCode() {
         return Objects.hash(material(), color(), treeSimulatorTicks(), weight(), saplingDropChance(), leafDropChance());
+    }
+
+    public String getMaterialString() {
+        if (material.left().isPresent()){
+            return material.left().get().toString();
+        }
+        return "#" + material.right().get().location();
+    }
+
+    public boolean isCorrectMaterial(ItemStack stack){
+        if (material.left().isPresent()){
+            return stack.is(holder -> holder.is(material.left().get()));
+        }
+        return stack.is(material.right().get());
+    }
+
+    public Ingredient ingredient(){
+        if (material.left().isPresent()){
+            return Ingredient.of(BuiltInRegistries.ITEM.getValue(material.left().get()));
+        }
+        return Ingredient.of(BuiltInRegistries.ITEM.getOrThrow(material.right().get()));
     }
 
     public static class Builder {

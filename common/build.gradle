@@ -20,6 +20,10 @@ dependencies {
 
     compileOnly "mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"
     compileOnly "maven.modrinth:jade:${jade_version}"
+
+    compileOnly 'com.github.glitchfiend:GlitchCore-neoforge:26.1.2-26.1.2.0.0'
+    compileOnly 'com.github.glitchfiend:TerraBlender-neoforge:26.1.2-26.1.2.0.1'
+    compileOnly 'com.github.glitchfiend:BiomesOPlenty-neoforge:26.1.2-26.1.2.0.5'
 }
 
 configurations {

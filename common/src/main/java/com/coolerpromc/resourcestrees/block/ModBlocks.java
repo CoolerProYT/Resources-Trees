@@ -78,6 +78,6 @@ public class ModBlocks {
     }
 
     public static void init() {
-        // Force class loading to trigger static initializers
+
     }
 }

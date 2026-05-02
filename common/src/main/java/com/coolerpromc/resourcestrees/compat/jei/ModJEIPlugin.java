@@ -2,29 +2,37 @@ package com.coolerpromc.resourcestrees.compat.jei;
 
 import com.coolerpromc.resourcestrees.Constants;
 import com.coolerpromc.resourcestrees.block.ModBlocks;
+import com.coolerpromc.resourcestrees.block.custom.ResourcesLeavesBlock;
+import com.coolerpromc.resourcestrees.block.custom.ResourcesSaplingBlock;
 import com.coolerpromc.resourcestrees.compat.jei.category.TreeSimulatorCategory;
+import com.coolerpromc.resourcestrees.compat.jei.recipe.ResourcesSaplingCrafting;
 import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
 import com.coolerpromc.resourcestrees.event.ModRecipeReceived;
 import com.coolerpromc.resourcestrees.item.ModItems;
 import com.coolerpromc.resourcestrees.recipe.ModRecipes;
+import com.coolerpromc.resourcestrees.recipe.custom.ResourcesSaplingRecipe;
 import com.coolerpromc.resourcestrees.recipe.custom.StrictShapedRecipe;
 import com.coolerpromc.resourcestrees.recipe.custom.TreeSimulatorRecipe;
 import com.coolerpromc.resourcestrees.screen.custom.TreeSimulatorScreen;
 import com.coolerpromc.resourcestrees.util.RecipeViewerFiller;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.helpers.IJeiHelpers;
 import mezz.jei.api.recipe.category.extensions.vanilla.crafting.ICraftingCategoryExtension;
 import mezz.jei.api.registration.*;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.display.RecipeDisplay;
 import net.minecraft.world.item.crafting.display.ShapedCraftingRecipeDisplay;
 import net.minecraft.world.item.crafting.display.SlotDisplay;
+import net.minecraft.world.level.block.Block;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,31 +60,21 @@ public class ModJEIPlugin implements IModPlugin {
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
         List<RecipeHolder<TreeSimulatorRecipe>> treeSimulatorRecipe = new ArrayList<>(ModRecipeReceived.recipeMap.byType(ModRecipes.TREE_SIMULATOR_TYPE.get()));
+        List<RecipeHolder<ResourcesSaplingRecipe>> recipes = ModRecipeReceived.recipeMap.byType(RecipeType.CRAFTING).stream().filter(holder -> holder.value() instanceof ResourcesSaplingRecipe).map(holder -> (RecipeHolder<ResourcesSaplingRecipe>) (RecipeHolder<?>) holder).toList();
         List<ResourceKey<Recipe<?>>> keys = treeSimulatorRecipe.stream().map(RecipeHolder::id).toList();
 
         treeSimulatorRecipe.addAll(RecipeViewerFiller.addUndefinedRecipes(Minecraft.getInstance().getConnection().registryAccess(), keys));
         registration.addRecipes(TreeSimulatorCategory.TREE_SIMULATOR_TYPE, treeSimulatorRecipe.stream().toList());
+        registration.addRecipes(RecipeTypes.CRAFTING, new ResourcesSaplingCrafting(recipes).recipes(registration.getVanillaRecipeFactory()));
     }
 
     @Override
     public void registerItemSubtypes(ISubtypeRegistration registration) {
-        registration.registerFromDataComponentTypes(ModBlocks.RESOURCES_OAK_SAPLING.asItem(), ModDataComponents.TYPE.get());
-        registration.registerFromDataComponentTypes(ModBlocks.RESOURCES_SPRUCE_SAPLING.asItem(), ModDataComponents.TYPE.get());
-        registration.registerFromDataComponentTypes(ModBlocks.RESOURCES_BIRCH_SAPLING.asItem(), ModDataComponents.TYPE.get());
-        registration.registerFromDataComponentTypes(ModBlocks.RESOURCES_JUNGLE_SAPLING.asItem(), ModDataComponents.TYPE.get());
-        registration.registerFromDataComponentTypes(ModBlocks.RESOURCES_ACACIA_SAPLING.asItem(), ModDataComponents.TYPE.get());
-        registration.registerFromDataComponentTypes(ModBlocks.RESOURCES_DARK_OAK_SAPLING.asItem(), ModDataComponents.TYPE.get());
-        registration.registerFromDataComponentTypes(ModBlocks.RESOURCES_CHERRY_SAPLING.asItem(), ModDataComponents.TYPE.get());
-        registration.registerFromDataComponentTypes(ModBlocks.RESOURCES_PALE_OAK_SAPLING.asItem(), ModDataComponents.TYPE.get());
-
-        registration.registerFromDataComponentTypes(ModBlocks.RESOURCES_OAK_LEAVES.asItem(), ModDataComponents.TYPE.get());
-        registration.registerFromDataComponentTypes(ModBlocks.RESOURCES_SPRUCE_LEAVES.asItem(), ModDataComponents.TYPE.get());
-        registration.registerFromDataComponentTypes(ModBlocks.RESOURCES_BIRCH_LEAVES.asItem(), ModDataComponents.TYPE.get());
-        registration.registerFromDataComponentTypes(ModBlocks.RESOURCES_JUNGLE_LEAVES.asItem(), ModDataComponents.TYPE.get());
-        registration.registerFromDataComponentTypes(ModBlocks.RESOURCES_ACACIA_LEAVES.asItem(), ModDataComponents.TYPE.get());
-        registration.registerFromDataComponentTypes(ModBlocks.RESOURCES_DARK_OAK_LEAVES.asItem(), ModDataComponents.TYPE.get());
-        registration.registerFromDataComponentTypes(ModBlocks.RESOURCES_CHERRY_LEAVES.asItem(), ModDataComponents.TYPE.get());
-        registration.registerFromDataComponentTypes(ModBlocks.RESOURCES_PALE_OAK_LEAVES.asItem(), ModDataComponents.TYPE.get());
+        for (Block block : BuiltInRegistries.BLOCK){
+            if (block instanceof ResourcesLeavesBlock || block instanceof ResourcesSaplingBlock){
+                registration.registerFromDataComponentTypes(block.asItem(), ModDataComponents.TYPE.get());
+            }
+        }
 
         registration.registerFromDataComponentTypes(ModItems.LEAF_FRAGMENT.get(), ModDataComponents.TYPE.get());
     }

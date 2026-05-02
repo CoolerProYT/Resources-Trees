@@ -1,10 +1,9 @@
 package com.coolerpromc.resourcestrees;
 
-import com.coolerpromc.resourcestrees.block.ModBlocks;
 import com.coolerpromc.resourcestrees.block.entity.ModBlockEntities;
 import com.coolerpromc.resourcestrees.block.entity.renderer.TreeSimulatorBlockEntityRenderer;
-import com.coolerpromc.resourcestrees.client.tint.ResourcesTypesTintSource;
 import com.coolerpromc.resourcestrees.client.tint.ResourcesTypeTintSource;
+import com.coolerpromc.resourcestrees.client.tint.ResourcesTypesTintSource;
 import com.coolerpromc.resourcestrees.event.ModRecipeReceived;
 import com.coolerpromc.resourcestrees.screen.ModMenuTypes;
 import com.coolerpromc.resourcestrees.screen.custom.TreeSimulatorScreen;
@@ -15,7 +14,6 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RecipesReceivedEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
@@ -39,26 +37,8 @@ public class ResourcesTreesClient {
 
     @SubscribeEvent
     public static void onRegisterColorHandlers(RegisterColorHandlersEvent.BlockTintSources event) {
-        event.register(List.of(new ResourcesTypesTintSource()),
-                ModBlocks.RESOURCES_OAK_LEAVES.get(),
-                ModBlocks.RESOURCES_SPRUCE_LEAVES.get(),
-                ModBlocks.RESOURCES_BIRCH_LEAVES.get(),
-                ModBlocks.RESOURCES_JUNGLE_LEAVES.get(),
-                ModBlocks.RESOURCES_ACACIA_LEAVES.get(),
-                ModBlocks.RESOURCES_DARK_OAK_LEAVES.get(),
-                ModBlocks.RESOURCES_CHERRY_LEAVES.get(),
-                ModBlocks.RESOURCES_PALE_OAK_LEAVES.get()
-        );
-        event.register(List.of(BlockTintSources.constant(-1), new ResourcesTypesTintSource()),
-                ModBlocks.RESOURCES_OAK_SAPLING.get(),
-                ModBlocks.RESOURCES_SPRUCE_SAPLING.get(),
-                ModBlocks.RESOURCES_BIRCH_SAPLING.get(),
-                ModBlocks.RESOURCES_JUNGLE_SAPLING.get(),
-                ModBlocks.RESOURCES_ACACIA_SAPLING.get(),
-                ModBlocks.RESOURCES_DARK_OAK_SAPLING.get(),
-                ModBlocks.RESOURCES_CHERRY_SAPLING.get(),
-                ModBlocks.RESOURCES_PALE_OAK_SAPLING.get()
-        );
+        event.register(List.of(new ResourcesTypesTintSource()), CommonClass.leavesBlock());
+        event.register(List.of(BlockTintSources.constant(-1), new ResourcesTypesTintSource()), CommonClass.saplingBlock());
     }
 
     @SubscribeEvent

@@ -1,0 +1,9 @@
+{
+  "type": "resourcestrees:resources_sapling",
+  "baseSapling": {
+    "id": "minecraft:pale_oak_sapling"
+  },
+  "resourcesSapling": {
+    "id": "resourcestrees:resources_pale_oak_sapling"
+  }
+}
