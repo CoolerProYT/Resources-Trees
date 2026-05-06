@@ -54,10 +54,6 @@ neoForge {
 }
 
 dependencies {
-//    implementation 'com.github.glitchfiend:GlitchCore-neoforge:26.1.2-26.1.2.0.0'
-//    implementation 'com.github.glitchfiend:TerraBlender-neoforge:26.1.2-26.1.2.0.1'
-    compileOnly 'com.github.glitchfiend:BiomesOPlenty-neoforge:26.1.2-26.1.2.0.5'
-
     implementation "dev.latvian.mods:rhino:2101.2.7-build.81"
     implementation "local.libs:kubejs-neoforge-26.1.2-8.0.0-SNAPSHOT"
 
@@ -97,6 +93,7 @@ publishMods {
     curseforge {
         projectId = "1354532"
         accessToken = findProperty("CF_TOKEN")
+        changelogType = "markdown"
         minecraftVersions.add(minecraft_version)
     }
 
