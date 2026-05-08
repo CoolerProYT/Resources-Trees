@@ -1,27 +1,17 @@
 package com.coolerpromc.resourcestrees;
 
+import com.coolerpromc.resourcestrees.api.resources.ResourcesType;
 import com.coolerpromc.resourcestrees.block.ModBlocks;
 import com.coolerpromc.resourcestrees.block.custom.ResourcesLeavesBlock;
 import com.coolerpromc.resourcestrees.block.entity.custom.TreeSimulatorBlockEntity;
-import com.coolerpromc.resourcestrees.compat.treeharvester.TreeHarvesterCompat;
-import com.coolerpromc.resourcestrees.core.ResourcesTypes;
-import com.coolerpromc.resourcestrees.network.packet.ResourceTypeSyncS2CPacket;
-import com.coolerpromc.resourcestrees.platform.FabricRegistryHelper;
-import com.coolerpromc.resourcestrees.platform.Services;
 import com.coolerpromc.resourcestrees.platform.util.BlockRegistryHandler;
 import com.coolerpromc.resourcestrees.recipe.ModRecipes;
 import com.coolerpromc.resourcestrees.registry.ModRegistries;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
-import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
-import net.fabricmc.fabric.api.recipe.v1.ingredient.CustomIngredientSerializer;
 import net.fabricmc.fabric.api.recipe.v1.sync.RecipeSynchronization;
 import net.fabricmc.fabric.api.registry.CompostableRegistry;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
-import net.minecraft.resources.Identifier;
-import net.minecraft.server.TickTask;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.level.block.Block;
 
 import java.lang.reflect.Field;
@@ -32,8 +22,6 @@ public class ResourcesTrees implements ModInitializer {
     public void onInitialize() {
         CommonClass.init();
         TreeSimulatorBlockEntity.CONFIG.load();
-
-        CustomIngredientSerializer.register(FabricRegistryHelper.FabricResourcesTypeIngredient.SERIALIZER);
 
         Field[] fields = ModBlocks.class.getDeclaredFields();
         for (Field field : fields){
@@ -49,20 +37,7 @@ public class ResourcesTrees implements ModInitializer {
             }
         }
 
-        PayloadTypeRegistry.clientboundPlay().register(ResourceTypeSyncS2CPacket.TYPE, ResourceTypeSyncS2CPacket.STREAM_CODEC);
-
         RecipeSynchronization.synchronizeRecipeSerializer(ModRecipes.TREE_SIMULATOR_SERIALIZER.get());
-        RecipeSynchronization.synchronizeRecipeSerializer(ModRecipes.STRICT_SHAPED.get());
-        RecipeSynchronization.synchronizeRecipeSerializer(ModRecipes.RESOURCES_SAPLING.get());
-
-        DynamicRegistries.registerSynced(ModRegistries.RESOURCES_TYPES_KEY, ResourcesTypes.CODEC, ResourcesTypes.CODEC);
-
-        ServerEntityEvents.ENTITY_LOAD.register(id("tree"), (entity, level) -> {
-            if (!Services.PLATFORM.isModLoaded("treeharvester")) return;
-            if (!(entity instanceof ItemEntity itemEntity)) return;
-
-            level.getServer().doRunTask(new TickTask(5, () -> TreeHarvesterCompat.handleItemEntitySpawn(itemEntity, level)));
-        });
 
         for (BlockRegistryHandler<? extends Block> block : ModBlocks.SAPLINGS){
             CompostableRegistry.INSTANCE.add(block, 0.3F);
@@ -71,9 +46,7 @@ public class ResourcesTrees implements ModInitializer {
         for (BlockRegistryHandler<? extends Block> block : ModBlocks.LEAVES){
             CompostableRegistry.INSTANCE.add(block, 0.3F);
         }
-    }
 
-    public static Identifier id(String path){
-        return Constants.id(path);
+        DynamicRegistries.registerSynced(ModRegistries.RESOURCES_TYPES_KEY, ResourcesType.LEGACY_CODEC, ResourcesType.LEGACY_CODEC);
     }
 }

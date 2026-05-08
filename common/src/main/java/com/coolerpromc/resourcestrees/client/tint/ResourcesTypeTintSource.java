@@ -1,15 +1,16 @@
 package com.coolerpromc.resourcestrees.client.tint;
 
-import com.coolerpromc.resourcestrees.core.ResourcesTypes;
-import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
+import com.coolerpromc.resourcestrees.block.custom.ResourcesLeavesBlock;
+import com.coolerpromc.resourcestrees.block.custom.ResourcesSaplingBlock;
+import com.coolerpromc.resourcestrees.item.custom.LeafFragmentItem;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.client.color.item.ItemTintSource;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.core.Holder;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.Nullable;
 
 public record ResourcesTypeTintSource(int defaultColor) implements ItemTintSource {
@@ -19,9 +20,14 @@ public record ResourcesTypeTintSource(int defaultColor) implements ItemTintSourc
 
     @Override
     public int calculate(ItemStack itemStack, @Nullable ClientLevel clientLevel, @Nullable LivingEntity livingEntity) {
-        Holder<ResourcesTypes> types = itemStack.get(ModDataComponents.TYPE.get());
-        if (types != null){
-            return types.value().color();
+        if (itemStack.getItem() instanceof LeafFragmentItem item){
+            return item.getResourcesType().color();
+        }
+        if (Block.byItem(itemStack.getItem()) instanceof ResourcesLeavesBlock leavesBlock){
+            return leavesBlock.getResourcesType().color();
+        }
+        if (Block.byItem(itemStack.getItem()) instanceof ResourcesSaplingBlock saplingBlock){
+            return saplingBlock.getResourcesType().color();
         }
         return defaultColor;
     }

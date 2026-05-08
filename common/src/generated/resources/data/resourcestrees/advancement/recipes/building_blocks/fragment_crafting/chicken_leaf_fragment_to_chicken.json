@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_chicken_chicken_leaf_fragment": {
+      "conditions": {
+        "items": [
+          {
+            "items": "resourcestrees:chicken_leaf_fragment"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "resourcestrees:fragment_crafting/chicken_leaf_fragment_to_chicken"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_chicken_chicken_leaf_fragment"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "resourcestrees:fragment_crafting/chicken_leaf_fragment_to_chicken"
+    ]
+  }
+}

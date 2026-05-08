@@ -1,9 +1,0 @@
-{
-  "type": "resourcestrees:resources_sapling",
-  "baseSapling": {
-    "id": "minecraft:cherry_sapling"
-  },
-  "resourcesSapling": {
-    "id": "resourcestrees:resources_cherry_sapling"
-  }
-}

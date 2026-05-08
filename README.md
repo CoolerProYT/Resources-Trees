@@ -1,32 +1,205 @@
-# MultiLoader Template
+# Resources Trees
 
-This project provides a Gradle project template that can compile Minecraft mods for multiple modloaders using a common project for the sources. This project does not require any third party libraries or dependencies. If you have any questions or want to discuss the project, please join our [Discord](https://discord.myceliummod.network).
+A multiloader Minecraft mod (Fabric & NeoForge) that adds resource-producing trees to the game. Each tree is a combination of a **Resources Type** (what material it produces) and a **Tree Type** (what shape/species it grows as), generating unique saplings, leaves, and leaf fragments for every combination.
 
-## Getting Started
+---
 
-### IntelliJ IDEA
-This guide will show how to import the MultiLoader Template into IntelliJ IDEA. The setup process is roughly equivalent to setting up the modloaders independently and should be very familiar to anyone who has worked with their MDKs.
+## Customization
 
-1. Clone or download this repository to your computer.
-2. Configure the project by setting the properties in the `gradle.properties` file. You will also need to change the `rootProject.name`  property in `settings.gradle`, this should match the folder name of your project, or else IDEA may complain.
-3. Open the template's root folder as a new project in IDEA. This is the folder that contains this README.md file and the gradlew executable.
-4. If your default JVM/JDK is not Java 25 you will encounter an error when opening the project. This error is fixed by going to `File > Settings > Build, Execution, Deployment > Build Tools > Gradle > Gradle JVM` and changing the value to a valid Java 25 JVM. You will also need to set the Project SDK to Java 25. This can be done by going to `File > Project Structure > Project SDK`. Once both have been set open the Gradle tab in IDEA and click the refresh button to reload the project.
-5. Open your Run/Debug Configurations. Under the `Application` category there should now be options to run Fabric and NeoForge projects. Select one of the client options and try to run it.
-6. Assuming you were able to run the game in step 5 your workspace should now be set up.
+Resources Trees is designed to be fully customizable — both through a developer API and through config/data files for server admins and modpack makers.
 
-### Eclipse
-While it is possible to use this template in Eclipse it is not recommended. During the development of this template multiple critical bugs and quirks related to Eclipse were found at nearly every level of the required build tools. While we continue to work with these tools to report and resolve issues support for projects like these are not there yet. For now Eclipse is considered unsupported by this project. The development cycle for build tools is notoriously slow so there are no ETAs available.
+---
 
-## Development Guide
-When using this template the majority of your mod should be developed in the `common` project. The `common` project is compiled against the vanilla game and is used to hold code that is shared between the different loader-specific versions of your mod. The `common` project has no knowledge or access to ModLoader specific code, apis, or concepts. Code that requires something from a specific loader must be done through the project that is specific to that loader, such as the `fabric` or `neoforge` projects.
+## For Developers — Adding as a Dependency
 
-Loader specific projects such as the `fabric` and `neoforge` project are used to load the `common` project into the game. These projects also define code that is specific to that loader. Loader specific projects can access all the code in the `common` project. It is important to remember that the `common` project can not access code from loader specific projects.
+Resources Trees is published to a Maven repository. Add it to your project to use the plugin API.
 
-## Removing Platforms and Loaders
-While this template has support for many modloaders, new loaders may appear in the future, and existing loaders may become less relevant.
+### Gradle (Groovy DSL)
 
-Removing loader specific projects is as easy as deleting the folder, and removing the `include("projectname")` line from the `settings.gradle` file.
-For example if you wanted to remove support for `forge` you would follow the following steps:
+```groovy
+repositories {
+    maven {
+        name = "CoolerProMC Maven"
+        url = "https://maven.coolerpromc.com"
+    }
+}
+ 
+dependencies {
+    // Pick the artifact matching your loader:
+ 
+    // Common (multiloader projects)
+    compileOnly "com.coolerpromc.resourcestrees:resourcestrees-common-${minecraft_version}:${resourcestrees_version}"
+ 
+    // Fabric
+    compileOnly "com.coolerpromc.resourcestrees:resourcestrees-fabric-${minecraft_version}:${resourcestrees_version}"
+ 
+    // NeoForge
+    compileOnly "com.coolerpromc.resourcestrees:resourcestrees-neoforge-${minecraft_version}:${resourcestrees_version}"
+}
+```
+### `gradle.properties`
 
-1. Delete the subproject folder. For example, delete `MultiLoader-Template/forge`.
-2. Remove the project from `settings.gradle`. For example, remove `include("forge")`. 
+```properties
+resourcestrees_version=26.1.2.100   # replace with actual version
+```
+
+---
+
+## For Developers — Plugin API (Experimental)
+Use config for stability.
+
+You can add your own resource types and tree types by implementing the plugin interface.
+
+### 1. Implement `IResourcesTreesPlugin`
+
+```java
+public class MyPlugin implements IResourcesTreesPlugin {
+
+    @Override
+    public void registerResourcesType(IResourcesTypeRegistry registry) {
+        // Register a type using a specific item
+        registry.register(new ResourcesType.Builder("ruby", Items.REDSTONE, 0xFFCC0000)
+                .weight(4)
+                .saplingDropChance(0.1f)
+                .leafDropChance(0.2f)
+                .treeSimulatorTicks(1400));
+
+        // Or using an item tag
+        registry.register(new ResourcesType.Builder("logs", ItemTags.LOGS, 0xFF8D6E63));
+    }
+
+    @Override
+    public void registerTreeType(ITreeTypeRegistry registry) {
+        registry.register(new TreeType(
+                "oak",                                          // unique name
+                "oak",                                          // tree grower name
+                ResourceLocation.withDefaultNamespace("block/oak_sapling"),
+                ResourceLocation.withDefaultNamespace("block/oak_leaves"),
+                "minecraft:oak_sapling",
+                "minecraft:oak_leaves",
+                "minecraft:oak_log"
+        ));
+    }
+}
+```
+
+### 2. Register via ServiceLoader
+
+Create the following file in your mod's resources:
+
+```
+resources/META-INF/services/com.coolerpromc.resourcestrees.api.IResourcesTreesPlugin
+```
+
+With the fully qualified name of your implementation as the content:
+
+```
+com.example.mymod.MyPlugin
+```
+
+### `ResourcesType.Builder` Parameters
+
+| Parameter | Default | Description                                                   |
+|---|---|---------------------------------------------------------------|
+| `name` | *(required)* | Unique identifier used in block/item names                    |
+| `material` | *(required)* | Item, or `TagKey<Item>` to craft the sapling                  |
+| `color` | *(required)* | ARGB tint color applied to leaves, sapling, and leaf fragment |
+| `weight` | `5` | No longer used                                                |
+| `saplingDropChance` | `0.125` | Chance a sapling drops when a leaf decays or is broken        |
+| `leafDropChance` | `0.25` | Chance a leaf fragment drops from a leaves block              |
+| `treeSimulatorTicks` | `1200` | Ticks between each Tree Simulator growth cycle                |
+
+### `TreeType` Parameters
+
+| Parameter | Description                                                        |
+|---|--------------------------------------------------------------------|
+| `name` | Unique identifier (e.g. `"oak"`, `"birch"`)                        |
+| `treeGrowerName` | Must match a key in `TreeGrower.GROWERS` (e.g. `"oak"`)            |
+| `saplingTexture` | `Identifier` of the sapling texture                          |
+| `leavesTexture` | `Identifier` of the leaves texture                                 |
+| `originalSapling` | Registry name of the vanilla sapling to copy block properties from |
+| `originalLeaves` | Registry name of the vanilla leaves to copy block properties from  |
+| `log` | Registry name of the log block used as the trunk                   |
+
+---
+
+## Modpack Makers — Config Files
+
+No code required. You can register new types by dropping JSON files into the config directory.
+
+### Resources Types
+
+Place JSON files in:
+```
+config/resourcestrees/resources_type/<name>.json
+```
+
+The filename (without `.json`) is used as the type name. Example — `config/resourcestrees/resources_type/ruby.json`:
+
+```json
+{
+  "name": "ruby",
+  "material": "minecraft:redstone",
+  "color": -3342336,
+  "weight": 4,
+  "saplingDropChance": 0.1,
+  "leafDropChance": 0.2,
+  "treeSimulatorTicks": 1400
+}
+```
+
+To use an item tag as the material, prefix with `#`:
+
+```json
+{
+  "material": "#minecraft:logs"
+}
+```
+
+### Tree Types
+
+Place JSON files in:
+```
+config/resourcestrees/tree_type/<name>.json
+```
+
+Example — `config/resourcestrees/tree_type/oak.json`:
+
+```json
+{
+  "name": "oak",
+  "treeGrowerName": "oak",
+  "saplingTexture": "minecraft:block/oak_sapling",
+  "leavesTexture": "minecraft:block/oak_leaves",
+  "originalSapling": "minecraft:oak_sapling",
+  "originalLeaves": "minecraft:oak_leaves",
+  "log": "minecraft:oak_log"
+}
+```
+
+---
+
+## Axe Speed Config
+
+The Tree Simulator's growth speed scales with the axe placed inside it. You can customize the multiplier per axe type in:
+
+```
+config/resourcestrees/axe.json
+```
+
+Default values:
+
+```json
+{
+  "values": {
+    "minecraft:wooden_axe": 1.0,
+    "minecraft:stone_axe": 2.0,
+    "minecraft:iron_axe": 3.0,
+    "minecraft:golden_axe": 6.0,
+    "minecraft:diamond_axe": 4.0,
+    "minecraft:netherite_axe": 5.0
+  }
+}
+```
+
+Higher values mean faster growth. A value of `0.0` (or omitting the entry) means that axe type provides no speed bonus. Only valid `AxeItem` registry names are accepted.

@@ -4,6 +4,7 @@ import com.coolerpromc.resourcestrees.Constants;
 import com.coolerpromc.resourcestrees.block.ModBlocks;
 import com.coolerpromc.resourcestrees.client.tint.ResourcesTypeTintSource;
 import com.coolerpromc.resourcestrees.item.ModItems;
+import com.coolerpromc.resourcestrees.platform.util.RegistryHandler;
 import net.minecraft.client.color.item.ItemTintSource;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
@@ -40,32 +41,6 @@ public class ModModelProvider extends ModelProvider {
 
     @Override
     protected void registerModels(BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
-        this.generateResourcesLeaves(blockModels, itemModels, ModBlocks.RESOURCES_OAK_LEAVES.get(), -12012264);
-        this.generateResourcesSapling(blockModels, itemModels, ModBlocks.RESOURCES_OAK_SAPLING.get(), -12012264);
-
-        this.generateResourcesLeaves(blockModels, itemModels, ModBlocks.RESOURCES_SPRUCE_LEAVES.get(), -10380959);
-        this.generateResourcesSapling(blockModels, itemModels, ModBlocks.RESOURCES_SPRUCE_SAPLING.get(), -10380959);
-
-        this.generateResourcesLeaves(blockModels, itemModels, ModBlocks.RESOURCES_BIRCH_LEAVES.get(), -8345771);
-        this.generateResourcesSapling(blockModels, itemModels, ModBlocks.RESOURCES_BIRCH_SAPLING.get(), -8345771);
-
-        this.generateResourcesLeaves(blockModels, itemModels, ModBlocks.RESOURCES_JUNGLE_LEAVES.get(), -12012264);
-        this.generateResourcesSapling(blockModels, itemModels, ModBlocks.RESOURCES_JUNGLE_SAPLING.get(), -12012264);
-
-        this.generateResourcesLeaves(blockModels, itemModels, ModBlocks.RESOURCES_ACACIA_LEAVES.get(), -12012264);
-        this.generateResourcesSapling(blockModels, itemModels, ModBlocks.RESOURCES_ACACIA_SAPLING.get(), -12012264);
-
-        this.generateResourcesLeaves(blockModels, itemModels, ModBlocks.RESOURCES_DARK_OAK_LEAVES.get(), -12012264);
-        this.generateResourcesSapling(blockModels, itemModels, ModBlocks.RESOURCES_DARK_OAK_SAPLING.get(), -12012264);
-
-        this.generateResourcesLeaves(blockModels, itemModels, ModBlocks.RESOURCES_CHERRY_LEAVES.get(), 0xFFfccbe7);
-        this.generateResourcesSapling(blockModels, itemModels, ModBlocks.RESOURCES_CHERRY_SAPLING.get(), 0xFFfccbe7);
-
-        this.generateResourcesLeaves(blockModels, itemModels, ModBlocks.RESOURCES_PALE_OAK_LEAVES.get(), 0xFF838880);
-        this.generateResourcesSapling(blockModels, itemModels, ModBlocks.RESOURCES_PALE_OAK_SAPLING.get(), 0xFF838880);
-
-        this.generateFlatTintedItem(itemModels, ModItems.LEAF_FRAGMENT.get(), new ResourcesTypeTintSource(-1));
-
         this.blockWithExistingModel(blockModels, ModBlocks.TREE_SIMULATOR.get());
 
         this.generateTintedEssenceItem(itemModels, ModItems.FIRE_ESSENCE.get(), ItemModelUtils.constantTint(0xFFE45323));
@@ -89,7 +64,6 @@ public class ModModelProvider extends ModelProvider {
         this.generateTintedEssenceItem(itemModels, ModItems.SHEEP_ESSENCE.get(), ItemModelUtils.constantTint(0xFFFFFFFF));
         this.generateTintedEssenceItem(itemModels, ModItems.FISH_ESSENCE.get(), ItemModelUtils.constantTint(0xFFC1A76A));
         this.generateTintedEssenceItem(itemModels, ModItems.ZOMBIE_ESSENCE.get(), ItemModelUtils.constantTint(0xFF3e692d));
-
     }
 
     private void generateTintedEssenceItem(ItemModelGenerators itemModels, Item item, ItemTintSource tintSource){
@@ -130,8 +104,24 @@ public class ModModelProvider extends ModelProvider {
     }
 
     @Override
+    protected Stream<? extends Holder<Block>> getKnownBlocks() {
+        List<Identifier> excluded = Stream.concat(ModBlocks.SAPLINGS.stream(), ModBlocks.LEAVES.stream()).map(RegistryHandler::id).toList();
+        return super.getKnownBlocks().filter(holder -> !excluded.contains(BuiltInRegistries.BLOCK.getKey(holder.value())));
+    }
+
+    @Override
     protected @NotNull Stream<? extends Holder<Item>> getKnownItems() {
-        return BuiltInRegistries.ITEM.listElements().filter(itemReference -> Optional.of(BuiltInRegistries.ITEM.getKey(itemReference.value())).filter(Identifier -> Identifier.getNamespace().equals(Constants.MODID)).isPresent());
+        List<Identifier> excluded = Stream.concat(ModBlocks.SAPLINGS.stream(), ModBlocks.LEAVES.stream())
+                .map(RegistryHandler::id)
+                .toList();
+
+        return BuiltInRegistries.ITEM.listElements().filter(itemReference ->
+                Optional.of(BuiltInRegistries.ITEM.getKey(itemReference.value())).filter(identifier ->
+                        identifier.getNamespace().equals(Constants.MODID)
+                                && !ModItems.LEAF_FRAGMENTS.stream().map(RegistryHandler::id).toList().contains(identifier)
+                                && !excluded.contains(identifier)
+                ).isPresent()
+        );
     }
 
     private Identifier getModelLocation(Block block, String suffix) {

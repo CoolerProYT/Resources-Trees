@@ -1,24 +1,27 @@
 package com.coolerpromc.resourcestrees.item.custom;
 
-import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
-import com.coolerpromc.resourcestrees.core.ResourcesTypes;
-import net.minecraft.core.Holder;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import com.coolerpromc.resourcestrees.api.resources.ResourcesType;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 
 public class LeafFragmentItem extends Item {
-    public LeafFragmentItem(Properties properties) {
+    private final ResourcesType resourcesType;
+
+    public LeafFragmentItem(Properties properties, ResourcesType resourcesType) {
         super(properties);
+        this.resourcesType = resourcesType;
     }
 
-    @Override
+    // TODO: See if this method still needed
+    /*@Override
     public Component getName(ItemStack stack) {
-        Holder<ResourcesTypes> resourcesTypes = stack.get(ModDataComponents.TYPE.get());
+        Holder<ResourcesType> resourcesTypes = stack.get(ModDataComponents.TYPE.get());
         if (resourcesTypes != null){
             return Component.translatable("type.resourcestrees." + resourcesTypes.unwrapKey().orElseThrow().identifier().getPath()).append(" ").append(super.getName(stack));
         }
         return super.getName(stack);
+    }*/
+
+    public ResourcesType getResourcesType() {
+        return resourcesType;
     }
 }

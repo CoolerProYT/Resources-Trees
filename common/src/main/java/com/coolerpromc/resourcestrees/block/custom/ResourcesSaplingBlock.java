@@ -1,29 +1,19 @@
 package com.coolerpromc.resourcestrees.block.custom;
 
-import com.coolerpromc.resourcestrees.block.entity.custom.ResourcesTypesBlockEntity;
-import com.coolerpromc.resourcestrees.core.ResourcesTypes;
-import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
-import com.coolerpromc.resourcestrees.worldgen.tree.ResourcesFoliagePlacer;
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.coolerpromc.resourcestrees.api.resources.ResourcesType;
+import com.coolerpromc.resourcestrees.api.tree.TreeType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.SaplingBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
@@ -31,56 +21,27 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.storage.loot.LootParams;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Objects;
+import java.util.Properties;
 
-public class ResourcesSaplingBlock extends SaplingBlock implements EntityBlock {
-    public static final MapCodec<ResourcesSaplingBlock> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            TreeGrower.CODEC.fieldOf("tree").forGetter((p_304391_) -> p_304391_.treeGrower),
-            propertiesCodec(),
-            Identifier.CODEC.fieldOf("leaves").forGetter(block -> block.leaves)
-    ).apply(instance, ResourcesSaplingBlock::new));
+public class ResourcesSaplingBlock extends SaplingBlock {
+    private final ResourcesType resourcesType;
+    private final TreeType treeType;
 
-    private final Identifier leaves;
-
-    public ResourcesSaplingBlock(TreeGrower treeGrower, Properties properties, Identifier leaves) {
-        super(treeGrower, properties);
-        this.leaves = leaves;
+    public ResourcesSaplingBlock(Properties properties, ResourcesType resourcesType, TreeType treeType) {
+        super(TreeGrower.GROWERS.get(treeType.treeGrowerName()), properties);
+        this.resourcesType = resourcesType;
+        this.treeType = treeType;
     }
 
     @Override
     protected List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
         List<ItemStack> drops = super.getDrops(state, params);
-        BlockEntity blockEntity = params.getOptionalParameter(LootContextParams.BLOCK_ENTITY);
-
-        if (blockEntity instanceof ResourcesTypesBlockEntity be){
-            if (!drops.isEmpty() && be.getResourcesType() != null){
-                drops.getFirst().set(ModDataComponents.TYPE.get(), be.getResourcesType());
-            }
+        if (drops.isEmpty()){
+            drops.add(this.asItem().getDefaultInstance());
         }
         return drops;
-    }
-
-    @Override
-    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
-        BlockEntity blockEntity = level.getBlockEntity(pos);
-        if (blockEntity instanceof ResourcesTypesBlockEntity be && be.getResourcesType() != null){
-            ItemStack stack = super.getCloneItemStack(level, pos, state, includeData);
-            stack.set(ModDataComponents.TYPE.get(), be.getResourcesType());
-            return stack;
-        }
-        return super.getCloneItemStack(level, pos, state, includeData);
-    }
-
-    @Override
-    public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-        BlockEntity blockEntity = level.getBlockEntity(pos);
-        if (blockEntity instanceof ResourcesTypesBlockEntity be && stack.has(ModDataComponents.TYPE.get())){
-            be.setResourcesType(stack.get(ModDataComponents.TYPE.get()));
-        }
     }
 
     @Override
@@ -90,10 +51,7 @@ public class ResourcesSaplingBlock extends SaplingBlock implements EntityBlock {
 
     @Override
     public void advanceTree(ServerLevel level, BlockPos pos, BlockState state, RandomSource random) {
-        BlockEntity blockEntity = level.getBlockEntity(pos);
-        if (state.getBlock() instanceof ResourcesSaplingBlock && blockEntity instanceof ResourcesTypesBlockEntity be && be.getResourcesType() != null) {
-            Holder<ResourcesTypes> resourcesTypes = be.getResourcesType();
-
+        if (state.getBlock() instanceof ResourcesSaplingBlock) {
             ResourceKey<ConfiguredFeature<?, ?>> resourcekey = treeGrower.getConfiguredMegaFeature(random);
 
             if(resourcekey != null){
@@ -110,7 +68,7 @@ public class ResourcesSaplingBlock extends SaplingBlock implements EntityBlock {
                                 level.setBlock(pos.offset(i, 0, j + 1), blockstate, 260);
                                 level.setBlock(pos.offset(i + 1, 0, j + 1), blockstate, 260);
                                 if (feature.config() instanceof TreeConfiguration oldConfig){
-                                    TreeConfiguration config = createNewTree(resourcesTypes, oldConfig, random, pos, resourcesTypes.value().weight(), leaves);
+                                    TreeConfiguration config = createNewTree(oldConfig);
                                     boolean success = Feature.TREE.place(config, level, level.getChunkSource().getGenerator(), random, pos.offset(i, 0, j));
 
                                     if (success) {
@@ -139,7 +97,7 @@ public class ResourcesSaplingBlock extends SaplingBlock implements EntityBlock {
 
                     level.setBlock(pos, Blocks.AIR.defaultBlockState(), 4);
                     if (feature.config() instanceof TreeConfiguration oldConfig){
-                        TreeConfiguration config = createNewTree(resourcesTypes, oldConfig, random, pos, resourcesTypes.value().weight(), leaves);
+                        TreeConfiguration config = createNewTree(oldConfig);
                         boolean success = Feature.TREE.place(config, level, level.getChunkSource().getGenerator(), random, pos);
 
                         if (!success) {
@@ -155,52 +113,26 @@ public class ResourcesSaplingBlock extends SaplingBlock implements EntityBlock {
         super.advanceTree(level, pos, state, random);
     }
 
-    public static TreeConfiguration createNewTree(Holder<ResourcesTypes> type, TreeConfiguration oldConfig, RandomSource randomSource, BlockPos pos, int weight, Identifier leaves){
-        Block block = BuiltInRegistries.BLOCK.getValue(leaves);
-
+    public TreeConfiguration createNewTree(TreeConfiguration oldConfig){
         return new TreeConfiguration.TreeConfigurationBuilder(
                 oldConfig.trunkProvider,
                 oldConfig.trunkPlacer,
-                BlockStateProvider.simple(block),
-                new ResourcesFoliagePlacer(oldConfig.foliagePlacer, type),
+                BlockStateProvider.simple(resourcesType.leavesBlock(treeType.name()).get()),
+                oldConfig.foliagePlacer,
                 oldConfig.minimumSize
         ).build();
     }
 
-    public static boolean isTwoByTwoSapling(BlockState state, BlockGetter level, BlockPos pos, int xOffset, int yOffset) {
+    private static boolean isTwoByTwoSapling(BlockState state, BlockGetter level, BlockPos pos, int ox, int oz) {
         Block block = state.getBlock();
-        BlockEntity blockEntity = level.getBlockEntity(pos);
-        BlockEntity blockEntity1 = level.getBlockEntity(pos.offset(xOffset, 0, yOffset));
-        BlockEntity blockEntity2 = level.getBlockEntity(pos.offset(xOffset + 1, 0, yOffset));
-        BlockEntity blockEntity3 = level.getBlockEntity(pos.offset(xOffset, 0, yOffset + 1));
-        BlockEntity blockEntity4 = level.getBlockEntity(pos.offset(xOffset + 1, 0, yOffset + 1));
-
-        if (blockEntity instanceof ResourcesTypesBlockEntity be && blockEntity1 instanceof ResourcesTypesBlockEntity be1 && blockEntity2 instanceof ResourcesTypesBlockEntity be2 && blockEntity3 instanceof ResourcesTypesBlockEntity be3 && blockEntity4 instanceof ResourcesTypesBlockEntity be4){
-            Holder<ResourcesTypes> type = be.getResourcesType();
-            Holder<ResourcesTypes> type1 = be1.getResourcesType();
-            Holder<ResourcesTypes> type2 = be2.getResourcesType();
-            Holder<ResourcesTypes> type3 = be3.getResourcesType();
-            Holder<ResourcesTypes> type4 = be4.getResourcesType();
-
-            BlockState state1 = level.getBlockState(pos.offset(xOffset, 0, yOffset));
-            boolean cond1 = state1.is(block) && Objects.equals(type1, type);
-            BlockState state2 = level.getBlockState(pos.offset(xOffset + 1, 0, yOffset));
-            boolean cond2 = state2.is(block) && Objects.equals(type2, type);
-            BlockState state3 = level.getBlockState(pos.offset(xOffset, 0, yOffset + 1));
-            boolean cond3 = state3.is(block) && Objects.equals(type3, type);
-            BlockState state4 = level.getBlockState(pos.offset(xOffset + 1, 0, yOffset + 1));
-            boolean cond4 = state4.is(block) && Objects.equals(type4, type);
-            return cond1 && cond2 && cond3 && cond4;
-        }
-        return false;
+        return level.getBlockState(pos.offset(ox, 0, oz)).is(block) && level.getBlockState(pos.offset(ox + 1, 0, oz)).is(block) && level.getBlockState(pos.offset(ox, 0, oz + 1)).is(block) && level.getBlockState(pos.offset(ox + 1, 0, oz + 1)).is(block);
     }
 
-    @Override
-    public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return new ResourcesTypesBlockEntity(blockPos, blockState);
+    public ResourcesType getResourcesType() {
+        return resourcesType;
     }
 
-    public Identifier getLeaves() {
-        return leaves;
+    public TreeType getTreeType() {
+        return treeType;
     }
 }

@@ -1,22 +1,16 @@
 package com.coolerpromc.resourcestrees.platform;
 
 import com.coolerpromc.resourcestrees.Constants;
-import com.coolerpromc.resourcestrees.item.custom.ModBlockItem;
 import com.coolerpromc.resourcestrees.platform.services.IRegistryHelper;
 import com.coolerpromc.resourcestrees.platform.util.BlockEntityTypeFactory;
 import com.coolerpromc.resourcestrees.platform.util.BlockRegistryHandler;
 import com.coolerpromc.resourcestrees.platform.util.MenuFactory;
 import com.coolerpromc.resourcestrees.platform.util.RegistryHandler;
-import com.mojang.serialization.MapCodec;
 import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
 import net.fabricmc.fabric.api.menu.v1.ExtendedMenuType;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
-import net.fabricmc.fabric.api.recipe.v1.ingredient.CustomIngredient;
-import net.fabricmc.fabric.api.recipe.v1.ingredient.CustomIngredientSerializer;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
-import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -26,14 +20,13 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -43,7 +36,6 @@ import java.util.Arrays;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
-import java.util.stream.Stream;
 
 public class FabricRegistryHelper implements IRegistryHelper {
     @Override
@@ -51,7 +43,7 @@ public class FabricRegistryHelper implements IRegistryHelper {
         ResourceKey<Block> key = IRegistryHelper.blockKey(name);
         Identifier id = key.identifier();
         Holder<T> holder = Registry.registerForHolder(BuiltInRegistries.BLOCK, id, func.apply(p.setId(key)));
-        Item item = registerItem(name, properties -> new ModBlockItem(holder.value(), properties.useBlockDescriptionPrefix())).get();
+        Item item = registerItem(name, properties -> new BlockItem(holder.value(), properties.useBlockDescriptionPrefix())).get();
 
         return new BlockRegistryHandler<>() {
             @Override
@@ -170,29 +162,6 @@ public class FabricRegistryHelper implements IRegistryHelper {
     }
 
     @Override
-    public <T> RegistryHandler<DataComponentType<T>> registerDataComponent(String name, UnaryOperator<DataComponentType.Builder<T>> builder) {
-        Identifier id = Constants.id(name);
-        Holder<DataComponentType<T>> holder = Registry.registerForHolder(BuiltInRegistries.DATA_COMPONENT_TYPE, id, builder.apply(DataComponentType.builder()).build());
-
-        return new RegistryHandler<>() {
-            @Override
-            public Identifier id() {
-                return id;
-            }
-
-            @Override
-            public Holder<DataComponentType<T>> holder() {
-                return holder;
-            }
-
-            @Override
-            public DataComponentType<T> get() {
-                return holder.value();
-            }
-        };
-    }
-
-    @Override
     public <T extends Recipe<?>> RegistryHandler<RecipeSerializer<T>> registerRecipeSerializer(String name, RecipeSerializer<T> serializer) {
         Identifier id = Constants.id(name);
         Holder<RecipeSerializer<T>> holder = Registry.registerForHolder(BuiltInRegistries.RECIPE_SERIALIZER, id, serializer);
@@ -244,81 +213,25 @@ public class FabricRegistryHelper implements IRegistryHelper {
     }
 
     @Override
-    public Ingredient createCustomIngredient(HolderSet<Item> items, DataComponentPatch components, boolean exhaustive) {
-        return new FabricResourcesTypeIngredient(items, components, exhaustive).toVanilla();
-    }
+    public <T> RegistryHandler<DataComponentType<T>> registerDataComponent(String name, UnaryOperator<DataComponentType.Builder<T>> builder) {
+        Identifier id = Constants.id(name);
+        Holder<DataComponentType<T>> holder = Registry.registerForHolder(BuiltInRegistries.DATA_COMPONENT_TYPE, id, builder.apply(DataComponentType.builder()).build());
 
-    @Override
-    public boolean isResourcesTypeIngredient(Ingredient ingredient) {
-        return ingredient.getCustomIngredient() instanceof FabricResourcesTypeIngredient;
-    }
+        return new RegistryHandler<>() {
+            @Override
+            public Identifier id() {
+                return id;
+            }
 
-    /**
-     * Fabric-specific CustomIngredient wrapper for ResourcesTypeIngredient.
-     */
-    public static class FabricResourcesTypeIngredient implements CustomIngredient {
-        public static final CustomIngredientSerializer<FabricResourcesTypeIngredient> SERIALIZER =
-                new CustomIngredientSerializer<>() {
-                    @Override
-                    public Identifier getIdentifier() {
-                        return Constants.id("resources_type");
-                    }
+            @Override
+            public Holder<DataComponentType<T>> holder() {
+                return holder;
+            }
 
-                    @Override
-                    public MapCodec<FabricResourcesTypeIngredient> getCodec() {
-                        return com.coolerpromc.resourcestrees.recipe.ingredient.ResourcesTypeIngredient.CODEC.xmap(
-                                ri -> new FabricResourcesTypeIngredient(ri.base(), ri.components(), ri.exhaustive()),
-                                fi -> new com.coolerpromc.resourcestrees.recipe.ingredient.ResourcesTypeIngredient(fi.base, fi.components, fi.exhaustive));
-                    }
-
-                    @Override
-                    public StreamCodec<net.minecraft.network.RegistryFriendlyByteBuf, FabricResourcesTypeIngredient> getStreamCodec() {
-                        return StreamCodec.composite(
-                                net.minecraft.network.codec.ByteBufCodecs.holderSet(net.minecraft.core.registries.Registries.ITEM), fi -> fi.base,
-                                DataComponentPatch.STREAM_CODEC, fi -> fi.components,
-                                net.minecraft.network.codec.ByteBufCodecs.BOOL, fi -> fi.exhaustive,
-                                FabricResourcesTypeIngredient::new
-                        );
-                    }
-                };
-
-        private final HolderSet<Item> base;
-        private final DataComponentPatch components;
-        private final boolean exhaustive;
-
-        public FabricResourcesTypeIngredient(HolderSet<Item> base, DataComponentPatch components, boolean exhaustive) {
-            this.base = base;
-            this.components = components;
-            this.exhaustive = exhaustive;
-        }
-
-        private com.coolerpromc.resourcestrees.recipe.ingredient.ResourcesTypeIngredient toCommon() {
-            return new com.coolerpromc.resourcestrees.recipe.ingredient.ResourcesTypeIngredient(base, components, exhaustive);
-        }
-
-        @Override
-        public boolean test(ItemStack stack) {
-            return toCommon().test(stack);
-        }
-
-        @Override
-        public Stream<Holder<Item>> items() {
-            return toCommon().items();
-        }
-
-        @Override
-        public boolean requiresTesting() {
-            return true;
-        }
-
-        @Override
-        public CustomIngredientSerializer<?> getSerializer() {
-            return SERIALIZER;
-        }
-
-        @Override
-        public SlotDisplay display() {
-            return toCommon().display();
-        }
+            @Override
+            public DataComponentType<T> get() {
+                return holder.value();
+            }
+        };
     }
 }

@@ -54,10 +54,7 @@ neoForge {
 }
 
 dependencies {
-    implementation "dev.latvian.mods:rhino:2101.2.7-build.81"
-    implementation "local.libs:kubejs-neoforge-26.1.2-8.0.0-SNAPSHOT"
-
-    compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
+    compileOnly("mezz.jei:jei-${dependencies_minecraft_version}-neoforge-api:${jei_version}")
     runtimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
     compileOnly "maven.modrinth:jade:${jade_version}"
 }
@@ -88,7 +85,7 @@ publishMods {
     type = BETA
     modLoaders.add("neoforge")
     changelog = rootProject.file("changelog.md").text
-    displayName = mod_id + "-" + project.version + "+" + minecraft_version + "-neoforge"
+    displayName = "[Breaking Changes] " + mod_id + "-" + project.version + "+" + minecraft_version + "-neoforge"
 
     curseforge {
         projectId = "1354532"

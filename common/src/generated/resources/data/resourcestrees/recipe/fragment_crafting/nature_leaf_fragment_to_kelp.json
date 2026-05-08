@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": "resourcestrees:nature_leaf_fragment",
+    "B": "resourcestrees:water_leaf_fragment"
+  },
+  "pattern": [
+    "  A",
+    " B ",
+    "A  "
+  ],
+  "result": {
+    "count": 12,
+    "id": "minecraft:kelp"
+  }
+}

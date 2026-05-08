@@ -5,12 +5,16 @@
   "refmap": "${mod_id}.refmap.json",
   "compatibilityLevel": "JAVA_18",
   "mixins": [
-    "RecipeDisplayEntryMixin",
-    "ServerPlaceRecipeMixin"
+    "RecipeManagerMixin",
+    "migrate.ItemStackMixin"
   ],
   "server": [],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "client": [
+    "ClientItemInfoLoaderMixin",
+    "ModelBakeryMixin"
+  ]
 }
 

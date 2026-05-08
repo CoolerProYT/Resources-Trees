@@ -1,13 +1,8 @@
 package com.coolerpromc.resourcestrees.block.entity.custom;
 
 import com.coolerpromc.resourcestrees.Constants;
-import com.coolerpromc.resourcestrees.block.ModBlocks;
-import com.coolerpromc.resourcestrees.block.custom.ResourcesSaplingBlock;
 import com.coolerpromc.resourcestrees.block.entity.ModBlockEntities;
 import com.coolerpromc.resourcestrees.config.ModConfig;
-import com.coolerpromc.resourcestrees.core.ResourcesTypes;
-import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
-import com.coolerpromc.resourcestrees.item.ModItems;
 import com.coolerpromc.resourcestrees.recipe.ModRecipes;
 import com.coolerpromc.resourcestrees.recipe.custom.TreeSimulatorRecipe;
 import com.coolerpromc.resourcestrees.recipe.input.TreeSimulatorRecipeInput;
@@ -16,18 +11,13 @@ import com.coolerpromc.resourcestrees.screen.custom.TreeSimulatorMenu;
 import com.coolerpromc.resourcestrees.util.ExtendedSimpleInventory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
@@ -37,11 +27,11 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.item.*;
-import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.AxeItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
@@ -50,23 +40,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
 public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvider, WorldlyContainer {
     public static final ModConfig CONFIG = new ModConfig();
-
-    public static final Map<ResourcesSaplingBlock, Item> LOG_BY_SAPLINGS = Map.of(
-            ModBlocks.RESOURCES_OAK_SAPLING.get(), Items.OAK_LOG,
-            ModBlocks.RESOURCES_SPRUCE_SAPLING.get(), Items.SPRUCE_LOG,
-            ModBlocks.RESOURCES_BIRCH_SAPLING.get(), Items.BIRCH_LOG,
-            ModBlocks.RESOURCES_JUNGLE_SAPLING.get(), Items.JUNGLE_LOG,
-            ModBlocks.RESOURCES_ACACIA_SAPLING.get(), Items.ACACIA_LOG,
-            ModBlocks.RESOURCES_DARK_OAK_SAPLING.get(), Items.DARK_OAK_LOG,
-            ModBlocks.RESOURCES_CHERRY_SAPLING.get(), Items.CHERRY_LOG,
-            ModBlocks.RESOURCES_PALE_OAK_SAPLING.get(), Items.PALE_OAK_LOG
-    );
 
     public int growTicks = 0;
     public int maxGrowTicks = 0;
@@ -255,7 +233,7 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
     private int findSuitableOutputSlot(ItemStack result) {
         for (int i = 0; i < this.outputHandler.getSlots(); i++) {
             ItemStack stackInSlot = this.outputHandler.getItem(i);
-            if (stackInSlot.isEmpty() || (ResourcesTypes.isSameItemSameType(stackInSlot, result) && stackInSlot.getCount() + result.getCount() <= stackInSlot.getMaxStackSize())) {
+            if (stackInSlot.isEmpty() || (ItemStack.isSameItemSameComponents(stackInSlot, result) && stackInSlot.getCount() + result.getCount() <= stackInSlot.getMaxStackSize())) {
                 return i;
             }
         }
@@ -306,7 +284,7 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
     private boolean canInsertAmountIntoOutputSlot(ItemStack result) {
         for (int i = 0; i < this.outputHandler.getSlots(); i++) {
             ItemStack stackInSlot = this.outputHandler.getItem(i);
-            if (stackInSlot.isEmpty() || (ResourcesTypes.isSameItemSameType(stackInSlot, result) && stackInSlot.getCount() + result.getCount() <= stackInSlot.getMaxStackSize())) {
+            if (stackInSlot.isEmpty() || (ItemStack.isSameItemSameComponents(stackInSlot, result) && stackInSlot.getCount() + result.getCount() <= stackInSlot.getMaxStackSize())) {
                 return true;
             }
         }
@@ -316,25 +294,26 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
     private boolean canInsertItemIntoOutputSlot(ItemStack item) {
         for (int i = 0; i < this.outputHandler.getSlots(); i++) {
             ItemStack stackInSlot = this.outputHandler.getItem(i);
-            if (stackInSlot.isEmpty() || ResourcesTypes.isSameItemSameType(stackInSlot, item)) {
+            if (stackInSlot.isEmpty() || ItemStack.isSameItemSameComponents(stackInSlot, item)) {
                 return true;
             }
         }
         return false;
     }
 
+    // TODO: Handle undefined recipe
     private Optional<RecipeHolder<TreeSimulatorRecipe>> getCurrentRecipe(){
         if (level instanceof ServerLevel serverLevel){
             Optional<RecipeHolder<TreeSimulatorRecipe>> recipe = serverLevel.recipeAccess().getRecipeFor(ModRecipes.TREE_SIMULATOR_TYPE.get(), new TreeSimulatorRecipeInput(getSapling()), serverLevel);
             if (recipe.isPresent()){
                 return recipe;
             }
-            else if (Block.byItem(getSapling().getItem()) instanceof ResourcesSaplingBlock block){
-                Holder<ResourcesTypes> type = getSapling().get(ModDataComponents.TYPE.get());
+            /*else if (Block.byItem(getSapling().getItem()) instanceof ResourcesSaplingBlock block){
+                Holder<ResourcesType> type = getSapling().get(ModDataComponents.TYPE.get());
 
                 if (type != null){
                     ItemStackTemplate leaf = new ItemStackTemplate(ModItems.LEAF_FRAGMENT.get(), DataComponentPatch.builder().set(ModDataComponents.TYPE.get(), type).build());
-                    ResourcesTypes value = type.value();
+                    ResourcesType value = type.value();
                     List<TreeSimulatorOutput> drops = new ArrayList<>();
                     drops.add(TreeSimulatorOutput.of(TreeSimulatorBlockEntity.LOG_BY_SAPLINGS.get(block), 0.5f, 1, 4));
                     drops.add(TreeSimulatorOutput.of(leaf, 1, 1, 1));
@@ -346,7 +325,7 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
                     ResourceKey<Recipe<?>> key = ResourceKey.create(Registries.RECIPE, type.unwrapKey().get().identifier().withSuffix(BuiltInRegistries.BLOCK.getKey(block).getPath().substring(9)).withPrefix("tree_simulator/"));
                     return Optional.of(new RecipeHolder<>(key, newRecipe));
                 }
-            }
+            }*/
         }
         return Optional.empty();
     }

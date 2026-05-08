@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": "resourcestrees:nature_leaf_fragment",
+    "B": "resourcestrees:dirt_leaf_fragment"
+  },
+  "pattern": [
+    "ABA",
+    "   ",
+    "   "
+  ],
+  "result": {
+    "count": 6,
+    "id": "minecraft:red_mushroom"
+  }
+}

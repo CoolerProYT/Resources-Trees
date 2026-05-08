@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": "resourcestrees:shulker_leaf_fragment"
+  },
+  "pattern": [
+    "AAA",
+    "A A",
+    "   "
+  ],
+  "result": {
+    "count": 4,
+    "id": "minecraft:shulker_shell"
+  }
+}

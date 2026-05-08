@@ -8,7 +8,7 @@ dependencies {
     implementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
     implementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
 
-    compileOnly "mezz.jei:jei-${minecraft_version}-fabric-api:${jei_version}"
+    compileOnly "mezz.jei:jei-${dependencies_minecraft_version}-fabric-api:${jei_version}"
     runtimeOnly "mezz.jei:jei-${minecraft_version}-fabric:${jei_version}"
     compileOnly("maven.modrinth:jade:${jade_version}")
 }
@@ -72,7 +72,7 @@ publishMods {
     type = BETA
     modLoaders.add("fabric")
     changelog = rootProject.file("changelog.md").text
-    displayName = mod_id + "-" + project.version + "+" + minecraft_version + "-fabric"
+    displayName = "[Breaking Changes] " + mod_id + "-" + project.version + "+" + minecraft_version + "-fabric"
 
     curseforge {
         projectId = "1354532"

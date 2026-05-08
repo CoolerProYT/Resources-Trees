@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_nature_nature_leaf_fragment": {
+      "conditions": {
+        "items": [
+          {
+            "items": "resourcestrees:nature_leaf_fragment"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "resourcestrees:fragment_crafting/wood_leaf_fragment_to_azalea"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_wood_wood_leaf_fragment": {
+      "conditions": {
+        "items": [
+          {
+            "items": "resourcestrees:wood_leaf_fragment"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_wood_wood_leaf_fragment",
+      "has_nature_nature_leaf_fragment"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "resourcestrees:fragment_crafting/wood_leaf_fragment_to_azalea"
+    ]
+  }
+}

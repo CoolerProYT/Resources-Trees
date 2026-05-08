@@ -5,9 +5,11 @@ import com.coolerpromc.resourcestrees.block.ModBlocks;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Supplier;
 
 public class ModBlockTagGenerator extends BlockTagsProvider {
     public ModBlockTagGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
@@ -16,24 +18,8 @@ public class ModBlockTagGenerator extends BlockTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider provider) {
-        this.tag(BlockTags.SAPLINGS)
-                .add(ModBlocks.RESOURCES_OAK_SAPLING.get())
-                .add(ModBlocks.RESOURCES_SPRUCE_SAPLING.get())
-                .add(ModBlocks.RESOURCES_BIRCH_SAPLING.get())
-                .add(ModBlocks.RESOURCES_JUNGLE_SAPLING.get())
-                .add(ModBlocks.RESOURCES_ACACIA_SAPLING.get())
-                .add(ModBlocks.RESOURCES_DARK_OAK_SAPLING.get())
-                .add(ModBlocks.RESOURCES_CHERRY_SAPLING.get())
-                .add(ModBlocks.RESOURCES_PALE_OAK_SAPLING.get());
-
-        this.tag(BlockTags.LEAVES)
-                .add(ModBlocks.RESOURCES_OAK_LEAVES.get())
-                .add(ModBlocks.RESOURCES_SPRUCE_LEAVES.get())
-                .add(ModBlocks.RESOURCES_BIRCH_LEAVES.get())
-                .add(ModBlocks.RESOURCES_JUNGLE_LEAVES.get())
-                .add(ModBlocks.RESOURCES_ACACIA_LEAVES.get())
-                .add(ModBlocks.RESOURCES_DARK_OAK_LEAVES.get())
-                .add(ModBlocks.RESOURCES_CHERRY_LEAVES.get())
-                .add(ModBlocks.RESOURCES_PALE_OAK_LEAVES.get());
+        this.tag(BlockTags.SAPLINGS).add(ModBlocks.SAPLINGS.stream().map(Supplier::get).toArray(Block[]::new));
+        this.tag(BlockTags.LEAVES).add(ModBlocks.LEAVES.stream().map(Supplier::get).toArray(Block[]::new));
+        this.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(ModBlocks.TREE_SIMULATOR.get());
     }
 }

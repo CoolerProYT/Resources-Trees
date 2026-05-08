@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": "resourcestrees:nature_leaf_fragment",
+    "B": "resourcestrees:fire_leaf_fragment"
+  },
+  "pattern": [
+    "BA ",
+    "AB ",
+    "   "
+  ],
+  "result": {
+    "count": 8,
+    "id": "minecraft:sweet_berries"
+  }
+}

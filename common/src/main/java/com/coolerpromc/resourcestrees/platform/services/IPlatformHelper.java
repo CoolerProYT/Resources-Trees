@@ -4,7 +4,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.MenuProvider;
+import net.minecraft.world.item.Item;
 
 import java.nio.file.Path;
 
@@ -58,4 +60,6 @@ public interface IPlatformHelper {
      * Sends a custom packet payload to all connected players.
      */
     void sendToAllPlayers(CustomPacketPayload packet, ServerLevel level);
+
+    TagKey<Item> getShearTag();
 }

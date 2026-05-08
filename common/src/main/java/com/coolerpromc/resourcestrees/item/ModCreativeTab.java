@@ -1,24 +1,16 @@
 package com.coolerpromc.resourcestrees.item;
 
-import com.coolerpromc.resourcestrees.CommonClass;
 import com.coolerpromc.resourcestrees.block.ModBlocks;
-import com.coolerpromc.resourcestrees.block.custom.ResourcesLeavesBlock;
-import com.coolerpromc.resourcestrees.block.custom.ResourcesSaplingBlock;
-import com.coolerpromc.resourcestrees.datacomponent.ModDataComponents;
-import com.coolerpromc.resourcestrees.core.ResourcesTypes;
 import com.coolerpromc.resourcestrees.platform.Services;
+import com.coolerpromc.resourcestrees.platform.util.BlockRegistryHandler;
 import com.coolerpromc.resourcestrees.platform.util.RegistryHandler;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 
 public class ModCreativeTab {
     public static final RegistryHandler<CreativeModeTab> RESOURCES_TREES_TAB = Services.REGISTRY.registerCreativeTab(
@@ -52,31 +44,9 @@ public class ModCreativeTab {
                 items.add(new ItemStack(ModItems.FISH_ESSENCE.get()));
                 items.add(new ItemStack(ModItems.ZOMBIE_ESSENCE.get()));
 
-                ResourcesTypes.getAllResourcesTypes(pParameters.holders()).forEach((key, value) -> {
-                    for (Block block : CommonClass.saplingBlock()){
-                        if (block instanceof ResourcesSaplingBlock resourcesSaplingBlock){
-                            ItemStack sapling = resourcesSaplingBlock.asItem().getDefaultInstance();
-                            sapling.set(ModDataComponents.TYPE.get(), value);
-                            items.add(sapling);
-                        }
-                    }
-                });
-
-                ResourcesTypes.getAllResourcesTypes(pParameters.holders()).forEach((key, value) -> {
-                    for (Block block : CommonClass.leavesBlock()){
-                        if (block instanceof ResourcesLeavesBlock resourcesLeavesBlock){
-                            ItemStack sapling = resourcesLeavesBlock.asItem().getDefaultInstance();
-                            sapling.set(ModDataComponents.TYPE.get(), value);
-                            items.add(sapling);
-                        }
-                    }
-                });
-
-                ResourcesTypes.getAllResourcesTypes(pParameters.holders()).forEach((key, value) -> {
-                    ItemStack leaf = ModItems.LEAF_FRAGMENT.toStack();
-                    leaf.set(ModDataComponents.TYPE.get(), value);
-                    items.add(leaf);
-                });
+                ModBlocks.SAPLINGS.stream().map(BlockRegistryHandler::toStack).forEach(items::add);
+                ModBlocks.LEAVES.stream().map(BlockRegistryHandler::toStack).forEach(items::add);
+                ModItems.LEAF_FRAGMENTS.stream().map(RegistryHandler::toStack).forEach(items::add);
 
                 return items.toArray(new ItemStack[0]);
             }

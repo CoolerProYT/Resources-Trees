@@ -1,9 +1,0 @@
-{
-  "type": "resourcestrees:resources_sapling",
-  "baseSapling": {
-    "id": "minecraft:dark_oak_sapling"
-  },
-  "resourcesSapling": {
-    "id": "resourcestrees:resources_dark_oak_sapling"
-  }
-}

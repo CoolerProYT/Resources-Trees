@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": "resourcestrees:nether_leaf_fragment",
+    "B": "resourcestrees:dirt_leaf_fragment"
+  },
+  "pattern": [
+    "AAA",
+    "ABA",
+    "AAA"
+  ],
+  "result": {
+    "count": 12,
+    "id": "minecraft:soul_soil"
+  }
+}

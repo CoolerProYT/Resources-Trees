@@ -34,9 +34,6 @@ repositories {
         url = 'https://api.modrinth.com/maven'
     }
     maven { url = "https://api.modrinth.com/maven" }
-    repositories {
-        maven { url = 'https://maven.minecraftforge.net/' }
-    }
 }
 
 sourcesJar {
@@ -81,7 +78,8 @@ processResources {
             'credits'                      : credits,
             'java_version'                 : java_version,
             'jei_version'                  : jei_version,
-            'jade_version'                 : jade_version
+            'jade_version'                 : jade_version,
+            'dependencies_minecraft_version' : dependencies_minecraft_version
     ]
 
     var jsonExpandProps = expandProps.collectEntries {

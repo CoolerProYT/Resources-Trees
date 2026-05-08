@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_blaze_blaze_leaf_fragment": {
+      "conditions": {
+        "items": [
+          {
+            "items": "resourcestrees:blaze_leaf_fragment"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "resourcestrees:fragment_crafting/blaze_leaf_fragment_to_blaze_rod"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_blaze_blaze_leaf_fragment"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "resourcestrees:fragment_crafting/blaze_leaf_fragment_to_blaze_rod"
+    ]
+  }
+}

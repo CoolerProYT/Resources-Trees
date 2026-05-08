@@ -3,16 +3,19 @@ package com.coolerpromc.resourcestrees.platform;
 import com.coolerpromc.resourcestrees.platform.services.IPlatformHelper;
 import net.fabricmc.fabric.api.menu.v1.ExtendedMenuProvider;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.Item;
 import org.jspecify.annotations.Nullable;
 
 import java.nio.file.Path;
@@ -64,5 +67,10 @@ public class FabricPlatformHelper implements IPlatformHelper {
     @Override
     public void sendToAllPlayers(CustomPacketPayload packet, ServerLevel level) {
         level.getServer().getPlayerList().getPlayers().forEach(player -> ServerPlayNetworking.send(player, packet));
+    }
+
+    @Override
+    public TagKey<Item> getShearTag() {
+        return ConventionalItemTags.SHEAR_TOOLS;
     }
 }

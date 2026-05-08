@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_amethyst_amethyst_leaf_fragment": {
+      "conditions": {
+        "items": [
+          {
+            "items": "resourcestrees:amethyst_leaf_fragment"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "resourcestrees:fragment_crafting/amethyst_leaf_fragment_to_amethyst_shard"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_amethyst_amethyst_leaf_fragment"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "resourcestrees:fragment_crafting/amethyst_leaf_fragment_to_amethyst_shard"
+    ]
+  }
+}

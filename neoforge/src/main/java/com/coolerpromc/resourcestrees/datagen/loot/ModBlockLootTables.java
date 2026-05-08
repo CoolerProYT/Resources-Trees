@@ -2,11 +2,21 @@ package com.coolerpromc.resourcestrees.datagen.loot;
 
 import com.coolerpromc.resourcestrees.Constants;
 import com.coolerpromc.resourcestrees.block.ModBlocks;
+import com.coolerpromc.resourcestrees.block.custom.ResourcesLeavesBlock;
+import com.coolerpromc.resourcestrees.item.custom.LeafFragmentItem;
+import com.coolerpromc.resourcestrees.platform.util.BlockRegistryHandler;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.entries.LootPoolSingletonContainer;
+import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 
 import java.util.Optional;
 import java.util.Set;
@@ -19,35 +29,9 @@ public class ModBlockLootTables extends BlockLootSubProvider {
 
     @Override
     protected void generate() {
-        dropSelf(ModBlocks.RESOURCES_OAK_SAPLING.get());
-        shearOrSilkTouchOnlyDrop(ModBlocks.RESOURCES_OAK_LEAVES.get());
-
-        dropSelf(ModBlocks.RESOURCES_SPRUCE_SAPLING.get());
-        shearOrSilkTouchOnlyDrop(ModBlocks.RESOURCES_SPRUCE_LEAVES.get());
-
-        dropSelf(ModBlocks.RESOURCES_BIRCH_SAPLING.get());
-        shearOrSilkTouchOnlyDrop(ModBlocks.RESOURCES_BIRCH_LEAVES.get());
-
-        dropSelf(ModBlocks.RESOURCES_JUNGLE_SAPLING.get());
-        shearOrSilkTouchOnlyDrop(ModBlocks.RESOURCES_JUNGLE_LEAVES.get());
-
-        dropSelf(ModBlocks.RESOURCES_ACACIA_SAPLING.get());
-        shearOrSilkTouchOnlyDrop(ModBlocks.RESOURCES_ACACIA_LEAVES.get());
-
-        dropSelf(ModBlocks.RESOURCES_DARK_OAK_SAPLING.get());
-        shearOrSilkTouchOnlyDrop(ModBlocks.RESOURCES_DARK_OAK_LEAVES.get());
-
-        dropSelf(ModBlocks.RESOURCES_CHERRY_SAPLING.get());
-        shearOrSilkTouchOnlyDrop(ModBlocks.RESOURCES_CHERRY_LEAVES.get());
-
-        dropSelf(ModBlocks.RESOURCES_PALE_OAK_SAPLING.get());
-        shearOrSilkTouchOnlyDrop(ModBlocks.RESOURCES_PALE_OAK_LEAVES.get());
-
+        ModBlocks.SAPLINGS.stream().map(BlockRegistryHandler::get).forEach(this::dropSelf);
+        ModBlocks.LEAVES.stream().map(BlockRegistryHandler::get).forEach(block -> this.add(block, createResourceLeavesDrops(block)));
         dropSelf(ModBlocks.TREE_SIMULATOR.get());
-    }
-
-    protected void shearOrSilkTouchOnlyDrop(Block block){
-        add(block, createShearsOrSilkTouchOnlyDrop(block));
     }
 
     @Override
@@ -55,5 +39,21 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         return BuiltInRegistries.BLOCK.stream()
                 .filter(block -> Optional.of(BuiltInRegistries.BLOCK.getKey(block))
                 .filter(key -> key.getNamespace().equals(Constants.MODID)).isPresent()).collect(Collectors.toSet());
+    }
+
+    protected LootTable.Builder createResourceLeavesDrops(ResourcesLeavesBlock original) {
+        return this.createSilkTouchOrShearsDispatchTable(original,
+                        this.applyExplosionCondition(original, LootItem.lootTableItem(original.getResourcesType().saplingBlock(original.getTreeType().name()).get())
+                                .when(LootItemRandomChanceCondition.randomChance(original.getResourcesType().saplingDropChance()))))
+                .withPool(LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1.0F))
+                        .when((this.hasShears().or(this.hasSilkTouch())).invert())
+                        .add(this.applyExplosionCondition(original, LootItem.lootTableItem(original.getResourcesType().leafFragmentItem().get())
+                                .when(LootItemRandomChanceCondition.randomChance(original.getResourcesType().leafDropChance())))))
+                .withPool(LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1.0F))
+                        .when((this.hasShears().or(this.hasSilkTouch())).invert())
+                        .add(this.applyExplosionCondition(original, LootItem.lootTableItem(original.getResourcesType().leafFragmentItem().get())
+                                .when(LootItemRandomChanceCondition.randomChance(original.getResourcesType().leafDropChance() * 0.5F)))));
     }
 }

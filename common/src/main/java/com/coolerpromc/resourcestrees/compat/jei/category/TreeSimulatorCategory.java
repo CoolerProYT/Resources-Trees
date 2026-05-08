@@ -66,7 +66,7 @@ public class TreeSimulatorCategory extends AbstractRecipeCategory<RecipeHolder<T
 
     private void tooltipCallback(IRecipeSlotView ignored, ITooltipBuilder tooltipBuilder, TreeSimulatorOutput output){
         int chance = (int) (output.chance() * 100);
-        String chanceStr = String.format("Output Chance: %s", chance);
-        tooltipBuilder.add(Component.literal(chanceStr).append("%").withColor(ChatFormatting.GRAY.getColor()));
+        tooltipBuilder.add(Component.translatable("tooltip.resourcestrees.output_chance", chance).withStyle(ChatFormatting.GRAY));
+        tooltipBuilder.add(Component.translatable("tooltip.resourcestrees.max_rolls", output.maxRolls()).withStyle(ChatFormatting.GRAY));
     }
 }

@@ -18,8 +18,7 @@ dependencies {
     compileOnly "io.github.llamalad7:mixinextras-common:0.3.5"
     annotationProcessor "io.github.llamalad7:mixinextras-common:0.3.5"
 
-    compileOnly "mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"
-    compileOnly "maven.modrinth:jade:${jade_version}"
+    compileOnly "mezz.jei:jei-${dependencies_minecraft_version}-common-api:${jei_version}"
 }
 
 configurations {

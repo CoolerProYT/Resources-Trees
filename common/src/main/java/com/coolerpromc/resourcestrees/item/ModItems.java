@@ -1,12 +1,28 @@
 package com.coolerpromc.resourcestrees.item;
 
+import com.coolerpromc.resourcestrees.api.resources.ResourcesTypes;
+import com.coolerpromc.resourcestrees.api.tree.TreeTypes;
+import com.coolerpromc.resourcestrees.block.custom.ResourcesLeavesBlock;
+import com.coolerpromc.resourcestrees.block.custom.ResourcesSaplingBlock;
 import com.coolerpromc.resourcestrees.item.custom.LeafFragmentItem;
 import com.coolerpromc.resourcestrees.platform.Services;
+import com.coolerpromc.resourcestrees.platform.util.BlockRegistryHandler;
 import com.coolerpromc.resourcestrees.platform.util.RegistryHandler;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ModItems {
-    public static final RegistryHandler<LeafFragmentItem> LEAF_FRAGMENT = Services.REGISTRY.registerItem("leaf_fragment", LeafFragmentItem::new);
+    public static final List<RegistryHandler<? extends Item>> LEAF_FRAGMENTS = new ArrayList<>();
+
+    @Deprecated(forRemoval = true)
+    public static final RegistryHandler<Item> LEGACY_LEAF_FRAGMENT = Services.REGISTRY.registerItem("leaf_fragment", Item::new);
+
     public static final RegistryHandler<Item> FIRE_ESSENCE = Services.REGISTRY.registerItem("fire_essence", Item::new);
     public static final RegistryHandler<Item> WATER_ESSENCE = Services.REGISTRY.registerItem("water_essence", Item::new);
     public static final RegistryHandler<Item> NATURE_ESSENCE = Services.REGISTRY.registerItem("nature_essence", Item::new);
@@ -30,6 +46,10 @@ public class ModItems {
     public static final RegistryHandler<Item> ZOMBIE_ESSENCE = Services.REGISTRY.registerItem("zombie_essence", Item::new);
 
     public static void init() {
-        // Force class loading to trigger static initializers
+        ResourcesTypes.getTypes().forEach(resourcesType -> {
+            RegistryHandler<LeafFragmentItem> leafFragment = Services.REGISTRY.registerItem(resourcesType.name() + "_leaf_fragment", properties -> new LeafFragmentItem(properties, resourcesType));
+            LEAF_FRAGMENTS.add(leafFragment);
+            resourcesType.setLeafFragmentItem(leafFragment);
+        });
     }
 }
