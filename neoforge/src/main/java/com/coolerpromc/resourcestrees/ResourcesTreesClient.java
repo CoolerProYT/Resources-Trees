@@ -7,6 +7,7 @@ import com.coolerpromc.resourcestrees.block.custom.ResourcesLeavesBlock;
 import com.coolerpromc.resourcestrees.block.custom.ResourcesSaplingBlock;
 import com.coolerpromc.resourcestrees.block.entity.ModBlockEntities;
 import com.coolerpromc.resourcestrees.block.entity.renderer.TreeSimulatorBlockEntityRenderer;
+import com.coolerpromc.resourcestrees.client.pack.ResourcesTreesModelPack;
 import com.coolerpromc.resourcestrees.client.tint.ResourcesTypeTintSource;
 import com.coolerpromc.resourcestrees.client.tint.ResourcesTypesTintSource;
 import com.coolerpromc.resourcestrees.event.ModRecipeReceived;
@@ -15,7 +16,15 @@ import com.coolerpromc.resourcestrees.screen.custom.TreeSimulatorScreen;
 import net.minecraft.client.color.block.BlockTintSources;
 import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
 import net.minecraft.client.resources.model.ModelBakery;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.packs.PackLocationInfo;
+import net.minecraft.server.packs.PackResources;
+import net.minecraft.server.packs.PackSelectionConfig;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.repository.Pack;
+import net.minecraft.server.packs.repository.PackCompatibility;
+import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
@@ -26,6 +35,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.model.standalone.SimpleUnbakedStandaloneModel;
 import net.neoforged.neoforge.client.model.standalone.StandaloneModelKey;
+import net.neoforged.neoforge.event.AddPackFindersEvent;
 
 import java.util.HashMap;
 import java.util.List;
@@ -113,5 +123,30 @@ public class ResourcesTreesClient {
                 }
             }
         });
+    }
+
+    @SubscribeEvent
+    public static void onAddPackFinders(AddPackFindersEvent event) {
+        if (event.getPackType() != PackType.CLIENT_RESOURCES) return;
+
+        ResourcesTreesModelPack pack = new ResourcesTreesModelPack();
+        TreeTypes.getTypes().forEach(treeType -> {
+            pack.addLeavesModel(treeType.leavesTexture());
+            pack.addSaplingBlockModel(treeType.saplingTexture());
+            pack.addSaplingItemModel(treeType.saplingTexture());
+        });
+
+        Pack p = new Pack(
+                pack.location(),
+                new Pack.ResourcesSupplier() {
+                    @Override
+                    public PackResources openPrimary(PackLocationInfo info) { return pack; }
+                    @Override
+                    public PackResources openFull(PackLocationInfo info, Pack.Metadata meta) { return pack; }
+                },
+                new Pack.Metadata(pack.getDescription(), PackCompatibility.COMPATIBLE, FeatureFlagSet.of(), List.of()),
+                new PackSelectionConfig(true, Pack.Position.TOP, false)
+        );
+        event.addRepositorySource(consumer -> consumer.accept(p));
     }
 }

@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "resourcestrees:block/resources_acacia_sapling",
-    "layer1": "resourcestrees:block/resources_acacia_sapling_layer1"
-  }
-}

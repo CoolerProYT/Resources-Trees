@@ -1,7 +1,0 @@
-{
-  "parent": "resourcestrees:block/cross_tinted",
-  "textures": {
-    "cross": "resourcestrees:block/resources_acacia_sapling",
-    "cross_tinted": "resourcestrees:block/resources_acacia_sapling_layer1"
-  }
-}
