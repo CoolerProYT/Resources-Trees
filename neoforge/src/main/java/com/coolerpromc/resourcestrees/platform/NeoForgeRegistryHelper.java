@@ -1,6 +1,7 @@
 package com.coolerpromc.resourcestrees.platform;
 
 import com.coolerpromc.resourcestrees.Constants;
+import com.coolerpromc.resourcestrees.item.custom.ModBlockItem;
 import com.coolerpromc.resourcestrees.platform.services.IRegistryHelper;
 import com.coolerpromc.resourcestrees.platform.util.BlockEntityTypeFactory;
 import com.coolerpromc.resourcestrees.platform.util.BlockRegistryHandler;
@@ -15,7 +16,6 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -51,7 +51,7 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
     @Override
     public <T extends Block> BlockRegistryHandler<T> registerBlock(String name, Function<BlockBehaviour.Properties, T> func, BlockBehaviour.Properties p) {
         DeferredBlock<T> block = BLOCKS.registerBlock(name, func, () -> p);
-        registerItem(name, properties -> new BlockItem(block.get(), properties.useBlockDescriptionPrefix()));
+        registerItem(name, properties -> new ModBlockItem(block.get(), properties.useBlockDescriptionPrefix()));
 
         return new BlockRegistryHandler<>() {
             @Override

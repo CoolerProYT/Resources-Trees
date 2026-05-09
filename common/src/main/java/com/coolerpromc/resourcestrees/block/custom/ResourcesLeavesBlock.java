@@ -1,5 +1,6 @@
 package com.coolerpromc.resourcestrees.block.custom;
 
+import com.coolerpromc.resourcestrees.Constants;
 import com.coolerpromc.resourcestrees.api.resources.ResourcesType;
 import com.coolerpromc.resourcestrees.api.tree.TreeType;
 import com.coolerpromc.resourcestrees.platform.Services;
@@ -11,6 +12,8 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ColorParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.RandomSource;
@@ -27,6 +30,7 @@ import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 
 import java.util.List;
+import java.util.Objects;
 
 public class ResourcesLeavesBlock extends LeavesBlock {
     public static final MapCodec<ResourcesLeavesBlock> CODEC = RecordCodecBuilder.mapCodec((p_400250_) ->
@@ -115,5 +119,16 @@ public class ResourcesLeavesBlock extends LeavesBlock {
 
     public TreeType getTreeType() {
         return treeType;
+    }
+
+    @Override
+    public MutableComponent getName() {
+        if (!Objects.equals(super.getName().getString(), getDescriptionId())){
+            return super.getName();
+        }
+        return Component.translatable("item.resourcestrees.trees",
+                Constants.getOrFallback(getDescriptionId(), resourcesType.name()),
+                Constants.getOrFallback("tree_type.resourcestrees." + treeType.name(), treeType.name()),
+                Constants.getOrFallback("item.resourcestrees.leaves", "Leaves"));
     }
 }

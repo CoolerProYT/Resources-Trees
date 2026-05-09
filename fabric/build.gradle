@@ -72,7 +72,7 @@ publishMods {
     type = BETA
     modLoaders.add("fabric")
     changelog = rootProject.file("changelog.md").text
-    displayName = "[Breaking Changes] " + mod_id + "-" + project.version + "+" + minecraft_version + "-fabric"
+    displayName = mod_id + "-" + project.version + "+" + minecraft_version + "-fabric"
 
     curseforge {
         projectId = "1354532"

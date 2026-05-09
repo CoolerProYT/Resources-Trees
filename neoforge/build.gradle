@@ -85,7 +85,7 @@ publishMods {
     type = BETA
     modLoaders.add("neoforge")
     changelog = rootProject.file("changelog.md").text
-    displayName = "[Breaking Changes] " + mod_id + "-" + project.version + "+" + minecraft_version + "-neoforge"
+    displayName = mod_id + "-" + project.version + "+" + minecraft_version + "-neoforge"
 
     curseforge {
         projectId = "1354532"

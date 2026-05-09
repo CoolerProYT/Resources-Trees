@@ -1,6 +1,7 @@
 package com.coolerpromc.resourcestrees.platform;
 
 import com.coolerpromc.resourcestrees.Constants;
+import com.coolerpromc.resourcestrees.item.custom.ModBlockItem;
 import com.coolerpromc.resourcestrees.platform.services.IRegistryHelper;
 import com.coolerpromc.resourcestrees.platform.util.BlockEntityTypeFactory;
 import com.coolerpromc.resourcestrees.platform.util.BlockRegistryHandler;
@@ -43,7 +44,7 @@ public class FabricRegistryHelper implements IRegistryHelper {
         ResourceKey<Block> key = IRegistryHelper.blockKey(name);
         Identifier id = key.identifier();
         Holder<T> holder = Registry.registerForHolder(BuiltInRegistries.BLOCK, id, func.apply(p.setId(key)));
-        Item item = registerItem(name, properties -> new BlockItem(holder.value(), properties.useBlockDescriptionPrefix())).get();
+        Item item = registerItem(name, properties -> new ModBlockItem(holder.value(), properties.useBlockDescriptionPrefix())).get();
 
         return new BlockRegistryHandler<>() {
             @Override

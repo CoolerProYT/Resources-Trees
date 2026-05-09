@@ -1,7 +1,12 @@
 package com.coolerpromc.resourcestrees.item.custom;
 
+import com.coolerpromc.resourcestrees.Constants;
 import com.coolerpromc.resourcestrees.api.resources.ResourcesType;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.Objects;
 
 public class LeafFragmentItem extends Item {
     private final ResourcesType resourcesType;
@@ -11,15 +16,15 @@ public class LeafFragmentItem extends Item {
         this.resourcesType = resourcesType;
     }
 
-    // TODO: See if this method still needed
-    /*@Override
-    public Component getName(ItemStack stack) {
-        Holder<ResourcesType> resourcesTypes = stack.get(ModDataComponents.TYPE.get());
-        if (resourcesTypes != null){
-            return Component.translatable("type.resourcestrees." + resourcesTypes.unwrapKey().orElseThrow().identifier().getPath()).append(" ").append(super.getName(stack));
+    @Override
+    public Component getName(ItemStack itemStack) {
+        if (!Objects.equals(super.getName(itemStack).getString(), getDescriptionId())){
+            return super.getName(itemStack);
         }
-        return super.getName(stack);
-    }*/
+        return Component.translatable("item.resourcestrees.leaf_fragments",
+                Constants.getOrFallback(getDescriptionId(), resourcesType.name()),
+                Constants.getOrFallback("item.resourcestrees.leaves", "Leaves"));
+    }
 
     public ResourcesType getResourcesType() {
         return resourcesType;

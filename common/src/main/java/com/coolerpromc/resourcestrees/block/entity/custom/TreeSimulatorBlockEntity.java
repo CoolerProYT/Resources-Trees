@@ -301,31 +301,9 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
         return false;
     }
 
-    // TODO: Handle undefined recipe
     private Optional<RecipeHolder<TreeSimulatorRecipe>> getCurrentRecipe(){
         if (level instanceof ServerLevel serverLevel){
-            Optional<RecipeHolder<TreeSimulatorRecipe>> recipe = serverLevel.recipeAccess().getRecipeFor(ModRecipes.TREE_SIMULATOR_TYPE.get(), new TreeSimulatorRecipeInput(getSapling()), serverLevel);
-            if (recipe.isPresent()){
-                return recipe;
-            }
-            /*else if (Block.byItem(getSapling().getItem()) instanceof ResourcesSaplingBlock block){
-                Holder<ResourcesType> type = getSapling().get(ModDataComponents.TYPE.get());
-
-                if (type != null){
-                    ItemStackTemplate leaf = new ItemStackTemplate(ModItems.LEAF_FRAGMENT.get(), DataComponentPatch.builder().set(ModDataComponents.TYPE.get(), type).build());
-                    ResourcesType value = type.value();
-                    List<TreeSimulatorOutput> drops = new ArrayList<>();
-                    drops.add(TreeSimulatorOutput.of(TreeSimulatorBlockEntity.LOG_BY_SAPLINGS.get(block), 0.5f, 1, 4));
-                    drops.add(TreeSimulatorOutput.of(leaf, 1, 1, 1));
-                    drops.add(TreeSimulatorOutput.of(leaf, value.leafDropChance(), 1, 4));
-                    drops.add(TreeSimulatorOutput.of(ItemStackTemplate.fromNonEmptyStack(getSapling()), value.saplingDropChance(), 1, 1));
-                    drops.add(TreeSimulatorOutput.of(Items.STICK, 0.1f, 1, 2));
-                    drops.add(TreeSimulatorOutput.of(Items.APPLE, 0.05f, 1, 1));
-                    TreeSimulatorRecipe newRecipe = new TreeSimulatorRecipe(ItemStackTemplate.fromNonEmptyStack(getSapling()), drops, type.value().treeSimulatorTicks());
-                    ResourceKey<Recipe<?>> key = ResourceKey.create(Registries.RECIPE, type.unwrapKey().get().identifier().withSuffix(BuiltInRegistries.BLOCK.getKey(block).getPath().substring(9)).withPrefix("tree_simulator/"));
-                    return Optional.of(new RecipeHolder<>(key, newRecipe));
-                }
-            }*/
+            return serverLevel.recipeAccess().getRecipeFor(ModRecipes.TREE_SIMULATOR_TYPE.get(), new TreeSimulatorRecipeInput(getSapling()), serverLevel);
         }
         return Optional.empty();
     }

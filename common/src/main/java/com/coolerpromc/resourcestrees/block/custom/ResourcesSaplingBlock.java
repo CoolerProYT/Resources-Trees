@@ -1,10 +1,13 @@
 package com.coolerpromc.resourcestrees.block.custom;
 
+import com.coolerpromc.resourcestrees.Constants;
 import com.coolerpromc.resourcestrees.api.resources.ResourcesType;
 import com.coolerpromc.resourcestrees.api.tree.TreeType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
@@ -23,7 +26,7 @@ import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvi
 import net.minecraft.world.level.storage.loot.LootParams;
 
 import java.util.List;
-import java.util.Properties;
+import java.util.Objects;
 
 public class ResourcesSaplingBlock extends SaplingBlock {
     private final ResourcesType resourcesType;
@@ -134,5 +137,16 @@ public class ResourcesSaplingBlock extends SaplingBlock {
 
     public TreeType getTreeType() {
         return treeType;
+    }
+
+    @Override
+    public MutableComponent getName() {
+        if (!Objects.equals(super.getName().getString(), getDescriptionId())){
+            return super.getName();
+        }
+        return Component.translatable("item.resourcestrees.trees",
+                Constants.getOrFallback(getDescriptionId(), resourcesType.name()),
+                Constants.getOrFallback("tree_type.resourcestrees." + treeType.name(), treeType.name()),
+                Constants.getOrFallback("item.resourcestrees.sapling", "Sapling"));
     }
 }
