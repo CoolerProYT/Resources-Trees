@@ -19,10 +19,7 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.Container;
-import net.minecraft.world.ContainerHelper;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -41,9 +38,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.IntStream;
 
-public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvider, WorldlyContainer {
+public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvider{
     public static final ModConfig CONFIG = new ModConfig();
 
     public int growTicks = 0;
@@ -51,44 +47,17 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
 
     private final ExtendedSimpleInventory inputHandler = new ExtendedSimpleInventory(1){
         @Override
-        public void setItem(int slot, ItemStack stack) {
-            super.setItem(slot, stack);
-            setGrowTick();
-        }
-
-        @Override
-        public boolean canTakeItemThroughFace(int slot, ItemStack stack, Direction dir) {
-            return false;
-        }
-
-        @Override
         public int getMaxStackSize() {
             return 1;
         }
     };
 
-    private final ExtendedSimpleInventory outputHandler = new ExtendedSimpleInventory(9){
-        @Override
-        public boolean canPlaceItemThroughFace(int slot, ItemStack stack, @Nullable Direction dir) {
-            return false;
-        }
-    };
+    private final ExtendedSimpleInventory outputHandler = new ExtendedSimpleInventory(9);
 
     private final ExtendedSimpleInventory axeHandler = new ExtendedSimpleInventory(1){
         @Override
-        public void setItem(int slot, ItemStack stack) {
-            super.setItem(slot, stack);
-            setGrowTick();
-        }
-
-        @Override
         public boolean canPlaceItem(int slot, ItemStack stack) {
             return stack.getItem() instanceof AxeItem;
-        }
-
-        @Override
-        public boolean canTakeItemThroughFace(int slot, ItemStack stack, Direction dir) {
-            return false;
         }
     };
 
@@ -157,11 +126,12 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
 
     @Override
     public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
-        return saveCustomOnly(registries);
+        return saveWithoutMetadata(registries);
     }
 
     public void tick(Level level, BlockPos pos, BlockState state){
         if (level.isClientSide()) return;
+        setGrowTick();
 
         if (hasRecipe() && isAxeValid()){
             increaseGrowTicks();
@@ -212,13 +182,15 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
     }
 
     private boolean treeGrown(){
-        return growTicks >= maxGrowTicks;
+        return growTicks >= maxGrowTicks && maxGrowTicks > 0;
     }
 
     private void increaseGrowTicks(){
         this.growTicks++;
         setChanged();
-        level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
+        if (growTicks % 5 == 0) {
+            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 2);
+        }
     }
 
     private void resetGrowTicks(){
@@ -361,84 +333,25 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
             setMaxGrowTicks(tick);
         }
         else{
-            setMaxGrowTicks(0);
+            setMaxGrowTicks(-1);
         }
     }
 
-    @Override
-    public int[] getSlotsForFace(Direction side) {
-        if (side == Direction.DOWN) {
-            return IntStream.range(inputHandler.getContainerSize(), inputHandler.getContainerSize() + outputHandler.getContainerSize()).toArray();
-        } else {
-            return IntStream.range(0, inputHandler.getContainerSize()).toArray();
-        }
-    }
-
-    @Override
-    public boolean canPlaceItemThroughFace(int slot, ItemStack stack, @Nullable Direction dir) {
-        return inputHandler.canPlaceItemThroughFace(slot, stack, dir);
-    }
-
-    @Override
-    public boolean canTakeItemThroughFace(int slot, ItemStack stack, Direction dir) {
-        return outputHandler.canTakeItemThroughFace(slot, stack, dir);
-    }
-
-    @Override
-    public int getContainerSize() {
-        return inputHandler.getContainerSize() + outputHandler.getContainerSize() + axeHandler.getContainerSize();
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return inputHandler.isEmpty() && outputHandler.isEmpty() && axeHandler.isEmpty();
-    }
-
-    @Override
-    public ItemStack getItem(int slot) {
-        return getHandlerForSlot(slot).getItem(getLocalSlot(slot));
-    }
-
-    @Override
-    public ItemStack removeItem(int slot, int amount) {
-        return getHandlerForSlot(slot).removeItem(getLocalSlot(slot), amount);
-    }
-
-    @Override
-    public ItemStack removeItemNoUpdate(int slot) {
-        return getHandlerForSlot(slot).removeItemNoUpdate(getLocalSlot(slot));
-    }
-
-    @Override
-    public void setItem(int slot, ItemStack stack) {
-        getHandlerForSlot(slot).setItem(getLocalSlot(slot), stack);
-    }
-
-    @Override
-    public boolean stillValid(Player player) {
-        return true;
-    }
-
-    @Override
-    public void clearContent() {
-        inputHandler.clearContent();
-        outputHandler.clearContent();
-        axeHandler.clearContent();
-    }
-
-    private Container getHandlerForSlot(int slot) {
-        if (slot < inputHandler.getContainerSize()) return inputHandler;
-        slot -= inputHandler.getContainerSize();
-        if (slot < outputHandler.getContainerSize()) return outputHandler;
-        slot -= outputHandler.getContainerSize();
+    public Container getHandlerForSide(@org.jspecify.annotations.Nullable Direction direction) {
+        if (direction == Direction.DOWN) return outputHandler;
+        if (direction == Direction.UP) return inputHandler;
         return axeHandler;
     }
 
-    private int getLocalSlot(int globalSlot) {
-        if (globalSlot < inputHandler.getContainerSize()) return globalSlot;
-        globalSlot -= inputHandler.getContainerSize();
-        if (globalSlot < outputHandler.getContainerSize()) return globalSlot;
-        globalSlot -= outputHandler.getContainerSize();
-        return globalSlot;
+    @Override
+    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+        SimpleContainer container = new SimpleContainer(11);
+        container.addItem(inputHandler.getItem(0));
+        for (int i = 0; i < outputHandler.getSlots();i ++){
+            container.addItem(outputHandler.getItem(i));
+        }
+        container.addItem(axeHandler.getItem(0));
+
+        Containers.dropContents(this.level, pos, container);
     }
 }

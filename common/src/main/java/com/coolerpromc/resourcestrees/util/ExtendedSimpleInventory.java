@@ -1,12 +1,9 @@
 package com.coolerpromc.resourcestrees.util;
 
-import net.minecraft.core.Direction;
 import net.minecraft.world.SimpleContainer;
-import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.item.ItemStack;
-import org.jetbrains.annotations.Nullable;
 
-public class ExtendedSimpleInventory extends SimpleContainer implements WorldlyContainer {
+public class ExtendedSimpleInventory extends SimpleContainer {
     public ExtendedSimpleInventory(int size){
         super(size);
     }
@@ -49,26 +46,6 @@ public class ExtendedSimpleInventory extends SimpleContainer implements WorldlyC
         if (slot < 0 || slot >= this.getItems().size()) {
             throw new RuntimeException("Slot " + slot + " not in valid range - [0," + this.getItems().size() + ")");
         }
-    }
-
-    @Override
-    public int[] getSlotsForFace(Direction side) {
-        int[] result = new int[getContainerSize()];
-        for (int i = 0; i < result.length; i++) {
-            result[i] = i;
-        }
-
-        return result;
-    }
-
-    @Override
-    public boolean canPlaceItemThroughFace(int slot, ItemStack stack, @Nullable Direction dir) {
-        return true;
-    }
-
-    @Override
-    public boolean canTakeItemThroughFace(int slot, ItemStack stack, Direction dir) {
-        return true;
     }
 
     public int getSlots() {

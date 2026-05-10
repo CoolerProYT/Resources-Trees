@@ -37,16 +37,13 @@ public class TreeSimulatorMenu extends AbstractContainerMenu {
         addPlayerHotbar(playerInventory);
         addDataSlots(this.data);
 
-        // Input slot (slot 0 in blockEntity)
-        this.addSlot(new Slot(blockEntity, 0, 26, 35));
+        this.addSlot(new Slot(blockEntity.getInputHandler(), 0, 26, 35));
 
-        // Output slots (slots 1-9 in blockEntity, starting after input)
         for (int i = 0; i < blockEntity.getOutputHandler().getContainerSize(); i++){
-            this.addSlot(new OutputSlot(blockEntity, 1 + i, 98 + 18 * (i % 3), 17 + (i / 3) * 18));
+            this.addSlot(new OutputSlot(blockEntity.getOutputHandler(), i, 98 + 18 * (i % 3), 17 + (i / 3) * 18));
         }
 
-        // Axe slot (slot 10 in blockEntity, after input + output)
-        this.addSlot(new Slot(blockEntity, 1 + blockEntity.getOutputHandler().getContainerSize(), 62, 59));
+        this.addSlot(new Slot(blockEntity.getAxeHandler(), 0, 62, 59));
     }
 
     @Override

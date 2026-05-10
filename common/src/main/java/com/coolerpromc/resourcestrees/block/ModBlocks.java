@@ -1,6 +1,5 @@
 package com.coolerpromc.resourcestrees.block;
 
-import com.coolerpromc.resourcestrees.Constants;
 import com.coolerpromc.resourcestrees.api.resources.ResourcesTypes;
 import com.coolerpromc.resourcestrees.api.tree.TreeTypes;
 import com.coolerpromc.resourcestrees.block.custom.*;
@@ -10,7 +9,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 
 import java.util.ArrayList;
