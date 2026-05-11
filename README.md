@@ -20,7 +20,7 @@ Resources Trees is published to a Maven repository. Add it to your project to us
 repositories {
     maven {
         name = "CoolerProMC Maven"
-        url = "https://maven.coolerpromc.com"
+        url = "https://maven.coolerpromc.com/releases"
     }
 }
  
@@ -40,7 +40,8 @@ dependencies {
 ### `gradle.properties`
 
 ```properties
-resourcestrees_version=26.1.2.100   # replace with actual version
+minecraft_version = 26.1.2
+resourcestrees_version=26.1.2.111   # replace with actual version
 ```
 
 ---
