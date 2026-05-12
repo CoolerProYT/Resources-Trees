@@ -19,6 +19,7 @@ dependencies {
     annotationProcessor "io.github.llamalad7:mixinextras-common:0.3.5"
 
     compileOnly "mezz.jei:jei-${dependencies_minecraft_version}-common-api:${jei_version}"
+    compileOnly "com.coolerpromc.coolerconfig:coolerconfig-common-${dependencies_minecraft_version}:${cooler_config_version}"
 }
 
 configurations {

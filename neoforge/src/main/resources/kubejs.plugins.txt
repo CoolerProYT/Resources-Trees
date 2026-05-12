@@ -1,1 +1,0 @@
-com.coolerpromc.resourcestrees.integration.kubejs.ModKubeJSPlugin resourcestrees

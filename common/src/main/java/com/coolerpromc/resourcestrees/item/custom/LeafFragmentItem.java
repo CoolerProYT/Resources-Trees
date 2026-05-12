@@ -22,7 +22,7 @@ public class LeafFragmentItem extends Item {
             return super.getName(itemStack);
         }
         return Component.translatable("item.resourcestrees.leaf_fragments",
-                Constants.getOrFallback(getDescriptionId(), resourcesType.name()),
+                Constants.getOrFallback("resources_type.resourcestrees." + resourcesType.name(), resourcesType.name()),
                 Constants.getOrFallback("item.resourcestrees.leaves", "Leaves"));
     }
 

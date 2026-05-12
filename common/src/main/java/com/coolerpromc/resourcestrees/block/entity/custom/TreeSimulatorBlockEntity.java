@@ -2,7 +2,7 @@ package com.coolerpromc.resourcestrees.block.entity.custom;
 
 import com.coolerpromc.resourcestrees.Constants;
 import com.coolerpromc.resourcestrees.block.entity.ModBlockEntities;
-import com.coolerpromc.resourcestrees.config.ModConfig;
+import com.coolerpromc.resourcestrees.config.ResourcesTreesConfig;
 import com.coolerpromc.resourcestrees.recipe.ModRecipes;
 import com.coolerpromc.resourcestrees.recipe.custom.TreeSimulatorRecipe;
 import com.coolerpromc.resourcestrees.recipe.input.TreeSimulatorRecipeInput;
@@ -40,8 +40,6 @@ import java.util.List;
 import java.util.Optional;
 
 public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvider{
-    public static final ModConfig CONFIG = new ModConfig();
-
     public int growTicks = 0;
     public int maxGrowTicks = 0;
 
@@ -194,8 +192,12 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
     }
 
     private void resetGrowTicks(){
+        boolean wasZero = this.growTicks == 0;
         this.growTicks = 0;
         setChanged();
+        if (!wasZero){
+            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 2);
+        }
     }
 
     private void setMaxGrowTicks(int tick){
@@ -326,7 +328,7 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
         if (recipeHolder.isPresent() && isAxeValid()){
             TreeSimulatorRecipe recipe = recipeHolder.get().value();
             int tick = recipe.ticksToGrow();
-            double GROW_TICK_BY_AXE = CONFIG.get(getAxe().typeHolder().getRegisteredName());
+            double GROW_TICK_BY_AXE = ResourcesTreesConfig.get(getAxe().typeHolder().getRegisteredName());
             if (GROW_TICK_BY_AXE != 0.0){
                 tick = (int) (recipe.ticksToGrow() / GROW_TICK_BY_AXE);
             }

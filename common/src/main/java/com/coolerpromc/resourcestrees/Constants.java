@@ -1,10 +1,16 @@
 package com.coolerpromc.resourcestrees;
 
 import com.coolerpromc.resourcestrees.api.tree.TreeTypes;
-import com.coolerpromc.resourcestrees.client.pack.ResourcesTreesModelPack;
+import com.coolerpromc.resourcestrees.block.ModBlocks;
+import com.coolerpromc.resourcestrees.item.ModItems;
+import com.coolerpromc.resourcestrees.pack.ResourcesTreesModelPack;
+import com.coolerpromc.resourcestrees.pack.ResourcesTreesTagPack;
+import com.coolerpromc.resourcestrees.platform.util.RegistryHandler;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.packs.AbstractPackResources;
 import net.minecraft.server.packs.PackLocationInfo;
 import net.minecraft.server.packs.PackResources;
 import net.minecraft.server.packs.PackSelectionConfig;
@@ -41,7 +47,7 @@ public class Constants {
 		return MutableComponent.create(new TranslatableContents(translationKey, capitalizeWords(fallback), TranslatableContents.NO_ARGS)).getString();
 	}
 
-	public static Pack getInMemoryPack(){
+	public static Pack getInMemoryResourcePack(){
 		ResourcesTreesModelPack pack = new ResourcesTreesModelPack();
 		TreeTypes.getTypes().forEach(treeType -> {
 			pack.addLeavesModel(treeType.leavesTexture());
@@ -49,7 +55,22 @@ public class Constants {
 			pack.addSaplingItemModel(treeType.saplingTexture());
 		});
 
-		Pack p = new Pack(
+		return getPack(pack, pack.getDescription());
+	}
+
+	public static Pack getInMemoryDataPack(){
+		ResourcesTreesTagPack pack = new ResourcesTreesTagPack();
+		pack.addItemTag(Constants.id("leaf_fragments"), ModItems.LEAF_FRAGMENTS.stream().map(RegistryHandler::id).toList());
+		pack.addBlockTag(Constants.id("resources_saplings"), ModBlocks.SAPLINGS.stream().map(RegistryHandler::id).toList());
+		pack.addItemTag(Constants.id("resources_saplings"), ModBlocks.SAPLINGS.stream().map(RegistryHandler::id).toList());
+		pack.addBlockTag(Constants.id("resources_leaves"), ModBlocks.LEAVES.stream().map(RegistryHandler::id).toList());
+		pack.addItemTag(Constants.id("resources_leaves"), ModBlocks.LEAVES.stream().map(RegistryHandler::id).toList());
+
+		return getPack(pack, pack.getDescription());
+	}
+
+	private static <T extends AbstractPackResources> Pack getPack(T pack, Component description){
+		return new Pack(
 				pack.location(),
 				new Pack.ResourcesSupplier() {
 					@Override
@@ -57,9 +78,8 @@ public class Constants {
 					@Override
 					public PackResources openFull(PackLocationInfo info, Pack.Metadata meta) { return pack; }
 				},
-				new Pack.Metadata(pack.getDescription(), PackCompatibility.COMPATIBLE, FeatureFlagSet.of(), List.of()),
+				new Pack.Metadata(description, PackCompatibility.COMPATIBLE, FeatureFlagSet.of(), List.of()),
 				new PackSelectionConfig(true, Pack.Position.TOP, false)
 		);
-		return p;
 	}
 }

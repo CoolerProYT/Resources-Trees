@@ -120,6 +120,6 @@ public class ResourcesTreesClient {
     @SubscribeEvent
     public static void onAddPackFinders(AddPackFindersEvent event) {
         if (event.getPackType() != PackType.CLIENT_RESOURCES) return;
-        event.addRepositorySource(consumer -> consumer.accept(Constants.getInMemoryPack()));
+        event.addRepositorySource(consumer -> consumer.accept(Constants.getInMemoryResourcePack()));
     }
 }

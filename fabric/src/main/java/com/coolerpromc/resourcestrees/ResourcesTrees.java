@@ -4,7 +4,6 @@ import com.coolerpromc.resourcestrees.api.resources.ResourcesType;
 import com.coolerpromc.resourcestrees.block.ModBlocks;
 import com.coolerpromc.resourcestrees.block.custom.ResourcesLeavesBlock;
 import com.coolerpromc.resourcestrees.block.entity.ModBlockEntities;
-import com.coolerpromc.resourcestrees.block.entity.custom.TreeSimulatorBlockEntity;
 import com.coolerpromc.resourcestrees.platform.util.BlockRegistryHandler;
 import com.coolerpromc.resourcestrees.recipe.ModRecipes;
 import com.coolerpromc.resourcestrees.registry.ModRegistries;
@@ -27,7 +26,6 @@ public class ResourcesTrees implements ModInitializer {
     @Override
     public void onInitialize() {
         CommonClass.init();
-        TreeSimulatorBlockEntity.CONFIG.load();
 
         Field[] fields = ModBlocks.class.getDeclaredFields();
         for (Field field : fields){

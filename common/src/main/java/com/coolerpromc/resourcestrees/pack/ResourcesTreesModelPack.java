@@ -1,4 +1,4 @@
-package com.coolerpromc.resourcestrees.client.pack;
+package com.coolerpromc.resourcestrees.pack;
 
 import com.coolerpromc.resourcestrees.Constants;
 import net.minecraft.network.chat.Component;
@@ -101,6 +101,6 @@ public final class ResourcesTreesModelPack extends AbstractPackResources {
     }
 
     public Component getDescription(){
-        return Component.literal("Models for custom tree type");
+        return Component.literal("Models for all leaves and saplings");
     }
 }

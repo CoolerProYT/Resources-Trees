@@ -145,7 +145,7 @@ public class ResourcesSaplingBlock extends SaplingBlock {
             return super.getName();
         }
         return Component.translatable("item.resourcestrees.trees",
-                Constants.getOrFallback(getDescriptionId(), resourcesType.name()),
+                Constants.getOrFallback("resources_type.resourcestrees." + resourcesType.name(), resourcesType.name()),
                 Constants.getOrFallback("tree_type.resourcestrees." + treeType.name(), treeType.name()),
                 Constants.getOrFallback("item.resourcestrees.sapling", "Sapling"));
     }
