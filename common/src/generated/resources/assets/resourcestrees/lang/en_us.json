@@ -12,6 +12,7 @@
   "item.resourcestrees.fish_essence": "Fish Essence",
   "item.resourcestrees.ghast_essence": "Ghast Essence",
   "item.resourcestrees.leaf_fragment": "Leaf Fragment",
+  "item.resourcestrees.leaf_fragments": "%s %s",
   "item.resourcestrees.leaves": "Leaves",
   "item.resourcestrees.nature_essence": "Nature Essence",
   "item.resourcestrees.pig_essence": "Pig Essence",
@@ -22,6 +23,7 @@
   "item.resourcestrees.skeleton_essence": "Skeleton Essence",
   "item.resourcestrees.spider_essence": "Spider Essence",
   "item.resourcestrees.squid_essence": "Squid Essence",
+  "item.resourcestrees.trees": "%s %s %s",
   "item.resourcestrees.turtle_essence": "Turtle Essence",
   "item.resourcestrees.water_essence": "Water Essence",
   "item.resourcestrees.zombie_essence": "Zombie Essence",
@@ -81,7 +83,5 @@
   "tree_type.resourcestrees.jungle": "Jungle",
   "tree_type.resourcestrees.oak": "Oak",
   "tree_type.resourcestrees.pale_oak": "Pale Oak",
-  "tree_type.resourcestrees.spruce": "Spruce",
-  "item.resourcestrees.trees": "%s %s %s",
-  "item.resourcestrees.leaf_fragments": "%s %s"
+  "tree_type.resourcestrees.spruce": "Spruce"
 }

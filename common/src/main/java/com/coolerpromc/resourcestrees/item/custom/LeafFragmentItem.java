@@ -23,7 +23,7 @@ public class LeafFragmentItem extends Item {
         }
         return Component.translatable("item.resourcestrees.leaf_fragments",
                 Constants.getOrFallback("resources_type.resourcestrees." + resourcesType.name(), resourcesType.name()),
-                Constants.getOrFallback("item.resourcestrees.leaves", "Leaves"));
+                Constants.getOrFallback("item.resourcestrees.leaf_fragment", "Leaf Fragment"));
     }
 
     public ResourcesType getResourcesType() {

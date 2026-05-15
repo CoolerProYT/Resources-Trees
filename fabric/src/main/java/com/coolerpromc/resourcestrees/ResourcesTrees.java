@@ -42,6 +42,7 @@ public class ResourcesTrees implements ModInitializer {
         }
 
         RecipeSynchronization.synchronizeRecipeSerializer(ModRecipes.TREE_SIMULATOR_SERIALIZER.get());
+        RecipeSynchronization.synchronizeRecipeSerializer(ModRecipes.STRICT_SHAPED.get());
 
         for (BlockRegistryHandler<? extends Block> block : ModBlocks.SAPLINGS){
             CompostableRegistry.INSTANCE.add(block, 0.3F);

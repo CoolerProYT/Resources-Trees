@@ -2,7 +2,6 @@ package com.coolerpromc.resourcestrees.datagen;
 
 import com.coolerpromc.resourcestrees.Constants;
 import com.coolerpromc.resourcestrees.block.ModBlocks;
-import com.coolerpromc.resourcestrees.client.tint.ResourcesTypeTintSource;
 import com.coolerpromc.resourcestrees.item.ModItems;
 import com.coolerpromc.resourcestrees.platform.util.RegistryHandler;
 import net.minecraft.client.color.item.ItemTintSource;
@@ -27,9 +26,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
-
-import static net.minecraft.client.data.models.BlockModelGenerators.createSimpleBlock;
-import static net.minecraft.client.data.models.BlockModelGenerators.plainVariant;
 
 public class ModModelProvider extends ModelProvider {
     public ModModelProvider(PackOutput output) {
@@ -71,33 +67,6 @@ public class ModModelProvider extends ModelProvider {
         itemModels.itemModelOutput.accept(item, ItemModelUtils.tintedModel(itemModel, tintSource));
     }
 
-    private void generateFlatTintedItem(ItemModelGenerators itemModels, Item item, ItemTintSource tintSource){
-        Identifier itemModel = itemModels.createFlatItemModel(item, ModelTemplates.FLAT_ITEM);
-        itemModels.itemModelOutput.accept(item, ItemModelUtils.tintedModel(itemModel, tintSource));
-    }
-
-    private void generateResourcesLeaves(BlockModelGenerators blockModels, ItemModelGenerators itemModels, Block block, int defaultColor){
-        Identifier blockModel = TexturedModel.LEAVES.create(block, blockModels.modelOutput);
-
-        blockModels.blockStateOutput.accept(createSimpleBlock(block, plainVariant(blockModel)));
-        itemModels.itemModelOutput.accept(block.asItem(), ItemModelUtils.tintedModel(blockModel, new ResourcesTypeTintSource(defaultColor)));
-    }
-
-    private void generateResourcesSapling(BlockModelGenerators blockModels, ItemModelGenerators itemModels, Block block, int defaultColor){
-        Identifier cross = getModelLocation(block, "");
-        Identifier crossTinted = getModelLocation(block, "_layer1");
-
-        TextureMapping textureMapping = new TextureMapping()
-                .put(TextureSlot.CROSS, new Material(cross))
-                .put(CROSS_TINTED_SLOT, new Material(crossTinted));
-
-        Identifier blockModel = CROSS_TINTED.create(block, textureMapping, blockModels.modelOutput);
-        Identifier itemModel = itemModels.generateLayeredItem(block.asItem(), new Material(cross), new Material(crossTinted));
-
-        blockModels.blockStateOutput.accept(MultiVariantGenerator.dispatch(block, new MultiVariant(WeightedList.of(new Variant(blockModel)))));
-        itemModels.itemModelOutput.accept(block.asItem(), ItemModelUtils.tintedModel(itemModel, ItemModelUtils.constantTint(-1), new ResourcesTypeTintSource(defaultColor)));
-    }
-
     private void blockWithExistingModel(BlockModelGenerators blockModels, Block block){
         blockModels.blockStateOutput.accept(MultiVariantGenerator.dispatch(block, new MultiVariant(WeightedList.of(new Variant(getModelLocation(block, ""))))));
         blockModels.itemModelOutput.accept(block.asItem(), new CuboidItemModelWrapper.Unbaked(getModelLocation(block, ""), Optional.empty(), List.of()));
@@ -106,7 +75,25 @@ public class ModModelProvider extends ModelProvider {
     @Override
     protected Stream<? extends Holder<Block>> getKnownBlocks() {
         List<Identifier> excluded = Stream.concat(ModBlocks.SAPLINGS.stream(), ModBlocks.LEAVES.stream()).map(RegistryHandler::id).toList();
-        return super.getKnownBlocks().filter(holder -> !excluded.contains(BuiltInRegistries.BLOCK.getKey(holder.value())));
+        List<Identifier> excluded2 = Stream.of(
+                ModBlocks.RESOURCES_OAK_SAPLING,
+                ModBlocks.RESOURCES_OAK_LEAVES,
+                ModBlocks.RESOURCES_SPRUCE_SAPLING,
+                ModBlocks.RESOURCES_SPRUCE_LEAVES,
+                ModBlocks.RESOURCES_BIRCH_SAPLING,
+                ModBlocks.RESOURCES_BIRCH_LEAVES,
+                ModBlocks.RESOURCES_JUNGLE_SAPLING,
+                ModBlocks.RESOURCES_JUNGLE_LEAVES,
+                ModBlocks.RESOURCES_ACACIA_SAPLING,
+                ModBlocks.RESOURCES_ACACIA_LEAVES,
+                ModBlocks.RESOURCES_DARK_OAK_SAPLING,
+                ModBlocks.RESOURCES_DARK_OAK_LEAVES,
+                ModBlocks.RESOURCES_CHERRY_SAPLING,
+                ModBlocks.RESOURCES_CHERRY_LEAVES,
+                ModBlocks.RESOURCES_PALE_OAK_SAPLING,
+                ModBlocks.RESOURCES_PALE_OAK_LEAVES
+        ).map(RegistryHandler::id).toList();
+        return super.getKnownBlocks().filter(holder -> !excluded.contains(BuiltInRegistries.BLOCK.getKey(holder.value()))).filter(holder -> !excluded2.contains(BuiltInRegistries.BLOCK.getKey(holder.value())));
     }
 
     @Override

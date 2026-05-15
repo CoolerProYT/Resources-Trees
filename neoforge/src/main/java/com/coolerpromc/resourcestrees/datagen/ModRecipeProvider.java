@@ -4,6 +4,7 @@ import com.coolerpromc.resourcestrees.Constants;
 import com.coolerpromc.resourcestrees.api.resources.ResourcesType;
 import com.coolerpromc.resourcestrees.api.resources.ResourcesTypes;
 import com.coolerpromc.resourcestrees.block.ModBlocks;
+import com.coolerpromc.resourcestrees.datagen.recipebuilder.StrictShapedRecipeBuilder;
 import com.coolerpromc.resourcestrees.item.ModItems;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup;
@@ -190,7 +191,7 @@ public class ModRecipeProvider extends RecipeProvider {
         customShape(Items.BEETROOT, 12, "nature", "  A", " AA", "A  ");
 
         // Block Recipe
-        ShapedRecipeBuilder.shaped(items, RecipeCategory.BUILDING_BLOCKS, ModBlocks.TREE_SIMULATOR.get(), 1)
+        StrictShapedRecipeBuilder.shaped(items, RecipeCategory.BUILDING_BLOCKS, ModBlocks.TREE_SIMULATOR.get(), 1)
                 .pattern("   ")
                 .pattern("ABA")
                 .pattern("AAA")
@@ -237,7 +238,7 @@ public class ModRecipeProvider extends RecipeProvider {
 
     private void circleShape(Item outputItem, int count, String resourceType){
         ResourcesType type = ResourcesTypes.getType(resourceType);
-        ShapedRecipeBuilder.shaped(items, RecipeCategory.BUILDING_BLOCKS, outputItem, count)
+        StrictShapedRecipeBuilder.shaped(items, RecipeCategory.BUILDING_BLOCKS, outputItem, count)
                 .pattern("AAA")
                 .pattern("A A")
                 .pattern("AAA")
@@ -248,7 +249,7 @@ public class ModRecipeProvider extends RecipeProvider {
 
     private void circleSurroundedShapeWithItem(Item outputItem, int count, String resourceType, Item item){
         ResourcesType type = ResourcesTypes.getType(resourceType);
-        ShapedRecipeBuilder.shaped(items, RecipeCategory.BUILDING_BLOCKS, outputItem, count)
+        StrictShapedRecipeBuilder.shaped(items, RecipeCategory.BUILDING_BLOCKS, outputItem, count)
                 .pattern("AAA")
                 .pattern("ABA")
                 .pattern("AAA")
@@ -262,7 +263,7 @@ public class ModRecipeProvider extends RecipeProvider {
     private void circleSurroundedShape(Item outputItem, int count, String resourceType, String middleResourceType){
         ResourcesType type = ResourcesTypes.getType(resourceType);
         ResourcesType middleType = ResourcesTypes.getType(middleResourceType);
-        ShapedRecipeBuilder.shaped(items, RecipeCategory.BUILDING_BLOCKS, outputItem, count)
+        StrictShapedRecipeBuilder.shaped(items, RecipeCategory.BUILDING_BLOCKS, outputItem, count)
                 .pattern("AAA")
                 .pattern("ABA")
                 .pattern("AAA")
@@ -276,7 +277,7 @@ public class ModRecipeProvider extends RecipeProvider {
     private void twoByTwoShape(Item outputItem, int count, String resourceType, String middleResourceType){
         ResourcesType type = ResourcesTypes.getType(resourceType);
         ResourcesType middleType = ResourcesTypes.getType(middleResourceType);
-        ShapedRecipeBuilder.shaped(items, RecipeCategory.BUILDING_BLOCKS, outputItem, count)
+        StrictShapedRecipeBuilder.shaped(items, RecipeCategory.BUILDING_BLOCKS, outputItem, count)
                 .pattern("BA ")
                 .pattern("AB ")
                 .pattern("   ")
@@ -289,7 +290,7 @@ public class ModRecipeProvider extends RecipeProvider {
 
     private void cubeShape(Item outputItem, int count, String resourceType){
         ResourcesType type = ResourcesTypes.getType(resourceType);
-        ShapedRecipeBuilder.shaped(items, RecipeCategory.BUILDING_BLOCKS, outputItem, count)
+        StrictShapedRecipeBuilder.shaped(items, RecipeCategory.BUILDING_BLOCKS, outputItem, count)
                 .pattern("AAA")
                 .pattern("AAA")
                 .pattern("AAA")
@@ -300,7 +301,7 @@ public class ModRecipeProvider extends RecipeProvider {
 
     private void lineShape(Item outputItem, int count, String resourceType){
         ResourcesType type = ResourcesTypes.getType(resourceType);
-        ShapedRecipeBuilder.shaped(items, RecipeCategory.BUILDING_BLOCKS, outputItem, count)
+        StrictShapedRecipeBuilder.shaped(items, RecipeCategory.BUILDING_BLOCKS, outputItem, count)
                 .pattern("   ")
                 .pattern("AAA")
                 .pattern("   ")
@@ -311,7 +312,7 @@ public class ModRecipeProvider extends RecipeProvider {
 
     private void straightShape(Item outputItem, int count, String resourceType){
         ResourcesType type = ResourcesTypes.getType(resourceType);
-        ShapedRecipeBuilder.shaped(items, RecipeCategory.BUILDING_BLOCKS, outputItem, count)
+        StrictShapedRecipeBuilder.shaped(items, RecipeCategory.BUILDING_BLOCKS, outputItem, count)
                 .pattern(" A ")
                 .pattern(" A ")
                 .pattern(" A ")
@@ -322,7 +323,7 @@ public class ModRecipeProvider extends RecipeProvider {
 
     private void customShape(Item outputItem, int count, String resourceType, String line1, String line2, String line3){
         ResourcesType type = ResourcesTypes.getType(resourceType);
-        ShapedRecipeBuilder.shaped(items, RecipeCategory.BUILDING_BLOCKS, outputItem, count)
+        StrictShapedRecipeBuilder.shaped(items, RecipeCategory.BUILDING_BLOCKS, outputItem, count)
                 .pattern(line1)
                 .pattern(line2)
                 .pattern(line3)
@@ -334,7 +335,7 @@ public class ModRecipeProvider extends RecipeProvider {
     private void twoItemCustomShape(Item outputItem, int count, String resourceType, String resourceType2, String line1, String line2, String line3){
         ResourcesType type = ResourcesTypes.getType(resourceType);
         ResourcesType type2 = ResourcesTypes.getType(resourceType2);
-        ShapedRecipeBuilder.shaped(items, RecipeCategory.BUILDING_BLOCKS, outputItem, count)
+        StrictShapedRecipeBuilder.shaped(items, RecipeCategory.BUILDING_BLOCKS, outputItem, count)
                 .pattern(line1)
                 .pattern(line2)
                 .pattern(line3)

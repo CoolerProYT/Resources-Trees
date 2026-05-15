@@ -5,18 +5,20 @@ import com.coolerpromc.resourcestrees.block.ModBlocks;
 import com.coolerpromc.resourcestrees.compat.jei.category.TreeSimulatorCategory;
 import com.coolerpromc.resourcestrees.event.ModRecipeReceived;
 import com.coolerpromc.resourcestrees.recipe.ModRecipes;
+import com.coolerpromc.resourcestrees.recipe.custom.StrictShapedRecipe;
 import com.coolerpromc.resourcestrees.recipe.custom.TreeSimulatorRecipe;
 import com.coolerpromc.resourcestrees.screen.custom.TreeSimulatorScreen;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.helpers.IJeiHelpers;
-import mezz.jei.api.registration.IGuiHandlerRegistration;
-import mezz.jei.api.registration.IRecipeCatalystRegistration;
-import mezz.jei.api.registration.IRecipeCategoryRegistration;
-import mezz.jei.api.registration.IRecipeRegistration;
+import mezz.jei.api.recipe.category.extensions.vanilla.crafting.ICraftingCategoryExtension;
+import mezz.jei.api.registration.*;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.display.RecipeDisplay;
+import net.minecraft.world.item.crafting.display.ShapedCraftingRecipeDisplay;
+import net.minecraft.world.item.crafting.display.SlotDisplay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,5 +53,29 @@ public class ModJEIPlugin implements IModPlugin {
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {
         registration.addRecipeClickArea(TreeSimulatorScreen.class, 59, 35, 22, 16, TreeSimulatorCategory.TREE_SIMULATOR_TYPE);
+    }
+
+    @Override
+    public void registerVanillaCategoryExtensions(IVanillaCategoryExtensionRegistration registration) {
+        registration.getCraftingCategory().addExtension(StrictShapedRecipe.class, new ICraftingCategoryExtension<>() {
+            @Override
+            public int getWidth(RecipeHolder<StrictShapedRecipe> recipeHolder) {
+                return recipeHolder.value().getWidth();
+            }
+
+            @Override
+            public int getHeight(RecipeHolder<StrictShapedRecipe> recipeHolder) {
+                return recipeHolder.value().getHeight();
+            }
+
+            @Override
+            public List<SlotDisplay> getIngredients(RecipeHolder<StrictShapedRecipe> recipeHolder) {
+                List<RecipeDisplay> displays = recipeHolder.value().display();
+                if (!displays.isEmpty() && displays.getFirst() instanceof ShapedCraftingRecipeDisplay shaped) {
+                    return shaped.ingredients();
+                }
+                return List.of();
+            }
+        });
     }
 }
