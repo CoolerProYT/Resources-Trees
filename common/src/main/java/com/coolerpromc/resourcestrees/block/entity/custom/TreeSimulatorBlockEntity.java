@@ -13,6 +13,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
@@ -28,6 +29,7 @@ import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -56,6 +58,15 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
         @Override
         public boolean canPlaceItem(int slot, ItemStack stack) {
             return stack.getItem() instanceof AxeItem;
+        }
+
+        @Override
+        public void setChanged() {
+            if (getItem(0).isEmpty()){
+                TreeSimulatorBlockEntity.this.growTicks = 0;
+                TreeSimulatorBlockEntity.this.setChanged();
+                TreeSimulatorBlockEntity.this.level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 2);
+            }
         }
     };
 
@@ -129,9 +140,9 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
 
     public void tick(Level level, BlockPos pos, BlockState state){
         if (level.isClientSide()) return;
-        setGrowTick();
+        setGrowTick(level);
 
-        if (hasRecipe() && isAxeValid()){
+        if (hasRecipe()){
             increaseGrowTicks();
 
             if (treeGrown()){
@@ -160,10 +171,7 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
 
             if (!isAxeUnbreakable()){
                 ItemStack axe = getAxe();
-                Integer damage = axe.get(DataComponents.DAMAGE);
-                if (damage != null){
-                    axe.set(DataComponents.DAMAGE, damage + 1);
-                }
+                axe.hurtAndBreak(1, (ServerLevel) level, null, _ -> {});
             }
 
             for (ItemStack result : results) {
@@ -310,20 +318,7 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
         return getAxe().has(DataComponents.UNBREAKABLE);
     }
 
-    public boolean isAxeValid(){
-        ItemStack axe = getAxe();
-        Integer damage = axe.get(DataComponents.DAMAGE);
-        Integer maxDamage = axe.get(DataComponents.MAX_DAMAGE);
-        if (damage != null && maxDamage != null){
-            if (damage >= maxDamage){
-                axeHandler.removeItem(0, 1);
-            }
-            return damage < maxDamage || isAxeUnbreakable();
-        }
-        return isAxeUnbreakable();
-    }
-
-    private void setGrowTick(){
+    private void setGrowTick(Level level){
         Optional<RecipeHolder<TreeSimulatorRecipe>> recipeHolder = getCurrentRecipe();
         if (recipeHolder.isPresent() && isAxeValid()){
             TreeSimulatorRecipe recipe = recipeHolder.get().value();
@@ -332,11 +327,22 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
             if (GROW_TICK_BY_AXE != 0.0){
                 tick = (int) (recipe.ticksToGrow() / GROW_TICK_BY_AXE);
             }
+
+            int efficiencyLevel = getAxe().getEnchantments().getLevel(level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.EFFICIENCY));
+
+            if (efficiencyLevel > 0){
+                tick = (int) (tick / (1.0 + efficiencyLevel * 0.2));
+            }
+
             setMaxGrowTicks(tick);
         }
         else{
             setMaxGrowTicks(-1);
         }
+    }
+
+    private boolean isAxeValid() {
+        return axeHandler.getItem(0).getItem() instanceof AxeItem;
     }
 
     public Container getHandlerForSide(@org.jspecify.annotations.Nullable Direction direction) {
