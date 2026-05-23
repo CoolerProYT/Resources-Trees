@@ -1,6 +1,7 @@
 plugins {
     id 'multiloader-common'
     id 'net.neoforged.moddev'
+    id 'net.minecraftforge.gradle'
 }
 
 neoForge {
@@ -9,6 +10,13 @@ neoForge {
     def at = file('src/main/resources/META-INF/accesstransformer.cfg')
     if (at.exists()) {
         accessTransformers.from(at.absolutePath)
+    }
+}
+
+minecraft{
+    def at = file('src/main/resources/META-INF/accesstransformer.cfg')
+    if (at.exists()) {
+        accessTransformers = files(at.absolutePath)
     }
 }
 

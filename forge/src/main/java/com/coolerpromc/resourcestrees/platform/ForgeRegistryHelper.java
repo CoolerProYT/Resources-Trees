@@ -26,21 +26,21 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
-import net.neoforged.neoforge.registries.DeferredBlock;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredItem;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.minecraftforge.common.extensions.IForgeMenuType;
+import net.minecraftforge.eventbus.api.bus.BusGroup;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 import java.util.Arrays;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
+import java.util.stream.Collectors;
 
-public class NeoForgeRegistryHelper implements IRegistryHelper {
-    public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(Constants.MODID);
-    public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Constants.MODID);
+public class ForgeRegistryHelper implements IRegistryHelper {
+    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Constants.MODID);
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Constants.MODID);
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, Constants.MODID);
     public static final DeferredRegister<CreativeModeTab> CREATIVE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Constants.MODID);
     public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(Registries.MENU, Constants.MODID);
@@ -50,7 +50,7 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 
     @Override
     public <T extends Block> BlockRegistryHandler<T> registerBlock(String name, Function<BlockBehaviour.Properties, T> func, BlockBehaviour.Properties p) {
-        DeferredBlock<T> block = BLOCKS.registerBlock(name, func, () -> p);
+        RegistryObject<T> block = BLOCKS.register(name, () -> func.apply(p.setId(IRegistryHelper.blockKey(name))));
         registerItem(name, properties -> new ModBlockItem(block.get(), properties.useBlockDescriptionPrefix()));
 
         return new BlockRegistryHandler<>() {
@@ -61,7 +61,7 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 
             @Override
             public Holder<T> holder() {
-                return (Holder<T>) block.getDelegate();
+                return block.getHolder().orElse(null);
             }
 
             @Override
@@ -71,14 +71,14 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 
             @Override
             public Item asItem() {
-                return block.asItem();
+                return get().asItem();
             }
         };
     }
 
     @Override
     public <T extends Item> RegistryHandler<T> registerItem(String name, Function<Item.Properties, T> func) {
-        DeferredItem<T> item = ITEMS.registerItem(name, func);
+        RegistryObject<T> item = ITEMS.register(name, () -> func.apply(new Item.Properties().setId(IRegistryHelper.itemKey(name))));
 
         return new RegistryHandler<T>() {
             @Override
@@ -88,7 +88,7 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 
             @Override
             public Holder<T> holder() {
-                return (Holder<T>) item.getDelegate();
+                return item.getHolder().orElse(null);
             }
 
             @Override
@@ -100,7 +100,7 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 
     @Override
     public <T extends BlockEntity> RegistryHandler<BlockEntityType<T>> registerBlockEntity(String name, BlockEntityTypeFactory<T> factory, Supplier<? extends Block>... blocks) {
-        DeferredHolder<BlockEntityType<?>, BlockEntityType<T>> blockEntity = BLOCK_ENTITIES.register(name, () -> new BlockEntityType<>(factory::create, Arrays.stream(blocks).map(Supplier::get).toArray(Block[]::new)));
+        RegistryObject<BlockEntityType<T>> blockEntity = BLOCK_ENTITIES.register(name, () -> new BlockEntityType<>(factory::create, Arrays.stream(blocks).map(Supplier::get).collect(Collectors.toSet())));
 
         return new RegistryHandler<>() {
             @Override
@@ -110,7 +110,7 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 
             @Override
             public Holder<BlockEntityType<T>> holder() {
-                return (Holder<BlockEntityType<T>>) (Holder<?>) blockEntity.getDelegate();
+                return blockEntity.getHolder().orElse(null);
             }
 
             @Override
@@ -122,7 +122,7 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 
     @Override
     public RegistryHandler<CreativeModeTab> registerCreativeTab(String name, Supplier<ItemStack> icon, Component title, Function<CreativeModeTab.ItemDisplayParameters, ItemStack[]> func) {
-        DeferredHolder<CreativeModeTab, CreativeModeTab> tab = CREATIVE_TABS.register(name, () -> CreativeModeTab.builder().icon(icon).title(title).displayItems(((param, output) -> Arrays.stream(func.apply(param)).forEach(output::accept))).build());
+        RegistryObject<CreativeModeTab> tab = CREATIVE_TABS.register(name, () -> CreativeModeTab.builder().icon(icon).title(title).displayItems(((param, output) -> Arrays.stream(func.apply(param)).forEach(output::accept))).build());
 
         return new RegistryHandler<>() {
             @Override
@@ -132,19 +132,19 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 
             @Override
             public Holder<CreativeModeTab> holder() {
-                return tab.getDelegate();
+                return tab.getHolder().orElse(null);
             }
 
             @Override
             public CreativeModeTab get() {
-                return tab.value();
+                return tab.get();
             }
         };
     }
 
     @Override
     public <T extends AbstractContainerMenu, D> RegistryHandler<MenuType<T>> registerMenu(String name, MenuFactory<T, D> factory, StreamCodec<? super ByteBuf, D> data) {
-        DeferredHolder<MenuType<?>, MenuType<T>> menu = MENUS.register(name, () -> IMenuTypeExtension.create((id, inv, buf) -> factory.create(id, inv, data.decode(buf))));
+        RegistryObject<MenuType<T>> menu = MENUS.register(name, () -> IForgeMenuType.create((id, inv, buf) -> factory.create(id, inv, data.decode(buf))));
 
         return new RegistryHandler<>() {
             @Override
@@ -154,7 +154,7 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 
             @Override
             public Holder<MenuType<T>> holder() {
-                return (Holder<MenuType<T>>) (Holder<?>) menu.getDelegate();
+                return menu.getHolder().orElse(null);
             }
 
             @Override
@@ -166,7 +166,7 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 
     @Override
     public <T extends Recipe<?>> RegistryHandler<RecipeSerializer<T>> registerRecipeSerializer(String name, RecipeSerializer<T> serializer) {
-        DeferredHolder<RecipeSerializer<?>, RecipeSerializer<T>> holder = RECIPE_SERIALIZERS.register(name, () -> serializer);
+        RegistryObject<RecipeSerializer<T>> holder = RECIPE_SERIALIZERS.register(name, () -> serializer);
 
         return new RegistryHandler<>() {
             @Override
@@ -176,7 +176,7 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 
             @Override
             public Holder<RecipeSerializer<T>> holder() {
-                return (Holder<RecipeSerializer<T>>) (Holder<?>) holder.getDelegate();
+                return holder.getHolder().orElse(null);
             }
 
             @Override
@@ -188,7 +188,7 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 
     @Override
     public <T extends Recipe<?>> RegistryHandler<RecipeType<T>> registerRecipeType(String name) {
-        DeferredHolder<RecipeType<?>, RecipeType<T>> holder = RECIPE_TYPES.register(name, () -> RecipeType.simple(Constants.id(name)));
+        RegistryObject<RecipeType<T>> holder = RECIPE_TYPES.register(name, () -> RecipeType.simple(Constants.id(name)));
 
         return new RegistryHandler<>() {
             @Override
@@ -198,7 +198,7 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 
             @Override
             public Holder<RecipeType<T>> holder() {
-                return (Holder<RecipeType<T>>) (Holder<?>) holder.getDelegate();
+                return holder.getHolder().orElse(null);
             }
 
             @Override
@@ -210,7 +210,7 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 
     @Override
     public <T> RegistryHandler<DataComponentType<T>> registerDataComponent(String name, UnaryOperator<DataComponentType.Builder<T>> builder) {
-        DeferredHolder<DataComponentType<?>, DataComponentType<T>> component = DATA_COMPONENTS.register(name, () -> builder.apply(DataComponentType.builder()).build());
+        RegistryObject<DataComponentType<T>> component = DATA_COMPONENTS.register(name, () -> builder.apply(DataComponentType.builder()).build());
 
         return new RegistryHandler<>() {
             @Override
@@ -220,7 +220,7 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 
             @Override
             public Holder<DataComponentType<T>> holder() {
-                return (Holder<DataComponentType<T>>) (Holder<?>) component.getDelegate();
+                return component.getHolder().orElse(null);
             }
 
             @Override
@@ -230,7 +230,7 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
         };
     }
 
-    public static void register(IEventBus eventBus){
+    public static void register(BusGroup eventBus){
         BLOCKS.register(eventBus);
         ITEMS.register(eventBus);
         BLOCK_ENTITIES.register(eventBus);

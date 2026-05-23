@@ -1,0 +1,128 @@
+plugins {
+    id 'multiloader-loader'
+    id 'net.minecraftforge.gradle'
+    id 'idea'
+    id "me.modmuss50.mod-publish-plugin"
+    id 'net.minecraftforge.jarjar'
+}
+base {
+    archivesName = "${mod_name}-forge-${minecraft_version}"
+}
+
+jar {
+    manifest {
+        attributes["MixinConfigs"] = "${mod_id}.mixins.json,${mod_id}.forge.mixins.json"
+    }
+}
+minecraft {
+    mappings channel: 'official', version: minecraft_version
+
+    def atFiles = []
+    def forgeAt = file('src/main/resources/META-INF/accesstransformer.cfg')
+    if (forgeAt.exists()) atFiles << forgeAt
+    def commonAt = project(':common').file('src/main/resources/META-INF/accesstransformer.cfg')
+    if (commonAt.exists()) atFiles << commonAt
+    if (!atFiles.isEmpty()) {
+        accessTransformers = files(atFiles*.absolutePath)
+    }
+
+    runs {
+        client {
+            workingDir.convention layout.projectDirectory.dir('runs/client')
+            args "--mixin.config=${mod_id}.mixins.json"
+        }
+
+        server {
+            workingDir.convention layout.projectDirectory.dir('runs/server')
+            args "--mixin.config=${mod_id}.mixins.json"
+        }
+    }
+}
+
+repositories {
+    minecraft.mavenizer(it)
+    maven fg.forgeMaven
+    maven fg.minecraftLibsMaven
+    mavenCentral()
+}
+
+sourceSets.main.resources { srcDir rootProject.project(':common').file('src/generated/resources/').getAbsolutePath() }
+
+jarJar.register()
+
+tasks.named('jar') {
+    archiveClassifier = 'slim'
+}
+tasks.named('jarJar') {
+    archiveClassifier = ''
+}
+
+dependencies {
+    implementation minecraft.dependency("net.minecraftforge:forge:$minecraft_version-$forge_version")
+
+    implementation jarJar("com.coolerpromc.coolerconfig:coolerconfig-forge-${dependencies_minecraft_version}:${cooler_config_version}"){
+        jarJar.configure(it) {
+            version = cooler_config_version
+        }
+    }
+    implementation jarJar("com.electronwill.night-config:hocon:${night_config_version}") {
+        jarJar.configure(it) {
+            constraint = false
+            version = night_config_version
+        }
+    }
+    implementation jarJar("com.typesafe:config:${typesafe_config_version}") {
+        jarJar.configure(it) {
+            version = typesafe_config_version
+        }
+    }
+
+    // For compilation only, there is no JEI for forge in 26.1
+    compileOnly "mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"
+}
+
+sourceSets.each {
+    def dir = layout.buildDirectory.dir("sourcesSets/$it.name")
+    it.output.resourcesDir = dir
+    it.java.destinationDirectory = dir
+}
+
+// Implement mcgradleconventions loader attribute
+def loaderAttribute = Attribute.of('io.github.mcgradleconventions.loader', String)
+['apiElements', 'runtimeElements', 'sourcesElements', 'javadocElements'].each { variant ->
+    configurations.named("$variant") {
+        attributes {
+            attribute(loaderAttribute, 'forge')
+        }
+    }
+}
+sourceSets.configureEach {
+    [it.compileClasspathConfigurationName, it.runtimeClasspathConfigurationName].each { variant->
+        configurations.named("$variant") {
+            attributes {
+                attribute(loaderAttribute, 'forge')
+            }
+        }
+    }
+}
+
+publishMods {
+    file.set(jar.archiveFile)
+    type = BETA
+    modLoaders.add("forge")
+    changelog = rootProject.file("changelog.md").text
+    displayName = mod_id + "-" + project.version + "+" + minecraft_version + "-forge"
+
+    curseforge {
+        projectId = "1354532"
+        accessToken = findProperty("CF_TOKEN")
+        changelogType = "markdown"
+        minecraftVersions.add(minecraft_version)
+    }
+
+    modrinth {
+        projectId = 'K5BPYFo9'
+        accessToken = findProperty("MODRINTH_TOKEN")
+        minecraftVersions.add(minecraft_version)
+    }
+}

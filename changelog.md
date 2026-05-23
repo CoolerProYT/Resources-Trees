@@ -1,7 +1,6 @@
 ## 26.1.2.122
 ### Changes
-- Tree Simulator will respect axe unbreaking enchantment now
-- Tree Simulator processing speed will be increased by 20% per efficiency enchantment level
+- Release for forge
 
 **Note: Legacy sapling, leaves, and leaf fragment are now deprecated and will be removed completely once this mod is released as `26.1.2.200` and marked as release (Once removed, block/item that is not migrated will disappear)**
 

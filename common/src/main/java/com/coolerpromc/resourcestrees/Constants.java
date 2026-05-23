@@ -69,7 +69,7 @@ public class Constants {
 		return getPack(pack, pack.getDescription());
 	}
 
-	private static <T extends AbstractPackResources> Pack getPack(T pack, Component description){
+	public static <T extends AbstractPackResources> Pack getPack(T pack, Component description){
 		return new Pack(
 				pack.location(),
 				new Pack.ResourcesSupplier() {

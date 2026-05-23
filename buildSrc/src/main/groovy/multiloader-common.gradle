@@ -83,7 +83,9 @@ processResources {
             'jei_version'                  : jei_version,
             'jade_version'                 : jade_version,
             'dependencies_minecraft_version' : dependencies_minecraft_version,
-            'cooler_config_version'        : cooler_config_version
+            'cooler_config_version'        : cooler_config_version,
+            "forge_version"                : forge_version,
+            "forge_loader_version_range"   : forge_loader_version_range,
     ]
 
     var jsonExpandProps = expandProps.collectEntries {

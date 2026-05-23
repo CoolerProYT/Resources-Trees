@@ -8,7 +8,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -26,7 +25,15 @@ public class TreeSimulatorMenu extends AbstractContainerMenu {
     protected final ContainerData data;
 
     public TreeSimulatorMenu(int containerId, Inventory playerInventory, BlockPos pos) {
-        this(containerId, playerInventory, (TreeSimulatorBlockEntity) playerInventory.player.level().getBlockEntity(pos), new SimpleContainerData(2));
+        this(containerId, playerInventory, blockEntityAt(playerInventory, pos));
+    }
+
+    private TreeSimulatorMenu(int containerId, Inventory playerInventory, TreeSimulatorBlockEntity be) {
+        this(containerId, playerInventory, be, be.getData());
+    }
+
+    private static TreeSimulatorBlockEntity blockEntityAt(Inventory inv, BlockPos pos) {
+        return (TreeSimulatorBlockEntity) inv.player.level().getBlockEntity(pos);
     }
 
     public TreeSimulatorMenu(int containerId, Inventory playerInventory, TreeSimulatorBlockEntity blockEntity, ContainerData data){
