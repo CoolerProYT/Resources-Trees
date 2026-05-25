@@ -1,5 +1,7 @@
 package com.coolerpromc.resourcestrees.platform;
 
+import com.coolerpromc.resourcestrees.ForgeResourcesTrees;
+import com.coolerpromc.resourcestrees.api.IResourcesTreesPlugin;
 import com.coolerpromc.resourcestrees.platform.services.IPlatformHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -14,6 +16,7 @@ import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.fml.loading.FMLPaths;
 
 import java.nio.file.Path;
+import java.util.List;
 
 public class ForgePlatformHelper implements IPlatformHelper {
 
@@ -50,5 +53,10 @@ public class ForgePlatformHelper implements IPlatformHelper {
     @Override
     public TagKey<Item> getShearTag() {
         return Tags.Items.TOOLS_SHEAR;
+    }
+
+    @Override
+    public List<IResourcesTreesPlugin> plugins() {
+        return ForgeResourcesTrees.PLUGINS;
     }
 }

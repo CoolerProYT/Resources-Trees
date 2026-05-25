@@ -1,7 +1,6 @@
 package com.coolerpromc.resourcestrees.api.resources;
 
 import com.coolerpromc.resourcestrees.Constants;
-import com.coolerpromc.resourcestrees.api.IResourcesTreesPlugin;
 import com.coolerpromc.resourcestrees.platform.Services;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -17,7 +16,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ServiceLoader;
 
 @ApiStatus.Internal
 public final class ResourcesTypeRegistryImpl implements IResourcesTypeRegistry{
@@ -25,7 +23,7 @@ public final class ResourcesTypeRegistryImpl implements IResourcesTypeRegistry{
     private static final ResourcesTypeRegistryImpl INSTANCE = new ResourcesTypeRegistryImpl();
 
     public static void registerResourcesTypes(){
-        ServiceLoader.load(IResourcesTreesPlugin.class).forEach(plugin -> {
+        Services.PLATFORM.getPlugins().forEach(plugin -> {
             try{
                 plugin.registerResourcesType(INSTANCE);
             }

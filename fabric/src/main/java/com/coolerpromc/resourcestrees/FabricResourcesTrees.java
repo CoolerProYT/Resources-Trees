@@ -1,5 +1,6 @@
 package com.coolerpromc.resourcestrees;
 
+import com.coolerpromc.resourcestrees.api.IResourcesTreesPlugin;
 import com.coolerpromc.resourcestrees.api.resources.ResourcesType;
 import com.coolerpromc.resourcestrees.block.ModBlocks;
 import com.coolerpromc.resourcestrees.block.custom.ResourcesLeavesBlock;
@@ -15,17 +16,24 @@ import net.fabricmc.fabric.api.registry.CompostableRegistry;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.transfer.v1.item.ContainerStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Block;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Supplier;
 
-public class ResourcesTrees implements ModInitializer {
+public class FabricResourcesTrees implements ModInitializer {
+    public static final List<IResourcesTreesPlugin> PLUGINS = new ArrayList<>();
+
     @Override
     public void onInitialize() {
-        CommonClass.init();
+        PLUGINS.addAll(FabricLoader.getInstance().getEntrypoints("resources_trees_plugin", IResourcesTreesPlugin.class));
+
+        ResourcesTrees.init();
 
         Field[] fields = ModBlocks.class.getDeclaredFields();
         for (Field field : fields){

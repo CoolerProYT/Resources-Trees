@@ -16,13 +16,16 @@
     "environment": "*",
     "entrypoints": {
         "main": [
-            "com.coolerpromc.resourcestrees.ResourcesTrees"
+            "com.coolerpromc.resourcestrees.FabricResourcesTrees"
         ],
         "client": [
-            "com.coolerpromc.resourcestrees.ResourcesTreesClient"
+            "com.coolerpromc.resourcestrees.FabricResourcesTreesClient"
         ],
         "jei_mod_plugin": [
             "com.coolerpromc.resourcestrees.compat.jei.ModJEIPlugin"
+        ],
+        "resources_trees_plugin": [
+            "com.coolerpromc.resourcestrees.api.internal.InternalResourcesTreesPlugin"
         ]
     },
     "mixins": [

@@ -1,7 +1,6 @@
 package com.coolerpromc.resourcestrees.api.tree;
 
 import com.coolerpromc.resourcestrees.Constants;
-import com.coolerpromc.resourcestrees.api.IResourcesTreesPlugin;
 import com.coolerpromc.resourcestrees.platform.Services;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -16,14 +15,13 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.ServiceLoader;
 
 @ApiStatus.Internal
 public final class TreeTypeRegistryImpl implements ITreeTypeRegistry{
     public static final ITreeTypeRegistry INSTANCE = new TreeTypeRegistryImpl();
 
     public static void registerTreeTypes(){
-        ServiceLoader.load(IResourcesTreesPlugin.class).forEach(plugin -> {
+        Services.PLATFORM.getPlugins().forEach(plugin -> {
             try{
                 plugin.registerTreeType(INSTANCE);
             }

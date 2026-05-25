@@ -38,8 +38,8 @@ import static com.coolerpromc.resourcestrees.Constants.MODID;
 
 @Mod(value = MODID, dist = Dist.CLIENT)
 @EventBusSubscriber(modid = MODID, value = Dist.CLIENT)
-public class ResourcesTreesClient {
-    public ResourcesTreesClient(ModContainer container) {
+public class NeoForgeResourcesTreesClient {
+    public NeoForgeResourcesTreesClient(ModContainer container) {
 
     }
 

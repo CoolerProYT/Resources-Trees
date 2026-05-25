@@ -35,7 +35,7 @@ import net.minecraft.world.level.block.Block;
 import java.util.*;
 import java.util.function.Supplier;
 
-public class ResourcesTreesClient implements ClientModInitializer {
+public class FabricResourcesTreesClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         ItemTintSources.ID_MAPPER.put(Constants.id("resources_type_tint"), ResourcesTypeTintSource.MAP_CODEC);
@@ -116,7 +116,7 @@ public class ResourcesTreesClient implements ClientModInitializer {
                         new ResourcesTypeTintSource(-1)
                     );
                 }
-                CommonClientClass.CLIENT_ITEM_MAP.put(context.itemId(), new ClientItem(model, ClientItem.Properties.DEFAULT, context.bakingContext().contextSwapper()));
+                ResourcesTreesClient.CLIENT_ITEM_MAP.put(context.itemId(), new ClientItem(model, ClientItem.Properties.DEFAULT, context.bakingContext().contextSwapper()));
                 return model;
             });
         });

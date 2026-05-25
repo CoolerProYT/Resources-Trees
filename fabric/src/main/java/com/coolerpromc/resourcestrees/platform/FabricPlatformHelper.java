@@ -1,5 +1,7 @@
 package com.coolerpromc.resourcestrees.platform;
 
+import com.coolerpromc.resourcestrees.FabricResourcesTrees;
+import com.coolerpromc.resourcestrees.api.IResourcesTreesPlugin;
 import com.coolerpromc.resourcestrees.platform.services.IPlatformHelper;
 import net.fabricmc.fabric.api.menu.v1.ExtendedMenuProvider;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -19,6 +21,7 @@ import net.minecraft.world.item.Item;
 import org.jspecify.annotations.Nullable;
 
 import java.nio.file.Path;
+import java.util.List;
 
 public class FabricPlatformHelper implements IPlatformHelper {
 
@@ -72,5 +75,10 @@ public class FabricPlatformHelper implements IPlatformHelper {
     @Override
     public TagKey<Item> getShearTag() {
         return ConventionalItemTags.SHEAR_TOOLS;
+    }
+
+    @Override
+    public List<IResourcesTreesPlugin> plugins() {
+        return FabricResourcesTrees.PLUGINS;
     }
 }

@@ -1,5 +1,7 @@
 package com.coolerpromc.resourcestrees.platform;
 
+import com.coolerpromc.resourcestrees.NeoForgeResourcesTrees;
+import com.coolerpromc.resourcestrees.api.IResourcesTreesPlugin;
 import com.coolerpromc.resourcestrees.platform.services.IPlatformHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -15,6 +17,7 @@ import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.nio.file.Path;
+import java.util.List;
 
 public class NeoForgePlatformHelper implements IPlatformHelper {
 
@@ -54,5 +57,10 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
     @Override
     public TagKey<Item> getShearTag() {
         return Tags.Items.TOOLS_SHEAR;
+    }
+
+    @Override
+    public List<IResourcesTreesPlugin> plugins() {
+        return NeoForgeResourcesTrees.PLUGINS;
     }
 }

@@ -1,5 +1,6 @@
 package com.coolerpromc.resourcestrees.platform.services;
 
+import com.coolerpromc.resourcestrees.api.IResourcesTreesPlugin;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerLevel;
@@ -9,6 +10,8 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.item.Item;
 
 import java.nio.file.Path;
+import java.util.List;
+import java.util.ServiceLoader;
 
 public interface IPlatformHelper {
 
@@ -62,4 +65,17 @@ public interface IPlatformHelper {
     void sendToAllPlayers(CustomPacketPayload packet, ServerLevel level);
 
     TagKey<Item> getShearTag();
+
+    List<IResourcesTreesPlugin> plugins();
+
+    /**
+     * To avoid mod that is not updated to annotation/entry point unable to register plugin, this will be used until stable version release.
+     */
+    @Deprecated(since = "26.1.2.123")
+    default List<IResourcesTreesPlugin> getPlugins(){
+        if (plugins().isEmpty()){
+            return ServiceLoader.load(IResourcesTreesPlugin.class).stream().map(ServiceLoader.Provider::get).toList();
+        }
+        return plugins();
+    }
 }

@@ -107,7 +107,7 @@ sourceSets.configureEach {
 }
 
 publishMods {
-    file.set(jar.archiveFile)
+    file.set(tasks.named('jarJar').flatMap { it.archiveFile })
     type = BETA
     modLoaders.add("forge")
     changelog = rootProject.file("changelog.md").text

@@ -11,7 +11,7 @@ import com.coolerpromc.resourcestrees.item.ModItems;
 import com.coolerpromc.resourcestrees.recipe.ModRecipes;
 import com.coolerpromc.resourcestrees.screen.ModMenuTypes;
 
-public class CommonClass {
+public class ResourcesTrees {
     public static void init() {
         ResourcesTypeRegistryImpl.registerResourcesTypes();
         TreeTypeRegistryImpl.registerTreeTypes();

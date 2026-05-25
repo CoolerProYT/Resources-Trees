@@ -2,6 +2,7 @@ package com.coolerpromc.resourcestrees.api.internal;
 
 import com.coolerpromc.resourcestrees.Constants;
 import com.coolerpromc.resourcestrees.api.IResourcesTreesPlugin;
+import com.coolerpromc.resourcestrees.api.ResourcesTreesPlugin;
 import com.coolerpromc.resourcestrees.api.resources.IResourcesTypeRegistry;
 import com.coolerpromc.resourcestrees.api.resources.ResourcesType;
 import com.coolerpromc.resourcestrees.api.tree.ITreeTypeRegistry;
@@ -10,6 +11,7 @@ import com.coolerpromc.resourcestrees.item.ModItems;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 
+@ResourcesTreesPlugin
 public final class InternalResourcesTreesPlugin implements IResourcesTreesPlugin {
     @Override
     public void registerResourcesType(IResourcesTypeRegistry registry) {

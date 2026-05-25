@@ -1,8 +1,11 @@
 ## 26.1.2.122
 ### Changes
-- Release for forge
+- Resources Trees Plugin entrypoint are now moved to use `@ResourcesTreesPlugin` annotation (NeoForge, Forge) and `resources_trees_plugin` entrypoint in `fabric.mod.json` (Service loader will still work until marked as release)
 
-**Note: Legacy sapling, leaves, and leaf fragment are now deprecated and will be removed completely once this mod is released as `26.1.2.200` and marked as release (Once removed, block/item that is not migrated will disappear)**
+#### Forge
+- Fixed mod unable to load correctly.
+
+**Note: Legacy sapling, leaves, and leaf fragment are now deprecated and will be removed completely once this mod is marked as release (Once removed, block/item that is not migrated will disappear)**
 
 ### How to migrate?
 1. Download any ResourcesTrees 26.1.2 BETA version

@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.function.Supplier;
 
 @Mod.EventBusSubscriber(modid = Constants.MODID, value = Dist.CLIENT)
-public class ResourcesTreesClient {
+public class ForgeResourcesTreesClient {
     @SubscribeEvent
     public static void onRegisterColorHandlers(RegisterColorHandlersEvent.Block event) {
         event.register(List.of(new ResourcesTypesTintSource()), ModBlocks.LEAVES.stream().map(Supplier::get).toArray(Block[]::new));
