@@ -25,4 +25,3 @@ rootProject.name = 'ResourcesTrees-Multiloader'
 include('common')
 include('fabric')
 include('neoforge')
-include('forge')

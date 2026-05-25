@@ -49,16 +49,6 @@ public final class ResourcesTreesModelPack extends AbstractPackResources {
         namespaces.add(textureId.getNamespace());
     }
 
-    public void addBlockstateEntry(Identifier blockId, Identifier modelId) {
-        String json = "{\"variants\":{\"\":{\"model\":\"" + modelId + "\"}}}";
-        Identifier fileKey = Identifier.fromNamespaceAndPath(
-                blockId.getNamespace(),
-                "blockstates/" + blockId.getPath() + ".json"
-        );
-        resources.put(fileKey, json.getBytes(StandardCharsets.UTF_8));
-        namespaces.add(blockId.getNamespace());
-    }
-
     public void addSaplingItemModel(Identifier textureId) {
         String json = "{\n" +
                 "  \"parent\": \"minecraft:item/generated\",\n" +
