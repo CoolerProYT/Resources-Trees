@@ -84,18 +84,26 @@ public class MyPlugin implements IResourcesTreesPlugin {
 }
 ```
 
-### 2. Register via ServiceLoader
+### 2. Register to Entrypoint
+#### NeoForge
 
-Create the following file in your mod's resources:
+Use `@ResourcesTreesPlugin` annotation.
 
+```java
+@ResourcesTreesPlugin
+public class MyPlugin implements IResourcesTreesPlugin {
+}
 ```
-resources/META-INF/services/com.coolerpromc.resourcestrees.api.IResourcesTreesPlugin
-```
 
-With the fully qualified name of your implementation as the content:
+#### Fabric
 
-```
-com.example.mymod.MyPlugin
+Add `resources_trees_plugin` entrypoint to `fabric.mod.json`
+```json
+"entrypoints": {
+  "resources_trees_plugin": [
+    "com.coolerpromc.resourcestrees.api.internal.InternalResourcesTreesPlugin"
+  ]
+}
 ```
 
 ### `ResourcesType.Builder` Parameters
