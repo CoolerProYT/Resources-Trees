@@ -1,7 +1,9 @@
 package com.coolerpromc.resourcestrees.config;
 
+import com.coolerpromc.coolerconfig.config.ConfigBuilder;
 import com.coolerpromc.coolerconfig.config.ConfigFormat;
 import com.coolerpromc.coolerconfig.config.ConfigSpec;
+import com.coolerpromc.coolerconfig.config.ConfigValue;
 import com.coolerpromc.resourcestrees.Constants;
 import com.coolerpromc.resourcestrees.platform.Services;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -25,13 +27,15 @@ public class ResourcesTreesConfig {
             "minecraft:netherite_axe", 6.0
     );
 
-    public static final ConfigSpec CONFIG = ConfigSpec.builder(Constants.MODID, ConfigFormat.HOCON)
-            .comment("ResourcesTrees Common Config")
-            .define("treeSimulator.axe", DEFAULT_VALUES, "The Tree Simulator growth speed scales with the type of axe placed in the axe slot. The key of each entry should be a valid axe item id.", ResourcesTreesConfig::validateAxe)
-            .watchForChanges()
-            .build();
+    public static final ConfigSpec CONFIG;
 
-    private static Map<String, Number> actualValues = DEFAULT_VALUES;
+    private static ConfigValue<Map<String, Number>> actualValues;
+
+    static {
+        ConfigBuilder builder = ConfigSpec.builder(Constants.MODID, ConfigFormat.HOCON).comment("ResourcesTrees Common Config");
+        actualValues = builder.define("treeSimulator.axe", DEFAULT_VALUES, "The Tree Simulator growth speed scales with the type of axe placed in the axe slot. The key of each entry should be a valid axe item id.", ResourcesTreesConfig::validateAxe);
+        CONFIG = builder.watchForChanges().build();
+    }
 
     private static boolean validateAxe(Object o){
         if (o instanceof Map<?,?> map){
@@ -69,7 +73,7 @@ public class ResourcesTreesConfig {
             System.err.println("Warning: '" + key + "' is not a valid AxeItem");
             return 0.0;
         }
-        Number value = actualValues.get(key);
+        Number value = actualValues.get().get(key);
         return value != null ? value.doubleValue() : 0.0;
     }
 
@@ -84,6 +88,5 @@ public class ResourcesTreesConfig {
 
     public static void init(){
         deleteLegacyConfigFile();
-        CONFIG.addReloadListener(() -> actualValues = CONFIG.getMap("treeSimulator.axe"));
     }
 }

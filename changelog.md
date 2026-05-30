@@ -1,9 +1,6 @@
-## 26.1.2.122
+## 26.1.2.124
 ### Changes
-- Resources Trees Plugin entrypoint are now moved to use `@ResourcesTreesPlugin` annotation (NeoForge, Forge) and `resources_trees_plugin` entrypoint in `fabric.mod.json` (Service loader will still work until marked as release)
-
-#### Forge
-- Fixed mod unable to load correctly.
+- Updated CoolerConfig version to fix conflict with other mod that use newer version of it
 
 **Note: Legacy sapling, leaves, and leaf fragment are now deprecated and will be removed completely once this mod is marked as release (Once removed, block/item that is not migrated will disappear)**
 
