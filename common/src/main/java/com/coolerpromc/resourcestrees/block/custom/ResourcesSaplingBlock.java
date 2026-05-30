@@ -122,7 +122,9 @@ public class ResourcesSaplingBlock extends SaplingBlock {
                 oldConfig.trunkPlacer,
                 BlockStateProvider.simple(resourcesType.leavesBlock(treeType.name()).get()),
                 oldConfig.foliagePlacer,
-                oldConfig.minimumSize
+                oldConfig.rootPlacer,
+                oldConfig.minimumSize,
+                oldConfig.belowTrunkProvider
         ).build();
     }
 

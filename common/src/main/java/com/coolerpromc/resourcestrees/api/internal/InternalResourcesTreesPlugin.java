@@ -18,7 +18,7 @@ public final class InternalResourcesTreesPlugin implements IResourcesTreesPlugin
         registry.register(new ResourcesType.Builder("stone", Items.COBBLESTONE, 0xFF4D4B49).treeSimulatorTicks(800));
         registry.register(new ResourcesType.Builder("coal", Items.COAL_BLOCK, 0xFF000000).treeSimulatorTicks(1000));
         registry.register(new ResourcesType.Builder("iron", Items.IRON_BLOCK, 0xFFB0BEC5));
-        registry.register(new ResourcesType.Builder("copper", Items.COPPER_BLOCK, 0xFFD46D44));
+        registry.register(new ResourcesType.Builder("copper", Items.COPPER_BLOCK.weathering().unaffected(), 0xFFD46D44));
         registry.register(new ResourcesType.Builder("gold", Items.GOLD_BLOCK, 0xFFFFD600));
         registry.register(new ResourcesType.Builder("lapis", Items.LAPIS_BLOCK, 0xFF3F51B5));
         registry.register(new ResourcesType.Builder("emerald", Items.EMERALD_BLOCK, 0xFF00C853).treeSimulatorTicks(1400));

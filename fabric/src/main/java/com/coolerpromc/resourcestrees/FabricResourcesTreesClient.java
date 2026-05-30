@@ -14,10 +14,10 @@ import com.coolerpromc.resourcestrees.item.custom.LeafFragmentItem;
 import com.coolerpromc.resourcestrees.screen.ModMenuTypes;
 import com.coolerpromc.resourcestrees.screen.custom.TreeSimulatorScreen;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.model.loading.v1.ExtraModelKey;
+/*import net.fabricmc.fabric.api.client.model.loading.v1.ExtraModelKey;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelModifier;
-import net.fabricmc.fabric.api.client.model.loading.v1.SimpleUnbakedExtraModel;
+import net.fabricmc.fabric.api.client.model.loading.v1.SimpleUnbakedExtraModel;*/
 import net.fabricmc.fabric.api.client.recipe.v1.sync.ClientRecipeSynchronizedEvent;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockColorRegistry;
 import net.minecraft.client.color.item.ItemTintSources;
@@ -52,7 +52,8 @@ public class FabricResourcesTreesClient implements ClientModInitializer {
             ModRecipeReceived.recipeMap = RecipeMap.create(recipes.recipes());
         });
 
-        ModelLoadingPlugin.register(pluginContext -> {
+        //TODO: Restore model-loading-api when it is re-enabled by fabric api
+        /*ModelLoadingPlugin.register(pluginContext -> {
             TreeTypes.getTypes().forEach(treeType -> pluginContext.addModel(ExtraModelKey.create(() -> treeType.saplingTexture().getPath()), SimpleUnbakedExtraModel.blockStateModel(treeType.saplingTexture().withPath(s -> s.replace("block", "item")))));
 
             Map<Identifier, ResourcesSaplingBlock> saplingItemMap = new HashMap<>();
@@ -119,6 +120,6 @@ public class FabricResourcesTreesClient implements ClientModInitializer {
                 ResourcesTreesClient.CLIENT_ITEM_MAP.put(context.itemId(), new ClientItem(model, ClientItem.Properties.DEFAULT, context.bakingContext().contextSwapper()));
                 return model;
             });
-        });
+        });*/
     }
 }

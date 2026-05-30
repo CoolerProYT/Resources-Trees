@@ -9,7 +9,7 @@ dependencies {
     implementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
 
     compileOnly "mezz.jei:jei-${dependencies_minecraft_version}-fabric-api:${jei_version}"
-    runtimeOnly "mezz.jei:jei-${minecraft_version}-fabric:${jei_version}"
+//    runtimeOnly "mezz.jei:jei-${minecraft_version}-fabric:${jei_version}"
     compileOnly("maven.modrinth:jade:${jade_version}")
 
     implementation include("com.coolerpromc.coolerconfig:coolerconfig-fabric-${dependencies_minecraft_version}:${cooler_config_version}")
