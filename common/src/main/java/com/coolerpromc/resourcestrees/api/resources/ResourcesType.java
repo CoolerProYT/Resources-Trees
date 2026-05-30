@@ -11,13 +11,9 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import org.jetbrains.annotations.ApiStatus;
@@ -25,6 +21,7 @@ import org.jetbrains.annotations.ApiStatus;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 /**
@@ -47,46 +44,18 @@ public final class ResourcesType {
     );
 
     public static final Codec<ResourcesType> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            Codec.STRING.fieldOf("name").forGetter(ResourcesType::name),
+            Codec.STRING.optionalFieldOf("name").forGetter(ResourcesType::oriName),
             MATERIAL_CODEC.fieldOf("material").forGetter(ResourcesType::material),
             Codec.INT.fieldOf("color").forGetter(ResourcesType::color),
-            Codec.INT.fieldOf("weight").forGetter(ResourcesType::weight),
             Codec.FLOAT.fieldOf("saplingDropChance").forGetter(ResourcesType::saplingDropChance),
             Codec.FLOAT.fieldOf("leafDropChance").forGetter(ResourcesType::leafDropChance),
             Codec.INT.fieldOf("treeSimulatorTicks").forGetter(ResourcesType::treeSimulatorTicks)
     ).apply(instance, ResourcesType::new));
 
-    @Deprecated(forRemoval = true)
-    public static final Codec<ResourcesType> LEGACY_CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            MATERIAL_CODEC.fieldOf("material").forGetter(ResourcesType::material),
-            Codec.INT.fieldOf("color").forGetter(ResourcesType::color),
-            Codec.INT.fieldOf("weight").forGetter(ResourcesType::weight),
-            Codec.FLOAT.fieldOf("saplingDropChance").forGetter(ResourcesType::saplingDropChance),
-            Codec.FLOAT.fieldOf("leafDropChance").forGetter(ResourcesType::leafDropChance),
-            Codec.INT.fieldOf("treeSimulatorTicks").forGetter(ResourcesType::treeSimulatorTicks)
-    ).apply(instance, ResourcesType::new));
-
-    @Deprecated(forRemoval = true)
-    public static final StreamCodec<RegistryFriendlyByteBuf, ResourcesType> LEGACY_STREAM_CODEC = StreamCodec.composite(
-            ByteBufCodecs.either(Identifier.STREAM_CODEC, TagKey.streamCodec(Registries.ITEM)),
-            ResourcesType::material,
-            ByteBufCodecs.INT,
-            ResourcesType::color,
-            ByteBufCodecs.INT,
-            ResourcesType::weight,
-            ByteBufCodecs.FLOAT,
-            ResourcesType::saplingDropChance,
-            ByteBufCodecs.FLOAT,
-            ResourcesType::leafDropChance,
-            ByteBufCodecs.INT,
-            ResourcesType::treeSimulatorTicks,
-            ResourcesType::new
-    );
-
-    private final String name;
+    private final Optional<String> oriName;
+    private String name = "";
     private final Either<Identifier, TagKey<Item>> material;
     private final int color;
-    private final int weight;
     private final float saplingDropChance;
     private final float leafDropChance;
     private final int treeSimulatorTicks;
@@ -95,31 +64,26 @@ public final class ResourcesType {
     private final Map<String, BlockRegistryHandler<ResourcesSaplingBlock>> saplingBlocks = new HashMap<>();
     private final Map<String, BlockRegistryHandler<ResourcesLeavesBlock>> leavesBlocks = new HashMap<>();
 
-    public ResourcesType(String name, Either<Identifier, TagKey<Item>> material, int color, int weight, float saplingDropChance, float leafDropChance, int treeSimulatorTicks) {
-        this.name = name;
+    public ResourcesType(Optional<String> oriName, Either<Identifier, TagKey<Item>> material, int color, float saplingDropChance, float leafDropChance, int treeSimulatorTicks) {
+        this.oriName = oriName;
         this.material = material;
         this.color = color;
-        this.weight = weight;
         this.saplingDropChance = saplingDropChance;
         this.leafDropChance = leafDropChance;
         this.treeSimulatorTicks = treeSimulatorTicks;
-    }
-
-    @Deprecated(forRemoval = true)
-    public ResourcesType(Either<Identifier, TagKey<Item>> material, int color, int weight, float saplingDropChance, float leafDropChance, int treeSimulatorTicks) {
-        this("", material, color, weight, saplingDropChance, leafDropChance, treeSimulatorTicks);
+        oriName.ifPresent(s -> name = s);
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         ResourcesType that = (ResourcesType) o;
-        return color() == that.color() && weight() == that.weight() && Float.compare(saplingDropChance(), that.saplingDropChance()) == 0 && Float.compare(leafDropChance(), that.leafDropChance()) == 0 && Objects.equals(treeSimulatorTicks(), that.treeSimulatorTicks()) && Objects.equals(material(), that.material());
+        return color() == that.color() && Float.compare(saplingDropChance(), that.saplingDropChance()) == 0 && Float.compare(leafDropChance(), that.leafDropChance()) == 0 && Objects.equals(treeSimulatorTicks(), that.treeSimulatorTicks()) && Objects.equals(material(), that.material());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(material(), color(), treeSimulatorTicks(), weight(), saplingDropChance(), leafDropChance());
+        return Objects.hash(material(), color(), treeSimulatorTicks(), saplingDropChance(), leafDropChance());
     }
 
     public Ingredient ingredient(HolderGetter<Item> holderGetter) {
@@ -127,6 +91,15 @@ public final class ResourcesType {
             return Ingredient.of(BuiltInRegistries.ITEM.getValue(material.left().get()));
         }
         return Ingredient.of(holderGetter.getOrThrow(material.right().get()));
+    }
+
+    public Optional<String> oriName() {
+        return oriName;
+    }
+
+    public ResourcesType withName(String name){
+        this.name = name;
+        return this;
     }
 
     public String name() {
@@ -139,10 +112,6 @@ public final class ResourcesType {
 
     public int color() {
         return color;
-    }
-
-    public int weight() {
-        return weight;
     }
 
     public float saplingDropChance() {
@@ -190,10 +159,9 @@ public final class ResourcesType {
     @Override
     public String toString() {
         return "ResourcesType[" +
-                "name=" + name + ", " +
+                "name=" + oriName + ", " +
                 "material=" + material + ", " +
                 "color=" + color + ", " +
-                "weight=" + weight + ", " +
                 "saplingDropChance=" + saplingDropChance + ", " +
                 "leafDropChance=" + leafDropChance + ", " +
                 "treeSimulatorTicks=" + treeSimulatorTicks + ']';
@@ -216,7 +184,6 @@ public final class ResourcesType {
         private final String name;
         private final Either<Identifier, TagKey<Item>> material;
         private final int color;
-        private int weight;
         private float saplingDropChance;
         private float leafDropChance;
         private int treeSimulatorTicks;
@@ -225,7 +192,6 @@ public final class ResourcesType {
             this.name = name;
             this.material = Either.left(BuiltInRegistries.ITEM.getKey(material.asItem()));
             this.color = color;
-            this.weight = 5;
             this.saplingDropChance = 0.125f;
             this.leafDropChance = 0.25f;
             this.treeSimulatorTicks = 1200;
@@ -235,7 +201,6 @@ public final class ResourcesType {
             this.name = name;
             this.material = Either.left(material.id());
             this.color = color;
-            this.weight = 5;
             this.saplingDropChance = 0.125f;
             this.leafDropChance = 0.25f;
             this.treeSimulatorTicks = 1200;
@@ -245,25 +210,9 @@ public final class ResourcesType {
             this.name = name;
             this.material = Either.right(material);
             this.color = color;
-            this.weight = 5;
             this.saplingDropChance = 0.125f;
             this.leafDropChance = 0.25f;
             this.treeSimulatorTicks = 1200;
-        }
-
-        /**
-         * Sets the spawn weight of this resource type relative to others.
-         * Higher values make this type appear more frequently.
-         *
-         * @param weight the relative spawn weight; must be positive
-         * @return this builder, for chaining
-         *
-         * @deprecated This field is no longer in use anywhere, will be removed once migration code is added
-         */
-        @Deprecated(forRemoval = true)
-        public Builder weight(int weight) {
-            this.weight = weight;
-            return this;
         }
 
         /**
@@ -302,7 +251,7 @@ public final class ResourcesType {
 
         @ApiStatus.Internal
         public ResourcesType build() {
-            return new ResourcesType(name, material, color, weight, saplingDropChance, leafDropChance, treeSimulatorTicks);
+            return new ResourcesType(Optional.of(name), material, color, saplingDropChance, leafDropChance, treeSimulatorTicks);
         }
     }
 }

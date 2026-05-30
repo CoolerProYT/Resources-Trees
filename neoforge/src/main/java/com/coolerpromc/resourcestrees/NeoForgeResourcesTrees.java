@@ -4,8 +4,6 @@ import com.coolerpromc.resourcestrees.api.IResourcesTreesPlugin;
 import com.coolerpromc.resourcestrees.api.ResourcesTreesPlugin;
 import com.coolerpromc.resourcestrees.platform.NeoForgeRegistryHelper;
 import com.coolerpromc.resourcestrees.recipe.ModRecipes;
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.packs.PackType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -15,7 +13,6 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
-import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforgespi.language.ModFileScanData;
 import org.objectweb.asm.Type;
 
@@ -65,15 +62,5 @@ public class NeoForgeResourcesTrees {
     public void onAddPackFinders(AddPackFindersEvent event) {
         if (event.getPackType() != PackType.SERVER_DATA) return;
         event.addRepositorySource(consumer -> consumer.accept(Constants.getInMemoryDataPack()));
-    }
-
-    @Deprecated
-    @SubscribeEvent
-    public void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
-        event.getEntity().sendSystemMessage(
-                Component.literal("[Resources Trees] ")
-                        .withStyle(ChatFormatting.GOLD)
-                        .append(Component.literal("Resources Type datapacks no longer work from 26.1.2.100 and are only kept for legacy migration. Please see the wiki for the new config-based system.").withStyle(ChatFormatting.YELLOW))
-        );
     }
 }

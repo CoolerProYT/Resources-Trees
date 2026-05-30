@@ -40,8 +40,6 @@ public interface IRegistryHelper {
     <T extends AbstractContainerMenu, D> RegistryHandler<MenuType<T>> registerMenu(String name, MenuFactory<T, D> factory, StreamCodec<? super RegistryFriendlyByteBuf, D> data);
     <T extends Recipe<?>> RegistryHandler<RecipeSerializer<T>> registerRecipeSerializer(String name, RecipeSerializer<T> serializer);
     <T extends Recipe<?>> RegistryHandler<RecipeType<T>> registerRecipeType(String name);
-    @Deprecated(forRemoval = true)
-    <T> RegistryHandler<DataComponentType<T>> registerDataComponent(String name, UnaryOperator<DataComponentType.Builder<T>> builder);
 
     static ResourceKey<Block> blockKey(String name) {
         return ResourceKey.create(Registries.BLOCK, Constants.id(name));

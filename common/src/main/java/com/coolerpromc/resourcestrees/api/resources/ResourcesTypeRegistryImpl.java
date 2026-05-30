@@ -23,7 +23,7 @@ public final class ResourcesTypeRegistryImpl implements IResourcesTypeRegistry{
     private static final ResourcesTypeRegistryImpl INSTANCE = new ResourcesTypeRegistryImpl();
 
     public static void registerResourcesTypes(){
-        Services.PLATFORM.getPlugins().forEach(plugin -> {
+        Services.PLATFORM.plugins().forEach(plugin -> {
             try{
                 plugin.registerResourcesType(INSTANCE);
             }
@@ -59,7 +59,11 @@ public final class ResourcesTypeRegistryImpl implements IResourcesTypeRegistry{
                     JsonObject json = JsonParser.parseReader(reader).getAsJsonObject();
                     name = file.getName().replace(".json", "");
 
-                    resourcesType = ResourcesType.CODEC.parse(JsonOps.INSTANCE, json).result().orElse(ResourcesType.LEGACY_CODEC.parse(JsonOps.INSTANCE, json).getOrThrow());
+                    resourcesType = ResourcesType.CODEC.parse(JsonOps.INSTANCE, json).getOrThrow();
+
+                    if (resourcesType.name().isEmpty()) {
+                        resourcesType = resourcesType.withName(name);
+                    }
 
                     reader.close();
                 } catch (Exception e) {

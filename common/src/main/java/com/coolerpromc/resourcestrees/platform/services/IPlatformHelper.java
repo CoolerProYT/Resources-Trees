@@ -67,15 +67,4 @@ public interface IPlatformHelper {
     TagKey<Item> getShearTag();
 
     List<IResourcesTreesPlugin> plugins();
-
-    /**
-     * To avoid mod that is not updated to annotation/entry point unable to register plugin, this will be used until stable version release.
-     */
-    @Deprecated(since = "26.1.2.123")
-    default List<IResourcesTreesPlugin> getPlugins(){
-        if (plugins().isEmpty()){
-            return ServiceLoader.load(IResourcesTreesPlugin.class).stream().map(ServiceLoader.Provider::get).toList();
-        }
-        return plugins();
-    }
 }

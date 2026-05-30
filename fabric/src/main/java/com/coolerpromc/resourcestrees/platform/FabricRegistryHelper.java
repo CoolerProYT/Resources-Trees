@@ -7,13 +7,11 @@ import com.coolerpromc.resourcestrees.platform.util.BlockEntityTypeFactory;
 import com.coolerpromc.resourcestrees.platform.util.BlockRegistryHandler;
 import com.coolerpromc.resourcestrees.platform.util.MenuFactory;
 import com.coolerpromc.resourcestrees.platform.util.RegistryHandler;
-import io.netty.buffer.ByteBuf;
 import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
 import net.fabricmc.fabric.api.menu.v1.ExtendedMenuType;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
-import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -36,7 +34,6 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import java.util.Arrays;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
 
 public class FabricRegistryHelper implements IRegistryHelper {
     @Override
@@ -208,29 +205,6 @@ public class FabricRegistryHelper implements IRegistryHelper {
 
             @Override
             public RecipeType<T> get() {
-                return holder.value();
-            }
-        };
-    }
-
-    @Override
-    public <T> RegistryHandler<DataComponentType<T>> registerDataComponent(String name, UnaryOperator<DataComponentType.Builder<T>> builder) {
-        Identifier id = Constants.id(name);
-        Holder<DataComponentType<T>> holder = Registry.registerForHolder(BuiltInRegistries.DATA_COMPONENT_TYPE, id, builder.apply(DataComponentType.builder()).build());
-
-        return new RegistryHandler<>() {
-            @Override
-            public Identifier id() {
-                return id;
-            }
-
-            @Override
-            public Holder<DataComponentType<T>> holder() {
-                return holder;
-            }
-
-            @Override
-            public DataComponentType<T> get() {
                 return holder.value();
             }
         };

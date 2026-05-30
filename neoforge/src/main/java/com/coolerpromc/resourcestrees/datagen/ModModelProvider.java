@@ -10,7 +10,9 @@ import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ModelProvider;
 import net.minecraft.client.data.models.MultiVariant;
 import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
-import net.minecraft.client.data.models.model.*;
+import net.minecraft.client.data.models.model.ItemModelUtils;
+import net.minecraft.client.data.models.model.ModelTemplates;
+import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.renderer.block.dispatch.Variant;
 import net.minecraft.client.renderer.item.CuboidItemModelWrapper;
 import net.minecraft.client.resources.model.sprite.Material;
@@ -31,9 +33,6 @@ public class ModModelProvider extends ModelProvider {
     public ModModelProvider(PackOutput output) {
         super(output, Constants.MODID);
     }
-
-    public static final TextureSlot CROSS_TINTED_SLOT = TextureSlot.create("cross_tinted");
-    public static final ModelTemplate CROSS_TINTED = ModelTemplates.create(TextureSlot.CROSS, CROSS_TINTED_SLOT).extend().parent(Constants.id("block/cross_tinted")).build();
 
     @Override
     protected void registerModels(BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
@@ -75,25 +74,7 @@ public class ModModelProvider extends ModelProvider {
     @Override
     protected Stream<? extends Holder<Block>> getKnownBlocks() {
         List<Identifier> excluded = Stream.concat(ModBlocks.SAPLINGS.stream(), ModBlocks.LEAVES.stream()).map(RegistryHandler::id).toList();
-        List<Identifier> excluded2 = Stream.of(
-                ModBlocks.RESOURCES_OAK_SAPLING,
-                ModBlocks.RESOURCES_OAK_LEAVES,
-                ModBlocks.RESOURCES_SPRUCE_SAPLING,
-                ModBlocks.RESOURCES_SPRUCE_LEAVES,
-                ModBlocks.RESOURCES_BIRCH_SAPLING,
-                ModBlocks.RESOURCES_BIRCH_LEAVES,
-                ModBlocks.RESOURCES_JUNGLE_SAPLING,
-                ModBlocks.RESOURCES_JUNGLE_LEAVES,
-                ModBlocks.RESOURCES_ACACIA_SAPLING,
-                ModBlocks.RESOURCES_ACACIA_LEAVES,
-                ModBlocks.RESOURCES_DARK_OAK_SAPLING,
-                ModBlocks.RESOURCES_DARK_OAK_LEAVES,
-                ModBlocks.RESOURCES_CHERRY_SAPLING,
-                ModBlocks.RESOURCES_CHERRY_LEAVES,
-                ModBlocks.RESOURCES_PALE_OAK_SAPLING,
-                ModBlocks.RESOURCES_PALE_OAK_LEAVES
-        ).map(RegistryHandler::id).toList();
-        return super.getKnownBlocks().filter(holder -> !excluded.contains(BuiltInRegistries.BLOCK.getKey(holder.value()))).filter(holder -> !excluded2.contains(BuiltInRegistries.BLOCK.getKey(holder.value())));
+        return super.getKnownBlocks().filter(holder -> !excluded.contains(BuiltInRegistries.BLOCK.getKey(holder.value())));
     }
 
     @Override

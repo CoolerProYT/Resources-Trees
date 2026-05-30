@@ -21,7 +21,7 @@ public final class TreeTypeRegistryImpl implements ITreeTypeRegistry{
     public static final ITreeTypeRegistry INSTANCE = new TreeTypeRegistryImpl();
 
     public static void registerTreeTypes(){
-        Services.PLATFORM.getPlugins().forEach(plugin -> {
+        Services.PLATFORM.plugins().forEach(plugin -> {
             try{
                 plugin.registerTreeType(INSTANCE);
             }

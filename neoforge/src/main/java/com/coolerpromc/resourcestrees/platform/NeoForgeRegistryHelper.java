@@ -7,9 +7,7 @@ import com.coolerpromc.resourcestrees.platform.util.BlockEntityTypeFactory;
 import com.coolerpromc.resourcestrees.platform.util.BlockRegistryHandler;
 import com.coolerpromc.resourcestrees.platform.util.MenuFactory;
 import com.coolerpromc.resourcestrees.platform.util.RegistryHandler;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.core.Holder;
-import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -37,7 +35,6 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import java.util.Arrays;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
 
 public class NeoForgeRegistryHelper implements IRegistryHelper {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(Constants.MODID);
@@ -47,7 +44,6 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
     public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(Registries.MENU, Constants.MODID);
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(Registries.RECIPE_SERIALIZER, Constants.MODID);
     public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES = DeferredRegister.create(Registries.RECIPE_TYPE, Constants.MODID);
-    public static final DeferredRegister<DataComponentType<?>> DATA_COMPONENTS = DeferredRegister.create(Registries.DATA_COMPONENT_TYPE, Constants.MODID);
 
     @Override
     public <T extends Block> BlockRegistryHandler<T> registerBlock(String name, Function<BlockBehaviour.Properties, T> func, BlockBehaviour.Properties p) {
@@ -209,28 +205,6 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
         };
     }
 
-    @Override
-    public <T> RegistryHandler<DataComponentType<T>> registerDataComponent(String name, UnaryOperator<DataComponentType.Builder<T>> builder) {
-        DeferredHolder<DataComponentType<?>, DataComponentType<T>> component = DATA_COMPONENTS.register(name, () -> builder.apply(DataComponentType.builder()).build());
-
-        return new RegistryHandler<>() {
-            @Override
-            public Identifier id() {
-                return component.getId();
-            }
-
-            @Override
-            public Holder<DataComponentType<T>> holder() {
-                return (Holder<DataComponentType<T>>) (Holder<?>) component.getDelegate();
-            }
-
-            @Override
-            public DataComponentType<T> get() {
-                return component.get();
-            }
-        };
-    }
-
     public static void register(IEventBus eventBus){
         BLOCKS.register(eventBus);
         ITEMS.register(eventBus);
@@ -239,6 +213,5 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
         MENUS.register(eventBus);
         RECIPE_SERIALIZERS.register(eventBus);
         RECIPE_TYPES.register(eventBus);
-        DATA_COMPONENTS.register(eventBus);
     }
 }

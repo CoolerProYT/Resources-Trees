@@ -5,15 +5,11 @@ import com.coolerpromc.coolerconfig.config.ConfigFormat;
 import com.coolerpromc.coolerconfig.config.ConfigSpec;
 import com.coolerpromc.coolerconfig.config.ConfigValue;
 import com.coolerpromc.resourcestrees.Constants;
-import com.coolerpromc.resourcestrees.platform.Services;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.Item;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Map;
 
 public class ResourcesTreesConfig {
@@ -77,16 +73,6 @@ public class ResourcesTreesConfig {
         return value != null ? value.doubleValue() : 0.0;
     }
 
-    @Deprecated(forRemoval = true)
-    private static void deleteLegacyConfigFile(){
-        Path path = Services.PLATFORM.getConfigDir().resolve("resourcestrees/axe.json");
-        try {
-            Files.deleteIfExists(path);
-        } catch (IOException _) {
-        }
-    }
-
     public static void init(){
-        deleteLegacyConfigFile();
     }
 }

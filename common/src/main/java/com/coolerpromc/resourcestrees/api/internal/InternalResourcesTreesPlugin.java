@@ -22,10 +22,10 @@ public final class InternalResourcesTreesPlugin implements IResourcesTreesPlugin
         registry.register(new ResourcesType.Builder("gold", Items.GOLD_BLOCK, 0xFFFFD600));
         registry.register(new ResourcesType.Builder("lapis", Items.LAPIS_BLOCK, 0xFF3F51B5));
         registry.register(new ResourcesType.Builder("emerald", Items.EMERALD_BLOCK, 0xFF00C853).treeSimulatorTicks(1400));
-        registry.register(new ResourcesType.Builder("diamond", Items.DIAMOND_BLOCK, 0xFF40C4FF).weight(3).saplingDropChance(0.1f).leafDropChance(0.2f).treeSimulatorTicks(1600));
-        registry.register(new ResourcesType.Builder("obsidian", Items.OBSIDIAN, 0xFF2E1A47).weight(4));
+        registry.register(new ResourcesType.Builder("diamond", Items.DIAMOND_BLOCK, 0xFF40C4FF).saplingDropChance(0.1f).leafDropChance(0.2f).treeSimulatorTicks(1600));
+        registry.register(new ResourcesType.Builder("obsidian", Items.OBSIDIAN, 0xFF2E1A47));
         registry.register(new ResourcesType.Builder("amethyst", Items.AMETHYST_BLOCK, 0xFF9C27B0).treeSimulatorTicks(800));
-        registry.register(new ResourcesType.Builder("netherite", Items.NETHERITE_BLOCK, 0xFF3E3E3E).weight(2).saplingDropChance(0.075f).leafDropChance(0.15f).treeSimulatorTicks(1800));
+        registry.register(new ResourcesType.Builder("netherite", Items.NETHERITE_BLOCK, 0xFF3E3E3E).saplingDropChance(0.075f).leafDropChance(0.15f).treeSimulatorTicks(1800));
         registry.register(new ResourcesType.Builder("wood", ItemTags.LOGS, 0xFF8D6E63).treeSimulatorTicks(800));
         registry.register(new ResourcesType.Builder("quartz", Items.QUARTZ_BLOCK, 0xFFF5F5F5).treeSimulatorTicks(800));
         registry.register(new ResourcesType.Builder("prismarine", Items.PRISMARINE, 0xFF5EC8C8).treeSimulatorTicks(800));
