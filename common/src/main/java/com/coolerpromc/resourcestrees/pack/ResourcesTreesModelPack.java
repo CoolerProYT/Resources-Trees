@@ -1,6 +1,7 @@
 package com.coolerpromc.resourcestrees.pack;
 
 import com.coolerpromc.resourcestrees.Constants;
+import com.coolerpromc.resourcestrees.api.resources.ResourcesType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.AbstractPackResources;
@@ -21,6 +22,35 @@ public final class ResourcesTreesModelPack extends AbstractPackResources {
 
     public ResourcesTreesModelPack() {
         super(new PackLocationInfo(Constants.MODID + "_models", Component.literal("Resources Trees Pack"), PackSource.BUILT_IN, Optional.empty()));
+    }
+
+    public void addLeafFragmentModel(ResourcesType type){
+        String modelName = type.name() + "_leaf_fragment";
+        String itemsJson = "{\n" +
+                "                  \"model\": {\n" +
+                "                    \"type\": \"minecraft:model\",\n" +
+                "                    \"model\": \"resourcestrees:item/" + modelName +"\",\n" +
+                "                    \"tints\": [\n" +
+                "                      {\n" +
+                "                        \"type\": \"resourcestrees:resources_type_tint\",\n" +
+                "                        \"default\": -1\n" +
+                "                      }\n" +
+                "                    ]\n" +
+                "                  }\n" +
+                "                }";
+        String modelJson = """
+                {
+                  "parent": "minecraft:item/generated",
+                  "textures": {
+                    "layer0": "resourcestrees:item/leaf_fragment"
+                  }
+                }""";
+        Identifier itemsFileKey = Constants.id("items/" + modelName + ".json");
+        Identifier modelFileKey = Constants.id("models/item/" + modelName + ".json");
+
+        resources.put(itemsFileKey, itemsJson.getBytes(StandardCharsets.UTF_8));
+        resources.put(modelFileKey, modelJson.getBytes(StandardCharsets.UTF_8));
+        namespaces.add(Constants.MODID);
     }
 
     public void addLeavesModel(Identifier textureId) {
