@@ -1,5 +1,6 @@
 package com.coolerpromc.resourcestrees;
 
+import com.coolerpromc.resourcestrees.api.resources.ResourcesTypes;
 import com.coolerpromc.resourcestrees.api.tree.TreeTypes;
 import com.coolerpromc.resourcestrees.block.ModBlocks;
 import com.coolerpromc.resourcestrees.item.ModItems;
@@ -54,6 +55,7 @@ public class Constants {
 			pack.addSaplingBlockModel(treeType.saplingTexture());
 			pack.addSaplingItemModel(treeType.saplingTexture());
 		});
+		ResourcesTypes.getTypes().forEach(pack::addLeafFragmentModel);
 
 		return getPack(pack, pack.getDescription());
 	}

@@ -57,13 +57,6 @@ public class FabricResourcesTreesClient implements ClientModInitializer {
 
             Map<Identifier, ResourcesSaplingBlock> saplingItemMap = new HashMap<>();
             Map<Identifier, ResourcesLeavesBlock> leavesItemMap = new HashMap<>();
-            Set<Identifier> leafFragmentIds = new HashSet<>();
-
-            ModItems.LEAF_FRAGMENTS.forEach(handler -> {
-                if (handler.get() instanceof LeafFragmentItem) {
-                    leafFragmentIds.add(handler.id());
-                }
-            });
 
             ModBlocks.SAPLINGS.forEach(handler -> {
                 Block block = handler.get();
@@ -95,10 +88,6 @@ public class FabricResourcesTreesClient implements ClientModInitializer {
 
             pluginContext.modifyItemModelBeforeBake().register(ModelModifier.DEFAULT_PHASE, (model, context) -> {
                 Identifier itemId = context.itemId();
-
-                if (leafFragmentIds.contains(itemId)) {
-                    model = ItemModelUtils.tintedModel(Constants.id("item/leaf_fragment"), new ResourcesTypeTintSource(-1));
-                }
 
                 ResourcesSaplingBlock saplingBlock = saplingItemMap.get(itemId);
                 if (saplingBlock != null) {
