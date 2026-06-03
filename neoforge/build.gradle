@@ -5,14 +5,12 @@ plugins {
 }
 
 repositories {
-    flatDir {
-        dir 'libs'
-    }
     maven {
-        url "https://maven.latvian.dev/releases"
+        name = "Maven for PR #3198" // https://github.com/neoforged/NeoForge/pull/3198
+        url = uri("https://prmaven.neoforged.net/NeoForge/pr3198")
         content {
-            includeGroup "dev.latvian.mods"
-            includeGroup "dev.latvian.apps"
+            includeModule("net.neoforged", "neoforge")
+            includeModule("net.neoforged", "testframework")
         }
     }
 }

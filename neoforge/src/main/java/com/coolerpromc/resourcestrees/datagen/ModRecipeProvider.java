@@ -158,7 +158,7 @@ public class ModRecipeProvider extends RecipeProvider {
         lineShape(Items.GHAST_TEAR, 6, "ghast");
         lineShape(Items.PORKCHOP, 8, "pig");
         lineShape(Items.MUTTON, 8, "sheep");
-        customShape(Items.WHITE_WOOL, 8, "sheep", "AA ", "AA ", "   ");
+        customShape(Items.WOOL.white(), 8, "sheep", "AA ", "AA ", "   ");
         lineShape(Items.COD, 8, "fish");
         straightShape(Items.SALMON, 8, "fish");
         customShape(Items.TROPICAL_FISH, 8, "fish", "A  ", " A ", "  A");
@@ -167,22 +167,22 @@ public class ModRecipeProvider extends RecipeProvider {
         lineShape(Items.ROTTEN_FLESH, 8, "zombie");
 
         // Dyes
-        lineShape(Items.WHITE_DYE, 8, "dye");
-        straightShape(Items.LIGHT_GRAY_DYE, 8, "dye");
-        customShape(Items.GRAY_DYE, 8, "dye", "A  ", " A ", "  A");
-        customShape(Items.BLACK_DYE, 8, "dye", "  A", " A ", "A  ");
-        customShape(Items.BROWN_DYE, 8, "dye", " A ", " A ", "A  ");
-        customShape(Items.RED_DYE, 8, "dye", " A ", " A ", "  A");
-        customShape(Items.ORANGE_DYE, 8, "dye", "   ", "AA ", "  A");
-        customShape(Items.YELLOW_DYE, 8, "dye", "   ", " AA", "A  ");
-        customShape(Items.LIME_DYE, 8, "dye", "AA ", "A  ", "   ");
-        customShape(Items.GREEN_DYE, 8, "dye", " AA", "  A", "   ");
-        customShape(Items.CYAN_DYE, 8, "dye", "   ", "  A", " AA");
-        customShape(Items.LIGHT_BLUE_DYE, 8, "dye", "   ", "A  ", "AA ");
-        customShape(Items.BLUE_DYE, 8, "dye", "  A", "   ", "AA ");
-        customShape(Items.PURPLE_DYE, 8, "dye", "A  ", "   ", " AA");
-        customShape(Items.MAGENTA_DYE, 8, "dye", "A  ", "  A", "  A");
-        customShape(Items.PINK_DYE, 8, "dye", "  A", "A  ", "A  ");
+        lineShape(Items.DYE.white(), 8, "dye");
+        straightShape(Items.DYE.lightGray(), 8, "dye");
+        customShape(Items.DYE.gray(), 8, "dye", "A  ", " A ", "  A");
+        customShape(Items.DYE.black(), 8, "dye", "  A", " A ", "A  ");
+        customShape(Items.DYE.brown(), 8, "dye", " A ", " A ", "A  ");
+        customShape(Items.DYE.red(), 8, "dye", " A ", " A ", "  A");
+        customShape(Items.DYE.orange(), 8, "dye", "   ", "AA ", "  A");
+        customShape(Items.DYE.yellow(), 8, "dye", "   ", " AA", "A  ");
+        customShape(Items.DYE.lime(), 8, "dye", "AA ", "A  ", "   ");
+        customShape(Items.DYE.green(), 8, "dye", " AA", "  A", "   ");
+        customShape(Items.DYE.cyan(), 8, "dye", "   ", "  A", " AA");
+        customShape(Items.DYE.lightBlue(), 8, "dye", "   ", "A  ", "AA ");
+        customShape(Items.DYE.blue(), 8, "dye", "  A", "   ", "AA ");
+        customShape(Items.DYE.purple(), 8, "dye", "A  ", "   ", " AA");
+        customShape(Items.DYE.magenta(), 8, "dye", "A  ", "  A", "  A");
+        customShape(Items.DYE.pink(), 8, "dye", "  A", "A  ", "A  ");
 
         // Foods
         customShape(Items.APPLE, 12, "nature", "AAA", "A A", "AAA");
@@ -195,10 +195,10 @@ public class ModRecipeProvider extends RecipeProvider {
                 .pattern("   ")
                 .pattern("ABA")
                 .pattern("AAA")
-                .define('A', Items.CYAN_TERRACOTTA)
+                .define('A', Items.DYED_TERRACOTTA.cyan())
                 .define('B', Items.DIRT)
                 .unlockedBy(getHasName(Items.DIRT), has(Items.DIRT))
-                .unlockedBy(getHasName(Items.CYAN_TERRACOTTA), has(Items.CYAN_TERRACOTTA))
+                .unlockedBy(getHasName(Items.DYED_TERRACOTTA.cyan()), has(Items.DYED_TERRACOTTA.cyan()))
                 .save(output);
 
         // Item Recipe
@@ -217,10 +217,10 @@ public class ModRecipeProvider extends RecipeProvider {
         essenceItem(ModItems.TURTLE_ESSENCE.get(), Items.TURTLE_EGG, Items.TURTLE_EGG, Items.TURTLE_EGG, Items.TURTLE_SCUTE, Items.TURTLE_SCUTE, Items.TURTLE_SCUTE);
         essenceItem(ModItems.BLAZE_ESSENCE.get(), Items.BLAZE_ROD, Items.BLAZE_ROD, Items.BLAZE_ROD, Items.BLAZE_ROD);
         essenceItem(ModItems.BREEZE_ESSENCE.get(), Items.BREEZE_ROD, Items.BREEZE_ROD, Items.BREEZE_ROD, Items.BREEZE_ROD);
-        essenceItem(ModItems.DYE_ESSENCE.get(), Items.LIME_DYE, Items.LIGHT_BLUE_DYE, Items.CYAN_DYE, Items.PURPLE_DYE);
+        essenceItem(ModItems.DYE_ESSENCE.get(), Items.DYE.lime(), Items.DYE.lightBlue(), Items.DYE.cyan(), Items.DYE.purple());
         essenceItem(ModItems.GHAST_ESSENCE.get(), Items.GHAST_TEAR, Items.GHAST_TEAR, Items.GHAST_TEAR, Items.GHAST_TEAR);
         essenceItem(ModItems.PIG_ESSENCE.get(), Items.PORKCHOP, Items.PORKCHOP, Items.PORKCHOP, Items.PORKCHOP);
-        essenceItem(ModItems.SHEEP_ESSENCE.get(), Items.MUTTON, Items.MUTTON, Items.WHITE_WOOL, Items.WHITE_WOOL);
+        essenceItem(ModItems.SHEEP_ESSENCE.get(), Items.MUTTON, Items.MUTTON, Items.WOOL.white(), Items.WOOL.white());
         essenceItem(ModItems.FISH_ESSENCE.get(), Items.COD, Items.SALMON, Items.TROPICAL_FISH, Items.PUFFERFISH);
         essenceItem(ModItems.ZOMBIE_ESSENCE.get(), Items.ROTTEN_FLESH, Items.ROTTEN_FLESH, Items.ROTTEN_FLESH, Items.ROTTEN_FLESH);
     }
