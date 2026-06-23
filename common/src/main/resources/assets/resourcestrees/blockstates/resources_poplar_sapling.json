@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "resourcestrees:block/resources_poplar_sapling"
+    }
+  }
+}

@@ -11,8 +11,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.resources.Identifier;
-import net.minecraft.server.packs.AbstractPackResources;
 import net.minecraft.server.packs.PackLocationInfo;
+import net.minecraft.server.packs.PackMetadataResources;
 import net.minecraft.server.packs.PackResources;
 import net.minecraft.server.packs.PackSelectionConfig;
 import net.minecraft.server.packs.repository.Pack;
@@ -22,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 public class Constants {
 	public static final String MODID = "resourcestrees";
@@ -71,14 +72,19 @@ public class Constants {
 		return getPack(pack, pack.getDescription());
 	}
 
-	public static <T extends AbstractPackResources> Pack getPack(T pack, Component description){
+	public static <T extends PackResources> Pack getPack(T pack, Component description){
 		return new Pack(
 				pack.location(),
 				new Pack.ResourcesSupplier() {
 					@Override
-					public PackResources openPrimary(PackLocationInfo info) { return pack; }
+					public PackMetadataResources openMetadata(PackLocationInfo packLocationInfo) {
+						return pack;
+					}
+
 					@Override
-					public PackResources openFull(PackLocationInfo info, Pack.Metadata meta) { return pack; }
+					public Stream<PackResources> openResources(PackLocationInfo packLocationInfo, Pack.Metadata metadata) {
+						return Stream.of(pack);
+					}
 				},
 				new Pack.Metadata(description, PackCompatibility.COMPATIBLE, FeatureFlagSet.of(), List.of()),
 				new PackSelectionConfig(true, Pack.Position.TOP, false)

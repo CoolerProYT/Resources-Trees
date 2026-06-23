@@ -2,7 +2,7 @@ package com.coolerpromc.resourcestrees;
 
 import com.coolerpromc.resourcestrees.api.IResourcesTreesPlugin;
 import com.coolerpromc.resourcestrees.block.ModBlocks;
-import com.coolerpromc.resourcestrees.block.custom.ResourcesLeavesBlock;
+import com.coolerpromc.resourcestrees.block.custom.AbstractResourcesLeavesBlock;
 import com.coolerpromc.resourcestrees.block.entity.ModBlockEntities;
 import com.coolerpromc.resourcestrees.platform.util.BlockRegistryHandler;
 import com.coolerpromc.resourcestrees.recipe.ModRecipes;
@@ -34,7 +34,7 @@ public class FabricResourcesTrees implements ModInitializer {
             try {
                 Object obj = field.get(null);
                 if (obj instanceof Supplier<?> supplier) {
-                    if (supplier.get() instanceof ResourcesLeavesBlock block) {
+                    if (supplier.get() instanceof AbstractResourcesLeavesBlock block) {
                         FlammableBlockRegistry.getDefaultInstance().add(block, 60, 30);
                     }
                 }

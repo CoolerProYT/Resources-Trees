@@ -1,6 +1,6 @@
 package com.coolerpromc.resourcestrees.client.tint;
 
-import com.coolerpromc.resourcestrees.block.custom.ResourcesLeavesBlock;
+import com.coolerpromc.resourcestrees.block.custom.AbstractResourcesLeavesBlock;
 import com.coolerpromc.resourcestrees.block.custom.ResourcesSaplingBlock;
 import net.minecraft.client.color.block.BlockTintSource;
 import net.minecraft.client.renderer.block.BlockAndTintGetter;
@@ -18,7 +18,7 @@ public class ResourcesTypesTintSource implements BlockTintSource {
         if (state.getBlock() instanceof ResourcesSaplingBlock block){
             return block.getResourcesType().color();
         }
-        if (state.getBlock() instanceof ResourcesLeavesBlock block){
+        if (state.getBlock() instanceof AbstractResourcesLeavesBlock block){
             return block.getResourcesType().color();
         }
         return 0xFFFFFFFF;

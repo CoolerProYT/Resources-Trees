@@ -1,6 +1,6 @@
 package com.coolerpromc.resourcestrees.api.resources;
 
-import com.coolerpromc.resourcestrees.block.custom.ResourcesLeavesBlock;
+import com.coolerpromc.resourcestrees.block.custom.AbstractResourcesLeavesBlock;
 import com.coolerpromc.resourcestrees.block.custom.ResourcesSaplingBlock;
 import com.coolerpromc.resourcestrees.item.custom.LeafFragmentItem;
 import com.coolerpromc.resourcestrees.platform.util.BlockRegistryHandler;
@@ -62,7 +62,7 @@ public final class ResourcesType {
     private Supplier<LeafFragmentItem> leafFragmentItem;
 
     private final Map<String, BlockRegistryHandler<ResourcesSaplingBlock>> saplingBlocks = new HashMap<>();
-    private final Map<String, BlockRegistryHandler<ResourcesLeavesBlock>> leavesBlocks = new HashMap<>();
+    private final Map<String, BlockRegistryHandler<AbstractResourcesLeavesBlock>> leavesBlocks = new HashMap<>();
 
     public ResourcesType(Optional<String> oriName, Either<Identifier, TagKey<Item>> material, int color, float saplingDropChance, float leafDropChance, int treeSimulatorTicks) {
         this.oriName = oriName;
@@ -127,12 +127,12 @@ public final class ResourcesType {
     }
 
     @ApiStatus.Internal
-    public void setLeavesBlock(String treeTypeName, BlockRegistryHandler<ResourcesLeavesBlock> block) {
+    public void setLeavesBlock(String treeTypeName, BlockRegistryHandler<AbstractResourcesLeavesBlock> block) {
         leavesBlocks.put(treeTypeName, block);
     }
 
     @ApiStatus.Internal
-    public Supplier<ResourcesLeavesBlock> leavesBlock(String treeTypeName) {
+    public Supplier<AbstractResourcesLeavesBlock> leavesBlock(String treeTypeName) {
         return leavesBlocks.get(treeTypeName);
     }
 

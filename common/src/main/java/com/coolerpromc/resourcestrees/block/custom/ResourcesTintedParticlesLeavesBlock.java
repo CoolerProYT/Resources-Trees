@@ -9,10 +9,13 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.particles.ColorParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemInstance;
@@ -20,6 +23,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
@@ -28,21 +32,45 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 import java.util.Objects;
 
-public class ResourcesLeavesBlock extends AbstractResourcesLeavesBlock {
-    public static final MapCodec<ResourcesLeavesBlock> CODEC = RecordCodecBuilder.mapCodec((p_400250_) ->
+public class ResourcesTintedParticlesLeavesBlock extends AbstractResourcesLeavesBlock {
+    public static final MapCodec<ResourcesTintedParticlesLeavesBlock> CODEC = RecordCodecBuilder.mapCodec((p_400250_) ->
             p_400250_.group(
                     propertiesCodec(),
-                    ResourcesType.CODEC.fieldOf("resources_type").forGetter(ResourcesLeavesBlock::getResourcesType),
-                    TreeType.CODEC.fieldOf("tree_type").forGetter(ResourcesLeavesBlock::getTreeType)
-            ).apply(p_400250_, ResourcesLeavesBlock::new));
+                    ResourcesType.CODEC.fieldOf("resources_type").forGetter(ResourcesTintedParticlesLeavesBlock::getResourcesType),
+                    TreeType.CODEC.fieldOf("tree_type").forGetter(ResourcesTintedParticlesLeavesBlock::getTreeType)
+            ).apply(p_400250_, ResourcesTintedParticlesLeavesBlock::new));
 
-    public ResourcesLeavesBlock(Properties properties, ResourcesType resourcesType, TreeType treeType) {
+    protected final float leafParticleChance;
+
+    public ResourcesTintedParticlesLeavesBlock(Properties properties, ResourcesType resourcesType, TreeType treeType) {
         super(treeType.leavesBlockSoundPlayer(), properties, resourcesType, treeType);
+        this.leafParticleChance = treeType.particle();
     }
 
     @Override
-    public MapCodec<? extends ResourcesLeavesBlock> codec() {
+    public MapCodec<? extends ResourcesTintedParticlesLeavesBlock> codec() {
         return CODEC;
+    }
+
+    @Override
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+        super.animateTick(state, level, pos, random);
+        this.makeFallingLeavesParticles(level, pos, random);
+    }
+
+    private void makeFallingLeavesParticles(Level level, BlockPos pos, RandomSource random) {
+        BlockPos below = pos.below();
+        BlockState belowState = level.getBlockState(below);
+        if (!(random.nextFloat() >= this.leafParticleChance)) {
+            if (!isFaceFull(belowState.getCollisionShape(level, below), Direction.UP)) {
+                this.spawnFallingLeavesParticle(level, pos, random);
+            }
+        }
+    }
+
+    protected void spawnFallingLeavesParticle(Level level, BlockPos pos, RandomSource random) {
+        ColorParticleOption particle = ColorParticleOption.create(ParticleTypes.TINTED_LEAVES, level.getClientLeafTintColor(pos));
+        ParticleUtils.spawnParticleBelow(level, pos, random, particle);
     }
 
     @Override

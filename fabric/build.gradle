@@ -12,7 +12,7 @@ dependencies {
 //    runtimeOnly "mezz.jei:jei-${minecraft_version}-fabric:${jei_version}"
     compileOnly("maven.modrinth:jade:${jade_version}")
 
-    implementation include("com.coolerpromc.coolerconfig:coolerconfig-fabric-${minecraft_version}:${cooler_config_version}")
+    implementation include("com.coolerpromc.coolerconfig:coolerconfig-fabric-${dependencies_minecraft_version}:${cooler_config_version}")
 }
 
 loom {

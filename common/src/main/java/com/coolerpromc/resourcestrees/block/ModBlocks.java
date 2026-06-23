@@ -8,7 +8,6 @@ import com.coolerpromc.resourcestrees.platform.util.BlockRegistryHandler;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 
 import java.util.ArrayList;
@@ -17,7 +16,7 @@ import java.util.function.Function;
 
 public class ModBlocks {
     public static final List<BlockRegistryHandler<ResourcesSaplingBlock>> SAPLINGS = new ArrayList<>();
-    public static final List<BlockRegistryHandler<ResourcesLeavesBlock>> LEAVES = new ArrayList<>();
+    public static final List<BlockRegistryHandler<AbstractResourcesLeavesBlock>> LEAVES = new ArrayList<>();
 
     public static final BlockRegistryHandler<TreeSimulatorBlock> TREE_SIMULATOR = registerBlock("tree_simulator", TreeSimulatorBlock::new, BlockBehaviour.Properties.of().strength(3.0f).requiresCorrectToolForDrops());
 
@@ -38,7 +37,7 @@ public class ModBlocks {
             Block sapling = BuiltInRegistries.BLOCK.getValue(Identifier.parse(treeType.originalSapling()));
             Block leaves = BuiltInRegistries.BLOCK.getValue(Identifier.parse(treeType.originalLeaves()));
             BlockRegistryHandler<ResourcesSaplingBlock> saplingBlock = registerSaplingBlock(resourcesType.name() + "_" + treeType.name() + "_sapling", properties -> new ResourcesSaplingBlock(properties, resourcesType, treeType), BlockBehaviour.Properties.ofFullCopy(sapling));
-            BlockRegistryHandler<ResourcesLeavesBlock> leavesBlock = registerLeavesBlock(resourcesType.name() + "_" + treeType.name() + "_leaves", properties -> new ResourcesLeavesBlock(properties.noOcclusion(), resourcesType, treeType), BlockBehaviour.Properties.ofFullCopy(leaves));
+            BlockRegistryHandler<AbstractResourcesLeavesBlock> leavesBlock = registerLeavesBlock(resourcesType.name() + "_" + treeType.name() + "_leaves", properties -> treeType.particle() > 0f ? new ResourcesTintedParticlesLeavesBlock(properties.noOcclusion(), resourcesType, treeType) : new ResourcesLeavesBlock(properties.noOcclusion(), resourcesType, treeType), BlockBehaviour.Properties.ofFullCopy(leaves));
             LEAVES.add(leavesBlock);
             SAPLINGS.add(saplingBlock);
             resourcesType.setSaplingBlock(treeType.name(), saplingBlock);

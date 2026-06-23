@@ -56,7 +56,7 @@ dependencies {
 //    runtimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
     compileOnly "maven.modrinth:jade:${jade_version}"
 
-    implementation jarJar("com.coolerpromc.coolerconfig:coolerconfig-neoforge-${minecraft_version}:${cooler_config_version}")
+    implementation jarJar("com.coolerpromc.coolerconfig:coolerconfig-neoforge-${dependencies_minecraft_version}:${cooler_config_version}")
 }
 
 sourceSets.main.resources { srcDir rootProject.project(':common').file('src/generated/resources/').getAbsolutePath() }

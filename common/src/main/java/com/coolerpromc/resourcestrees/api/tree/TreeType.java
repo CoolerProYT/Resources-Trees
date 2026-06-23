@@ -3,6 +3,7 @@ package com.coolerpromc.resourcestrees.api.tree;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.level.block.sounds.AmbientLeavesBlockSoundPlayer;
 
 /**
  * Defines the visual appearance and structural properties of a tree shape used by resource trees.
@@ -31,7 +32,7 @@ import net.minecraft.resources.Identifier;
  * @param log              the registry name of the log block used as the trunk for this tree type and tree simulator recipe registration
  *                         (e.g. {@code "minecraft:oak_log"})
  */
-public record TreeType(String name, String treeGrowerName, Identifier saplingTexture, Identifier leavesTexture, String originalSapling, String originalLeaves, String log) {
+public record TreeType(String name, String treeGrowerName, Identifier saplingTexture, Identifier leavesTexture, String originalSapling, String originalLeaves, String log, float particle, AmbientLeavesBlockSoundPlayer leavesBlockSoundPlayer) {
     public static final Codec<TreeType> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.STRING.fieldOf("name").forGetter(TreeType::name),
             Codec.STRING.fieldOf("treeGrowerName").forGetter(TreeType::treeGrowerName),
@@ -39,6 +40,44 @@ public record TreeType(String name, String treeGrowerName, Identifier saplingTex
             Identifier.CODEC.fieldOf("leavesTexture").forGetter(TreeType::leavesTexture),
             Codec.STRING.fieldOf("originalSapling").forGetter(TreeType::originalSapling),
             Codec.STRING.fieldOf("originalLeaves").forGetter(TreeType::originalLeaves),
-            Codec.STRING.fieldOf("log").forGetter(TreeType::log)
+            Codec.STRING.fieldOf("log").forGetter(TreeType::log),
+            Codec.FLOAT.optionalFieldOf("particle", 0.01f).forGetter(TreeType::particle),
+            AmbientLeavesBlockSoundPlayer.CODEC.optionalFieldOf("ambient_leaves_block_sound_player", AmbientLeavesBlockSoundPlayer.noAmbientSound()).forGetter(TreeType::leavesBlockSoundPlayer)
     ).apply(instance, TreeType::new));
+
+    public static class Builder {
+        private final String name;
+        private final String treeGrowerName;
+        private final Identifier saplingTexture;
+        private final Identifier leavesTexture;
+        private final String originalSapling;
+        private final String originalLeaves;
+        private final String log;
+        private float particle = 0.01f;
+        private AmbientLeavesBlockSoundPlayer leavesBlockSoundPlayer = AmbientLeavesBlockSoundPlayer.noAmbientSound();
+
+        public Builder(String name, String treeGrowerName, Identifier saplingTexture, Identifier leavesTexture, String originalSapling, String originalLeaves, String log) {
+            this.name = name;
+            this.treeGrowerName = treeGrowerName;
+            this.saplingTexture = saplingTexture;
+            this.leavesTexture = leavesTexture;
+            this.originalSapling = originalSapling;
+            this.originalLeaves = originalLeaves;
+            this.log = log;
+        }
+
+        public Builder particle(float particle) {
+            this.particle = particle;
+            return this;
+        }
+
+        public Builder leavesBlockSoundPlayer(AmbientLeavesBlockSoundPlayer leavesBlockSoundPlayer) {
+            this.leavesBlockSoundPlayer = leavesBlockSoundPlayer;
+            return this;
+        }
+
+        public TreeType build() {
+            return new TreeType(name, treeGrowerName, saplingTexture, leavesTexture, originalSapling, originalLeaves, log, particle, leavesBlockSoundPlayer);
+        }
+    }
 }

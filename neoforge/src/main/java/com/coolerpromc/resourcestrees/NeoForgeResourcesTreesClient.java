@@ -3,7 +3,7 @@ package com.coolerpromc.resourcestrees;
 import com.coolerpromc.resourcestrees.api.tree.TreeType;
 import com.coolerpromc.resourcestrees.api.tree.TreeTypes;
 import com.coolerpromc.resourcestrees.block.ModBlocks;
-import com.coolerpromc.resourcestrees.block.custom.ResourcesLeavesBlock;
+import com.coolerpromc.resourcestrees.block.custom.AbstractResourcesLeavesBlock;
 import com.coolerpromc.resourcestrees.block.custom.ResourcesSaplingBlock;
 import com.coolerpromc.resourcestrees.block.entity.ModBlockEntities;
 import com.coolerpromc.resourcestrees.block.entity.renderer.TreeSimulatorBlockEntityRenderer;
@@ -102,7 +102,7 @@ public class NeoForgeResourcesTreesClient {
         });
 
         ModBlocks.LEAVES.forEach(block -> {
-            if (block.get() instanceof ResourcesLeavesBlock leavesBlock){
+            if (block.get() instanceof AbstractResourcesLeavesBlock leavesBlock){
                 BlockState blockState = leavesBlock.defaultBlockState();
                 BlockStateModel bakedModel = result.getBlockStateModel(blockState);
                 if (bakedModel == result.missingModels().block()){

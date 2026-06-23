@@ -4,10 +4,7 @@ import com.coolerpromc.resourcestrees.Constants;
 import com.coolerpromc.resourcestrees.api.resources.ResourcesType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.minecraft.server.packs.AbstractPackResources;
-import net.minecraft.server.packs.PackLocationInfo;
-import net.minecraft.server.packs.PackResources;
-import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.*;
 import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.server.packs.resources.IoSupplier;
 
@@ -16,7 +13,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-public final class ResourcesTreesModelPack extends AbstractPackResources {
+public final class ResourcesTreesModelPack extends AbstractPackMetadataResources implements PackResources {
     private final Map<Identifier, byte[]> resources = new HashMap<>();
     private final Set<String> namespaces = new HashSet<>();
 

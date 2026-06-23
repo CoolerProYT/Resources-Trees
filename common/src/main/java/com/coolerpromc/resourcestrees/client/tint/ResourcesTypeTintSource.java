@@ -1,6 +1,6 @@
 package com.coolerpromc.resourcestrees.client.tint;
 
-import com.coolerpromc.resourcestrees.block.custom.ResourcesLeavesBlock;
+import com.coolerpromc.resourcestrees.block.custom.AbstractResourcesLeavesBlock;
 import com.coolerpromc.resourcestrees.block.custom.ResourcesSaplingBlock;
 import com.coolerpromc.resourcestrees.item.custom.LeafFragmentItem;
 import com.mojang.serialization.MapCodec;
@@ -23,7 +23,7 @@ public record ResourcesTypeTintSource(int defaultColor) implements ItemTintSourc
         if (itemStack.getItem() instanceof LeafFragmentItem item){
             return item.getResourcesType().color();
         }
-        if (Block.byItem(itemStack.getItem()) instanceof ResourcesLeavesBlock leavesBlock){
+        if (Block.byItem(itemStack.getItem()) instanceof AbstractResourcesLeavesBlock leavesBlock){
             return leavesBlock.getResourcesType().color();
         }
         if (Block.byItem(itemStack.getItem()) instanceof ResourcesSaplingBlock saplingBlock){

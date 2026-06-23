@@ -3,7 +3,7 @@ package com.coolerpromc.resourcestrees.mixin;
 import com.coolerpromc.resourcestrees.Constants;
 import com.coolerpromc.resourcestrees.api.tree.TreeType;
 import com.coolerpromc.resourcestrees.block.ModBlocks;
-import com.coolerpromc.resourcestrees.block.custom.ResourcesLeavesBlock;
+import com.coolerpromc.resourcestrees.block.custom.AbstractResourcesLeavesBlock;
 import com.coolerpromc.resourcestrees.block.custom.ResourcesSaplingBlock;
 import com.coolerpromc.resourcestrees.client.tint.ResourcesTypeTintSource;
 import com.coolerpromc.resourcestrees.item.ModItems;
@@ -58,7 +58,7 @@ public class ClientItemInfoLoaderMixin {
 
             ModBlocks.LEAVES.forEach(handler -> {
                 Block block = handler.get();
-                if (block instanceof ResourcesLeavesBlock leavesBlock) {
+                if (block instanceof AbstractResourcesLeavesBlock leavesBlock) {
                     Identifier itemId = handler.id();
                     if (!contents.containsKey(itemId)) {
                         contents.put(itemId, new ClientItem(

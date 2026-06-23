@@ -19,9 +19,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
+import net.minecraft.world.level.levelgen.feature.TreeFeature;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.storage.loot.LootParams;
 
@@ -55,13 +54,13 @@ public class ResourcesSaplingBlock extends SaplingBlock {
     @Override
     public void advanceTree(ServerLevel level, BlockPos pos, BlockState state, RandomSource random) {
         if (state.getBlock() instanceof ResourcesSaplingBlock) {
-            ResourceKey<ConfiguredFeature<?, ?>> resourcekey = treeGrower.getConfiguredMegaFeature(random);
+            ResourceKey<Feature> resourcekey = treeGrower.getConfiguredMegaFeature(random);
 
             if(resourcekey != null){
-                Holder<ConfiguredFeature<?, ?>> holder = level.registryAccess().lookupOrThrow(Registries.CONFIGURED_FEATURE).get(resourcekey).orElse(null);
+                Holder<Feature> holder = level.registryAccess().lookupOrThrow(Registries.FEATURE).get(resourcekey).orElse(null);
 
                 if (holder != null) {
-                    ConfiguredFeature<?, ?> feature = holder.value();
+                    Feature feature = holder.value();
                     for(int i = 0; i >= -1; --i) {
                         for(int j = 0; j >= -1; --j) {
                             if (isTwoByTwoSapling(state, level, pos, i, j)) {
@@ -70,9 +69,9 @@ public class ResourcesSaplingBlock extends SaplingBlock {
                                 level.setBlock(pos.offset(i + 1, 0, j), blockstate, 260);
                                 level.setBlock(pos.offset(i, 0, j + 1), blockstate, 260);
                                 level.setBlock(pos.offset(i + 1, 0, j + 1), blockstate, 260);
-                                if (feature.config() instanceof TreeConfiguration oldConfig){
-                                    TreeConfiguration config = createNewTree(oldConfig);
-                                    boolean success = Feature.TREE.place(config, level, level.getChunkSource().getGenerator(), random, pos.offset(i, 0, j));
+                                if (feature instanceof TreeFeature oldConfig){
+                                    TreeFeature config = createNewTree(oldConfig);
+                                    boolean success = config.place(level, level.getChunkSource().getGenerator(), random, pos.offset(i, 0, j));
 
                                     if (success) {
                                         return;
@@ -90,18 +89,18 @@ public class ResourcesSaplingBlock extends SaplingBlock {
                 }
             }
 
-            ResourceKey<ConfiguredFeature<?, ?>> resourcekey1 = treeGrower.getConfiguredFeature(random, treeGrower.hasFlowers(level, pos));
+            ResourceKey<Feature> resourcekey1 = treeGrower.getConfiguredFeature(random, treeGrower.hasFlowers(level, pos));
 
             if (resourcekey1 != null){
-                Holder<ConfiguredFeature<?, ?>> holder = level.registryAccess().lookupOrThrow(Registries.CONFIGURED_FEATURE).get(resourcekey1).orElse(null);
+                Holder<Feature> holder = level.registryAccess().lookupOrThrow(Registries.FEATURE).get(resourcekey1).orElse(null);
 
                 if (holder != null){
-                    ConfiguredFeature<?, ?> feature = holder.value();
+                    Feature feature = holder.value();
 
                     level.setBlock(pos, Blocks.AIR.defaultBlockState(), 4);
-                    if (feature.config() instanceof TreeConfiguration oldConfig){
-                        TreeConfiguration config = createNewTree(oldConfig);
-                        boolean success = Feature.TREE.place(config, level, level.getChunkSource().getGenerator(), random, pos);
+                    if (feature instanceof TreeFeature oldConfig){
+                        TreeFeature config = createNewTree(oldConfig);
+                        boolean success = config.place(level, level.getChunkSource().getGenerator(), random, pos);
 
                         if (!success) {
                             level.setBlock(pos, state, 3);
@@ -116,15 +115,15 @@ public class ResourcesSaplingBlock extends SaplingBlock {
         super.advanceTree(level, pos, state, random);
     }
 
-    public TreeConfiguration createNewTree(TreeConfiguration oldConfig){
-        return new TreeConfiguration.TreeConfigurationBuilder(
-                oldConfig.trunkProvider,
-                oldConfig.trunkPlacer,
+    public TreeFeature createNewTree(TreeFeature oldConfig){
+        return new TreeFeature.Builder(
+                oldConfig.trunkProvider(),
+                oldConfig.trunkPlacer(),
                 BlockStateProvider.simple(resourcesType.leavesBlock(treeType.name()).get()),
-                oldConfig.foliagePlacer,
-                oldConfig.rootPlacer,
-                oldConfig.minimumSize,
-                oldConfig.belowTrunkProvider
+                oldConfig.foliagePlacer(),
+                oldConfig.rootPlacer(),
+                oldConfig.minimumSize(),
+                oldConfig.belowTrunkProvider()
         ).build();
     }
 

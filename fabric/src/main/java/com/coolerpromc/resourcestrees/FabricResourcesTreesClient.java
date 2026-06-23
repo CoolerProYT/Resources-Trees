@@ -2,7 +2,7 @@ package com.coolerpromc.resourcestrees;
 
 import com.coolerpromc.resourcestrees.api.tree.TreeTypes;
 import com.coolerpromc.resourcestrees.block.ModBlocks;
-import com.coolerpromc.resourcestrees.block.custom.ResourcesLeavesBlock;
+import com.coolerpromc.resourcestrees.block.custom.AbstractResourcesLeavesBlock;
 import com.coolerpromc.resourcestrees.block.custom.ResourcesSaplingBlock;
 import com.coolerpromc.resourcestrees.block.entity.ModBlockEntities;
 import com.coolerpromc.resourcestrees.block.entity.renderer.TreeSimulatorBlockEntityRenderer;
@@ -56,7 +56,7 @@ public class FabricResourcesTreesClient implements ClientModInitializer {
             TreeTypes.getTypes().forEach(treeType -> pluginContext.addModel(ExtraModelKey.create(() -> treeType.saplingTexture().getPath()), SimpleUnbakedExtraModel.blockStateModel(treeType.saplingTexture().withPath(s -> s.replace("block", "item")))));
 
             Map<Identifier, ResourcesSaplingBlock> saplingItemMap = new HashMap<>();
-            Map<Identifier, ResourcesLeavesBlock> leavesItemMap = new HashMap<>();
+            Map<Identifier, AbstractResourcesLeavesBlock> leavesItemMap = new HashMap<>();
 
             ModBlocks.SAPLINGS.forEach(handler -> {
                 Block block = handler.get();
@@ -74,7 +74,7 @@ public class FabricResourcesTreesClient implements ClientModInitializer {
 
             ModBlocks.LEAVES.forEach(handler -> {
                 Block block = handler.get();
-                if (block instanceof ResourcesLeavesBlock leavesBlock) {
+                if (block instanceof AbstractResourcesLeavesBlock leavesBlock) {
                     leavesItemMap.put(handler.id(), leavesBlock);
                     pluginContext.registerBlockStateResolver(block, context ->
                         block.getStateDefinition().getPossibleStates().forEach(state ->
@@ -98,7 +98,7 @@ public class FabricResourcesTreesClient implements ClientModInitializer {
                     );
                 }
 
-                ResourcesLeavesBlock leavesBlock = leavesItemMap.get(itemId);
+                AbstractResourcesLeavesBlock leavesBlock = leavesItemMap.get(itemId);
                 if (leavesBlock != null) {
                     model = ItemModelUtils.tintedModel(
                         leavesBlock.getTreeType().leavesTexture(),

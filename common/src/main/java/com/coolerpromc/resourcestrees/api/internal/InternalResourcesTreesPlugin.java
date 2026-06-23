@@ -8,8 +8,16 @@ import com.coolerpromc.resourcestrees.api.resources.ResourcesType;
 import com.coolerpromc.resourcestrees.api.tree.ITreeTypeRegistry;
 import com.coolerpromc.resourcestrees.api.tree.TreeType;
 import com.coolerpromc.resourcestrees.item.ModItems;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.sounds.AmbientLeavesBlockSoundPlayer;
+import org.apache.commons.lang3.tuple.Triple;
+import org.jspecify.annotations.Nullable;
+
+import java.util.List;
+import java.util.Objects;
 
 @ResourcesTreesPlugin
 public final class InternalResourcesTreesPlugin implements IResourcesTreesPlugin {
@@ -65,9 +73,24 @@ public final class InternalResourcesTreesPlugin implements IResourcesTreesPlugin
 
     @Override
     public void registerTreeType(ITreeTypeRegistry registry) {
-        String[] trees = {"oak", "spruce", "birch", "jungle", "acacia", "dark_oak", "cherry", "pale_oak"};
-        for (String tree : trees) {
-            registry.register(new TreeType(tree, tree, Constants.id("block/resources_" + tree + "_sapling"), Constants.id("block/resources_" + tree + "_leaves"), "minecraft:" + tree + "_sapling", "minecraft:" + tree + "_leaves", "minecraft:" + tree + "_log"));
+        List<Triple<String, @Nullable AmbientLeavesBlockSoundPlayer, Float>> trees = List.of(
+                Triple.of("oak", null, 0.01f),
+                Triple.of("spruce", null, 0f),
+                Triple.of("birch", null, 0.01f),
+                Triple.of("jungle", null, 0.01f),
+                Triple.of("acacia", null, 0.01f),
+                Triple.of("dark_oak", null, 0.02f),
+                Triple.of("cherry", null, 0.1f),
+                Triple.of("pale_oak", null, 0.01f),
+                Triple.of("poplar", AmbientLeavesBlockSoundPlayer.of(SoundEvents.POPLAR_LEAVES_AMBIENT, BlockTags.REQUIRED_FOR_POPLAR_LEAF_AMBIENCE), 0.01f)
+        );
+        for (Triple<String, AmbientLeavesBlockSoundPlayer, Float> tree : trees) {
+            TreeType.Builder builder = new TreeType.Builder(tree.getLeft(), tree.getLeft(), Constants.id("block/resources_" + tree.getLeft() + "_sapling"), Constants.id("block/resources_" + tree.getLeft() + "_leaves"), "minecraft:" + tree.getLeft() + "_sapling", "minecraft:" + (Objects.equals(tree.getLeft(), "poplar") ? "orange_poplar" : tree.getLeft()) + "_leaves", "minecraft:" + tree.getLeft() + "_log");
+            if (tree.getMiddle() != null){
+                builder.leavesBlockSoundPlayer(tree.getMiddle());
+            }
+            builder.particle(tree.getRight());
+            registry.register(builder.build());
         }
     }
 }
