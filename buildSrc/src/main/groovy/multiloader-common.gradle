@@ -111,7 +111,8 @@ publishing {
     }
     repositories {
         maven {
-            url = findProperty("maven_url")
+            var isSnapshot = minecraft_version.contains("snapshot") || minecraft_version.contains("rc") || minecraft_version.contains("pre")
+            url = isSnapshot ? findProperty("maven_url_snapshot") : findProperty("maven_url")
             credentials {
                 username = findProperty("maven_username")
                 password = findProperty("maven_password")

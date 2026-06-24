@@ -13,6 +13,14 @@ repositories {
             includeModule("net.neoforged", "testframework")
         }
     }
+    maven {
+        name "coolerpromcMavenPrivate"
+        url "https://maven.coolerpromc.com/private"
+        credentials {
+            username = findProperty("maven_username")
+            password = findProperty("maven_password")
+        }
+    }
 }
 
 neoForge {
@@ -82,7 +90,7 @@ sourceSets.configureEach {
 
 publishMods {
     file.set(jar.archiveFile)
-    type = STABLE
+    type = BETA
     modLoaders.add("neoforge")
     changelog = rootProject.file("changelog.md").text
     displayName = mod_id + "-" + project.version + "+" + minecraft_version + "-neoforge"
