@@ -89,17 +89,19 @@ sourceSets.configureEach {
 }
 
 publishMods {
+    var isSnapshot = minecraft_version.contains("snapshot") || minecraft_version.contains("rc") || minecraft_version.contains("pre")
+
     file.set(jar.archiveFile)
     type = BETA
     modLoaders.add("neoforge")
     changelog = rootProject.file("changelog.md").text
-    displayName = mod_id + "-" + project.version + "+" + minecraft_version + "-neoforge"
+    displayName = "[NeoForge " + minecraft_version + "] " + project.version
 
     curseforge {
         projectId = "1354532"
         accessToken = findProperty("CF_TOKEN")
         changelogType = "markdown"
-        minecraftVersions.add(minecraft_version)
+        minecraftVersions.add(isSnapshot ? "26.1-snapshot" : minecraft_version)
         client = true
         server = true
     }
