@@ -1,4 +1,4 @@
-// 26.2-pre-2	2026-06-03T12:17:55.9698919	Resources Trees recipes
+// 26.3-snapshot-1	2026-06-24T18:20:49.6221953	Resources Trees recipes
 de72bb7fba282b2e8909903608c639fc84c0d52d data/resourcestrees/advancement/recipes/building_blocks/fragment_crafting/amethyst_leaf_fragment_to_amethyst_shard.json
 bb241a87e54761470d04adf947792430f63a0edf data/resourcestrees/advancement/recipes/building_blocks/fragment_crafting/bee_leaf_fragment_to_honeycomb.json
 d1ee5f74f5e26a55a4e3066a057cd0eedb3d8ad9 data/resourcestrees/advancement/recipes/building_blocks/fragment_crafting/bee_leaf_fragment_to_honey_block.json

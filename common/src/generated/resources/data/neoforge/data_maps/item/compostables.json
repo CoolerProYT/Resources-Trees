@@ -56,6 +56,14 @@
       "can_villager_compost": true,
       "chance": 0.3
     },
+    "resourcestrees:amethyst_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:amethyst_poplar_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
     "resourcestrees:amethyst_spruce_leaves": {
       "can_villager_compost": true,
       "chance": 0.3
@@ -117,6 +125,14 @@
       "chance": 0.3
     },
     "resourcestrees:bee_pale_oak_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:bee_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:bee_poplar_sapling": {
       "can_villager_compost": true,
       "chance": 0.3
     },
@@ -184,6 +200,14 @@
       "can_villager_compost": true,
       "chance": 0.3
     },
+    "resourcestrees:blaze_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:blaze_poplar_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
     "resourcestrees:blaze_spruce_leaves": {
       "can_villager_compost": true,
       "chance": 0.3
@@ -245,6 +269,14 @@
       "chance": 0.3
     },
     "resourcestrees:breeze_pale_oak_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:breeze_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:breeze_poplar_sapling": {
       "can_villager_compost": true,
       "chance": 0.3
     },
@@ -312,6 +344,14 @@
       "can_villager_compost": true,
       "chance": 0.3
     },
+    "resourcestrees:chicken_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:chicken_poplar_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
     "resourcestrees:chicken_spruce_leaves": {
       "can_villager_compost": true,
       "chance": 0.3
@@ -373,6 +413,14 @@
       "chance": 0.3
     },
     "resourcestrees:coal_pale_oak_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:coal_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:coal_poplar_sapling": {
       "can_villager_compost": true,
       "chance": 0.3
     },
@@ -440,6 +488,14 @@
       "can_villager_compost": true,
       "chance": 0.3
     },
+    "resourcestrees:copper_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:copper_poplar_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
     "resourcestrees:copper_spruce_leaves": {
       "can_villager_compost": true,
       "chance": 0.3
@@ -501,6 +557,14 @@
       "chance": 0.3
     },
     "resourcestrees:cow_pale_oak_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:cow_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:cow_poplar_sapling": {
       "can_villager_compost": true,
       "chance": 0.3
     },
@@ -568,6 +632,14 @@
       "can_villager_compost": true,
       "chance": 0.3
     },
+    "resourcestrees:deepslate_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:deepslate_poplar_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
     "resourcestrees:deepslate_spruce_leaves": {
       "can_villager_compost": true,
       "chance": 0.3
@@ -629,6 +701,14 @@
       "chance": 0.3
     },
     "resourcestrees:diamond_pale_oak_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:diamond_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:diamond_poplar_sapling": {
       "can_villager_compost": true,
       "chance": 0.3
     },
@@ -696,6 +776,14 @@
       "can_villager_compost": true,
       "chance": 0.3
     },
+    "resourcestrees:dirt_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:dirt_poplar_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
     "resourcestrees:dirt_spruce_leaves": {
       "can_villager_compost": true,
       "chance": 0.3
@@ -757,6 +845,14 @@
       "chance": 0.3
     },
     "resourcestrees:dye_pale_oak_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:dye_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:dye_poplar_sapling": {
       "can_villager_compost": true,
       "chance": 0.3
     },
@@ -824,6 +920,14 @@
       "can_villager_compost": true,
       "chance": 0.3
     },
+    "resourcestrees:emerald_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:emerald_poplar_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
     "resourcestrees:emerald_spruce_leaves": {
       "can_villager_compost": true,
       "chance": 0.3
@@ -885,6 +989,14 @@
       "chance": 0.3
     },
     "resourcestrees:end_pale_oak_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:end_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:end_poplar_sapling": {
       "can_villager_compost": true,
       "chance": 0.3
     },
@@ -952,6 +1064,14 @@
       "can_villager_compost": true,
       "chance": 0.3
     },
+    "resourcestrees:ender_pearl_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:ender_pearl_poplar_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
     "resourcestrees:ender_pearl_spruce_leaves": {
       "can_villager_compost": true,
       "chance": 0.3
@@ -1013,6 +1133,14 @@
       "chance": 0.3
     },
     "resourcestrees:fire_pale_oak_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:fire_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:fire_poplar_sapling": {
       "can_villager_compost": true,
       "chance": 0.3
     },
@@ -1080,6 +1208,14 @@
       "can_villager_compost": true,
       "chance": 0.3
     },
+    "resourcestrees:fish_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:fish_poplar_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
     "resourcestrees:fish_spruce_leaves": {
       "can_villager_compost": true,
       "chance": 0.3
@@ -1141,6 +1277,14 @@
       "chance": 0.3
     },
     "resourcestrees:ghast_pale_oak_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:ghast_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:ghast_poplar_sapling": {
       "can_villager_compost": true,
       "chance": 0.3
     },
@@ -1208,6 +1352,14 @@
       "can_villager_compost": true,
       "chance": 0.3
     },
+    "resourcestrees:glowstone_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:glowstone_poplar_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
     "resourcestrees:glowstone_spruce_leaves": {
       "can_villager_compost": true,
       "chance": 0.3
@@ -1269,6 +1421,14 @@
       "chance": 0.3
     },
     "resourcestrees:gold_pale_oak_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:gold_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:gold_poplar_sapling": {
       "can_villager_compost": true,
       "chance": 0.3
     },
@@ -1336,6 +1496,14 @@
       "can_villager_compost": true,
       "chance": 0.3
     },
+    "resourcestrees:gunpowder_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:gunpowder_poplar_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
     "resourcestrees:gunpowder_spruce_leaves": {
       "can_villager_compost": true,
       "chance": 0.3
@@ -1397,6 +1565,14 @@
       "chance": 0.3
     },
     "resourcestrees:ice_pale_oak_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:ice_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:ice_poplar_sapling": {
       "can_villager_compost": true,
       "chance": 0.3
     },
@@ -1464,6 +1640,14 @@
       "can_villager_compost": true,
       "chance": 0.3
     },
+    "resourcestrees:iron_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:iron_poplar_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
     "resourcestrees:iron_spruce_leaves": {
       "can_villager_compost": true,
       "chance": 0.3
@@ -1525,6 +1709,14 @@
       "chance": 0.3
     },
     "resourcestrees:lapis_pale_oak_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:lapis_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:lapis_poplar_sapling": {
       "can_villager_compost": true,
       "chance": 0.3
     },
@@ -1592,6 +1784,14 @@
       "can_villager_compost": true,
       "chance": 0.3
     },
+    "resourcestrees:nature_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:nature_poplar_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
     "resourcestrees:nature_spruce_leaves": {
       "can_villager_compost": true,
       "chance": 0.3
@@ -1653,6 +1853,14 @@
       "chance": 0.3
     },
     "resourcestrees:nether_pale_oak_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:nether_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:nether_poplar_sapling": {
       "can_villager_compost": true,
       "chance": 0.3
     },
@@ -1720,6 +1928,14 @@
       "can_villager_compost": true,
       "chance": 0.3
     },
+    "resourcestrees:nether_star_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:nether_star_poplar_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
     "resourcestrees:nether_star_spruce_leaves": {
       "can_villager_compost": true,
       "chance": 0.3
@@ -1781,6 +1997,14 @@
       "chance": 0.3
     },
     "resourcestrees:netherite_pale_oak_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:netherite_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:netherite_poplar_sapling": {
       "can_villager_compost": true,
       "chance": 0.3
     },
@@ -1848,6 +2072,14 @@
       "can_villager_compost": true,
       "chance": 0.3
     },
+    "resourcestrees:obsidian_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:obsidian_poplar_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
     "resourcestrees:obsidian_spruce_leaves": {
       "can_villager_compost": true,
       "chance": 0.3
@@ -1909,6 +2141,14 @@
       "chance": 0.3
     },
     "resourcestrees:pig_pale_oak_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:pig_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:pig_poplar_sapling": {
       "can_villager_compost": true,
       "chance": 0.3
     },
@@ -1976,6 +2216,14 @@
       "can_villager_compost": true,
       "chance": 0.3
     },
+    "resourcestrees:prismarine_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:prismarine_poplar_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
     "resourcestrees:prismarine_spruce_leaves": {
       "can_villager_compost": true,
       "chance": 0.3
@@ -2037,6 +2285,14 @@
       "chance": 0.3
     },
     "resourcestrees:quartz_pale_oak_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:quartz_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:quartz_poplar_sapling": {
       "can_villager_compost": true,
       "chance": 0.3
     },
@@ -2104,6 +2360,14 @@
       "can_villager_compost": true,
       "chance": 0.3
     },
+    "resourcestrees:rabbit_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:rabbit_poplar_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
     "resourcestrees:rabbit_spruce_leaves": {
       "can_villager_compost": true,
       "chance": 0.3
@@ -2165,6 +2429,14 @@
       "chance": 0.3
     },
     "resourcestrees:redstone_pale_oak_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:redstone_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:redstone_poplar_sapling": {
       "can_villager_compost": true,
       "chance": 0.3
     },
@@ -2232,6 +2504,14 @@
       "can_villager_compost": true,
       "chance": 0.3
     },
+    "resourcestrees:sculk_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:sculk_poplar_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
     "resourcestrees:sculk_spruce_leaves": {
       "can_villager_compost": true,
       "chance": 0.3
@@ -2293,6 +2573,14 @@
       "chance": 0.3
     },
     "resourcestrees:sheep_pale_oak_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:sheep_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:sheep_poplar_sapling": {
       "can_villager_compost": true,
       "chance": 0.3
     },
@@ -2360,6 +2648,14 @@
       "can_villager_compost": true,
       "chance": 0.3
     },
+    "resourcestrees:shulker_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:shulker_poplar_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
     "resourcestrees:shulker_spruce_leaves": {
       "can_villager_compost": true,
       "chance": 0.3
@@ -2421,6 +2717,14 @@
       "chance": 0.3
     },
     "resourcestrees:skeleton_pale_oak_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:skeleton_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:skeleton_poplar_sapling": {
       "can_villager_compost": true,
       "chance": 0.3
     },
@@ -2488,6 +2792,14 @@
       "can_villager_compost": true,
       "chance": 0.3
     },
+    "resourcestrees:slime_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:slime_poplar_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
     "resourcestrees:slime_spruce_leaves": {
       "can_villager_compost": true,
       "chance": 0.3
@@ -2549,6 +2861,14 @@
       "chance": 0.3
     },
     "resourcestrees:spider_pale_oak_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:spider_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:spider_poplar_sapling": {
       "can_villager_compost": true,
       "chance": 0.3
     },
@@ -2616,6 +2936,14 @@
       "can_villager_compost": true,
       "chance": 0.3
     },
+    "resourcestrees:squid_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:squid_poplar_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
     "resourcestrees:squid_spruce_leaves": {
       "can_villager_compost": true,
       "chance": 0.3
@@ -2677,6 +3005,14 @@
       "chance": 0.3
     },
     "resourcestrees:stone_pale_oak_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:stone_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:stone_poplar_sapling": {
       "can_villager_compost": true,
       "chance": 0.3
     },
@@ -2744,6 +3080,14 @@
       "can_villager_compost": true,
       "chance": 0.3
     },
+    "resourcestrees:turtle_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:turtle_poplar_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
     "resourcestrees:turtle_spruce_leaves": {
       "can_villager_compost": true,
       "chance": 0.3
@@ -2805,6 +3149,14 @@
       "chance": 0.3
     },
     "resourcestrees:water_pale_oak_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:water_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:water_poplar_sapling": {
       "can_villager_compost": true,
       "chance": 0.3
     },
@@ -2872,6 +3224,14 @@
       "can_villager_compost": true,
       "chance": 0.3
     },
+    "resourcestrees:wood_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:wood_poplar_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
     "resourcestrees:wood_spruce_leaves": {
       "can_villager_compost": true,
       "chance": 0.3
@@ -2933,6 +3293,14 @@
       "chance": 0.3
     },
     "resourcestrees:zombie_pale_oak_sapling": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:zombie_poplar_leaves": {
+      "can_villager_compost": true,
+      "chance": 0.3
+    },
+    "resourcestrees:zombie_poplar_sapling": {
       "can_villager_compost": true,
       "chance": 0.3
     },
