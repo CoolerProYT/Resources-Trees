@@ -1,5 +1,6 @@
 package com.coolerpromc.resourcestrees;
 
+import com.coolerpromc.resourcestrees.api.grower.GrowerTypeRegistryImpl;
 import com.coolerpromc.resourcestrees.api.resources.ResourcesTypeRegistryImpl;
 import com.coolerpromc.resourcestrees.api.tree.TreeTypeRegistryImpl;
 import com.coolerpromc.resourcestrees.block.ModBlocks;
@@ -14,6 +15,7 @@ public class ResourcesTrees {
     public static void init() {
         ResourcesTypeRegistryImpl.registerResourcesTypes();
         TreeTypeRegistryImpl.registerTreeTypes();
+        GrowerTypeRegistryImpl.registerGrowerTypes();
 
         ModBlocks.init();
         ModItems.init();

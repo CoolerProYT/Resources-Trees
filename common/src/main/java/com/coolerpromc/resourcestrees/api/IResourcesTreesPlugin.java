@@ -1,28 +1,40 @@
 package com.coolerpromc.resourcestrees.api;
 
+import com.coolerpromc.resourcestrees.api.grower.IGrowerTypeRegistry;
 import com.coolerpromc.resourcestrees.api.resources.IResourcesTypeRegistry;
 import com.coolerpromc.resourcestrees.api.tree.ITreeTypeRegistry;
 
 /**
  * Entry point interface for the Resources Trees plugin API.
  * <p>
- * Implement this interface to register custom resource types and tree types
- * into the Resources Trees mod. Your implementation is discovered automatically
- * via the Java {@link java.util.ServiceLoader} mechanism.
+ * Implement this interface to register custom resource types, tree types and grower types
+ * into the Resources Trees mod. How your implementation is discovered depends on the mod loader.
  * </p>
  *
- * <h2>Registration</h2>
+ * <h2>Registration (NeoForge)</h2>
  * <p>
- * To register your implementation, create the following file in your mod's resources:
+ * On NeoForge, annotate your implementation class with {@link ResourcesTreesPlugin}. The mod's
+ * annotation scanner discovers the annotated class, instantiates it via its public no-argument
+ * constructor, and invokes the registration methods automatically:
+ * </p>
+ * <pre>{@code
+ * @ResourcesTreesPlugin
+ * public class MyResourcesTreesPlugin implements IResourcesTreesPlugin {
+ *     // ...
+ * }
+ * }</pre>
+ *
+ * <h2>Registration (Fabric)</h2>
+ * <p>
+ * On Fabric, declare your implementation under the {@code resources_trees_plugin} entrypoint in your
+ * {@code fabric.mod.json}:
  * </p>
  * <pre>
- * resources/META-INF/services/com.coolerpromc.resourcestrees.api.IResourcesTreesPlugin
- * </pre>
- * <p>
- * The file must contain the fully qualified class name of your implementation, one per line:
- * </p>
- * <pre>
- * com.example.mymod.MyResourcesTreesPlugin
+ * "entrypoints": {
+ *     "resources_trees_plugin": [
+ *         "com.example.mymod.MyResourcesTreesPlugin"
+ *     ]
+ * }
  * </pre>
  *
  * <h2>Example Implementation</h2>
@@ -41,9 +53,10 @@ import com.coolerpromc.resourcestrees.api.tree.ITreeTypeRegistry;
  * }
  * }</pre>
  *
- * @see java.util.ServiceLoader
+ * @see ResourcesTreesPlugin
  * @see IResourcesTypeRegistry
  * @see ITreeTypeRegistry
+ * @see IGrowerTypeRegistry
  */
 public interface IResourcesTreesPlugin {
     /**
@@ -56,7 +69,7 @@ public interface IResourcesTreesPlugin {
      *
      * @param registry the registry used to submit {@link com.coolerpromc.resourcestrees.api.resources.ResourcesType.Builder} instances
      */
-    void registerResourcesType(IResourcesTypeRegistry registry);
+    default void registerResourcesType(IResourcesTypeRegistry registry){}
 
     /**
      * Called during initialization to register custom {@link com.coolerpromc.resourcestrees.api.tree.TreeType} entries.
@@ -68,5 +81,18 @@ public interface IResourcesTreesPlugin {
      *
      * @param registry the registry used to submit {@link com.coolerpromc.resourcestrees.api.tree.TreeType} instances
      */
-    void registerTreeType(ITreeTypeRegistry registry);
+    default void registerTreeType(ITreeTypeRegistry registry){}
+
+    /**
+     * Called during initialization to register custom {@link com.coolerpromc.resourcestrees.api.grower.GrowerType} entries.
+     * <p>
+     * Use the provided {@link IGrowerTypeRegistry} to register one or more growers that define which tree
+     * structures a resource sapling generates when it grows. A registered grower is referenced by a
+     * {@link com.coolerpromc.resourcestrees.api.tree.TreeType} through its
+     * {@link com.coolerpromc.resourcestrees.api.tree.TreeType#treeGrowerName() treeGrowerName}.
+     * </p>
+     *
+     * @param registry the registry used to submit {@link com.coolerpromc.resourcestrees.api.grower.GrowerType} instances
+     */
+    default void registerGrowerType(IGrowerTypeRegistry registry){}
 }

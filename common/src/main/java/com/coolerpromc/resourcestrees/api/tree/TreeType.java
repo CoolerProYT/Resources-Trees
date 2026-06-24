@@ -31,6 +31,14 @@ import net.minecraft.world.level.block.sounds.AmbientLeavesBlockSoundPlayer;
  *                         (e.g. {@code "minecraft:oak_leaves"}); used for sound/behavior references
  * @param log              the registry name of the log block used as the trunk for this tree type and tree simulator recipe registration
  *                         (e.g. {@code "minecraft:oak_log"})
+ * @param particle         the per-tick chance (0.0–1.0) for a leaves block of this tree type to spawn a falling
+ *                         tinted leaf particle. A value greater than {@code 0} causes the leaves to be created as a
+ *                         particle-emitting block; a value of {@code 0} disables the particles entirely.
+ *                         Serialized from the optional JSON field {@code "particle"} and defaults to {@code 0.01}.
+ * @param leavesBlockSoundPlayer the {@link AmbientLeavesBlockSoundPlayer} controlling the ambient (rustling) sounds
+ *                         emitted by this tree type's leaves blocks. Serialized from the optional JSON field
+ *                         {@code "ambient_leaves_block_sound_player"} and defaults to
+ *                         {@link AmbientLeavesBlockSoundPlayer#noAmbientSound()} (no ambient sound).
  */
 public record TreeType(String name, String treeGrowerName, Identifier saplingTexture, Identifier leavesTexture, String originalSapling, String originalLeaves, String log, float particle, AmbientLeavesBlockSoundPlayer leavesBlockSoundPlayer) {
     public static final Codec<TreeType> CODEC = RecordCodecBuilder.create(instance -> instance.group(
@@ -66,11 +74,26 @@ public record TreeType(String name, String treeGrowerName, Identifier saplingTex
             this.log = log;
         }
 
+        /**
+         * Sets the per-tick chance (0.0–1.0) for this tree type's leaves blocks to spawn a falling tinted leaf
+         * particle. Any value greater than {@code 0} enables the particle-emitting leaves block; {@code 0} disables
+         * the particles. Defaults to {@code 0.01} if not set.
+         *
+         * @param particle the per-tick leaf particle chance
+         * @return this builder for chaining
+         */
         public Builder particle(float particle) {
             this.particle = particle;
             return this;
         }
 
+        /**
+         * Sets the {@link AmbientLeavesBlockSoundPlayer} controlling the ambient (rustling) sounds emitted by this
+         * tree type's leaves blocks. Defaults to {@link AmbientLeavesBlockSoundPlayer#noAmbientSound()} if not set.
+         *
+         * @param leavesBlockSoundPlayer the ambient leaves sound player
+         * @return this builder for chaining
+         */
         public Builder leavesBlockSoundPlayer(AmbientLeavesBlockSoundPlayer leavesBlockSoundPlayer) {
             this.leavesBlockSoundPlayer = leavesBlockSoundPlayer;
             return this;
