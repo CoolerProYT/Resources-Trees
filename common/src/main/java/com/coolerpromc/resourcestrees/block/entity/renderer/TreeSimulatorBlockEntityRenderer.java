@@ -4,16 +4,16 @@ import com.coolerpromc.resourcestrees.block.entity.custom.TreeSimulatorBlockEnti
 import com.coolerpromc.resourcestrees.block.entity.renderstate.TreeSimulatorRenderState;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.block.BlockModelRenderState;
+import net.minecraft.client.renderer.block.model.BlockDisplayContext;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
-import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Quaternionf;
 
 public record TreeSimulatorBlockEntityRenderer(BlockEntityRendererProvider.Context context) implements BlockEntityRenderer<TreeSimulatorBlockEntity, TreeSimulatorRenderState> {
     @Override
@@ -26,9 +26,9 @@ public record TreeSimulatorBlockEntityRenderer(BlockEntityRendererProvider.Conte
         BlockEntityRenderer.super.extractRenderState(blockEntity, renderState, p_446851_, p_445788_, p_446944_);
         renderState.blockEntity = blockEntity;
 
-        ItemStackRenderState itemStackRenderState = new ItemStackRenderState();
-        context.itemModelResolver().updateForTopItem(itemStackRenderState, blockEntity.getSapling(), ItemDisplayContext.FIXED, blockEntity.getLevel(), null, 1);
-        renderState.itemStackRenderState = itemStackRenderState;
+        BlockModelRenderState blockModelRenderState = new BlockModelRenderState();
+        context.blockModelResolver().update(blockModelRenderState, Block.byItem(blockEntity.getSapling().getItem()).defaultBlockState(), BlockDisplayContext.create());
+        renderState.blockModelRenderState = blockModelRenderState;
     }
 
     @Override
@@ -37,20 +37,13 @@ public record TreeSimulatorBlockEntityRenderer(BlockEntityRendererProvider.Conte
 
         float scale = (float) blockEntity.getData().get(0) / (float) blockEntity.getData().get(1);
 
-        poseStack.pushPose();
-        poseStack.translate(0.5, 0.0, 0.5);
-        poseStack.scale(scale, scale, scale);
-        poseStack.translate(0.0, 0.6, 0.0);
-        poseStack.last().rotate(new Quaternionf().rotationY((float)Math.toRadians(45)));
-        renderState.itemStackRenderState.submit(poseStack, submitNodeCollector, renderState.lightCoords, OverlayTexture.NO_OVERLAY,0);
-        poseStack.popPose();
-
-        poseStack.pushPose();
-        poseStack.translate(0.5, 0.0, 0.5);
-        poseStack.scale(scale, scale, scale);
-        poseStack.translate(0.0, 0.6, 0.0);
-        poseStack.last().rotate(new Quaternionf().rotationY((float)Math.toRadians(135)));
-        renderState.itemStackRenderState.submit(poseStack, submitNodeCollector, renderState.lightCoords, OverlayTexture.NO_OVERLAY,0);
-        poseStack.popPose();
+        if (scale > 0){
+            poseStack.pushPose();
+            poseStack.translate(0.5, 1f / 16f * 2f, 0.5);
+            poseStack.scale(scale, scale, scale);
+            poseStack.translate(-0.5, 0.0, -0.5);
+            renderState.blockModelRenderState.submit(poseStack, submitNodeCollector, renderState.lightCoords, OverlayTexture.NO_OVERLAY,0);
+            poseStack.popPose();
+        }
     }
 }

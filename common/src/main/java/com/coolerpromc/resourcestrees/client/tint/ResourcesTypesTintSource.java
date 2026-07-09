@@ -10,11 +10,6 @@ import net.minecraft.world.level.block.state.BlockState;
 public class ResourcesTypesTintSource implements BlockTintSource {
     @Override
     public int color(BlockState state) {
-        return -1;
-    }
-
-    @Override
-    public int colorInWorld(BlockState state, BlockAndTintGetter level, BlockPos pos) {
         if (state.getBlock() instanceof ResourcesSaplingBlock block){
             return block.getResourcesType().color();
         }
@@ -22,5 +17,10 @@ public class ResourcesTypesTintSource implements BlockTintSource {
             return block.getResourcesType().color();
         }
         return 0xFFFFFFFF;
+    }
+
+    @Override
+    public int colorInWorld(BlockState state, BlockAndTintGetter level, BlockPos pos) {
+        return color(state);
     }
 }
