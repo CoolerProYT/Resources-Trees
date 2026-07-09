@@ -5,14 +5,14 @@ plugins {
 }
 
 repositories {
-    flatDir {
-        dir 'libs'
-    }
-    maven {
-        url "https://maven.latvian.dev/releases"
-        content {
-            includeGroup "dev.latvian.mods"
-            includeGroup "dev.latvian.apps"
+    exclusiveContent {
+        forRepository {
+            maven {
+                url "https://cursemaven.com"
+            }
+        }
+        filter {
+            includeGroup "curse.maven"
         }
     }
 }
@@ -57,6 +57,9 @@ dependencies {
     compileOnly("mezz.jei:jei-${dependencies_minecraft_version}-neoforge-api:${jei_version}")
     runtimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
     compileOnly "maven.modrinth:jade:${jade_version}"
+
+    compileOnly "curse.maven:agritech-evolved-1287394:8387569"
+    compileOnly "curse.maven:agritech-1485550:8387582"
 
     implementation jarJar("com.coolerpromc.coolerconfig:coolerconfig-neoforge-${dependencies_minecraft_version}:${cooler_config_version}")
 }

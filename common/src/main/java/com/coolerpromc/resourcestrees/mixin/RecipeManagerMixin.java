@@ -3,6 +3,7 @@ package com.coolerpromc.resourcestrees.mixin;
 import com.coolerpromc.resourcestrees.Constants;
 import com.coolerpromc.resourcestrees.block.ModBlocks;
 import com.coolerpromc.resourcestrees.block.custom.ResourcesSaplingBlock;
+import com.coolerpromc.resourcestrees.platform.Services;
 import com.coolerpromc.resourcestrees.recipe.custom.TreeSimulatorRecipe;
 import com.coolerpromc.resourcestrees.recipe.output.TreeSimulatorOutput;
 import com.llamalad7.mixinextras.sugar.Local;
@@ -16,7 +17,6 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.*;
-import net.minecraft.world.level.block.grower.TreeGrower;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -66,6 +66,14 @@ public class RecipeManagerMixin {
                 );
                 TreeSimulatorRecipe treeSimulatorRecipe = new TreeSimulatorRecipe(new ItemStackTemplate(block.asItem()), outputs, block.getResourcesType().treeSimulatorTicks());
                 recipeHolders.add(new RecipeHolder<>(treeSimKey, treeSimulatorRecipe));
+            }
+
+            if (Services.PLATFORM.isModLoaded("agritechevolved")){
+                Services.COMPAT.injectAgritechEvolvedRecipe(handler, recipeHolders, existingKeys, items);
+            }
+
+            if (Services.PLATFORM.isModLoaded("agritechtwo") || Services.PLATFORM.isModLoaded("agritech")){
+                Services.COMPAT.injectAgritechRecipe(handler, recipeHolders, existingKeys, items);
             }
         });
     }
