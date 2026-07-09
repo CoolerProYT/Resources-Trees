@@ -3,6 +3,20 @@ plugins {
     id 'net.fabricmc.fabric-loom'
     id "me.modmuss50.mod-publish-plugin"
 }
+
+repositories {
+    exclusiveContent {
+        forRepository {
+            maven {
+                url "https://cursemaven.com"
+            }
+        }
+        filter {
+            includeGroup "curse.maven"
+        }
+    }
+}
+
 dependencies {
     minecraft "com.mojang:minecraft:${minecraft_version}"
     implementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
@@ -12,7 +26,9 @@ dependencies {
 //    runtimeOnly "mezz.jei:jei-${minecraft_version}-fabric:${jei_version}"
     compileOnly("maven.modrinth:jade:${jade_version}")
 
-    implementation include("com.coolerpromc.coolerconfig:coolerconfig-fabric-${minecraft_version}:${cooler_config_version}")
+    compileOnly "curse.maven:agritech-1485550:8387887"
+
+    implementation include("com.coolerpromc.coolerconfig:coolerconfig-fabric-${dependencies_minecraft_version}:${cooler_config_version}")
 }
 
 loom {

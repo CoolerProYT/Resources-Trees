@@ -13,6 +13,16 @@ repositories {
             includeModule("net.neoforged", "testframework")
         }
     }
+    exclusiveContent {
+        forRepository {
+            maven {
+                url "https://cursemaven.com"
+            }
+        }
+        filter {
+            includeGroup "curse.maven"
+        }
+    }
 }
 
 neoForge {
@@ -55,6 +65,9 @@ dependencies {
     compileOnly("mezz.jei:jei-${dependencies_minecraft_version}-neoforge-api:${jei_version}")
 //    runtimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
     compileOnly "maven.modrinth:jade:${jade_version}"
+
+    compileOnly "curse.maven:agritech-evolved-1287394:8387694"
+    compileOnly "curse.maven:agritech-1485550:8387677"
 
     implementation jarJar("com.coolerpromc.coolerconfig:coolerconfig-neoforge-${minecraft_version}:${cooler_config_version}")
 }
