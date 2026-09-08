@@ -26,10 +26,12 @@ public class ResourcesTreesConfig {
     public static final ConfigSpec CONFIG;
 
     private static ConfigValue<Map<String, Number>> actualValues;
+    private static ConfigValue<Boolean> useAxeDurability;
 
     static {
         ConfigBuilder builder = ConfigSpec.builder(Constants.MODID, ConfigFormat.HOCON).comment("ResourcesTrees Common Config");
         actualValues = builder.define("treeSimulator.axe", DEFAULT_VALUES, "The Tree Simulator growth speed scales with the type of axe placed in the axe slot. The key of each entry should be a valid axe item id.", ResourcesTreesConfig::validateAxe);
+        useAxeDurability = builder.defineBoolean("treeSimulator.useAxeDurability", true, "Whether the Tree Simulator damages the axe placed in the axe slot on every harvest.");
         CONFIG = builder.watchForChanges().build();
     }
 
@@ -71,6 +73,10 @@ public class ResourcesTreesConfig {
         }
         Number value = actualValues.get().get(key);
         return value != null ? value.doubleValue() : 0.0;
+    }
+
+    public static boolean useAxeDurability() {
+        return useAxeDurability.get();
     }
 
     public static void init(){
