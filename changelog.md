@@ -1,10 +1,4 @@
 ## 26.3.0.0
 ### Changes
-- Tree Simulator now render sapling using block model instead of item model
-
-#### NeoForge
-- Added compat to Agritech Evolved
-- Added compat to Agritech Two
-
-#### Fabric
-- Added compat to Agritech
+- Tree Simulator now works with the Fortune enchantment
+- Added a config option to disable axe durability usage in the Tree Simulator

@@ -159,9 +159,10 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
         Optional<RecipeHolder<TreeSimulatorRecipe>> recipe = getCurrentRecipe();
         if (recipe.isPresent()) {
             List<ItemStack> results = new ArrayList<>();
+            int fortuneLevel = getFortuneLevel(level);
 
             recipe.get().value().drops().forEach(output -> {
-                int rolls = output.getRolls(level.getRandom());
+                int rolls = output.getRolls(level.getRandom(), fortuneLevel);
                 for (int i = 0; i < rolls; i++){
                     if (level.getRandom().nextFloat() < output.chance()){
                         results.add(output.output().create());
@@ -169,22 +170,31 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
                 }
             });
 
-            if (!isAxeUnbreakable()){
+            if (ResourcesTreesConfig.useAxeDurability() && !isAxeUnbreakable()){
                 ItemStack axe = getAxe();
                 axe.hurtAndBreak(1, (ServerLevel) level, null, _ -> {});
             }
 
             for (ItemStack result : results) {
-                int outputSlot = findSuitableOutputSlot(result);
-                if (outputSlot != -1) {
-                    this.outputHandler.insertItem(outputSlot, result, false);
-                } else {
-                    Constants.LOG.warn("No suitable output slot found for item: {} at {}", result, getBlockPos());
+                ItemStack remainder = result;
+                for (int slot = 0; slot < this.outputHandler.getSlots() && !remainder.isEmpty(); slot++) {
+                    remainder = this.outputHandler.insertItem(slot, remainder, false);
+                }
+                if (!remainder.isEmpty()) {
+                    Constants.LOG.warn("No suitable output slot found for item: {} at {}", remainder, getBlockPos());
                 }
             }
 
             setChanged();
         }
+    }
+
+    private int getFortuneLevel(Level level){
+        ItemStack axe = getAxe();
+        if (axe.isEmpty()){
+            return 0;
+        }
+        return axe.getEnchantments().getLevel(level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE));
     }
 
     private boolean treeGrown(){
@@ -210,16 +220,6 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
 
     private void setMaxGrowTicks(int tick){
         this.maxGrowTicks = tick;
-    }
-
-    private int findSuitableOutputSlot(ItemStack result) {
-        for (int i = 0; i < this.outputHandler.getSlots(); i++) {
-            ItemStack stackInSlot = this.outputHandler.getItem(i);
-            if (stackInSlot.isEmpty() || (ItemStack.isSameItemSameComponents(stackInSlot, result) && stackInSlot.getCount() + result.getCount() <= stackInSlot.getMaxStackSize())) {
-                return i;
-            }
-        }
-        return -1;
     }
 
     private boolean hasRecipe() {

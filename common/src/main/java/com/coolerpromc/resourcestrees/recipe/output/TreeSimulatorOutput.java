@@ -47,4 +47,8 @@ public record TreeSimulatorOutput(ItemStackTemplate output, float chance, int mi
         }
         return random.nextInt(maxRolls - minRolls + 1) + minRolls;
     }
+
+    public int getRolls(RandomSource random, int fortuneLevel){
+        return getRolls(random) + Math.max(0, fortuneLevel);
+    }
 }
