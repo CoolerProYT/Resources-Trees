@@ -1,2 +1,2 @@
-- Resources Saplings and Resources Leaves are now compostable
-- Resources Saplings and Resources Leaves are now furnace fuel
+- Tree Simulator now work with unbreaking and fortune enchantment
+- Added config to disable axe durability using in tree simulator

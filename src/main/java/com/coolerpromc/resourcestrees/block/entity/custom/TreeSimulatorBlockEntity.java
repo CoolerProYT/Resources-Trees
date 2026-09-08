@@ -38,6 +38,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -190,9 +192,10 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
         Optional<RecipeHolder<TreeSimulatorRecipe>> recipe = getCurrentRecipe();
         if (recipe.isPresent()) {
             List<ItemStack> results = new ArrayList<>();
+            int fortuneLevel = getFortuneLevel(level);
 
             recipe.get().value().drops().forEach(output -> {
-                int rolls = output.getRolls(level.random);
+                int rolls = output.getRolls(level.random, fortuneLevel);
                 for (int i = 0; i < rolls; i++){
                     if (level.random.nextFloat() < output.chance()){
                         results.add(output.output().copy());
@@ -200,24 +203,34 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
                 }
             });
 
-            if (!isAxeUnbreakable()){
+            if (ResourcesTrees.CONFIG.useAxeDurability() && !isAxeUnbreakable()){
                 ItemStack axe = getAxe();
-                Integer damage = axe.get(DataComponents.DAMAGE);
-                if (damage != null){
-                    axe.set(DataComponents.DAMAGE, damage + 1);
-                }
+                axe.hurtAndBreak(1, (ServerLevel) level, null, item -> {});
             }
 
             for (ItemStack result : results) {
-                int outputSlot = findSuitableOutputSlot(result);
-                if (outputSlot != -1) {
-                    this.outputHandler.insertItem(outputSlot, result, false);
-                } else {
-                    ResourcesTrees.LOGGER.warn("No suitable output slot found for item: {} at {}", result, getBlockPos());
+                ItemStack remainder = result;
+                for (int slot = 0; slot < this.outputHandler.getSlots() && !remainder.isEmpty(); slot++) {
+                    remainder = this.outputHandler.insertItem(slot, remainder, false);
+                }
+                if (!remainder.isEmpty()) {
+                    ResourcesTrees.LOGGER.warn("No suitable output slot found for item: {} at {}", remainder, getBlockPos());
                 }
             }
             setChanged();
         }
+    }
+
+    private int getFortuneLevel(Level level){
+        ItemStack axe = getAxe();
+        if (axe.isEmpty()){
+            return 0;
+        }
+        return level.registryAccess()
+                .lookupOrThrow(Registries.ENCHANTMENT)
+                .get(Enchantments.FORTUNE)
+                .map(fortune -> EnchantmentHelper.getItemEnchantmentLevel(fortune, axe))
+                .orElse(0);
     }
 
     private boolean treeGrown(){
@@ -237,16 +250,6 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
 
     private void setMaxGrowTicks(int tick){
         this.maxGrowTicks = tick;
-    }
-
-    private int findSuitableOutputSlot(ItemStack result) {
-        for (int i = 0; i < this.outputHandler.getSlots(); i++) {
-            ItemStack stackInSlot = this.outputHandler.getStackInSlot(i);
-            if (stackInSlot.isEmpty() || (ResourcesTypes.isSameItemSameType(stackInSlot, result) && stackInSlot.getCount() + result.getCount() <= stackInSlot.getMaxStackSize())) {
-                return i;
-            }
-        }
-        return -1;
     }
 
     private boolean hasRecipe() {

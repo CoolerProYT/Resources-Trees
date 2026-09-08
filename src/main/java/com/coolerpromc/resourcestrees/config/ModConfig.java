@@ -19,6 +19,7 @@ public class ModConfig {
     private static final Path CONFIG_PATH = FMLPaths.CONFIGDIR.get().resolve("resourcestrees/axe.json");
 
     private Map<String, Double> values = new HashMap<>();
+    private boolean useAxeDurability = true;
 
     public ModConfig() {
         setDefaults();
@@ -68,6 +69,14 @@ public class ModConfig {
         return new HashMap<>(values);
     }
 
+    public boolean useAxeDurability() {
+        return useAxeDurability;
+    }
+
+    public void setUseAxeDurability(boolean useAxeDurability) {
+        this.useAxeDurability = useAxeDurability;
+    }
+
     public void load() {
         if (!Files.exists(CONFIG_PATH)) {
             save();
@@ -78,18 +87,27 @@ public class ModConfig {
             String json = Files.readString(CONFIG_PATH);
             ConfigData data = GSON.fromJson(json, ConfigData.class);
 
-            if (data != null && data.values != null) {
-                for (Map.Entry<String, Double> entry : data.values.entrySet()) {
-                    if (isValidAxeItem(entry.getKey())) {
-                        values.put(entry.getKey(), entry.getValue());
-                    } else {
-                        System.err.println("Skipping invalid axe item in config: " + entry.getKey());
+            if (data != null) {
+                if (data.useAxeDurability != null) {
+                    useAxeDurability = data.useAxeDurability;
+                }
+
+                if (data.values != null) {
+                    for (Map.Entry<String, Double> entry : data.values.entrySet()) {
+                        if (isValidAxeItem(entry.getKey())) {
+                            values.put(entry.getKey(), entry.getValue());
+                        } else {
+                            System.err.println("Skipping invalid axe item in config: " + entry.getKey());
+                        }
                     }
                 }
             }
         } catch (IOException e) {
             System.err.println("Failed to load config: " + e.getMessage());
         }
+
+        // Rewrite so configs made by older versions gain any newly added options
+        save();
     }
 
     public void save() {
@@ -105,6 +123,7 @@ public class ModConfig {
             }
 
             ConfigData data = new ConfigData();
+            data.useAxeDurability = useAxeDurability;
             data.values = validValues;
 
             String json = GSON.toJson(data);
@@ -115,6 +134,7 @@ public class ModConfig {
     }
 
     private static class ConfigData {
+        Boolean useAxeDurability;
         Map<String, Double> values;
     }
 }
