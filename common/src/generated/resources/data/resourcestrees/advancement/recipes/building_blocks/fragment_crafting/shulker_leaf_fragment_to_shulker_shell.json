@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/shulker_leaf_fragment_to_shulker_shell"
+        "recipes": "resourcestrees:fragment_crafting/shulker_leaf_fragment_to_shulker_shell"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

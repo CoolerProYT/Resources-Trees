@@ -33,7 +33,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:chicken_essence"
+        "recipes": "resourcestrees:chicken_essence"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

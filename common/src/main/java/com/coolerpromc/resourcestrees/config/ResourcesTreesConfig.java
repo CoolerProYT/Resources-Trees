@@ -5,9 +5,10 @@ import com.coolerpromc.coolerconfig.config.ConfigFormat;
 import com.coolerpromc.coolerconfig.config.ConfigSpec;
 import com.coolerpromc.coolerconfig.config.ConfigValue;
 import com.coolerpromc.resourcestrees.Constants;
+import com.coolerpromc.resourcestrees.util.AxeChecker;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.AxeItem;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 
 import java.util.Map;
@@ -60,7 +61,7 @@ public class ResourcesTreesConfig {
             }
 
             Item item = BuiltInRegistries.ITEM.getValue(id);
-            return item instanceof AxeItem;
+            return AxeChecker.isAxe(item);
         } catch (Exception e) {
             return false;
         }

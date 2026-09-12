@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/nether_leaf_fragment_to_crimson_nylium"
+        "recipes": "resourcestrees:fragment_crafting/nether_leaf_fragment_to_crimson_nylium"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

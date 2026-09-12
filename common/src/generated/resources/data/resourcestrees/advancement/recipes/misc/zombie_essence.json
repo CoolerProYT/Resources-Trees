@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:zombie_essence"
+        "recipes": "resourcestrees:zombie_essence"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

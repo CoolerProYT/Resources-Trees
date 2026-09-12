@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/fish_leaf_fragment_to_pufferfish"
+        "recipes": "resourcestrees:fragment_crafting/fish_leaf_fragment_to_pufferfish"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

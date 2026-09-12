@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/dye_leaf_fragment_to_light_blue_dye"
+        "recipes": "resourcestrees:fragment_crafting/dye_leaf_fragment_to_light_blue_dye"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -4,8 +4,6 @@ import com.coolerpromc.resourcestrees.Constants;
 import com.coolerpromc.resourcestrees.api.resources.ResourcesType;
 import com.coolerpromc.resourcestrees.api.tree.TreeType;
 import com.coolerpromc.resourcestrees.platform.Services;
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
@@ -33,23 +31,11 @@ import java.util.List;
 import java.util.Objects;
 
 public class ResourcesTintedParticlesLeavesBlock extends AbstractResourcesLeavesBlock {
-    public static final MapCodec<ResourcesTintedParticlesLeavesBlock> CODEC = RecordCodecBuilder.mapCodec((p_400250_) ->
-            p_400250_.group(
-                    propertiesCodec(),
-                    ResourcesType.CODEC.fieldOf("resources_type").forGetter(ResourcesTintedParticlesLeavesBlock::getResourcesType),
-                    TreeType.CODEC.fieldOf("tree_type").forGetter(ResourcesTintedParticlesLeavesBlock::getTreeType)
-            ).apply(p_400250_, ResourcesTintedParticlesLeavesBlock::new));
-
     protected final float leafParticleChance;
 
     public ResourcesTintedParticlesLeavesBlock(Properties properties, ResourcesType resourcesType, TreeType treeType) {
         super(treeType.leavesBlockSoundPlayer(), properties, resourcesType, treeType);
         this.leafParticleChance = treeType.particle();
-    }
-
-    @Override
-    public MapCodec<? extends ResourcesTintedParticlesLeavesBlock> codec() {
-        return CODEC;
     }
 
     @Override

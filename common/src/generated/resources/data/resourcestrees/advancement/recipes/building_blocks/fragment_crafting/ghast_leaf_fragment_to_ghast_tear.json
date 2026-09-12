@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/ghast_leaf_fragment_to_ghast_tear"
+        "recipes": "resourcestrees:fragment_crafting/ghast_leaf_fragment_to_ghast_tear"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

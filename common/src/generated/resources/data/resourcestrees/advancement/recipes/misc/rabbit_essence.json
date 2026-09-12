@@ -33,7 +33,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:rabbit_essence"
+        "recipes": "resourcestrees:rabbit_essence"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

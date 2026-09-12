@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:cow_essence"
+        "recipes": "resourcestrees:cow_essence"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

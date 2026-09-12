@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/prismarine_leaf_fragment_to_prismarine_crystals"
+        "recipes": "resourcestrees:fragment_crafting/prismarine_leaf_fragment_to_prismarine_crystals"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

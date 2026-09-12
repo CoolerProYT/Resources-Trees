@@ -53,7 +53,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:nature_essence"
+        "recipes": "resourcestrees:nature_essence"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

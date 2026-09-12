@@ -33,7 +33,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fire_essence"
+        "recipes": "resourcestrees:fire_essence"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

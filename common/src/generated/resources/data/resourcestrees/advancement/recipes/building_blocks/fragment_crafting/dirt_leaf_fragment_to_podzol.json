@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/dirt_leaf_fragment_to_podzol"
+        "recipes": "resourcestrees:fragment_crafting/dirt_leaf_fragment_to_podzol"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

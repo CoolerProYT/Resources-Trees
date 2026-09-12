@@ -13,3 +13,4 @@ accessible field net/minecraft/world/level/block/grower/TreeGrower GROWERS Ljava
 accessible field net/minecraft/world/level/block/entity/BlockEntityType validBlocks Ljava/util/Set;
 accessible method net/minecraft/client/renderer/item/CuboidItemModelWrapper <init> (Ljava/util/List;Lnet/minecraft/client/resources/model/geometry/QuadCollection;Lnet/minecraft/client/renderer/item/ModelRenderProperties;Lorg/joml/Matrix4fc;)V
 accessible class net/minecraft/client/renderer/item/CuboidItemModelWrapper
+accessible method net/minecraft/world/item/crafting/RecipeMap <init> (Lcom/google/common/collect/Multimap;Ljava/util/Map;)V

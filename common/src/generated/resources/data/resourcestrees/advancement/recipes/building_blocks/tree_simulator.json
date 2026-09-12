@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:tree_simulator"
+        "recipes": "resourcestrees:tree_simulator"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

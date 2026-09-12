@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/wood_leaf_fragment_to_cherry_sapling"
+        "recipes": "resourcestrees:fragment_crafting/wood_leaf_fragment_to_cherry_sapling"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

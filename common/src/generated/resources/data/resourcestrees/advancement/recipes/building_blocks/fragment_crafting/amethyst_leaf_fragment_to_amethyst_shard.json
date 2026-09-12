@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/amethyst_leaf_fragment_to_amethyst_shard"
+        "recipes": "resourcestrees:fragment_crafting/amethyst_leaf_fragment_to_amethyst_shard"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

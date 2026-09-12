@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:sheep_essence"
+        "recipes": "resourcestrees:sheep_essence"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

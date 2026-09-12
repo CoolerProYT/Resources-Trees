@@ -48,7 +48,6 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
     @Override
     public <T extends Block> BlockRegistryHandler<T> registerBlock(String name, Function<BlockBehaviour.Properties, T> func, BlockBehaviour.Properties p) {
         DeferredBlock<T> block = BLOCKS.registerBlock(name, func, () -> p);
-        registerItem(name, properties -> new ModBlockItem(block.get(), properties.useBlockDescriptionPrefix()));
 
         return new BlockRegistryHandler<>() {
             @Override

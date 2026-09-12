@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/nature_leaf_fragment_to_weeping_vines"
+        "recipes": "resourcestrees:fragment_crafting/nature_leaf_fragment_to_weeping_vines"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

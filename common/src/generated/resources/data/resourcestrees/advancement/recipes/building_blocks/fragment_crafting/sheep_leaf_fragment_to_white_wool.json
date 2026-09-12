@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/sheep_leaf_fragment_to_white_wool"
+        "recipes": "resourcestrees:fragment_crafting/sheep_leaf_fragment_to_white_wool"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

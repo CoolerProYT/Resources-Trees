@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/squid_leaf_fragment_to_ink_sac"
+        "recipes": "resourcestrees:fragment_crafting/squid_leaf_fragment_to_ink_sac"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

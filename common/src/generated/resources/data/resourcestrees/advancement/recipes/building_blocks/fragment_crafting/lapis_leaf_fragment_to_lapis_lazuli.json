@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/lapis_leaf_fragment_to_lapis_lazuli"
+        "recipes": "resourcestrees:fragment_crafting/lapis_leaf_fragment_to_lapis_lazuli"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

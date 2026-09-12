@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/stone_leaf_fragment_to_flint"
+        "recipes": "resourcestrees:fragment_crafting/stone_leaf_fragment_to_flint"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

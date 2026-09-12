@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:ghast_essence"
+        "recipes": "resourcestrees:ghast_essence"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -3,7 +3,6 @@ package com.coolerpromc.resourcestrees.block.custom;
 import com.coolerpromc.resourcestrees.block.entity.ModBlockEntities;
 import com.coolerpromc.resourcestrees.block.entity.custom.TreeSimulatorBlockEntity;
 import com.coolerpromc.resourcestrees.platform.Services;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
@@ -29,11 +28,6 @@ import java.util.stream.Stream;
 public class TreeSimulatorBlock extends BaseEntityBlock {
     public TreeSimulatorBlock(Properties properties) {
         super(properties);
-    }
-
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return simpleCodec(TreeSimulatorBlock::new);
     }
 
     @Override

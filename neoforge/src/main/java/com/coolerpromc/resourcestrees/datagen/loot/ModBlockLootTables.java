@@ -4,24 +4,26 @@ import com.coolerpromc.resourcestrees.Constants;
 import com.coolerpromc.resourcestrees.block.ModBlocks;
 import com.coolerpromc.resourcestrees.block.custom.AbstractResourcesLeavesBlock;
 import com.coolerpromc.resourcestrees.platform.util.BlockRegistryHandler;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.loot.BlockLootSubProvider;
+import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.predicates.AnyOfCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
-import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
 
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class ModBlockLootTables extends BlockLootSubProvider {
-    public ModBlockLootTables(HolderLookup.Provider provider) {
-        super(Set.of(), FeatureFlags.REGISTRY.allFlags(), provider);
+    public ModBlockLootTables(LootTableSubProvider.Context context) {
+        super(Set.of(), FeatureFlags.REGISTRY.allFlags(), context);
     }
 
     @Override
@@ -43,14 +45,22 @@ public class ModBlockLootTables extends BlockLootSubProvider {
                         this.applyExplosionCondition(original, LootItem.lootTableItem(original.getResourcesType().saplingBlock(original.getTreeType().name()).get())
                                 .when(LootItemRandomChanceCondition.randomChance(original.getResourcesType().saplingDropChance()))))
                 .withPool(LootPool.lootPool()
-                        .setRolls(ConstantValue.exactly(1.0F))
-                        .when((this.hasShears().or(this.hasSilkTouch())).invert())
+                        .setRolls(ContextIntProviders.exactly(1))
+                        .when(this.doesNotHaveShearsOrSilkTouch())
                         .add(this.applyExplosionCondition(original, LootItem.lootTableItem(original.getResourcesType().leafFragmentItem().get())
                                 .when(LootItemRandomChanceCondition.randomChance(original.getResourcesType().leafDropChance())))))
                 .withPool(LootPool.lootPool()
-                        .setRolls(ConstantValue.exactly(1.0F))
-                        .when((this.hasShears().or(this.hasSilkTouch())).invert())
+                        .setRolls(ContextIntProviders.exactly(1))
+                        .when(this.doesNotHaveShearsOrSilkTouch())
                         .add(this.applyExplosionCondition(original, LootItem.lootTableItem(original.getResourcesType().leafFragmentItem().get())
                                 .when(LootItemRandomChanceCondition.randomChance(original.getResourcesType().leafDropChance() * 0.5F)))));
+    }
+
+    private LootItemCondition.Builder hasShearsOrSilkTouch() {
+        return (new AnyOfCondition.Builder(new LootItemCondition.Builder[0])).or(this.hasShears()).or(this.hasSilkTouch());
+    }
+
+    private LootItemCondition.Builder doesNotHaveShearsOrSilkTouch() {
+        return this.hasShearsOrSilkTouch().invert();
     }
 }

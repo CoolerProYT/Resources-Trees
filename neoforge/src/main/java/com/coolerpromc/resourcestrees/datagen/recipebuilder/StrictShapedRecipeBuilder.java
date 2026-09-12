@@ -3,15 +3,12 @@ package com.coolerpromc.resourcestrees.datagen.recipebuilder;
 import com.coolerpromc.resourcestrees.recipe.custom.StrictShapedRecipe;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import net.minecraft.advancements.Advancement;
-import net.minecraft.advancements.AdvancementRequirements;
-import net.minecraft.advancements.AdvancementRewards;
 import net.minecraft.advancements.triggers.Criterion;
-import net.minecraft.advancements.triggers.RecipeUnlockedTrigger;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.RecipeUnlockAdvancementBuilder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -22,10 +19,8 @@ import net.minecraft.world.item.crafting.ShapedRecipePattern;
 import net.minecraft.world.level.ItemLike;
 import org.jspecify.annotations.Nullable;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class StrictShapedRecipeBuilder implements RecipeBuilder {
     private final HolderGetter<Item> items;
@@ -33,7 +28,7 @@ public class StrictShapedRecipeBuilder implements RecipeBuilder {
     private final ItemStackTemplate result;
     private final List<String> rows;
     private final Map<Character, Ingredient> key;
-    private final Map<String, Criterion<?>> criteria;
+    private final RecipeUnlockAdvancementBuilder advancementBuilder;
     private @Nullable String group;
     private boolean showNotification;
 
@@ -45,7 +40,7 @@ public class StrictShapedRecipeBuilder implements RecipeBuilder {
     private StrictShapedRecipeBuilder(HolderGetter<Item> p_365072_, RecipeCategory p_249996_, ItemStackTemplate result) {
         this.rows = Lists.newArrayList();
         this.key = Maps.newLinkedHashMap();
-        this.criteria = new LinkedHashMap<>();
+        this.advancementBuilder = new RecipeUnlockAdvancementBuilder();
         this.showNotification = true;
         this.items = p_365072_;
         this.category = p_249996_;
@@ -93,7 +88,7 @@ public class StrictShapedRecipeBuilder implements RecipeBuilder {
     }
 
     public StrictShapedRecipeBuilder unlockedBy(String name, Criterion<?> criterion) {
-        this.criteria.put(name, criterion);
+        this.advancementBuilder.unlockedBy(name, criterion);
         return this;
     }
 
@@ -112,20 +107,9 @@ public class StrictShapedRecipeBuilder implements RecipeBuilder {
         return this;
     }
 
-    public void save(RecipeOutput output, ResourceKey<Recipe<?>> resourceKey) {
-        ShapedRecipePattern shapedrecipepattern = this.ensureValid(resourceKey);
-        Advancement.Builder advancement$builder = output.advancement().addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(resourceKey)).rewards(AdvancementRewards.Builder.recipe(resourceKey)).requirements(AdvancementRequirements.Strategy.OR);
-        Objects.requireNonNull(advancement$builder);
-        this.criteria.forEach(advancement$builder::addCriterion);
-        StrictShapedRecipe shapedrecipe = new StrictShapedRecipe(RecipeBuilder.createCraftingCommonInfo(this.showNotification), RecipeBuilder.createCraftingBookInfo(this.category, Objects.requireNonNullElse(this.group, "")), shapedrecipepattern, this.result);
-        output.accept(resourceKey, shapedrecipe, advancement$builder.build(resourceKey.identifier().withPrefix("recipes/" + this.category.getFolderName() + "/")));
-    }
-
-    private ShapedRecipePattern ensureValid(ResourceKey<Recipe<?>> recipe) {
-        if (this.criteria.isEmpty()) {
-            throw new IllegalStateException("No way of obtaining recipe " + recipe.identifier());
-        } else {
-            return ShapedRecipePattern.of(this.key, this.rows);
-        }
+    public void save(RecipeOutput output, ResourceKey<Recipe<?>> id) {
+        ShapedRecipePattern pattern = ShapedRecipePattern.of(this.key, this.rows);
+        StrictShapedRecipe recipe = new StrictShapedRecipe(RecipeBuilder.createCraftingCommonInfo(this.showNotification), RecipeBuilder.createCraftingBookInfo(this.category, this.group), pattern, this.result);
+        output.accept(id, recipe, this.advancementBuilder.build(output, id, this.category));
     }
 }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/quartz_leaf_fragment_to_quartz"
+        "recipes": "resourcestrees:fragment_crafting/quartz_leaf_fragment_to_quartz"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

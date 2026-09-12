@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/glowstone_leaf_fragment_to_glowstone_dust"
+        "recipes": "resourcestrees:fragment_crafting/glowstone_leaf_fragment_to_glowstone_dust"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

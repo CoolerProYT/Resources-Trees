@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:pig_essence"
+        "recipes": "resourcestrees:pig_essence"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/nether_leaf_fragment_to_basalt"
+        "recipes": "resourcestrees:fragment_crafting/nether_leaf_fragment_to_basalt"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

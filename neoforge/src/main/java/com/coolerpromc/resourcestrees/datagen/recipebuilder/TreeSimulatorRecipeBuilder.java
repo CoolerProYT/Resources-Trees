@@ -9,6 +9,7 @@ import net.minecraft.advancements.triggers.Criterion;
 import net.minecraft.advancements.triggers.RecipeUnlockedTrigger;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.RecipeUnlockAdvancementBuilder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Recipe;
@@ -23,7 +24,7 @@ public class TreeSimulatorRecipeBuilder implements RecipeBuilder {
     private ItemStackTemplate tree;
     private final List<TreeSimulatorOutput> drops = new ArrayList<>();
     private int ticksToGrow;
-    private final Map<String, Criterion<?>> criteria = new LinkedHashMap<>();
+    private final RecipeUnlockAdvancementBuilder advancementBuilder = new RecipeUnlockAdvancementBuilder();
     @Nullable
     private String group;
 
@@ -50,7 +51,7 @@ public class TreeSimulatorRecipeBuilder implements RecipeBuilder {
 
     @Override
     public TreeSimulatorRecipeBuilder unlockedBy(String s, Criterion<?> criterion) {
-        this.criteria.put(s, criterion);
+        this.advancementBuilder.unlockedBy(s, criterion);
         return this;
     }
 
@@ -67,13 +68,7 @@ public class TreeSimulatorRecipeBuilder implements RecipeBuilder {
 
     @Override
     public void save(RecipeOutput recipeOutput, ResourceKey<Recipe<?>> resourceKey) {
-        Advancement.Builder advancement = recipeOutput.advancement()
-                .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(resourceKey))
-                .rewards(AdvancementRewards.Builder.recipe(resourceKey))
-                .requirements(AdvancementRequirements.Strategy.OR);
-        this.criteria.forEach(advancement::addCriterion);
-
         TreeSimulatorRecipe recipe = new TreeSimulatorRecipe(tree, drops, ticksToGrow);
-        recipeOutput.accept(resourceKey, recipe, advancement.build(resourceKey.identifier()));
+        recipeOutput.accept(resourceKey, recipe, advancementBuilder.build(recipeOutput, resourceKey, "tree_simulator"));
     }
 }

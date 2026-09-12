@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/skeleton_leaf_fragment_to_bone"
+        "recipes": "resourcestrees:fragment_crafting/skeleton_leaf_fragment_to_bone"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:spider_essence"
+        "recipes": "resourcestrees:spider_essence"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

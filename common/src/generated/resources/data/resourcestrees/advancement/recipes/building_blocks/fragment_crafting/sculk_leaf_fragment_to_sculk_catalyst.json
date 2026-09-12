@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/sculk_leaf_fragment_to_sculk_catalyst"
+        "recipes": "resourcestrees:fragment_crafting/sculk_leaf_fragment_to_sculk_catalyst"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

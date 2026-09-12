@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/turtle_leaf_fragment_to_turtle_egg"
+        "recipes": "resourcestrees:fragment_crafting/turtle_leaf_fragment_to_turtle_egg"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

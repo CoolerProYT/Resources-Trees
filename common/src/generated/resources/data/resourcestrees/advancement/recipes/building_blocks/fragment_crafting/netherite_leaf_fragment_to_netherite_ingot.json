@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/netherite_leaf_fragment_to_netherite_ingot"
+        "recipes": "resourcestrees:fragment_crafting/netherite_leaf_fragment_to_netherite_ingot"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

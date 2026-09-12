@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/nether_star_leaf_fragment_to_nether_star"
+        "recipes": "resourcestrees:fragment_crafting/nether_star_leaf_fragment_to_nether_star"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

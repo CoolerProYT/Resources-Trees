@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/dirt_leaf_fragment_to_grass_block"
+        "recipes": "resourcestrees:fragment_crafting/dirt_leaf_fragment_to_grass_block"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

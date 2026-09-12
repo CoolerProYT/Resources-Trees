@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/nature_leaf_fragment_to_glow_berries"
+        "recipes": "resourcestrees:fragment_crafting/nature_leaf_fragment_to_glow_berries"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/rabbit_leaf_fragment_to_rabbit_foot"
+        "recipes": "resourcestrees:fragment_crafting/rabbit_leaf_fragment_to_rabbit_foot"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

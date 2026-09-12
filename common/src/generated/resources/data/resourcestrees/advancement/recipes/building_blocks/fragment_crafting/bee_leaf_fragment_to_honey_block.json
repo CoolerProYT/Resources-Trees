@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/bee_leaf_fragment_to_honey_block"
+        "recipes": "resourcestrees:fragment_crafting/bee_leaf_fragment_to_honey_block"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

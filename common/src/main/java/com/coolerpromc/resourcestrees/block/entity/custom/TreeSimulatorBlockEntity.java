@@ -8,6 +8,7 @@ import com.coolerpromc.resourcestrees.recipe.custom.TreeSimulatorRecipe;
 import com.coolerpromc.resourcestrees.recipe.input.TreeSimulatorRecipeInput;
 import com.coolerpromc.resourcestrees.recipe.output.TreeSimulatorOutput;
 import com.coolerpromc.resourcestrees.screen.custom.TreeSimulatorMenu;
+import com.coolerpromc.resourcestrees.util.AxeChecker;
 import com.coolerpromc.resourcestrees.util.ExtendedSimpleInventory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -25,7 +26,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -57,7 +57,7 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
     private final ExtendedSimpleInventory axeHandler = new ExtendedSimpleInventory(1){
         @Override
         public boolean canPlaceItem(int slot, ItemStack stack) {
-            return stack.getItem() instanceof AxeItem;
+            return AxeChecker.isAxe(stack.getItem());
         }
 
         @Override
@@ -342,7 +342,7 @@ public class TreeSimulatorBlockEntity extends BlockEntity implements MenuProvide
     }
 
     private boolean isAxeValid() {
-        return axeHandler.getItem(0).getItem() instanceof AxeItem;
+        return AxeChecker.isAxe(axeHandler.getItem(0).getItem());
     }
 
     public Container getHandlerForSide(@org.jspecify.annotations.Nullable Direction direction) {

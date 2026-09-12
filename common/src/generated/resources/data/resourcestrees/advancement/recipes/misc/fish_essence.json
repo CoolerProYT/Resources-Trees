@@ -33,7 +33,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fish_essence"
+        "recipes": "resourcestrees:fish_essence"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/wood_leaf_fragment_to_mangrove_propagule"
+        "recipes": "resourcestrees:fragment_crafting/wood_leaf_fragment_to_mangrove_propagule"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

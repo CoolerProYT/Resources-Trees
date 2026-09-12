@@ -33,7 +33,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:water_essence"
+        "recipes": "resourcestrees:water_essence"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

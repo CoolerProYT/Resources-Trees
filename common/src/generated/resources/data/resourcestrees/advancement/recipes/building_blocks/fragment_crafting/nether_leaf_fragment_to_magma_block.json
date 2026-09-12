@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/nether_leaf_fragment_to_magma_block"
+        "recipes": "resourcestrees:fragment_crafting/nether_leaf_fragment_to_magma_block"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

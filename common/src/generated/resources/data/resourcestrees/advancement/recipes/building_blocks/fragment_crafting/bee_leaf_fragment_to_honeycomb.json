@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/bee_leaf_fragment_to_honeycomb"
+        "recipes": "resourcestrees:fragment_crafting/bee_leaf_fragment_to_honeycomb"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

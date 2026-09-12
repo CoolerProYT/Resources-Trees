@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:turtle_essence"
+        "recipes": "resourcestrees:turtle_essence"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

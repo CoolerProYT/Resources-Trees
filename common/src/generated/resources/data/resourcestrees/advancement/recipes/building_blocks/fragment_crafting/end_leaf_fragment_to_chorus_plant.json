@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/end_leaf_fragment_to_chorus_plant"
+        "recipes": "resourcestrees:fragment_crafting/end_leaf_fragment_to_chorus_plant"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

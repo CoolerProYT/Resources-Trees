@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/gold_leaf_fragment_to_gold_ingot"
+        "recipes": "resourcestrees:fragment_crafting/gold_leaf_fragment_to_gold_ingot"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

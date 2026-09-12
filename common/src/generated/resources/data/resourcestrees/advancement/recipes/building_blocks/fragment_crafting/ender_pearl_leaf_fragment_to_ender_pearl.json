@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/ender_pearl_leaf_fragment_to_ender_pearl"
+        "recipes": "resourcestrees:fragment_crafting/ender_pearl_leaf_fragment_to_ender_pearl"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/fish_leaf_fragment_to_salmon"
+        "recipes": "resourcestrees:fragment_crafting/fish_leaf_fragment_to_salmon"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/water_leaf_fragment_to_pointed_dripstone"
+        "recipes": "resourcestrees:fragment_crafting/water_leaf_fragment_to_pointed_dripstone"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

@@ -3,12 +3,15 @@ package com.coolerpromc.resourcestrees.block;
 import com.coolerpromc.resourcestrees.api.resources.ResourcesTypes;
 import com.coolerpromc.resourcestrees.api.tree.TreeTypes;
 import com.coolerpromc.resourcestrees.block.custom.*;
+import com.coolerpromc.resourcestrees.item.custom.ModBlockItem;
 import com.coolerpromc.resourcestrees.platform.Services;
 import com.coolerpromc.resourcestrees.platform.util.BlockRegistryHandler;
+import com.coolerpromc.resourcestrees.platform.util.RegistryHandler;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,15 +24,21 @@ public class ModBlocks {
     public static final BlockRegistryHandler<TreeSimulatorBlock> TREE_SIMULATOR = registerBlock("tree_simulator", TreeSimulatorBlock::new, BlockBehaviour.Properties.of().strength(3.0f).requiresCorrectToolForDrops());
 
     private static <T extends Block> BlockRegistryHandler<T> registerLeavesBlock(String name, Function<BlockBehaviour.Properties, T> func, BlockBehaviour.Properties properties){
-        return registerBlock(name, func, properties);
+        BlockRegistryHandler<T> block = Services.REGISTRY.registerBlock(name, func, properties);
+        Services.REGISTRY.registerItem(name, p -> new ModBlockItem(block.get(), p.compostable(ContextIntProviders.COMPOSTABLE_LOW).useBlockDescriptionPrefix()));
+        return block;
     }
 
     private static <T extends Block> BlockRegistryHandler<T> registerSaplingBlock(String name, Function<BlockBehaviour.Properties, T> func, BlockBehaviour.Properties properties){
-        return registerBlock(name, func, properties);
+        BlockRegistryHandler<T> block = Services.REGISTRY.registerBlock(name, func, properties);
+        Services.REGISTRY.registerItem(name, p -> new ModBlockItem(block.get(), p.compostable(ContextIntProviders.COMPOSTABLE_LOW).useBlockDescriptionPrefix()));
+        return block;
     }
 
     private static <T extends Block> BlockRegistryHandler<T> registerBlock(String name, Function<BlockBehaviour.Properties, T> func, BlockBehaviour.Properties properties){
-        return Services.REGISTRY.registerBlock(name, func, properties);
+        BlockRegistryHandler<T> block = Services.REGISTRY.registerBlock(name, func, properties);
+        Services.REGISTRY.registerItem(name, p -> new ModBlockItem(block.get(), p.useBlockDescriptionPrefix()));
+        return block;
     }
 
     public static void init() {

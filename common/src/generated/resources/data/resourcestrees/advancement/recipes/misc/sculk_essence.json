@@ -53,7 +53,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:sculk_essence"
+        "recipes": "resourcestrees:sculk_essence"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

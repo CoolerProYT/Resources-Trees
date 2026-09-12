@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:breeze_essence"
+        "recipes": "resourcestrees:breeze_essence"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

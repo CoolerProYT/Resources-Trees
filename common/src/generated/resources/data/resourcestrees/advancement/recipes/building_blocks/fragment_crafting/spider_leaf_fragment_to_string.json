@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/spider_leaf_fragment_to_string"
+        "recipes": "resourcestrees:fragment_crafting/spider_leaf_fragment_to_string"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

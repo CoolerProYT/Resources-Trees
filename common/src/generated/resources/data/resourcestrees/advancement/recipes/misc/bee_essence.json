@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:bee_essence"
+        "recipes": "resourcestrees:bee_essence"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

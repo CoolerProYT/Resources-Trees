@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/copper_leaf_fragment_to_copper_ingot"
+        "recipes": "resourcestrees:fragment_crafting/copper_leaf_fragment_to_copper_ingot"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

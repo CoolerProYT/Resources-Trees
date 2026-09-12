@@ -1,4 +1,4 @@
-// 26.3-snapshot-1	2026-06-24T18:20:49.6192677	Tags for minecraft:block mod id resourcestrees
+// 26.3-rc-2	2026-09-12T10:32:07.5906238	Tags for minecraft:block mod id resourcestrees
 789339adee60a603bee00a0fb58e5e25d4f42712 data/minecraft/tags/block/leaves.json
 cd00e6e6c37d893f71a6b7f22b2f8d5f0a586a69 data/minecraft/tags/block/mineable/pickaxe.json
 aac493eea05cde59de44c897aa83818db55de57a data/minecraft/tags/block/saplings.json

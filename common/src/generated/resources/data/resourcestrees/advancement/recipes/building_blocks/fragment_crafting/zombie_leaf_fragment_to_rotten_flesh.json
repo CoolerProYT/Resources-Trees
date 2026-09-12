@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/zombie_leaf_fragment_to_rotten_flesh"
+        "recipes": "resourcestrees:fragment_crafting/zombie_leaf_fragment_to_rotten_flesh"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

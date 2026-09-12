@@ -69,7 +69,7 @@ dependencies {
     compileOnly "curse.maven:agritech-evolved-1287394:8387694"
     compileOnly "curse.maven:agritech-1485550:8387677"
 
-    implementation jarJar("com.coolerpromc.coolerconfig:coolerconfig-neoforge-${dependencies_minecraft_version}:${cooler_config_version}")
+    implementation jarJar("com.coolerpromc.coolerconfig:coolerconfig-neoforge-${minecraft_version}:${cooler_config_version}")
 }
 
 sourceSets.main.resources { srcDir rootProject.project(':common').file('src/generated/resources/').getAbsolutePath() }

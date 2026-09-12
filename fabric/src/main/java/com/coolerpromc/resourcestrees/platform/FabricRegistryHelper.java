@@ -41,7 +41,6 @@ public class FabricRegistryHelper implements IRegistryHelper {
         ResourceKey<Block> key = IRegistryHelper.blockKey(name);
         Identifier id = key.identifier();
         Holder<T> holder = Registry.registerForHolder(BuiltInRegistries.BLOCK, id, func.apply(p.setId(key)));
-        Item item = registerItem(name, properties -> new ModBlockItem(holder.value(), properties.useBlockDescriptionPrefix())).get();
 
         return new BlockRegistryHandler<>() {
             @Override
@@ -61,7 +60,7 @@ public class FabricRegistryHelper implements IRegistryHelper {
 
             @Override
             public Item asItem() {
-                return item;
+                return get().asItem();
             }
         };
     }

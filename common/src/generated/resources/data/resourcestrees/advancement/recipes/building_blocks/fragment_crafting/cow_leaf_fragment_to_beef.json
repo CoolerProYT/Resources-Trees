@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/cow_leaf_fragment_to_beef"
+        "recipes": "resourcestrees:fragment_crafting/cow_leaf_fragment_to_beef"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

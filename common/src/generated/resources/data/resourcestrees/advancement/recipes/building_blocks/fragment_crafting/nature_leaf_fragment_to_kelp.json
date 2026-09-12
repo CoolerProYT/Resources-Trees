@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/nature_leaf_fragment_to_kelp"
+        "recipes": "resourcestrees:fragment_crafting/nature_leaf_fragment_to_kelp"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

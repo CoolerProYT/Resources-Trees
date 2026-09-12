@@ -18,6 +18,7 @@ import net.fabricmc.fabric.api.client.model.loading.v1.ModelModifier;
 import net.fabricmc.fabric.api.client.model.loading.v1.SimpleUnbakedExtraModel;
 import net.fabricmc.fabric.api.client.recipe.v1.sync.ClientRecipeSynchronizedEvent;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockColorRegistry;
+import net.fabricmc.fabric.impl.recipe.sync.SynchronizedRecipesImpl;
 import net.minecraft.client.color.item.ItemTintSources;
 import net.minecraft.client.data.models.model.ItemModelUtils;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -49,7 +50,8 @@ public class FabricResourcesTreesClient implements ClientModInitializer {
         BlockEntityRenderers.register(ModBlockEntities.TREE_SIMULATOR_BE.get(), TreeSimulatorBlockEntityRenderer::new);
 
         ClientRecipeSynchronizedEvent.EVENT.register((client, recipes) -> {
-            ModRecipeReceived.recipeMap = RecipeMap.create(recipes.recipes());
+            SynchronizedRecipesImpl impl = (SynchronizedRecipesImpl) recipes;
+            ModRecipeReceived.recipeMap = new RecipeMap(impl.byType(), impl.byKey());
         });
 
         ModelLoadingPlugin.register(pluginContext -> {

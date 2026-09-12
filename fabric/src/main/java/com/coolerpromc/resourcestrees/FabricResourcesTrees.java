@@ -4,16 +4,13 @@ import com.coolerpromc.resourcestrees.api.IResourcesTreesPlugin;
 import com.coolerpromc.resourcestrees.block.ModBlocks;
 import com.coolerpromc.resourcestrees.block.custom.AbstractResourcesLeavesBlock;
 import com.coolerpromc.resourcestrees.block.entity.ModBlockEntities;
-import com.coolerpromc.resourcestrees.platform.util.BlockRegistryHandler;
 import com.coolerpromc.resourcestrees.recipe.ModRecipes;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.recipe.v1.sync.RecipeSynchronization;
-import net.fabricmc.fabric.api.registry.CompostableRegistry;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.transfer.v1.item.ContainerStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.world.level.block.Block;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -45,14 +42,6 @@ public class FabricResourcesTrees implements ModInitializer {
 
         RecipeSynchronization.synchronizeRecipeSerializer(ModRecipes.TREE_SIMULATOR_SERIALIZER.get());
         RecipeSynchronization.synchronizeRecipeSerializer(ModRecipes.STRICT_SHAPED.get());
-
-        for (BlockRegistryHandler<? extends Block> block : ModBlocks.SAPLINGS){
-            CompostableRegistry.INSTANCE.add(block, 0.3F);
-        }
-
-        for (BlockRegistryHandler<? extends Block> block : ModBlocks.LEAVES){
-            CompostableRegistry.INSTANCE.add(block, 0.3F);
-        }
 
         ItemStorage.SIDED.registerForBlockEntity((be, direction) -> {
             var container = be.getHandlerForSide(direction);

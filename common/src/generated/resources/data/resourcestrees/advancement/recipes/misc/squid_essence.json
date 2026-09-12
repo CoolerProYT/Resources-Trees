@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:squid_essence"
+        "recipes": "resourcestrees:squid_essence"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

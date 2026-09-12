@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/deepslate_leaf_fragment_to_cobbled_deepslate"
+        "recipes": "resourcestrees:fragment_crafting/deepslate_leaf_fragment_to_cobbled_deepslate"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

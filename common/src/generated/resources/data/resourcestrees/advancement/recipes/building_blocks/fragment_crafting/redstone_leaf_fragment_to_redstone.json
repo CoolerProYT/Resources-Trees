@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "resourcestrees:fragment_crafting/redstone_leaf_fragment_to_redstone"
+        "recipes": "resourcestrees:fragment_crafting/redstone_leaf_fragment_to_redstone"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
