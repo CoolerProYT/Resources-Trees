@@ -1,0 +1,4020 @@
+{
+  "source": "origin/1.21.11-NeoForge",
+  "names": {
+    "resourcestrees:tree_simulator": "Tree Simulator",
+    "resourcestrees:fire_essence": "Fire Essence",
+    "resourcestrees:water_essence": "Water Essence",
+    "resourcestrees:nature_essence": "Nature Essence",
+    "resourcestrees:end_essence": "End Essence",
+    "resourcestrees:bee_essence": "Bee Essence",
+    "resourcestrees:sculk_essence": "Sculk Essence",
+    "resourcestrees:skeleton_essence": "Skeleton Essence",
+    "resourcestrees:spider_essence": "Spider Essence",
+    "resourcestrees:chicken_essence": "Chicken Essence",
+    "resourcestrees:cow_essence": "Cow Essence",
+    "resourcestrees:rabbit_essence": "Rabbit Essence",
+    "resourcestrees:squid_essence": "Squid Essence",
+    "resourcestrees:turtle_essence": "Turtle Essence",
+    "resourcestrees:blaze_essence": "Blaze Essence",
+    "resourcestrees:breeze_essence": "Breeze Essence",
+    "resourcestrees:dye_essence": "Dye Essence",
+    "resourcestrees:ghast_essence": "Ghast Essence",
+    "resourcestrees:pig_essence": "Pig Essence",
+    "resourcestrees:sheep_essence": "Sheep Essence",
+    "resourcestrees:fish_essence": "Fish Essence",
+    "resourcestrees:zombie_essence": "Zombie Essence"
+  },
+  "defaults": {
+    "saplingDropChance": 0.125,
+    "leafDropChance": 0.25,
+    "treeSimulatorTicks": 1200
+  },
+  "resourceTypes": [
+    {
+      "name": "stone",
+      "label": "Stone",
+      "material": "minecraft:cobblestone",
+      "color": "#4d4b49",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 800
+    },
+    {
+      "name": "coal",
+      "label": "Coal",
+      "material": "minecraft:coal_block",
+      "color": "#000000",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 1000
+    },
+    {
+      "name": "iron",
+      "label": "Iron",
+      "material": "minecraft:iron_block",
+      "color": "#b0bec5",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 1200
+    },
+    {
+      "name": "copper",
+      "label": "Copper",
+      "material": "minecraft:copper_block",
+      "color": "#d46d44",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 1200
+    },
+    {
+      "name": "gold",
+      "label": "Gold",
+      "material": "minecraft:gold_block",
+      "color": "#ffd600",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 1200
+    },
+    {
+      "name": "lapis",
+      "label": "Lapis",
+      "material": "minecraft:lapis_block",
+      "color": "#3f51b5",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 1200
+    },
+    {
+      "name": "emerald",
+      "label": "Emerald",
+      "material": "minecraft:emerald_block",
+      "color": "#00c853",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 1400
+    },
+    {
+      "name": "diamond",
+      "label": "Diamond",
+      "material": "minecraft:diamond_block",
+      "color": "#40c4ff",
+      "weight": 3,
+      "saplingDropChance": 0.1,
+      "leafDropChance": 0.2,
+      "treeSimulatorTicks": 1600
+    },
+    {
+      "name": "obsidian",
+      "label": "Obsidian",
+      "material": "minecraft:obsidian",
+      "color": "#2e1a47",
+      "weight": 4,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 1200
+    },
+    {
+      "name": "amethyst",
+      "label": "Amethyst",
+      "material": "minecraft:amethyst_block",
+      "color": "#9c27b0",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 800
+    },
+    {
+      "name": "netherite",
+      "label": "Netherite",
+      "material": "minecraft:netherite_block",
+      "color": "#3e3e3e",
+      "weight": 2,
+      "saplingDropChance": 0.075,
+      "leafDropChance": 0.15,
+      "treeSimulatorTicks": 1800
+    },
+    {
+      "name": "wood",
+      "label": "Wood",
+      "material": "#minecraft:logs",
+      "color": "#8d6e63",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 800
+    },
+    {
+      "name": "quartz",
+      "label": "Quartz",
+      "material": "minecraft:quartz_block",
+      "color": "#f5f5f5",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 800
+    },
+    {
+      "name": "prismarine",
+      "label": "Prismarine",
+      "material": "minecraft:prismarine",
+      "color": "#5ec8c8",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 800
+    },
+    {
+      "name": "glowstone",
+      "label": "Glowstone",
+      "material": "minecraft:glowstone",
+      "color": "#fff176",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 800
+    },
+    {
+      "name": "redstone",
+      "label": "Redstone",
+      "material": "minecraft:redstone_block",
+      "color": "#ff1744",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 1000
+    },
+    {
+      "name": "deepslate",
+      "label": "Deepslate",
+      "material": "minecraft:deepslate",
+      "color": "#2b2b24",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 800
+    },
+    {
+      "name": "dirt",
+      "label": "Dirt",
+      "material": "minecraft:dirt",
+      "color": "#9b7653",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 800
+    },
+    {
+      "name": "fire",
+      "label": "Fire",
+      "material": "resourcestrees:fire_essence",
+      "color": "#e45323",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 800
+    },
+    {
+      "name": "nether",
+      "label": "Nether",
+      "material": "minecraft:netherrack",
+      "color": "#511515",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 800
+    },
+    {
+      "name": "end",
+      "label": "End",
+      "material": "resourcestrees:end_essence",
+      "color": "#c5be8b",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 800
+    },
+    {
+      "name": "nature",
+      "label": "Nature",
+      "material": "resourcestrees:nature_essence",
+      "color": "#1a6e08",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 800
+    },
+    {
+      "name": "water",
+      "label": "Water",
+      "material": "resourcestrees:water_essence",
+      "color": "#1787d4",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 800
+    },
+    {
+      "name": "ice",
+      "label": "Ice",
+      "material": "minecraft:ice",
+      "color": "#b9e8ea",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 800
+    },
+    {
+      "name": "bee",
+      "label": "Bee",
+      "material": "resourcestrees:bee_essence",
+      "color": "#edc343",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 1200
+    },
+    {
+      "name": "slime",
+      "label": "Slime",
+      "material": "minecraft:slime_block",
+      "color": "#6aa84f",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 1200
+    },
+    {
+      "name": "sculk",
+      "label": "Sculk",
+      "material": "resourcestrees:sculk_essence",
+      "color": "#041820",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 1400
+    },
+    {
+      "name": "skeleton",
+      "label": "Skeleton",
+      "material": "resourcestrees:skeleton_essence",
+      "color": "#eeeeee",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 1200
+    },
+    {
+      "name": "spider",
+      "label": "Spider",
+      "material": "resourcestrees:spider_essence",
+      "color": "#1a0c20",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 1200
+    },
+    {
+      "name": "chicken",
+      "label": "Chicken",
+      "material": "resourcestrees:chicken_essence",
+      "color": "#a1a1a1",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 1200
+    },
+    {
+      "name": "cow",
+      "label": "Cow",
+      "material": "resourcestrees:cow_essence",
+      "color": "#543936",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 1200
+    },
+    {
+      "name": "rabbit",
+      "label": "Rabbit",
+      "material": "resourcestrees:rabbit_essence",
+      "color": "#8b5a2b",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 1200
+    },
+    {
+      "name": "squid",
+      "label": "Squid",
+      "material": "resourcestrees:squid_essence",
+      "color": "#223b4d",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 1200
+    },
+    {
+      "name": "turtle",
+      "label": "Turtle",
+      "material": "resourcestrees:turtle_essence",
+      "color": "#315410",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 1200
+    },
+    {
+      "name": "blaze",
+      "label": "Blaze",
+      "material": "resourcestrees:blaze_essence",
+      "color": "#d4ae37",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 1200
+    },
+    {
+      "name": "breeze",
+      "label": "Breeze",
+      "material": "resourcestrees:breeze_essence",
+      "color": "#d5d6ff",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 1200
+    },
+    {
+      "name": "nether_star",
+      "label": "Nether Star",
+      "material": "minecraft:nether_star",
+      "color": "#d8e0d4",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 2000
+    },
+    {
+      "name": "ender_pearl",
+      "label": "Ender Pearl",
+      "material": "minecraft:ender_pearl",
+      "color": "#032620",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 1400
+    },
+    {
+      "name": "shulker",
+      "label": "Shulker",
+      "material": "minecraft:shulker_shell",
+      "color": "#cfc2d6",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 1400
+    },
+    {
+      "name": "dye",
+      "label": "Dye",
+      "material": "resourcestrees:dye_essence",
+      "color": "#72d4b3",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 800
+    },
+    {
+      "name": "gunpowder",
+      "label": "Gunpowder",
+      "material": "minecraft:gunpowder",
+      "color": "#414257",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 1200
+    },
+    {
+      "name": "ghast",
+      "label": "Ghast",
+      "material": "resourcestrees:ghast_essence",
+      "color": "#f9f9f9",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 1200
+    },
+    {
+      "name": "pig",
+      "label": "Pig",
+      "material": "resourcestrees:pig_essence",
+      "color": "#f9a195",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 1200
+    },
+    {
+      "name": "sheep",
+      "label": "Sheep",
+      "material": "resourcestrees:sheep_essence",
+      "color": "#ffffff",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 1200
+    },
+    {
+      "name": "fish",
+      "label": "Fish",
+      "material": "resourcestrees:fish_essence",
+      "color": "#c1a76a",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 1200
+    },
+    {
+      "name": "zombie",
+      "label": "Zombie",
+      "material": "resourcestrees:zombie_essence",
+      "color": "#3e692d",
+      "weight": 5,
+      "saplingDropChance": 0.125,
+      "leafDropChance": 0.25,
+      "treeSimulatorTicks": 1200
+    }
+  ],
+  "treeTypes": [
+    {
+      "name": "oak",
+      "label": "Oak",
+      "grower": "oak",
+      "originalSapling": "minecraft:oak_sapling",
+      "originalLeaves": "minecraft:oak_leaves",
+      "log": "minecraft:oak_log",
+      "particle": null,
+      "ambientSound": null
+    },
+    {
+      "name": "spruce",
+      "label": "Spruce",
+      "grower": "spruce",
+      "originalSapling": "minecraft:spruce_sapling",
+      "originalLeaves": "minecraft:spruce_leaves",
+      "log": "minecraft:spruce_log",
+      "particle": null,
+      "ambientSound": null
+    },
+    {
+      "name": "birch",
+      "label": "Birch",
+      "grower": "birch",
+      "originalSapling": "minecraft:birch_sapling",
+      "originalLeaves": "minecraft:birch_leaves",
+      "log": "minecraft:birch_log",
+      "particle": null,
+      "ambientSound": null
+    },
+    {
+      "name": "jungle",
+      "label": "Jungle",
+      "grower": "jungle",
+      "originalSapling": "minecraft:jungle_sapling",
+      "originalLeaves": "minecraft:jungle_leaves",
+      "log": "minecraft:jungle_log",
+      "particle": null,
+      "ambientSound": null
+    },
+    {
+      "name": "acacia",
+      "label": "Acacia",
+      "grower": "acacia",
+      "originalSapling": "minecraft:acacia_sapling",
+      "originalLeaves": "minecraft:acacia_leaves",
+      "log": "minecraft:acacia_log",
+      "particle": null,
+      "ambientSound": null
+    },
+    {
+      "name": "dark_oak",
+      "label": "Dark Oak",
+      "grower": "dark_oak",
+      "originalSapling": "minecraft:dark_oak_sapling",
+      "originalLeaves": "minecraft:dark_oak_leaves",
+      "log": "minecraft:dark_oak_log",
+      "particle": null,
+      "ambientSound": null
+    },
+    {
+      "name": "cherry",
+      "label": "Cherry",
+      "grower": "cherry",
+      "originalSapling": "minecraft:cherry_sapling",
+      "originalLeaves": "minecraft:cherry_leaves",
+      "log": "minecraft:cherry_log",
+      "particle": null,
+      "ambientSound": null
+    },
+    {
+      "name": "pale_oak",
+      "label": "Pale Oak",
+      "grower": "pale_oak",
+      "originalSapling": "minecraft:pale_oak_sapling",
+      "originalLeaves": "minecraft:pale_oak_leaves",
+      "log": "minecraft:pale_oak_log",
+      "particle": null,
+      "ambientSound": null
+    }
+  ],
+  "axes": [
+    {
+      "item": "minecraft:wooden_axe",
+      "multiplier": 1
+    },
+    {
+      "item": "minecraft:stone_axe",
+      "multiplier": 2
+    },
+    {
+      "item": "minecraft:iron_axe",
+      "multiplier": 3
+    },
+    {
+      "item": "minecraft:diamond_axe",
+      "multiplier": 4
+    },
+    {
+      "item": "minecraft:netherite_axe",
+      "multiplier": 5
+    },
+    {
+      "item": "minecraft:golden_axe",
+      "multiplier": 6
+    }
+  ],
+  "essences": {
+    "resourcestrees:bee_essence": "#edc343",
+    "resourcestrees:blaze_essence": "#d4ae37",
+    "resourcestrees:breeze_essence": "#d5d6ff",
+    "resourcestrees:chicken_essence": "#a1a1a1",
+    "resourcestrees:cow_essence": "#543936",
+    "resourcestrees:dye_essence": "#72d4b3",
+    "resourcestrees:end_essence": "#c5be8b",
+    "resourcestrees:fire_essence": "#e45323",
+    "resourcestrees:fish_essence": "#c1a76a",
+    "resourcestrees:ghast_essence": "#f9f9f9",
+    "resourcestrees:nature_essence": "#1a6e08",
+    "resourcestrees:pig_essence": "#f9a195",
+    "resourcestrees:rabbit_essence": "#8b5a2b",
+    "resourcestrees:sculk_essence": "#041820",
+    "resourcestrees:sheep_essence": "#ffffff",
+    "resourcestrees:skeleton_essence": "#eeeeee",
+    "resourcestrees:spider_essence": "#1a0c20",
+    "resourcestrees:squid_essence": "#223b4d",
+    "resourcestrees:turtle_essence": "#315410",
+    "resourcestrees:water_essence": "#1787d4",
+    "resourcestrees:zombie_essence": "#3e692d"
+  },
+  "recipes": [
+    {
+      "id": "resourcestrees:bee_essence",
+      "type": "minecraft:crafting_shapeless",
+      "result": {
+        "id": "resourcestrees:bee_essence",
+        "count": 1
+      },
+      "ingredients": [
+        [
+          "minecraft:honey_block"
+        ],
+        [
+          "minecraft:honeycomb_block"
+        ],
+        [
+          "minecraft:honey_block"
+        ],
+        [
+          "minecraft:honeycomb_block"
+        ]
+      ]
+    },
+    {
+      "id": "resourcestrees:blaze_essence",
+      "type": "minecraft:crafting_shapeless",
+      "result": {
+        "id": "resourcestrees:blaze_essence",
+        "count": 1
+      },
+      "ingredients": [
+        [
+          "minecraft:blaze_rod"
+        ],
+        [
+          "minecraft:blaze_rod"
+        ],
+        [
+          "minecraft:blaze_rod"
+        ],
+        [
+          "minecraft:blaze_rod"
+        ]
+      ]
+    },
+    {
+      "id": "resourcestrees:breeze_essence",
+      "type": "minecraft:crafting_shapeless",
+      "result": {
+        "id": "resourcestrees:breeze_essence",
+        "count": 1
+      },
+      "ingredients": [
+        [
+          "minecraft:breeze_rod"
+        ],
+        [
+          "minecraft:breeze_rod"
+        ],
+        [
+          "minecraft:breeze_rod"
+        ],
+        [
+          "minecraft:breeze_rod"
+        ]
+      ]
+    },
+    {
+      "id": "resourcestrees:chicken_essence",
+      "type": "minecraft:crafting_shapeless",
+      "result": {
+        "id": "resourcestrees:chicken_essence",
+        "count": 1
+      },
+      "ingredients": [
+        [
+          "minecraft:chicken"
+        ],
+        [
+          "minecraft:chicken"
+        ],
+        [
+          "minecraft:feather"
+        ],
+        [
+          "minecraft:feather"
+        ],
+        [
+          "minecraft:egg"
+        ],
+        [
+          "minecraft:egg"
+        ]
+      ]
+    },
+    {
+      "id": "resourcestrees:cow_essence",
+      "type": "minecraft:crafting_shapeless",
+      "result": {
+        "id": "resourcestrees:cow_essence",
+        "count": 1
+      },
+      "ingredients": [
+        [
+          "minecraft:leather"
+        ],
+        [
+          "minecraft:leather"
+        ],
+        [
+          "minecraft:leather"
+        ],
+        [
+          "minecraft:beef"
+        ],
+        [
+          "minecraft:beef"
+        ],
+        [
+          "minecraft:beef"
+        ]
+      ]
+    },
+    {
+      "id": "resourcestrees:dye_essence",
+      "type": "minecraft:crafting_shapeless",
+      "result": {
+        "id": "resourcestrees:dye_essence",
+        "count": 1
+      },
+      "ingredients": [
+        [
+          "minecraft:lime_dye"
+        ],
+        [
+          "minecraft:light_blue_dye"
+        ],
+        [
+          "minecraft:cyan_dye"
+        ],
+        [
+          "minecraft:purple_dye"
+        ]
+      ]
+    },
+    {
+      "id": "resourcestrees:end_essence",
+      "type": "minecraft:crafting_shapeless",
+      "result": {
+        "id": "resourcestrees:end_essence",
+        "count": 1
+      },
+      "ingredients": [
+        [
+          "minecraft:end_stone"
+        ],
+        [
+          "minecraft:chorus_fruit"
+        ],
+        [
+          "minecraft:chorus_flower"
+        ],
+        [
+          "minecraft:purpur_block"
+        ]
+      ]
+    },
+    {
+      "id": "resourcestrees:fire_essence",
+      "type": "minecraft:crafting_shapeless",
+      "result": {
+        "id": "resourcestrees:fire_essence",
+        "count": 1
+      },
+      "ingredients": [
+        [
+          "minecraft:fire_charge"
+        ],
+        [
+          "minecraft:magma_block"
+        ],
+        [
+          "minecraft:lava_bucket"
+        ]
+      ]
+    },
+    {
+      "id": "resourcestrees:fish_essence",
+      "type": "minecraft:crafting_shapeless",
+      "result": {
+        "id": "resourcestrees:fish_essence",
+        "count": 1
+      },
+      "ingredients": [
+        [
+          "minecraft:cod"
+        ],
+        [
+          "minecraft:salmon"
+        ],
+        [
+          "minecraft:tropical_fish"
+        ],
+        [
+          "minecraft:pufferfish"
+        ]
+      ]
+    },
+    {
+      "id": "resourcestrees:ghast_essence",
+      "type": "minecraft:crafting_shapeless",
+      "result": {
+        "id": "resourcestrees:ghast_essence",
+        "count": 1
+      },
+      "ingredients": [
+        [
+          "minecraft:ghast_tear"
+        ],
+        [
+          "minecraft:ghast_tear"
+        ],
+        [
+          "minecraft:ghast_tear"
+        ],
+        [
+          "minecraft:ghast_tear"
+        ]
+      ]
+    },
+    {
+      "id": "resourcestrees:nature_essence",
+      "type": "minecraft:crafting_shapeless",
+      "result": {
+        "id": "resourcestrees:nature_essence",
+        "count": 1
+      },
+      "ingredients": [
+        [
+          "minecraft:moss_block"
+        ],
+        [
+          "minecraft:sugar_cane"
+        ],
+        [
+          "minecraft:cactus"
+        ],
+        [
+          "minecraft:wheat"
+        ],
+        [
+          "minecraft:carrot"
+        ],
+        [
+          "minecraft:potato"
+        ]
+      ]
+    },
+    {
+      "id": "resourcestrees:pig_essence",
+      "type": "minecraft:crafting_shapeless",
+      "result": {
+        "id": "resourcestrees:pig_essence",
+        "count": 1
+      },
+      "ingredients": [
+        [
+          "minecraft:porkchop"
+        ],
+        [
+          "minecraft:porkchop"
+        ],
+        [
+          "minecraft:porkchop"
+        ],
+        [
+          "minecraft:porkchop"
+        ]
+      ]
+    },
+    {
+      "id": "resourcestrees:rabbit_essence",
+      "type": "minecraft:crafting_shapeless",
+      "result": {
+        "id": "resourcestrees:rabbit_essence",
+        "count": 1
+      },
+      "ingredients": [
+        [
+          "minecraft:rabbit_hide"
+        ],
+        [
+          "minecraft:rabbit_hide"
+        ],
+        [
+          "minecraft:rabbit"
+        ],
+        [
+          "minecraft:rabbit"
+        ],
+        [
+          "minecraft:rabbit_foot"
+        ],
+        [
+          "minecraft:rabbit_foot"
+        ]
+      ]
+    },
+    {
+      "id": "resourcestrees:sculk_essence",
+      "type": "minecraft:crafting_shapeless",
+      "result": {
+        "id": "resourcestrees:sculk_essence",
+        "count": 1
+      },
+      "ingredients": [
+        [
+          "minecraft:sculk"
+        ],
+        [
+          "minecraft:sculk_catalyst"
+        ],
+        [
+          "minecraft:sculk_sensor"
+        ],
+        [
+          "minecraft:sculk_shrieker"
+        ],
+        [
+          "minecraft:echo_shard"
+        ],
+        [
+          "minecraft:echo_shard"
+        ]
+      ]
+    },
+    {
+      "id": "resourcestrees:sheep_essence",
+      "type": "minecraft:crafting_shapeless",
+      "result": {
+        "id": "resourcestrees:sheep_essence",
+        "count": 1
+      },
+      "ingredients": [
+        [
+          "minecraft:mutton"
+        ],
+        [
+          "minecraft:mutton"
+        ],
+        [
+          "minecraft:white_wool"
+        ],
+        [
+          "minecraft:white_wool"
+        ]
+      ]
+    },
+    {
+      "id": "resourcestrees:skeleton_essence",
+      "type": "minecraft:crafting_shapeless",
+      "result": {
+        "id": "resourcestrees:skeleton_essence",
+        "count": 1
+      },
+      "ingredients": [
+        [
+          "minecraft:bone"
+        ],
+        [
+          "minecraft:bone"
+        ],
+        [
+          "minecraft:bone"
+        ],
+        [
+          "minecraft:bone"
+        ]
+      ]
+    },
+    {
+      "id": "resourcestrees:spider_essence",
+      "type": "minecraft:crafting_shapeless",
+      "result": {
+        "id": "resourcestrees:spider_essence",
+        "count": 1
+      },
+      "ingredients": [
+        [
+          "minecraft:spider_eye"
+        ],
+        [
+          "minecraft:spider_eye"
+        ],
+        [
+          "minecraft:string"
+        ],
+        [
+          "minecraft:string"
+        ],
+        [
+          "minecraft:spider_eye"
+        ],
+        [
+          "minecraft:spider_eye"
+        ],
+        [
+          "minecraft:string"
+        ],
+        [
+          "minecraft:string"
+        ]
+      ]
+    },
+    {
+      "id": "resourcestrees:squid_essence",
+      "type": "minecraft:crafting_shapeless",
+      "result": {
+        "id": "resourcestrees:squid_essence",
+        "count": 1
+      },
+      "ingredients": [
+        [
+          "minecraft:ink_sac"
+        ],
+        [
+          "minecraft:ink_sac"
+        ],
+        [
+          "minecraft:ink_sac"
+        ],
+        [
+          "minecraft:glow_ink_sac"
+        ],
+        [
+          "minecraft:glow_ink_sac"
+        ],
+        [
+          "minecraft:glow_ink_sac"
+        ]
+      ]
+    },
+    {
+      "id": "resourcestrees:tree_simulator",
+      "type": "minecraft:crafting_shaped",
+      "result": {
+        "id": "resourcestrees:tree_simulator",
+        "count": 1
+      },
+      "pattern": [
+        "   ",
+        "ABA",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "minecraft:cyan_terracotta"
+        ],
+        "B": [
+          "minecraft:dirt"
+        ]
+      }
+    },
+    {
+      "id": "resourcestrees:turtle_essence",
+      "type": "minecraft:crafting_shapeless",
+      "result": {
+        "id": "resourcestrees:turtle_essence",
+        "count": 1
+      },
+      "ingredients": [
+        [
+          "minecraft:turtle_egg"
+        ],
+        [
+          "minecraft:turtle_egg"
+        ],
+        [
+          "minecraft:turtle_egg"
+        ],
+        [
+          "minecraft:turtle_scute"
+        ],
+        [
+          "minecraft:turtle_scute"
+        ],
+        [
+          "minecraft:turtle_scute"
+        ]
+      ]
+    },
+    {
+      "id": "resourcestrees:water_essence",
+      "type": "minecraft:crafting_shapeless",
+      "result": {
+        "id": "resourcestrees:water_essence",
+        "count": 1
+      },
+      "ingredients": [
+        [
+          "minecraft:water_bucket"
+        ],
+        [
+          "minecraft:kelp"
+        ],
+        [
+          "minecraft:seagrass"
+        ],
+        [
+          "minecraft:clay_ball"
+        ]
+      ]
+    },
+    {
+      "id": "resourcestrees:zombie_essence",
+      "type": "minecraft:crafting_shapeless",
+      "result": {
+        "id": "resourcestrees:zombie_essence",
+        "count": 1
+      },
+      "ingredients": [
+        [
+          "minecraft:rotten_flesh"
+        ],
+        [
+          "minecraft:rotten_flesh"
+        ],
+        [
+          "minecraft:rotten_flesh"
+        ],
+        [
+          "minecraft:rotten_flesh"
+        ]
+      ]
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/amethyst_fragment_to_amethyst_shard",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:amethyst_shard",
+        "count": 6
+      },
+      "pattern": [
+        "   ",
+        "AAA",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:amethyst_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "amethyst"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/bee_fragment_to_honey_block",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:honey_block",
+        "count": 8
+      },
+      "pattern": [
+        "AAA",
+        "A A",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:bee_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "bee"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/bee_fragment_to_honeycomb",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:honeycomb",
+        "count": 8
+      },
+      "pattern": [
+        "   ",
+        "AAA",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:bee_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "bee"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/blaze_fragment_to_blaze_rod",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:blaze_rod",
+        "count": 8
+      },
+      "pattern": [
+        " A ",
+        " A ",
+        " A "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:blaze_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "blaze"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/breeze_fragment_to_breeze_rod",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:breeze_rod",
+        "count": 8
+      },
+      "pattern": [
+        " A ",
+        " A ",
+        " A "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:breeze_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "breeze"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/chicken_fragment_to_chicken",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:chicken",
+        "count": 8
+      },
+      "pattern": [
+        "A  ",
+        " A ",
+        "  A"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:chicken_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "chicken"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/chicken_fragment_to_egg",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:egg",
+        "count": 8
+      },
+      "pattern": [
+        "   ",
+        "AAA",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:chicken_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "chicken"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/chicken_fragment_to_feather",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:feather",
+        "count": 8
+      },
+      "pattern": [
+        " A ",
+        " A ",
+        " A "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:chicken_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "chicken"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/coal_fragment_to_coal",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:coal",
+        "count": 12
+      },
+      "pattern": [
+        "AAA",
+        "A A",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:coal_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "coal"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/copper_fragment_to_copper_ingot",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:copper_ingot",
+        "count": 8
+      },
+      "pattern": [
+        "AAA",
+        "A A",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:copper_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "copper"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/cow_fragment_to_beef",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:beef",
+        "count": 8
+      },
+      "pattern": [
+        " A ",
+        " A ",
+        " A "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:cow_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "cow"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/cow_fragment_to_leather",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:leather",
+        "count": 8
+      },
+      "pattern": [
+        "   ",
+        "AAA",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:cow_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "cow"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/deepslate_fragment_to_cobbled_deepslate",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:cobbled_deepslate",
+        "count": 12
+      },
+      "pattern": [
+        "AAA",
+        "A A",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:deepslate_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "deepslate"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/deepslate_fragment_to_deepslate",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:deepslate",
+        "count": 12
+      },
+      "pattern": [
+        "AAA",
+        "ABA",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:deepslate_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:coal_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "deepslate"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/diamond_fragment_to_diamond",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:diamond",
+        "count": 4
+      },
+      "pattern": [
+        "AAA",
+        "AAA",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:diamond_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "diamond"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/dirt_fragment_to_clay_ball",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:clay_ball",
+        "count": 12
+      },
+      "pattern": [
+        "BA ",
+        "AB ",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:dirt_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:water_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "dirt"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/dirt_fragment_to_dirt",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:dirt",
+        "count": 12
+      },
+      "pattern": [
+        "AAA",
+        "A A",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:dirt_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "dirt"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/dirt_fragment_to_grass_block",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:grass_block",
+        "count": 12
+      },
+      "pattern": [
+        "AAA",
+        "ABA",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:dirt_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:nature_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "dirt"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/dirt_fragment_to_mycelium",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:mycelium",
+        "count": 12
+      },
+      "pattern": [
+        "AAA",
+        "ABA",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "minecraft:brown_mushroom_block"
+        ],
+        "B": [
+          "resourcestrees:dirt_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "dirt"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/dirt_fragment_to_podzol",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:podzol",
+        "count": 12
+      },
+      "pattern": [
+        "AAA",
+        "ABA",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:dirt_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:wood_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "dirt"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/dirt_fragment_to_sand",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:sand",
+        "count": 8
+      },
+      "pattern": [
+        "BA ",
+        "AB ",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:dirt_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:fire_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "dirt"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/dye_fragment_to_black_dye",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:black_dye",
+        "count": 8
+      },
+      "pattern": [
+        "  A",
+        " A ",
+        "A  "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:dye_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "dye"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/dye_fragment_to_blue_dye",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:blue_dye",
+        "count": 8
+      },
+      "pattern": [
+        "  A",
+        "   ",
+        "AA "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:dye_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "dye"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/dye_fragment_to_brown_dye",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:brown_dye",
+        "count": 8
+      },
+      "pattern": [
+        " A ",
+        " A ",
+        "A  "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:dye_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "dye"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/dye_fragment_to_cyan_dye",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:cyan_dye",
+        "count": 8
+      },
+      "pattern": [
+        "   ",
+        "  A",
+        " AA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:dye_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "dye"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/dye_fragment_to_gray_dye",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:gray_dye",
+        "count": 8
+      },
+      "pattern": [
+        "A  ",
+        " A ",
+        "  A"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:dye_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "dye"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/dye_fragment_to_green_dye",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:green_dye",
+        "count": 8
+      },
+      "pattern": [
+        " AA",
+        "  A",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:dye_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "dye"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/dye_fragment_to_light_blue_dye",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:light_blue_dye",
+        "count": 8
+      },
+      "pattern": [
+        "   ",
+        "A  ",
+        "AA "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:dye_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "dye"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/dye_fragment_to_light_gray_dye",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:light_gray_dye",
+        "count": 8
+      },
+      "pattern": [
+        " A ",
+        " A ",
+        " A "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:dye_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "dye"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/dye_fragment_to_lime_dye",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:lime_dye",
+        "count": 8
+      },
+      "pattern": [
+        "AA ",
+        "A  ",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:dye_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "dye"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/dye_fragment_to_magenta_dye",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:magenta_dye",
+        "count": 8
+      },
+      "pattern": [
+        "A  ",
+        "  A",
+        "  A"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:dye_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "dye"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/dye_fragment_to_orange_dye",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:orange_dye",
+        "count": 8
+      },
+      "pattern": [
+        "   ",
+        "AA ",
+        "  A"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:dye_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "dye"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/dye_fragment_to_pink_dye",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:pink_dye",
+        "count": 8
+      },
+      "pattern": [
+        "  A",
+        "A  ",
+        "A  "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:dye_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "dye"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/dye_fragment_to_purple_dye",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:purple_dye",
+        "count": 8
+      },
+      "pattern": [
+        "A  ",
+        "   ",
+        " AA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:dye_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "dye"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/dye_fragment_to_red_dye",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:red_dye",
+        "count": 8
+      },
+      "pattern": [
+        " A ",
+        " A ",
+        "  A"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:dye_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "dye"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/dye_fragment_to_white_dye",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:white_dye",
+        "count": 8
+      },
+      "pattern": [
+        "   ",
+        "AAA",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:dye_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "dye"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/dye_fragment_to_yellow_dye",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:yellow_dye",
+        "count": 8
+      },
+      "pattern": [
+        "   ",
+        " AA",
+        "A  "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:dye_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "dye"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/emerald_fragment_to_emerald",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:emerald",
+        "count": 4
+      },
+      "pattern": [
+        "AAA",
+        "AAA",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:emerald_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "emerald"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/end_fragment_to_chorus_flower",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:chorus_flower",
+        "count": 6
+      },
+      "pattern": [
+        "AAA",
+        "ABA",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:end_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:nature_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "end"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/end_fragment_to_chorus_plant",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:chorus_plant",
+        "count": 8
+      },
+      "pattern": [
+        "BA ",
+        "AB ",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:end_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:nature_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "end"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/end_fragment_to_end_stone",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:end_stone",
+        "count": 12
+      },
+      "pattern": [
+        "AAA",
+        "ABA",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:end_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:stone_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "end"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/ender_pearl_fragment_to_ender_pearl",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:ender_pearl",
+        "count": 8
+      },
+      "pattern": [
+        "   ",
+        "AAA",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:ender_pearl_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "ender_pearl"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/fire_fragment_to_red_sand",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:red_sand",
+        "count": 8
+      },
+      "pattern": [
+        "AAA",
+        "ABA",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "minecraft:sand"
+        ],
+        "B": [
+          "resourcestrees:fire_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "fire"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/fish_fragment_to_cod",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:cod",
+        "count": 8
+      },
+      "pattern": [
+        "   ",
+        "AAA",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:fish_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "fish"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/fish_fragment_to_pufferfish",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:pufferfish",
+        "count": 8
+      },
+      "pattern": [
+        "  A",
+        " A ",
+        "A  "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:fish_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "fish"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/fish_fragment_to_salmon",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:salmon",
+        "count": 8
+      },
+      "pattern": [
+        " A ",
+        " A ",
+        " A "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:fish_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "fish"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/fish_fragment_to_tropical_fish",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:tropical_fish",
+        "count": 8
+      },
+      "pattern": [
+        "A  ",
+        " A ",
+        "  A"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:fish_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "fish"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/ghast_fragment_to_ghast_tear",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:ghast_tear",
+        "count": 6
+      },
+      "pattern": [
+        "   ",
+        "AAA",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:ghast_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "ghast"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/glowstone_fragment_to_glowstone_dust",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:glowstone_dust",
+        "count": 8
+      },
+      "pattern": [
+        "   ",
+        "AAA",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:glowstone_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "glowstone"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/gold_fragment_to_gold_ingot",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:gold_ingot",
+        "count": 6
+      },
+      "pattern": [
+        "AAA",
+        "A A",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:gold_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "gold"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/gunpowder_fragment_to_gunpowder",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:gunpowder",
+        "count": 8
+      },
+      "pattern": [
+        "   ",
+        "AAA",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:gunpowder_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "gunpowder"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/ice_fragment_to_ice",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:ice",
+        "count": 12
+      },
+      "pattern": [
+        "AAA",
+        "A A",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:ice_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "ice"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/ice_fragment_to_snowball",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:snowball",
+        "count": 12
+      },
+      "pattern": [
+        "AAA",
+        "ABA",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:ice_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:water_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "ice"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/iron_fragment_to_iron_ingot",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:iron_ingot",
+        "count": 6
+      },
+      "pattern": [
+        "AAA",
+        "A A",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:iron_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "iron"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/lapis_fragment_to_lapis_lazuli",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:lapis_lazuli",
+        "count": 12
+      },
+      "pattern": [
+        "AAA",
+        "A A",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:lapis_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "lapis"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/nature_fragment_to_apple",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:apple",
+        "count": 12
+      },
+      "pattern": [
+        "AAA",
+        "A A",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:nature_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "nature"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/nature_fragment_to_bamboo",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:bamboo",
+        "count": 12
+      },
+      "pattern": [
+        " A ",
+        " B ",
+        " A "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:nature_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:wood_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "nature"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/nature_fragment_to_beetroot",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:beetroot",
+        "count": 12
+      },
+      "pattern": [
+        "  A",
+        " AA",
+        "A  "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:nature_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "nature"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/nature_fragment_to_brown_mushroom",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:brown_mushroom",
+        "count": 6
+      },
+      "pattern": [
+        " A ",
+        " B ",
+        "A  "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:nature_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:dirt_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "nature"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/nature_fragment_to_cactus",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:cactus",
+        "count": 12
+      },
+      "pattern": [
+        "AA ",
+        "AA ",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:nature_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "nature"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/nature_fragment_to_carrot",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:carrot",
+        "count": 12
+      },
+      "pattern": [
+        " A ",
+        " A ",
+        " A "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:nature_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "nature"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/nature_fragment_to_crimson_fungus",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:crimson_fungus",
+        "count": 6
+      },
+      "pattern": [
+        "ABA",
+        "   ",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:nature_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:nether_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "nature"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/nature_fragment_to_glow_berries",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:glow_berries",
+        "count": 8
+      },
+      "pattern": [
+        "BA ",
+        "AB ",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:nature_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:glowstone_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "nature"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/nature_fragment_to_kelp",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:kelp",
+        "count": 12
+      },
+      "pattern": [
+        "  A",
+        " B ",
+        "A  "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:nature_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:water_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "nature"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/nature_fragment_to_lily_pad",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:lily_pad",
+        "count": 12
+      },
+      "pattern": [
+        "   ",
+        "AAA",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:nature_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "nature"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/nature_fragment_to_melon_slice",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:melon_slice",
+        "count": 12
+      },
+      "pattern": [
+        "A  ",
+        " A ",
+        "  A"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:nature_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "nature"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/nature_fragment_to_moss_block",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:moss_block",
+        "count": 12
+      },
+      "pattern": [
+        "AAA",
+        "ABA",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:nature_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:dirt_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "nature"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/nature_fragment_to_potato",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:potato",
+        "count": 12
+      },
+      "pattern": [
+        "   ",
+        " AA",
+        "A  "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:nature_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "nature"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/nature_fragment_to_pumpkin",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:pumpkin",
+        "count": 12
+      },
+      "pattern": [
+        "AAA",
+        "AAA",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:nature_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "nature"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/nature_fragment_to_red_mushroom",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:red_mushroom",
+        "count": 6
+      },
+      "pattern": [
+        "ABA",
+        "   ",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:nature_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:dirt_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "nature"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/nature_fragment_to_sugar_cane",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:sugar_cane",
+        "count": 12
+      },
+      "pattern": [
+        "A A",
+        "A A",
+        "A A"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:nature_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "nature"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/nature_fragment_to_sweet_berries",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:sweet_berries",
+        "count": 8
+      },
+      "pattern": [
+        "BA ",
+        "AB ",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:nature_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:fire_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "nature"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/nature_fragment_to_twisting_vines",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:twisting_vines",
+        "count": 6
+      },
+      "pattern": [
+        "A  ",
+        " B ",
+        "  A"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:nature_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:nether_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "nature"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/nature_fragment_to_vine",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:vine",
+        "count": 6
+      },
+      "pattern": [
+        "A A",
+        "AAA",
+        "A A"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:nature_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "nature"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/nature_fragment_to_warped_fungus",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:warped_fungus",
+        "count": 6
+      },
+      "pattern": [
+        " A ",
+        " B ",
+        " A "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:nature_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:nether_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "nature"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/nature_fragment_to_weeping_vines",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:weeping_vines",
+        "count": 12
+      },
+      "pattern": [
+        "A A",
+        "B B",
+        "A A"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:nature_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:nether_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "nature"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/nature_fragment_to_wheat",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:wheat",
+        "count": 12
+      },
+      "pattern": [
+        "  A",
+        "AA ",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:nature_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "nature"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/nether_fragment_to_basalt",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:basalt",
+        "count": 12
+      },
+      "pattern": [
+        "AAA",
+        "ABA",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:nether_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:stone_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "nether"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/nether_fragment_to_crimson_nylium",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:crimson_nylium",
+        "count": 12
+      },
+      "pattern": [
+        "BBB",
+        "ABA",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:nether_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:nature_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "nether"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/nether_fragment_to_magma_block",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:magma_block",
+        "count": 12
+      },
+      "pattern": [
+        "AAA",
+        "ABA",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:nether_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:fire_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "nether"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/nether_fragment_to_nether_wart",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:nether_wart",
+        "count": 8
+      },
+      "pattern": [
+        "BA ",
+        "AB ",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:nether_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:nature_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "nether"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/nether_fragment_to_netherrack",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:netherrack",
+        "count": 12
+      },
+      "pattern": [
+        "AAA",
+        "A A",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:nether_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "nether"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/nether_fragment_to_soul_sand",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:soul_sand",
+        "count": 12
+      },
+      "pattern": [
+        "AAA",
+        "ABA",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "minecraft:sand"
+        ],
+        "B": [
+          "resourcestrees:nether_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "nether"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/nether_fragment_to_soul_soil",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:soul_soil",
+        "count": 12
+      },
+      "pattern": [
+        "AAA",
+        "ABA",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:nether_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:dirt_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "nether"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/nether_fragment_to_warped_nylium",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:warped_nylium",
+        "count": 12
+      },
+      "pattern": [
+        "BBB",
+        "BAB",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:nether_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:nature_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "nether"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/nether_star_fragment_to_nether_star",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:nether_star",
+        "count": 2
+      },
+      "pattern": [
+        " A ",
+        "AAA",
+        " A "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:nether_star_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "nether_star"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/netherite_fragment_to_netherite_ingot",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:netherite_ingot",
+        "count": 1
+      },
+      "pattern": [
+        "AAA",
+        "AAA",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:netherite_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "netherite"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/obsidian_fragment_to_crying_obsidian",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:crying_obsidian",
+        "count": 8
+      },
+      "pattern": [
+        "AAA",
+        "ABA",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:obsidian_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:nether_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "obsidian"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/obsidian_fragment_to_obsidian",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:obsidian",
+        "count": 6
+      },
+      "pattern": [
+        "AAA",
+        "A A",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:obsidian_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "obsidian"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/pig_fragment_to_porkchop",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:porkchop",
+        "count": 8
+      },
+      "pattern": [
+        "   ",
+        "AAA",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:pig_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "pig"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/prismarine_fragment_to_prismarine_crystals",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:prismarine_crystals",
+        "count": 8
+      },
+      "pattern": [
+        " A ",
+        " A ",
+        " A "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:prismarine_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "prismarine"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/prismarine_fragment_to_prismarine_shard",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:prismarine_shard",
+        "count": 8
+      },
+      "pattern": [
+        "   ",
+        "AAA",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:prismarine_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "prismarine"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/quartz_fragment_to_quartz",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:quartz",
+        "count": 8
+      },
+      "pattern": [
+        "   ",
+        "AAA",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:quartz_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "quartz"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/rabbit_fragment_to_rabbit",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:rabbit",
+        "count": 8
+      },
+      "pattern": [
+        "   ",
+        "AAA",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:rabbit_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "rabbit"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/rabbit_fragment_to_rabbit_foot",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:rabbit_foot",
+        "count": 8
+      },
+      "pattern": [
+        "  A",
+        " A ",
+        "A  "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:rabbit_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "rabbit"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/rabbit_fragment_to_rabbit_hide",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:rabbit_hide",
+        "count": 8
+      },
+      "pattern": [
+        " A ",
+        " A ",
+        " A "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:rabbit_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "rabbit"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/redstone_fragment_to_redstone",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:redstone",
+        "count": 12
+      },
+      "pattern": [
+        "AAA",
+        "A A",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:redstone_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "redstone"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/sculk_fragment_to_echo_shard",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:echo_shard",
+        "count": 4
+      },
+      "pattern": [
+        " A ",
+        " A ",
+        " A "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:sculk_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "sculk"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/sculk_fragment_to_sculk",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:sculk",
+        "count": 4
+      },
+      "pattern": [
+        "AAA",
+        "A A",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:sculk_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "sculk"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/sculk_fragment_to_sculk_catalyst",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:sculk_catalyst",
+        "count": 4
+      },
+      "pattern": [
+        "AAA",
+        "ABA",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:sculk_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:stone_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "sculk"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/sculk_fragment_to_sculk_sensor",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:sculk_sensor",
+        "count": 2
+      },
+      "pattern": [
+        "   ",
+        " A ",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:sculk_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "sculk"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/sculk_fragment_to_sculk_shrieker",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:sculk_shrieker",
+        "count": 2
+      },
+      "pattern": [
+        "B B",
+        "B B",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:sculk_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:stone_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "sculk"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/sheep_fragment_to_mutton",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:mutton",
+        "count": 8
+      },
+      "pattern": [
+        "   ",
+        "AAA",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:sheep_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "sheep"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/sheep_fragment_to_white_wool",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:white_wool",
+        "count": 8
+      },
+      "pattern": [
+        "AA ",
+        "AA ",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:sheep_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "sheep"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/shulker_fragment_to_shulker_shell",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:shulker_shell",
+        "count": 4
+      },
+      "pattern": [
+        "AAA",
+        "A A",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:shulker_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "shulker"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/skeleton_fragment_to_bone",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:bone",
+        "count": 8
+      },
+      "pattern": [
+        "   ",
+        "AAA",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:skeleton_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "skeleton"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/slime_fragment_to_slime_ball",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:slime_ball",
+        "count": 8
+      },
+      "pattern": [
+        "   ",
+        "AAA",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:slime_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "slime"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/spider_fragment_to_spider_eye",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:spider_eye",
+        "count": 8
+      },
+      "pattern": [
+        "AAA",
+        "A A",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:spider_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "spider"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/spider_fragment_to_string",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:string",
+        "count": 8
+      },
+      "pattern": [
+        "   ",
+        "AAA",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:spider_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "spider"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/squid_fragment_to_glow_ink_sac",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:glow_ink_sac",
+        "count": 8
+      },
+      "pattern": [
+        "   ",
+        "ABA",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:squid_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:glowstone_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "squid"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/squid_fragment_to_ink_sac",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:ink_sac",
+        "count": 8
+      },
+      "pattern": [
+        "   ",
+        "AAA",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:squid_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "squid"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/stone_fragment_to_cobblestone",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:cobblestone",
+        "count": 12
+      },
+      "pattern": [
+        "AAA",
+        "A A",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:stone_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "stone"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/stone_fragment_to_flint",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:flint",
+        "count": 8
+      },
+      "pattern": [
+        "BA ",
+        "AB ",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:stone_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:dirt_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "stone"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/stone_fragment_to_gravel",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:gravel",
+        "count": 12
+      },
+      "pattern": [
+        "AAA",
+        "ABA",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "minecraft:sand"
+        ],
+        "B": [
+          "resourcestrees:stone_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "stone"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/stone_fragment_to_stone",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:stone",
+        "count": 12
+      },
+      "pattern": [
+        "AAA",
+        "ABA",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:stone_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:coal_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "stone"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/stone_fragment_to_tuff",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:tuff",
+        "count": 12
+      },
+      "pattern": [
+        "AAA",
+        "ABA",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:stone_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:deepslate_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "stone"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/turtle_fragment_to_turtle_egg",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:turtle_egg",
+        "count": 8
+      },
+      "pattern": [
+        " A ",
+        " A ",
+        " A "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:turtle_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "turtle"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/turtle_fragment_to_turtle_scute",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:turtle_scute",
+        "count": 8
+      },
+      "pattern": [
+        "   ",
+        "AAA",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:turtle_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "turtle"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/water_fragment_to_dripstone_block",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:dripstone_block",
+        "count": 8
+      },
+      "pattern": [
+        "BA ",
+        "AB ",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:water_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:stone_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "water"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/water_fragment_to_mud",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:mud",
+        "count": 12
+      },
+      "pattern": [
+        "AAA",
+        "ABA",
+        "AAA"
+      ],
+      "key": {
+        "A": [
+          "minecraft:clay_ball"
+        ],
+        "B": [
+          "resourcestrees:water_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "water"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/water_fragment_to_pointed_dripstone",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:pointed_dripstone",
+        "count": 12
+      },
+      "pattern": [
+        "B B",
+        "B B",
+        " A "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:water_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:stone_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "water"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/wood_fragment_to_acacia_log",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:acacia_log",
+        "count": 8
+      },
+      "pattern": [
+        "  A",
+        " A ",
+        " A "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:wood_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "wood"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/wood_fragment_to_acacia_sapling",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:acacia_sapling",
+        "count": 6
+      },
+      "pattern": [
+        "  A",
+        " B ",
+        " A "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:wood_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:nature_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "wood"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/wood_fragment_to_azalea",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:azalea",
+        "count": 6
+      },
+      "pattern": [
+        " B ",
+        " B ",
+        "A  "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:wood_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:nature_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "wood"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/wood_fragment_to_bamboo_block",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:bamboo_block",
+        "count": 8
+      },
+      "pattern": [
+        "   ",
+        "AA ",
+        "  A"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:wood_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "wood"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/wood_fragment_to_birch_log",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:birch_log",
+        "count": 8
+      },
+      "pattern": [
+        "   ",
+        "AAA",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:wood_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "wood"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/wood_fragment_to_birch_sapling",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:birch_sapling",
+        "count": 6
+      },
+      "pattern": [
+        "A  ",
+        " B ",
+        "  A"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:wood_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:nature_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "wood"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/wood_fragment_to_cherry_log",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:cherry_log",
+        "count": 8
+      },
+      "pattern": [
+        " A ",
+        " A ",
+        "A  "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:wood_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "wood"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/wood_fragment_to_cherry_sapling",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:cherry_sapling",
+        "count": 6
+      },
+      "pattern": [
+        " A ",
+        " B ",
+        "A  "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:wood_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:nature_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "wood"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/wood_fragment_to_crimson_stem",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:crimson_stem",
+        "count": 8
+      },
+      "pattern": [
+        "A  ",
+        " AA",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:wood_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "wood"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/wood_fragment_to_dark_oak_log",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:dark_oak_log",
+        "count": 8
+      },
+      "pattern": [
+        "A  ",
+        " A ",
+        " A "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:wood_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "wood"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/wood_fragment_to_dark_oak_sapling",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:dark_oak_sapling",
+        "count": 6
+      },
+      "pattern": [
+        "A  ",
+        " B ",
+        " A "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:wood_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:nature_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "wood"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/wood_fragment_to_flowering_azalea",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:flowering_azalea",
+        "count": 6
+      },
+      "pattern": [
+        " A ",
+        " B ",
+        "B  "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:wood_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:nature_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "wood"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/wood_fragment_to_jungle_log",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:jungle_log",
+        "count": 8
+      },
+      "pattern": [
+        "A  ",
+        " A ",
+        "  A"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:wood_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "wood"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/wood_fragment_to_jungle_sapling",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:jungle_sapling",
+        "count": 6
+      },
+      "pattern": [
+        "  A",
+        " B ",
+        "A  "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:wood_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:nature_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "wood"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/wood_fragment_to_mangrove_propagule",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:mangrove_propagule",
+        "count": 6
+      },
+      "pattern": [
+        " A ",
+        " B ",
+        "  A"
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:wood_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:nature_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "wood"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/wood_fragment_to_oak_log",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:oak_log",
+        "count": 8
+      },
+      "pattern": [
+        " A ",
+        " A ",
+        " A "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:wood_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "wood"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/wood_fragment_to_oak_sapling",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:oak_sapling",
+        "count": 6
+      },
+      "pattern": [
+        "   ",
+        "ABA",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:wood_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:nature_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "wood"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/wood_fragment_to_spruce_log",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:spruce_log",
+        "count": 8
+      },
+      "pattern": [
+        "  A",
+        " A ",
+        "A  "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:wood_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "wood"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/wood_fragment_to_spruce_sapling",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:spruce_sapling",
+        "count": 6
+      },
+      "pattern": [
+        " A ",
+        " B ",
+        " A "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:wood_leaf_fragment"
+        ],
+        "B": [
+          "resourcestrees:nature_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "wood"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/wood_fragment_to_warped_stem",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:warped_stem",
+        "count": 8
+      },
+      "pattern": [
+        "   ",
+        " AA",
+        "A  "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:wood_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "wood"
+    },
+    {
+      "id": "resourcestrees:fragment_crafting/zombie_fragment_to_rotten_flesh",
+      "type": "resourcestrees:strict_shaped",
+      "result": {
+        "id": "minecraft:rotten_flesh",
+        "count": 8
+      },
+      "pattern": [
+        "   ",
+        "AAA",
+        "   "
+      ],
+      "key": {
+        "A": [
+          "resourcestrees:zombie_leaf_fragment"
+        ]
+      },
+      "fragmentOf": "zombie"
+    }
+  ],
+  "features": {
+    "legacy": true,
+    "growerTypes": false,
+    "treeTypeOptions": false,
+    "configFormat": "json",
+    "axeDurabilityOption": false,
+    "efficiency": false,
+    "fortune": false,
+    "leafSaplingFactor": 0.5,
+    "generatedRecipes": "builtin"
+  }
+}

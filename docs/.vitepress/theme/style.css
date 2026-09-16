@@ -1,0 +1,187 @@
+:root {
+  --vp-c-brand-1: #2e7d32;
+  --vp-c-brand-2: #388e3c;
+  --vp-c-brand-3: #43a047;
+  --vp-c-brand-soft: rgba(46, 125, 50, 0.14);
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: linear-gradient(120deg, #2e7d32 15%, #40c4ff 60%, #ffd600);
+  --vp-home-hero-image-background-image: radial-gradient(circle, rgba(67, 160, 71, 0.4) 0%, rgba(64, 196, 255, 0.15) 45%, rgba(0, 0, 0, 0) 70%);
+  --vp-home-hero-image-filter: blur(40px);
+
+  --rt-slot-bg: #8b8b8b;
+  --rt-slot-dark: #373737;
+  --rt-slot-light: #ffffff;
+}
+
+.dark {
+  --vp-c-brand-1: #7ccf7f;
+  --vp-c-brand-2: #66bb6a;
+  --vp-c-brand-3: #43a047;
+  --vp-c-brand-soft: rgba(124, 207, 127, 0.16);
+}
+
+/* Pixel art stays crisp at any size. */
+.pixelated {
+  image-rendering: pixelated;
+}
+
+.VPHero .image-src {
+  width: 280px;
+  height: 280px;
+  border-radius: 24px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.25);
+}
+
+/* Boxed interactive widgets (tables, explorer, recipe lists). */
+.rt-panel {
+  margin: 16px 0;
+  padding: 16px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 12px;
+  background: var(--vp-c-bg-soft);
+}
+
+.rt-panel select {
+  padding: 4px 8px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 6px;
+  background: var(--vp-c-bg);
+}
+
+.rt-muted {
+  color: var(--vp-c-text-2);
+  font-size: 0.875em;
+}
+
+/* Inline item mentions in prose: <ItemSlot id="…" label /> inside a paragraph or table. */
+.vp-doc td .rt-item + .rt-item {
+  margin-left: 4px;
+}
+
+/* JSON builders: the form, then the generated file. Side by side only when the builder is wide enough. */
+.rt-builder {
+  container-type: inline-size;
+  margin: 16px 0;
+  padding: 16px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 12px;
+  background: var(--vp-c-bg-soft);
+}
+
+.rt-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
+}
+
+@container (min-width: 860px) {
+  .rt-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
+.rt-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.rt-fields label,
+.rt-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.875em;
+  font-weight: 500;
+}
+
+.rt-fields label code {
+  font-size: 0.9em;
+}
+
+/* Long keys such as treeSimulator.useAxeDurability wrap instead of widening the form on phones. */
+.rt-fields code {
+  overflow-wrap: anywhere;
+}
+
+.rt-fields label.check {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.rt-fields .row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+}
+
+.rt-fields input:not([type='checkbox']):not([type='color']),
+.rt-fields select {
+  width: 100%;
+  padding: 6px 10px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 6px;
+  background: var(--vp-c-bg);
+  font-family: var(--vp-font-family-mono);
+  font-size: 13px;
+}
+
+.rt-fields select {
+  font-family: inherit;
+  appearance: auto;
+}
+
+.rt-fields input:focus,
+.rt-fields select:focus {
+  border-color: var(--vp-c-brand-1);
+  outline: none;
+}
+
+.rt-fields fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 8px 12px 12px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+}
+
+.rt-fields legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 0 6px;
+  font-size: 0.875em;
+  font-weight: 600;
+}
+
+.rt-fields .hint {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--vp-c-text-3);
+}
+
+.rt-builder .small-button {
+  align-self: flex-start;
+  padding: 2px 10px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--vp-c-text-2);
+}
+
+.rt-builder .small-button:hover {
+  border-color: var(--vp-c-brand-1);
+  color: var(--vp-c-brand-1);
+}
+
+.rt-preview {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}

@@ -1,0 +1,7 @@
+node_modules/
+.vitepress/cache/
+.vitepress/dist/
+# Regenerated from the mod's sources and datagen output by `npm run sync`.
+.vitepress/data/
+public/textures/
+public/gui/
