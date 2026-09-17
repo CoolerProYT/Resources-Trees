@@ -21,8 +21,15 @@ Where the data comes from:
 | Essence, Tree Simulator and leaf fragment recipes, names | datagen output in `common/src/generated/resources` |
 | Essence tint colours | generated item model definitions |
 
-Sapling, leaves, leaf fragment and essence icons are drawn in the browser from the mod's grayscale textures, tinted with each resource type's colour the same way the game does. Vanilla items load from the hosted renders at `https://storage.googleapis.com/coolerpromc/textures/`, set in `.vitepress/theme/resourcestrees.ts`. The Tree Simulator has no flat texture, so its icon is a committed render in `public/icons/`.
+Item icons load from the texture bucket, `https://storage.googleapis.com/coolerpromc/textures/<namespace>/<name>.png` (set in `.vitepress/theme/resourcestrees.ts`). Vanilla renders are already there. The mod's saplings, leaves, leaf fragments, essences and Tree Simulator for every documented version are rendered by `scripts/render-icons.py` and uploaded under `resourcestrees/`. After adding a resource type, tree type or essence, render and upload the new icons (existing ones are skipped):
 
-Pages under `v2601/` and `old/` document earlier mod versions. They are kept mostly as written and are not driven by the synced data.
+```bash
+npm run sync && npm run snapshot   # so the script sees every version's types
+python scripts/render-icons.py --upload
+```
+
+The script needs Pillow and an authenticated `gcloud`. The Tree Simulator has no flat texture, so its source is a committed render in `scripts/assets/`. The builders still tint the synced grayscale textures in the browser, to preview colours that have no uploaded icon.
+
+Pages under `v2601/` (Minecraft 26.1 – 26.2) and `old/` (before 26.1.2.100) use the same components with their own data: committed snapshots in `.vitepress/snapshots/`, read from the `origin/26.1` and `origin/1.21.11-NeoForge` branches by `npm run snapshot`. Rerun it after releasing a fix on those branches. `.vitepress/theme/version.ts` maps each folder to its data, and `legacy.ts` writes the pre-26.1 recipe formats.
 
 Pages for pack developers and the config page have JSON/HOCON generators (`*Builder.vue`). Their vanilla presets (sapling growers, tree feature ids, the poplar leaves sound) are copied by hand into `.vitepress/theme/vanilla.ts` from the Minecraft sources, so check them after porting to a new Minecraft version.

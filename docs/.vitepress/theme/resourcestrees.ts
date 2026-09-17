@@ -98,8 +98,12 @@ function prettify(id: string): string {
     .join(' ')
 }
 
-/** Hosted renders of vanilla items, one PNG per item id. Mojang's textures are not bundled here. */
-const VANILLA_ICONS = 'https://storage.googleapis.com/coolerpromc/textures'
+/**
+ * Hosted item renders, one 1024px PNG per item at <namespace>/<name>.png. The mod's own icons are rendered
+ * and uploaded by scripts/render-icons.py; Mojang's textures are not bundled here.
+ */
+const ICONS = 'https://storage.googleapis.com/coolerpromc/textures'
+const hosted = (namespace: string, name: string): Icon => ({ kind: 'image', src: `${ICONS}/${namespace}/${name}.png`, local: false })
 
 export type Icon =
   /** A ready-made picture. Local paths still need the site base. */
@@ -109,6 +113,7 @@ export type Icon =
   /** A full block drawn in the inventory's isometric view. */
   | { kind: 'cube'; src: string; tint: string }
 
+// Tinted in the browser, for builder previews of colours that have no uploaded icon.
 // Every documented version uses the same textures, so the icons don't depend on the version.
 export const saplingIcon = (tree: string, tint: string): Icon => ({
   kind: 'layers',
@@ -158,23 +163,16 @@ export function createApi(data: Dataset) {
   }
 
   /**
-   * How to draw an item's icon. The mod's saplings, leaves, fragments and essences are grayscale textures
-   * tinted in the browser; vanilla items use the hosted renders.
+   * How to draw an item's icon: the hosted render for vanilla items and the mod's known saplings, leaves,
+   * fragments, essences and Tree Simulator. Other mod ids (a builder's custom type) have none.
    */
   function itemIcon(id: string): Icon | null {
     const itemId = TAG_ICONS[id] ?? id
-    const parsed = parseId(itemId)
-    if (parsed?.kind === 'fragment') return fragmentIcon(parsed.resource.color)
-    if (parsed?.kind === 'sapling') return saplingIcon(parsed.tree.name, parsed.resource.color)
-    if (parsed?.kind === 'leaves') return leavesIcon(parsed.tree.name, parsed.resource.color)
-    if (data.essences[itemId]) {
-      return { kind: 'layers', layers: [{ src: '/textures/item/essence.png', tint: data.essences[itemId] }] }
-    }
-    if (itemId === `${MOD}:tree_simulator`) return { kind: 'image', src: '/icons/tree_simulator.png', local: true }
     // @ts-ignore
     const [namespace, path] = itemId.includes(':') ? itemId.split(':') : ['minecraft', itemId]
-    if (namespace !== 'minecraft') return null
-    return { kind: 'image', src: `${VANILLA_ICONS}/${namespace}/${path}.png`, local: false }
+    if (namespace === 'minecraft') return hosted(namespace, path)
+    if (parseId(itemId) || data.essences[itemId] || itemId === `${MOD}:tree_simulator`) return hosted(namespace, path)
+    return null
   }
 
   /** The sapling recipe: generated for every sapling, or in legacy versions shipped for built-in ones. */
